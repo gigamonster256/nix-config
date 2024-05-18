@@ -80,11 +80,22 @@ in {
     efi.canTouchEfiVariables = true;
   };
 
+  sops.age = {
+    sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+    generateKey = false;
+  };
+
+  sops.secrets."wireless.env" = {
+    sopsFile = ../secrets/wireless.env;
+    format = "dotenv";
+    restartUnits = ["wpa_supplicant.service"];
+  };
+  networking.wireless.environmentFile = config.sops.secrets."wireless.env".path;
   networking.wireless = {
     enable = true;
     networks = {
-      "Penguin Plaza" = {
-        pskRaw = "***REMOVED***";
+      "@HOME_SSID@" = {
+        psk = "@HOME_PSK@";
         authProtocols = ["WPA-PSK"]; # cheap laptop is dumb and can't do WPA3
       };
     };

@@ -17,6 +17,11 @@
 
     # Hyprland
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    # sops-nix
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -24,6 +29,7 @@
     nixpkgs,
     home-manager,
     hyprland,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -64,6 +70,7 @@
         modules = [
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
     };
