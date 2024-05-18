@@ -106,6 +106,7 @@ in {
     waybar
     kitty
     firefox
+    pinentry-curses
   ];
 
   programs.hyprland = {
@@ -115,6 +116,12 @@ in {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   programs.zsh.enable = true;
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
+  };
 
   hardware.opengl = {
     enable = true;
