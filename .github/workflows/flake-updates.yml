@@ -5,14 +5,27 @@ on:
   schedule:
     - cron: "0 9 * * *"
 jobs:
-  createPullRequest:
+  lockfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Nix
-        uses: cachix/install-nix-action@V27
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+          fetch-depth: 0
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v21
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-labels: |                  # Labels to be set on the PR
+            dependencies
+            automated
+            automerge
+      - name: Merge PR
+        uses: pascalgn/automerge-action@v0.16.3
+        env:
+          MERGE_METHOD: "rebase"
+          MERGE_COMMIT_MESSAGE: "pull-request-title"
+            
+            
