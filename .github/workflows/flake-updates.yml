@@ -27,5 +27,6 @@ jobs:
         env:
           MERGE_METHOD: "rebase"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
             
             
