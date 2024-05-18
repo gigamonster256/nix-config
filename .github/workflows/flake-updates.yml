@@ -15,6 +15,7 @@ jobs:
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
       - name: Update flake.lock
+        id: update
         uses: DeterminateSystems/update-flake-lock@main
         with:
           pr-title: "Update flake.lock" # Title of PR to be created
@@ -28,5 +29,5 @@ jobs:
           MERGE_METHOD: "rebase"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PULL_REQUEST: "${{ PULL_REQUEST_NUMBER }}"
+          PULL_REQUEST: "${{ steps.update.outputs.pull-request-number }}"
             
