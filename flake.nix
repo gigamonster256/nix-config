@@ -16,6 +16,7 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
   };
 
@@ -60,11 +61,7 @@
     nixosConfigurations = {
       littleboy = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          # > Our main nixos configuration file <
-          ./nixos/littleboy.nix
-          sops-nix.nixosModules.sops
-        ];
+        modules = [./hosts/littleboy];
       };
     };
 

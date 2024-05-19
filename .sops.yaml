@@ -1,11 +1,13 @@
 keys:
-  - &caleb 483A112B3567C4F0DF8974E1D776F5702D7E83AB
-  - &nixos age1ydrhl3zfgp8dur2ve6qf3q5xfvlr95rsgxec97t2dqxdup52d5aq89va8j
+  - &users:
+    - &caleb 483A112B3567C4F0DF8974E1D776F5702D7E83AB
+  - &hosts
+    - &littleboy age1ydrhl3zfgp8dur2ve6qf3q5xfvlr95rsgxec97t2dqxdup52d5aq89va8j
 creation_rules:
-  - path_regex: secrets/[^/]+\.(ya?ml|json|env|ini)$
+  - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
-    - pgp:
-      - *caleb
-      age:
-      - *nixos
+      - age:
+          - *littleboy
+        pgp:
+          - *caleb
 

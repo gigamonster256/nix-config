@@ -18,13 +18,15 @@ in {
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
+    inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware/littleboy.nix
-    ./wireless/default.nix
+    ./hardware-configuration.nix
+
+    ../common/optional/wireless.nix
   ];
 
   nixpkgs = {
