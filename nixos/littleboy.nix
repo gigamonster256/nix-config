@@ -23,7 +23,7 @@ in {
     # ./users.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
+    ./hardware/littleboy.nix
   ];
 
   nixpkgs = {
@@ -109,7 +109,7 @@ in {
   };
 
   # Set your hostname
-  networking.hostName = "nixos";
+  networking.hostName = "littleboy";
 
   # Set your time zone
   time.timeZone = "America/Chicago";
