@@ -24,6 +24,7 @@ in {
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware/littleboy.nix
+    ./wireless/default.nix
   ];
 
   nixpkgs = {
@@ -85,17 +86,9 @@ in {
     generateKey = false;
   };
 
-  sops.secrets."wireless.env" = {
-    sopsFile = ../secrets/wireless.env;
-    format = "dotenv";
-    restartUnits = ["wpa_supplicant.service"];
-  };
-  networking.wireless.environmentFile = config.sops.secrets."wireless.env".path;
   networking.wireless = {
-    enable = true;
     networks = {
       "@HOME_SSID@" = {
-        psk = "@HOME_PSK@";
         authProtocols = ["WPA-PSK"]; # cheap laptop is dumb and can't do WPA3
       };
     };
