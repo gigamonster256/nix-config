@@ -59,6 +59,9 @@
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
+    # Reusable nix-darwin modules you might want to export
+    # These are usually stuff you would upstream into home-manager
+    darwinModules = import ./modules/darwin;
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
