@@ -7,7 +7,9 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  inherit (pkgs) stdenv;
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -48,17 +50,42 @@
   # Set your username
   home = {
     username = "caleb";
-    homeDirectory = "/home/caleb";
+    homeDirectory =
+      if stdenv.isLinux
+      then "/home/caleb"
+      else if stdenv.isDarwin
+      then "/Users/caleb"
+      else assert false; "Unsupported system";
+  };
+
+  nix = {
+    package = lib.mkDefault pkgs.nix;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "ca-derivations"
+      ];
+      warn-dirty = false;
+    };
   };
 
   fonts.fontconfig.enable = true;
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [
-    spotify
-    font-awesome
-    hack-font
-  ];
+  home.packages = with pkgs;
+    [
+      spotify
+      font-awesome
+      hack-font
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      # Add linux-only packages here
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      # Add darwin-only packages here
+      iterm2
+    ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;

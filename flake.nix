@@ -76,24 +76,27 @@
 
     # Available through 'darwin-rebuild --flake .#your-hostname'
     darwinConfigurations = {
-      "Calebs-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      "chnorton-mbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/macbook];
       };
     };
 
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "caleb@littleboy" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          # > Our main home-manager configuration file <
-          # hyprland.homeManagerModules.default
           ./home-manager/home.nix
-          # { wayland.windowManager.hyprland.enable = true; }
+        ];
+      };
+
+      "caleb@chnorton-mbp" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home-manager/home.nix
         ];
       };
     };
