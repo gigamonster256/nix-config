@@ -139,7 +139,13 @@ in {
   hardware.opengl = {
     enable = true;
     driSupport = true;
-    #package = hyprland-pkgs.mesa.drivers;
+    driSupport32Bit = true;
+
+    extraPackages = with pkgs; [
+      intel-compute-runtime
+      intel-media-driver
+    ];
+    package = hyprland-pkgs.mesa.drivers;
   };
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
