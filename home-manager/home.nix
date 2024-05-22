@@ -73,18 +73,30 @@ in {
   fonts.fontconfig.enable = true;
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs;
+  home.packages = with pkgs; let
+    pinentry-app =
+      if stdenv.isLinux
+      then pinentry-curses
+      else pinentry_mac;
+    term =
+      if stdenv.isLinux
+      then kitty
+      else iterm2;
+  in
     [
       spotify
       font-awesome
       hack-font
+      pinentry-app
+      term
+      nil
     ]
     ++ lib.optionals stdenv.isLinux [
       # Add linux-only packages here
     ]
     ++ lib.optionals stdenv.isDarwin [
       # Add darwin-only packages here
-      iterm2
+      trilium-desktop
     ];
 
   # Enable home-manager and git

@@ -7,6 +7,13 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
+    trilium-desktop = prev.trilium-desktop.overrideAttrs (oldAttrs: rec {
+      meta.platforms = [
+        "aarch64-darwin"
+      ];
+      version = "0.63.6";
+      src = ../trilium-mac-arm64-0.63.6.zip;
+    });
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
