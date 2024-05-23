@@ -152,6 +152,26 @@
         "type": "github"
       }
     },
+    "nh-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1716389363,
+        "narHash": "sha256-clBYx9/JjVMyBWZYB6J9Kw3ViH5sF1wHdIswHZSDaGo=",
+        "owner": "ToyVo",
+        "repo": "nh",
+        "rev": "428e25de028822817c04d1880a0e89f415a36983",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ToyVo",
+        "repo": "nh",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -224,6 +244,7 @@
       "inputs": {
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "nh-darwin": "nh-darwin",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",

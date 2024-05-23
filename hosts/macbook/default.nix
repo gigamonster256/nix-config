@@ -1,9 +1,12 @@
 {
   pkgs,
+  inputs,
   outputs,
   ...
 }: {
   imports = [
+    inputs.nh-darwin.nixDarwinModules.default
+
     outputs.darwinModules.wireless
     outputs.darwinModules.wireless-activation-script
   ];
@@ -19,10 +22,17 @@
 
   programs.zsh.enable = true;
 
+  programs.nh = {
+    enable = true;
+    flake = "/Users/caleb/projects/nix-config";
+  };
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
+
+  networking.hostName = "chnorton-mbp";
 
   system.stateVersion = 4;
 
