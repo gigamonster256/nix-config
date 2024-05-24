@@ -27,6 +27,9 @@ in {
     ./hardware-configuration.nix
 
     ../common/optional/wireless.nix
+
+    # until upstream nh module is in stable
+    "${inputs.nixpkgs-unstable}/nixos/modules/programs/nh.nix"
   ];
 
   nixpkgs = {
@@ -134,6 +137,13 @@ in {
     enable = true;
     pinentryFlavor = "curses";
     enableSSHSupport = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/caleb/projects/nix-config";
+    # until nh is in stable
+    package = pkgs.unstable.nh;
   };
 
   hardware.opengl = {
