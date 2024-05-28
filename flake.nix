@@ -28,6 +28,12 @@
       url = "github:ToyVo/nh";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      # follow the nixpkgs channel once 24.05 stabilizes https://github.com/nix-community/neovim-nightly-overlay/issues/533
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

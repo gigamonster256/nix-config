@@ -1,6 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
+  inputs,
   outputs,
   lib,
   pkgs,
@@ -29,7 +30,8 @@ in {
       outputs.overlays.unstable-packages
 
       # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
+      # neovim nightly overlay is broken until 24.05 stabilizes
+      #inputs.neovim-nightly-overlay.overlays.default
 
       # Or define it inline, for example:
       # (final: prev: {
@@ -113,6 +115,11 @@ in {
 
   programs.neovim = {
     enable = true;
+    # remove once overlay is fixed
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+
+    viAlias = true;
+    vimAlias = true;
   };
   home.sessionVariables = {
     EDITOR = "nvim";
