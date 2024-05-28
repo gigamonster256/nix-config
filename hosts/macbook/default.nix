@@ -5,7 +5,8 @@
   ...
 }: {
   imports = [
-    inputs.nh-darwin.nixDarwinModules.default
+    # use until https://github.com/LnL7/nix-darwin/pull/942 is merged
+    inputs.nh-darwin.nixDarwinModules.prebuiltin
 
     outputs.darwinModules.wireless
     outputs.darwinModules.wireless-activation-script
