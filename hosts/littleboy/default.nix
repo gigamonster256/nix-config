@@ -141,7 +141,7 @@ in {
 
   programs.nh = {
     enable = true;
-    flake = "github:gigamonster256/nix-config";
+    flake = "/home/caleb/projects/nix-config";
     # until nh is in stable
     package = pkgs.unstable.nh;
   };
