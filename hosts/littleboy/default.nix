@@ -27,9 +27,6 @@ in {
     ./hardware-configuration.nix
 
     ../common/optional/wireless.nix
-
-    # until upstream nh module is in stable
-    "${inputs.nixpkgs-unstable}/nixos/modules/programs/nh.nix"
   ];
 
   nixpkgs = {
@@ -122,7 +119,6 @@ in {
     waybar
     kitty
     firefox
-    pinentry-curses
   ];
 
   programs.hyprland = {
@@ -135,15 +131,13 @@ in {
 
   programs.gnupg.agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
   };
 
   programs.nh = {
     enable = true;
     flake = "/home/caleb/projects/nix-config";
-    # until nh is in stable
-    package = pkgs.unstable.nh;
   };
 
   hardware.opengl = {
