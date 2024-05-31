@@ -10,6 +10,8 @@
 
     outputs.darwinModules.wireless
     outputs.darwinModules.wireless-activation-script
+
+    ../common/global
   ];
 
   services.nix-daemon.enable = true;
