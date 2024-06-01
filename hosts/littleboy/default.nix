@@ -115,6 +115,10 @@ in {
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
   programs.zsh.enable = true;
 
