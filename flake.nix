@@ -25,7 +25,7 @@
     };
 
     nh-darwin = {
-      url = "github:ToyVo/nh";
+      url = "github:ToyVo/nh-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
