@@ -108,6 +108,8 @@ in {
     waybar
     kitty
     firefox
+    #sddm-sugar-dark-theme
+    catppuccin-sddm
   ];
 
   programs.hyprland = {
@@ -118,6 +120,9 @@ in {
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    theme = "catppuccin-mocha";
+    # issue with missing sddm-greeter-qt6
+    package = pkgs.kdePackages.sddm;
   };
 
   programs.zsh.enable = true;
