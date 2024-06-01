@@ -92,13 +92,6 @@ in {
     };
   };
 
-  system.autoUpgrade = {
-    enable = true;
-    allowReboot = true;
-    dates = "05:00";
-    flake = "github:gigamonster256/nix-config";
-  };
-
   # Set your hostname
   networking.hostName = "littleboy";
 
