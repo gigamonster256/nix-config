@@ -19,6 +19,7 @@ in {
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    ./zsh.nix
   ];
 
   nixpkgs = {
@@ -102,16 +103,6 @@ in {
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    oh-my-zsh = {
-      enable = true;
-      plugins = ["git"];
-      theme = "robbyrussell";
-    };
-  };
 
   programs.neovim = {
     enable = true;
