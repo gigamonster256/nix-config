@@ -1,13 +1,12 @@
 {
-  # You can import other home-manager modules here
+  # generic chnorton configuration
   imports = [
-    ./home.nix
+    ./global
+    ./optional/linux.nix
   ];
 
-   # Set your username
   home = {
     username = "chnorton";
     homeDirectory = "/home/chnorton";
   };
-
 }

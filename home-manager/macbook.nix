@@ -1,13 +1,11 @@
 {
-  # You can import other home-manager modules here
   imports = [
-    ./home.nix
+    ./global
+    ./optional/macos.nix
   ];
 
-   # Set your username
   home = {
     username = "caleb";
     homeDirectory = "/Users/caleb";
   };
-
 }

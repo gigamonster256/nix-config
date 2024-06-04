@@ -54,9 +54,10 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
-    # This is a function that generates an attribute by calling a function you
-    # pass to it, with each system as an argument
+
     forAllSystems = nixpkgs.lib.genAttrs systems;
+
+    pkgsFor = system: nixpkgs.legacyPackages.${system};
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
@@ -71,7 +72,7 @@
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
     # Reusable nix-darwin modules you might want to export
-    # These are usually stuff you would upstream into home-manager
+    # These are usually stuff you would upstream into nix-darwin
     darwinModules = import ./modules/darwin;
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
@@ -89,36 +90,31 @@
     darwinConfigurations = {
       "chnorton-mbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        specialArgs = {inherit inputs outputs;};
         modules = [./hosts/macbook];
+        specialArgs = {inherit inputs outputs;};
       };
     };
 
-    homeConfigurations = {
-      "caleb@littleboy" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+    homeConfigurations = let
+      mkConf = home-manager.lib.homeManagerConfiguration;
+    in {
+      "caleb@littleboy" = mkConf {
+        pkgs = pkgsFor "x86_64-linux";
+        modules = [./home-manager/littleboy.nix];
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home-manager/littleboy.nix
-        ];
       };
 
-      "caleb@chnorton-mbp" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+      "caleb@chnorton-mbp" = mkConf {
+        pkgs = pkgsFor "aarch64-darwin";
+        modules = [./home-manager/macbook.nix];
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home-manager/macbook.nix
-        ];
       };
 
-      "chnorton@default" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+      "chnorton@default" = mkConf {
+        pkgs = pkgsFor "x86_64-linux";
+        modules = [./home-manager/chnorton.nix];
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home-manager/chnorton.nix
-        ];
       };
     };
-
   };
 }
