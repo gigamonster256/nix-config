@@ -2,6 +2,8 @@
   home.packages = with pkgs; [
     meslo-lgs-nf
     fzf
+    tmux
+    eternal-terminal
   ];
 
   programs.zsh = {
