@@ -48,17 +48,6 @@ in {
     };
   };
 
-  # Set your username
-  home = {
-    username = "caleb";
-    homeDirectory =
-      if stdenv.isLinux
-      then "/home/caleb"
-      else if stdenv.isDarwin
-      then "/Users/caleb"
-      else assert false; "Unsupported system";
-  };
-
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
