@@ -8,8 +8,10 @@
 
   treesitterWithGrammars = vimPlugins.nvim-treesitter.withPlugins (plugins:
     with plugins; [
-      lua
-      luadoc
+      # add additional plugins as needed
+      # neovim comes with some grammars by default
+      # see https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ne/neovim-unwrapped/treesitter-parsers.nix
+      # for details (or the equivalent file in neovim nightly/your nixpkgs checkout)
       nix
     ]);
 
@@ -17,6 +19,25 @@
     name = "treesitter-parsers";
     paths = treesitterWithGrammars.dependencies;
   };
+
+  doNotLoad = plugin: {
+    inherit plugin;
+    optional = true;
+  };
+
+  pluginToLink = plugin: {
+    name = plugin.pname;
+    path = plugin;
+  };
+
+  neovimPlugins = with vimPlugins; [
+    treesitterWithGrammars
+    telescope-fzf-native-nvim
+    luasnip
+    lazy-nvim
+  ];
+
+  pluginsPath = pkgs.linkFarm "nvim-plugins" (map pluginToLink neovimPlugins);
 in {
   home.packages = with pkgs; [
     unzip
@@ -42,11 +63,15 @@ in {
     viAlias = true;
     vimAlias = true;
 
-    plugins = with vimPlugins; [
-      treesitterWithGrammars
-      telescope-fzf-native-nvim
-      luasnip
-    ];
+    # do not auto load plugins (taken care of by lazy.nvim)
+    # simple plugins can be added by lazy and by default
+    # are downloaded and installed to ~/.local/share/nvim/lazy
+    # however more complex plugins like treesitter require
+    # more setup from nixpkgs and can be added to the neovimPlugins list.
+    # (things that require a build step or have dependencies that need to be built)
+    # To tell lazy to load nix based plugins, add {dev = true,}
+    # to the plugin settings in the lazy config
+    plugins = (map doNotLoad neovimPlugins);
   };
 
   home.sessionVariables.EDITOR = "nvim";
@@ -57,23 +82,12 @@ in {
   };
 
   home.file."./.config/nvim/lua/caleb/init.lua".text = ''
-    vim.opt.runtimepath:append("${treesitter-parsers}")
+    vim.opt.rtp:append("${treesitter-parsers}")
   '';
 
-  # Treesitter is configured as a locally developed module in lazy.nvim
-  # we hardcode a symlink here so that we can refer to it in our lazy config
-  home.file."./.local/share/nvim/nix/nvim-treesitter/" = {
+  # make nix plugins available at ~/.local/share/nvim/nix
+  home.file."./.local/share/nvim/nix/" = {
+    source = pluginsPath;
     recursive = true;
-    source = treesitterWithGrammars;
-  };
-
-  home.file."./.local/share/nvim/nix/telescope-fzf-native.nvim/" = {
-    recursive = true;
-    source = vimPlugins.telescope-fzf-native-nvim;
-  };
-  
-  home.file."./.local/share/nvim/nix/luasnip/" = {
-    recursive = true;
-    source = vimPlugins.luasnip;
   };
 }
