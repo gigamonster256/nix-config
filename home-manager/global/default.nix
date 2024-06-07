@@ -40,6 +40,10 @@ in {
 
   fonts.fontconfig.enable = true;
 
+  home.packages = with pkgs;[
+    btop
+  ];
+
   # Enable home-manager and git
   programs = {
     home-manager.enable = true;
