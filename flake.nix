@@ -100,19 +100,19 @@
     in {
       "caleb@littleboy" = mkConf {
         pkgs = pkgsFor "x86_64-linux";
-        modules = [./home-manager/littleboy.nix];
+        modules = [./home/littleboy.nix];
         extraSpecialArgs = {inherit inputs outputs;};
       };
 
       "caleb@chnorton-mbp" = mkConf {
         pkgs = pkgsFor "aarch64-darwin";
-        modules = [./home-manager/macbook.nix];
+        modules = [./home/macbook.nix];
         extraSpecialArgs = {inherit inputs outputs;};
       };
 
       "chnorton@default" = mkConf {
         pkgs = pkgsFor "x86_64-linux";
-        modules = [./home-manager/chnorton.nix];
+        modules = [./home/chnorton.nix];
         extraSpecialArgs = {inherit inputs outputs;};
       };
     };
