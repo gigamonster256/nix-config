@@ -71,7 +71,7 @@ in {
     # (things that require a build step or have dependencies that need to be built)
     # To tell lazy to load nix based plugins, add {dev = true,}
     # to the plugin settings in the lazy config
-    plugins = (map doNotLoad neovimPlugins);
+    plugins = map doNotLoad neovimPlugins;
   };
 
   home.sessionVariables.EDITOR = "nvim";
