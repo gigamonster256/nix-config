@@ -105,9 +105,6 @@ in {
   environment.systemPackages = with pkgs; [
     vim
     git
-    waybar
-    kitty
-    firefox
     #sddm-sugar-dark-theme
     catppuccin-sddm
   ];
