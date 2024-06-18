@@ -1,4 +1,6 @@
-.vscode/
+.vscode
+
+.direnv
 
 # trilium source
 trilium*.zip

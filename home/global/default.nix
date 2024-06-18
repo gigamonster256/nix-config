@@ -44,10 +44,10 @@ in {
     btop
   ];
 
-  # Enable home-manager and git
   programs = {
     home-manager.enable = true;
     git.enable = true;
+    direnv.enable = true;
   };
 
   # Nicely reload system units when changing configs

@@ -47,6 +47,7 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    lib = nixpkgs.lib // nix-darwin.lib // home-manager.lib;
     # Supported systems for your flake packages, shell, etc.
     systems = [
       "aarch64-linux"
@@ -55,17 +56,24 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
+    pkgsFor = lib.genAttrs systems (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
 
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-
-    pkgsFor = system: nixpkgs.legacyPackages.${system};
+    forAllSystems = f: lib.genAttrs systems (system: f pkgsFor.${system});
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    packages = forAllSystems (pkgs: import ./pkgs {inherit pkgs;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forAllSystems (pkgs: pkgs.alejandra);
+
+    devShells = forAllSystems (pkgs: import ./shell.nix {inherit pkgs;});
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
@@ -81,7 +89,7 @@
 
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      littleboy = nixpkgs.lib.nixosSystem {
+      littleboy = lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/littleboy];
       };
@@ -89,7 +97,7 @@
 
     # Available through 'darwin-rebuild --flake .#your-hostname'
     darwinConfigurations = {
-      "chnorton-mbp" = nix-darwin.lib.darwinSystem {
+      "chnorton-mbp" = lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/macbook];
@@ -97,22 +105,22 @@
     };
 
     homeConfigurations = let
-      mkConf = home-manager.lib.homeManagerConfiguration;
+      mkConf = lib.homeManagerConfiguration;
     in {
       "caleb@littleboy" = mkConf {
-        pkgs = pkgsFor "x86_64-linux";
+        pkgs = pkgsFor."x86_64-linux";
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/littleboy.nix];
       };
 
       "caleb@chnorton-mbp" = mkConf {
-        pkgs = pkgsFor "aarch64-darwin";
+        pkgs = pkgsFor."aarch64-darwin";
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/macbook.nix];
       };
 
       "chnorton@default" = mkConf {
-        pkgs = pkgsFor "x86_64-linux";
+        pkgs = pkgsFor."x86_64-linux";
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home/chnorton.nix];
       };
