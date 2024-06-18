@@ -13,14 +13,18 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+    };
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
@@ -31,8 +35,7 @@
 
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
-      # follow the nixpkgs channel once 24.05 stabilizes https://github.com/nix-community/neovim-nightly-overlay/issues/533
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
@@ -40,8 +43,6 @@
     self,
     nixpkgs,
     home-manager,
-    hyprland,
-    sops-nix,
     nix-darwin,
     ...
   } @ inputs: let
@@ -90,8 +91,8 @@
     darwinConfigurations = {
       "chnorton-mbp" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        modules = [./hosts/macbook];
         specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/macbook];
       };
     };
 
@@ -100,20 +101,20 @@
     in {
       "caleb@littleboy" = mkConf {
         pkgs = pkgsFor "x86_64-linux";
-        modules = [./home/littleboy.nix];
         extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home/littleboy.nix];
       };
 
       "caleb@chnorton-mbp" = mkConf {
         pkgs = pkgsFor "aarch64-darwin";
-        modules = [./home/macbook.nix];
         extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home/macbook.nix];
       };
 
       "chnorton@default" = mkConf {
         pkgs = pkgsFor "x86_64-linux";
-        modules = [./home/chnorton.nix];
         extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home/chnorton.nix];
       };
     };
   };
