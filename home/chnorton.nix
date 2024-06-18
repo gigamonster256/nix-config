@@ -2,7 +2,6 @@
   # generic chnorton configuration
   imports = [
     ./global
-    ./optional/linux.nix
   ];
 
   home = {
