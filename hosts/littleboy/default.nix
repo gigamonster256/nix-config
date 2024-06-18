@@ -29,6 +29,7 @@ in {
     ../common/global
 
     ../common/optional/wireless.nix
+    ../common/optional/nh.nix
   ];
 
   nixpkgs = {
@@ -128,11 +129,6 @@ in {
     enable = true;
     pinentryPackage = pkgs.pinentry-curses;
     enableSSHSupport = true;
-  };
-
-  programs.nh = {
-    enable = true;
-    flake = "/home/caleb/projects/nix-config";
   };
 
   hardware.opengl = {

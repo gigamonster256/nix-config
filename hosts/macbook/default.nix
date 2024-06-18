@@ -5,13 +5,14 @@
   ...
 }: {
   imports = [
-    # use until https://github.com/LnL7/nix-darwin/pull/942 is merged
-    inputs.nh-darwin.nixDarwinModules.prebuiltin
-
     outputs.darwinModules.wireless
     outputs.darwinModules.wireless-activation-script
 
     ../common/global
+
+    # use until https://github.com/LnL7/nix-darwin/pull/942 is merged
+    inputs.nh-darwin.nixDarwinModules.prebuiltin
+    ../common/optional/nh.nix
   ];
 
   services.nix-daemon.enable = true;
@@ -22,11 +23,6 @@
   ];
 
   programs.zsh.enable = true;
-
-  programs.nh = {
-    enable = true;
-    flake = "/Users/caleb/projects/nix-config";
-  };
 
   programs.gnupg.agent = {
     enable = true;
