@@ -29,7 +29,8 @@
     };
 
     nh-darwin = {
-      url = "github:ToyVo/nh-darwin";
+      #url = "github:ToyVo/nh-darwin";
+      url = "github:gigamonster256/nh-darwin/fix-url-flakeref";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

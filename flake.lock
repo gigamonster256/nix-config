@@ -394,15 +394,16 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1717298090,
-        "narHash": "sha256-7oD16/JsJ5uBs3Gf+fp9dKo+leF0v1A2KWdIOZKjDlk=",
-        "owner": "ToyVo",
+        "lastModified": 1718919780,
+        "narHash": "sha256-1J62XTz5Tar+yqUCb0lBdbPH4g/IyZ/03YT0XU/xD9o=",
+        "owner": "gigamonster256",
         "repo": "nh-darwin",
-        "rev": "cb9c4263ab0d75b9ec284fb4f9049d3b5216ddd5",
+        "rev": "3277588ba07c14b9f9d5c7d4cde2c76a556ebab3",
         "type": "github"
       },
       "original": {
-        "owner": "ToyVo",
+        "owner": "gigamonster256",
+        "ref": "fix-url-flakeref",
         "repo": "nh-darwin",
         "type": "github"
       }
