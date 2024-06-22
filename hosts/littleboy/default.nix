@@ -114,7 +114,8 @@ in {
       intel-compute-runtime
       intel-media-driver
     ];
-    package = hyprland-pkgs.mesa.drivers;
+    package = pkgs.mesa.drivers;
+    # package = hyprland-pkgs.mesa.drivers;
   };
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
