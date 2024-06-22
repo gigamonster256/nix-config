@@ -1,20 +1,11 @@
-{pkgs, ...}: {
+{
   imports = [
     ./global
+    ./macos # see file for details
   ];
 
   home = {
     username = "caleb";
     homeDirectory = "/Users/caleb";
   };
-
-  home.packages = with pkgs; [
-    spotify
-    iterm2
-    pinentry_mac
-    trilium-desktop
-    # code editing
-    vscode
-    nil
-  ];
 }

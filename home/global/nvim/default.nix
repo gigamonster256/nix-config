@@ -47,14 +47,6 @@ in {
     nodejs # for copilot
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # neovim nightly overlay is broken until 24.05 stabilizes
-      #inputs.neovim-nightly-overlay.overlays.default
-    ];
-  };
-
   programs.neovim = {
     enable = true;
     # remove once overlay is fixed

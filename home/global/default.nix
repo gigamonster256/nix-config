@@ -1,30 +1,15 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-  inputs,
-  outputs,
   lib,
   pkgs,
   ...
-}: let
-  inherit (pkgs) stdenv;
-in {
+}: {
   # You can import other home-manager modules here
   imports = [
     ./zsh
     ./nvim
   ];
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-    ];
-    config = {
-      allowUnfree = true;
-    };
-  };
 
   nix = {
     package = lib.mkDefault pkgs.nix;
@@ -45,7 +30,6 @@ in {
   ];
 
   programs = {
-    home-manager.enable = true;
     git.enable = true;
     direnv.enable = true;
   };

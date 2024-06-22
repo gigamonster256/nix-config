@@ -13,7 +13,7 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
@@ -61,6 +61,11 @@
       system:
         import nixpkgs {
           inherit system;
+          overlays = [
+            outputs.overlays.additions
+            outputs.overlays.modifications
+            outputs.overlays.unstable-packages
+          ];
           config.allowUnfree = true;
         }
     );
@@ -85,8 +90,22 @@
     }:
       {
         "${os}Configurations".${hostname} = lib."${os}System" {
+          pkgs = pkgsFor.${system};
           specialArgs = {inherit inputs outputs;};
-          modules = [./hosts/${hostname}];
+          modules =
+            [./hosts/${hostname}]
+            ++ (lib.optionals (user != "") [
+              home-manager."${os}Modules".default
+              {
+                home-manager = {
+                  extraSpecialArgs = {inherit inputs outputs;};
+                  useGlobalPkgs = true;
+                  # useUserPackages = true;
+                  users.${user} = import ./home/${hostname}.nix;
+                  # sharedModules = [./home/${hostname}.nix];
+                };
+              }
+            ]);
         };
       }
       //

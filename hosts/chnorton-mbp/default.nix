@@ -29,6 +29,14 @@
     enableSSHSupport = true;
   };
 
+  users.users = {
+    # Replace with your username
+    caleb = {
+      home = "/Users/caleb";
+      shell = pkgs.zsh;
+    };
+  };
+
   networking.hostName = "chnorton-mbp";
 
   system.stateVersion = 4;
