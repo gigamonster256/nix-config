@@ -2,7 +2,7 @@
   imports = [
     ./global
     ./macos # see file for details
-    
+
     ./optional/spotify.nix
   ];
 
