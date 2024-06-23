@@ -38,6 +38,14 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    spicetify-nix = {
+      # url = "github:the-argus/spicetify-nix";
+      # fork with darwin support
+      # waiting on https://github.com/the-argus/spicetify-nix/pull/53
+      url = "github:Believer1/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = {

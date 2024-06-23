@@ -7,7 +7,6 @@
 # (some sort of merging difference between the two ways of building?)
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    spotify
     iterm2
     pinentry_mac
     trilium-desktop
