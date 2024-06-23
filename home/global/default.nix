@@ -9,6 +9,7 @@
   imports = [
     ./zsh
     ./nvim
+    ./nh.nix
   ];
 
   nix = {

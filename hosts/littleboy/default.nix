@@ -28,7 +28,6 @@ in {
     ../common/global
 
     ../common/optional/wireless.nix
-    ../common/optional/nh.nix
   ];
 
   nix = let
