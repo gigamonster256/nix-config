@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   imports = [
     ./global
+
+    ./optional/spotify.nix
   ];
 
   home = {
