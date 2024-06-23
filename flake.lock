@@ -557,15 +557,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1706551902,
-        "narHash": "sha256-rLrePD1QXhDBUTNyZWcJST4RonucQt/orYa/v3ZLHuo=",
-        "owner": "Believer1",
+        "lastModified": 1719118378,
+        "narHash": "sha256-CBrlqN6OKrOILHNA0EOKI8z1TfkM17cIrPAa9NLUKjc=",
+        "owner": "gigamonster256",
         "repo": "spicetify-nix",
-        "rev": "917e1a32b21443789124beb70c87afbc1ddb0510",
+        "rev": "9e1b61078aacd973250816b448bc18b15fcb22be",
         "type": "github"
       },
       "original": {
-        "owner": "Believer1",
+        "owner": "gigamonster256",
         "repo": "spicetify-nix",
         "type": "github"
       }
