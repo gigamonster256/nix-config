@@ -83,7 +83,7 @@
       os,
       system,
       hostname,
-      user ? "",
+      homeUser ? "",
     }:
       {
         "${os}Configurations".${hostname} = lib."${os}System" {
@@ -91,14 +91,14 @@
           specialArgs = {inherit inputs outputs;};
           modules =
             [./hosts/${hostname}]
-            ++ (lib.optionals (user != "") [
+            ++ (lib.optionals (homeUser != "") [
               home-manager."${os}Modules".default
               {
                 home-manager = {
                   extraSpecialArgs = {inherit inputs outputs;};
                   useGlobalPkgs = true;
                   # useUserPackages = true;
-                  users.${user} = import ./home/${hostname}.nix;
+                  users.${homeUser} = import ./home/${hostname}.nix;
                   # sharedModules = [./home/${hostname}.nix];
                 };
               }
@@ -108,8 +108,12 @@
       //
       # automatically generate a home-manager configuration for this system
       (
-        if (user != "")
-        then mkHomeManager {inherit system user hostname;}
+        if (homeUser != "")
+        then
+          mkHomeManager {
+            inherit system hostname;
+            user = homeUser;
+          }
         else {}
       );
 
@@ -144,13 +148,13 @@
         os = "nixos";
         system = "x86_64-linux";
         hostname = "littleboy";
-        user = "caleb";
+        homeUser = "caleb";
       })
       (mkSystem {
         os = "darwin";
         system = "aarch64-darwin";
         hostname = "chnorton-mbp";
-        user = "caleb";
+        homeUser = "caleb";
       })
       (mkHomeManager {
         system = "x86_64-linux";
