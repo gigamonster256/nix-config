@@ -40,10 +40,7 @@
     };
 
     spicetify-nix = {
-      # url = "github:the-argus/spicetify-nix";
-      # based on fork with darwin support Believer1/spicetify-nix
-      # waiting on https://github.com/the-argus/spicetify-nix/pull/53
-      url = "github:gigamonster256/spicetify-nix";
+      url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
