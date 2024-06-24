@@ -13,5 +13,6 @@
     # code editing
     vscode
     nil
+    unstable.ice-bar
   ];
 }
