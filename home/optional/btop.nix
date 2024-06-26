@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     btop
-    btop-themes.catppuccin
   ];
+
+  home.file."./.config/btop/themes" = {
+    source = "${pkgs.btop-themes.catppuccin}/share/btop/themes";
+  };
 }
