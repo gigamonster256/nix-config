@@ -1,10 +1,15 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    meslo-lgs-nf
     fzf
     tmux
     eternal-terminal
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
+
+  programs.oh-my-posh = {
+    enable = true;
+    settings = import ./posh-config.nix;
+  };
 
   programs.zsh = {
     enable = true;
@@ -17,19 +22,9 @@
     historySubstringSearch = {
       enable = true;
     };
-    initExtraFirst = ''
-      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-      # Initialization code that may require console input (password prompts, [y/n]
-      # confirmations, etc.) must go above this block; everything else may go below.
-      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      fi
-    '';
     initExtra = ''
       # Plugins
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      [[ ! -f ${./p10k.zsh} ]] || source ${./p10k.zsh}
 
       # Completion styling
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
