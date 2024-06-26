@@ -1,4 +1,6 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # You can build them using 'nix build .#example'
-{pkgs}:
-import ./sddm-themes {inherit pkgs;}
+{pkgs}: {
+  sddm-themes = import ./sddm-themes {inherit pkgs;};
+  btop-themes = import ./btop-themes {inherit pkgs;};
+}

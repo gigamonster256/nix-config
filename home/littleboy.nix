@@ -3,6 +3,7 @@
     ./global
 
     ./optional/spotify.nix
+    ./optional/btop.nix
   ];
 
   home = {

@@ -1,3 +1,3 @@
 {pkgs}: {
-  sddm-sugar-dark-theme = pkgs.callPackage ./sugar-dark.nix {};
+  sugar-dark = pkgs.callPackage ./sugar-dark.nix {};
 }

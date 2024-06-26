@@ -79,7 +79,6 @@ in {
   environment.systemPackages = with pkgs; [
     vim
     git
-    #sddm-sugar-dark-theme
     catppuccin-sddm
   ];
 

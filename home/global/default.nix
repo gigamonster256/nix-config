@@ -15,10 +15,6 @@
 
   fonts.fontconfig.enable = true;
 
-  home.packages = with pkgs; [
-    btop
-  ];
-
   programs = {
     git.enable = true;
     direnv.enable = true;

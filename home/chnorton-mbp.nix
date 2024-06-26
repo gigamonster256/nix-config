@@ -4,6 +4,7 @@
     ./macos # see file for details
 
     ./optional/spotify.nix
+    ./optional/btop.nix
   ];
 
   home = {
