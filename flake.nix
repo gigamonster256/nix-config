@@ -75,12 +75,21 @@
     mkHomeManager = {
       system,
       user,
-      hostname,
-    }: {
-      homeConfigurations."${user}@${hostname}" = lib.homeManagerConfiguration {
+      hostname ? null,
+    }: let
+      homeModule =
+        if (hostname == null)
+        then ./home/${user}.nix
+        else ./home/${hostname}.nix;
+      configurationName =
+        if (hostname == null)
+        then user
+        else "${user}@${hostname}";
+    in {
+      homeConfigurations."${configurationName}" = lib.homeManagerConfiguration {
         pkgs = pkgsFor.${system};
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home/${hostname}.nix];
+        modules = [homeModule];
       };
     };
 
@@ -164,7 +173,6 @@
       (mkHomeManager {
         system = "x86_64-linux";
         user = "chnorton";
-        hostname = "default";
       })
     ];
 }
