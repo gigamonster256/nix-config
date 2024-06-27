@@ -6,6 +6,13 @@
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    systems.url = "github:nix-systems/default";
+
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -48,22 +55,15 @@
   outputs = {
     self,
     nixpkgs,
+    flake-utils,
     home-manager,
     nix-darwin,
     ...
   } @ inputs: let
     inherit (self) outputs;
-    lib = nixpkgs.lib // nix-darwin.lib // home-manager.lib;
-    # Supported systems for your flake packages, shell, etc.
-    systems = [
-      "aarch64-linux"
-      "i686-linux"
-      "x86_64-linux"
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
+    lib = nixpkgs.lib // nix-darwin.lib // home-manager.lib // flake-utils.lib;
 
-    pkgsFor = lib.genAttrs systems (
+    pkgsFor = lib.genAttrs lib.allSystems (
       system:
         import nixpkgs {
           inherit system;
@@ -130,34 +130,33 @@
           }
         else {}
       );
-
-    forAllSystems = f: lib.genAttrs systems (system: f pkgsFor.${system});
   in
     lib.fold lib.recursiveUpdate
-    {
-      # Your custom packages
-      # Accessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (pkgs: import ./pkgs {inherit pkgs;});
-      # Formatter for your nix files, available through 'nix fmt'
-      # Other options beside 'alejandra' include 'nixpkgs-fmt'
-      formatter = forAllSystems (pkgs: pkgs.alejandra);
-
-      devShells = forAllSystems (pkgs: import ./shell.nix {inherit pkgs;});
-
-      # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays {inherit inputs;};
-      # Reusable nixos modules you might want to export
-      # These are usually stuff you would upstream into nixpkgs
-      nixosModules = import ./modules/nixos;
-      # Reusable nix-darwin modules you might want to export
-      # These are usually stuff you would upstream into nix-darwin
-      darwinModules = import ./modules/darwin;
-      # Reusable home-manager modules you might want to export
-      # These are usually stuff you would upstream into home-manager
-      homeManagerModules = import ./modules/home-manager;
-    }
-    # systems (recursively merged)
+    (flake-utils.lib.eachDefaultSystem (
+      system: let
+        pkgs = pkgsFor.${system};
+      in {
+        packages = import ./pkgs {inherit pkgs;};
+        formatter = pkgs.alejandra;
+        devShells = import ./shell.nix {inherit pkgs;};
+      }
+    ))
     [
+      {
+        # Your custom packages and modifications, exported as overlays
+        overlays = import ./overlays {inherit inputs;};
+        # Reusable nixos modules you might want to export
+        # These are usually stuff you would upstream into nixpkgs
+        nixosModules = import ./modules/nixos;
+        # Reusable nix-darwin modules you might want to export
+        # These are usually stuff you would upstream into nix-darwin
+        darwinModules = import ./modules/darwin;
+        # Reusable home-manager modules you might want to export
+        # These are usually stuff you would upstream into home-manager
+        homeManagerModules = import ./modules/home-manager;
+      }
+      # systems (recursively merged)
+
       (mkSystem {
         os = "nixos";
         system = "x86_64-linux";
