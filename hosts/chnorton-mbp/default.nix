@@ -9,9 +9,14 @@
     outputs.darwinModules.wireless-activation-script
 
     ../common/global
+
+    ../common/optional/yabai
+    ../common/optional/sketchybar
   ];
 
   services.nix-daemon.enable = true;
+
+  security = {pam.enableSudoTouchIdAuth = true;};
 
   environment.systemPackages = with pkgs; [
     gnupg
