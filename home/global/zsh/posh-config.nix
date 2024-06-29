@@ -55,6 +55,11 @@
       type = "prompt";
     }
   ];
+  transient_prompt = {
+    background = "transparent";
+    foreground = "p:closer";
+    template = " ";
+  };
   final_space = true;
   palette = {
     blue = "#89B4FA";
