@@ -2,6 +2,7 @@
   imports = [
     ./global
 
+    ./optional/waybar/default.nix
     ./optional/spotify.nix
     ./optional/btop.nix
   ];
