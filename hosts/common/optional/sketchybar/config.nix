@@ -52,7 +52,7 @@
       background.corner_radius=5
       background.height=25
       label.drawing=off
-      script="$PLUGIN_DIR/space.sh"
+      script="$PLUGIN_DIR/builtin/space.sh"
       click_script="yabai -m space --focus $sid"
     )
     sketchybar --add space space."$sid" left --set space."$sid" "''${space[@]}"
@@ -65,7 +65,7 @@
   sketchybar --add item chevron left \
              --set chevron icon= label.drawing=off \
              --add item front_app left \
-             --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+             --set front_app icon.drawing=off script="$PLUGIN_DIR/builtin/front_app.sh" \
              --subscribe front_app front_app_switched
 
   ##### Adding Right Items #####
@@ -80,12 +80,12 @@
   # https://felixkratz.github.io/SketchyBar/config/events
 
   sketchybar --add item clock right \
-             --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
+             --set clock update_freq=10 icon=  script="$PLUGIN_DIR/builtin/clock.sh" \
              --add item volume right \
-             --set volume script="$PLUGIN_DIR/volume.sh" \
+             --set volume script="$PLUGIN_DIR/builtin/volume.sh" \
              --subscribe volume volume_change \
              --add item battery right \
-             --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+             --set battery update_freq=120 script="$PLUGIN_DIR/builtin/battery.sh" \
              --subscribe battery system_woke power_source_change
 
   ##### Force all scripts to run the first time (never do this in a script) #####
