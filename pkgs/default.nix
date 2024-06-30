@@ -11,22 +11,13 @@
         paths = pkgs.lib.attrValues pkgs';
       };
     };
-in let
-  # themes available in $out/share/btop/themes/<theme-name>.theme
-  btop-themes = withAllFlat "btop-themes" (import ./btop-themes {inherit pkgs;});
 in {
   # themes avilable in $out/share/sddm/themes/<package-name>
   sddm-themes = withAllFlat "sddm-themes" (import ./sddm-themes {inherit pkgs;});
+  # themes available in $out/share/btop/themes/<theme-name>.theme
+  btop-themes = withAllFlat "btop-themes" (import ./btop-themes {inherit pkgs;});
   # plugins available in $out/<package-name>/<plugin-name>.sh using all
   sketchybar-plugins = withAllFarm "sketchybar-plugins" (import ./sketchybar-plugins {inherit pkgs;});
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes {inherit pkgs;});
-
-  btop-with-themes = pkgs.symlinkJoin {
-    name = "btop-with-themes";
-    paths = [
-      pkgs.btop
-      btop-themes.all
-    ];
-  };
 }
