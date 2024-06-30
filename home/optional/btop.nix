@@ -4,6 +4,6 @@
   ];
 
   home.file."./.config/btop/themes" = {
-    source = "${pkgs.btop-themes.catppuccin}/share/btop/themes";
+    source = "${pkgs.btop-themes.all}/share/btop/themes";
   };
 }
