@@ -440,7 +440,7 @@
         "type": "github"
       }
     },
-    "nh-darwin": {
+    "nh_darwin": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -451,13 +451,13 @@
         "lastModified": 1718921939,
         "narHash": "sha256-5tAHTS1mrf8UbkpLUIaNCxsgLyaSJZqNo5skWJdVQVs=",
         "owner": "ToyVo",
-        "repo": "nh-darwin",
+        "repo": "nh_darwin",
         "rev": "754ecbc5826d5f305ddd7d9d439c167a34495071",
         "type": "github"
       },
       "original": {
         "owner": "ToyVo",
-        "repo": "nh-darwin",
+        "repo": "nh_darwin",
         "type": "github"
       }
     },
@@ -536,7 +536,7 @@
         "hyprland": "hyprland",
         "neovim-config": "neovim-config",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nh-darwin": "nh-darwin",
+        "nh_darwin": "nh_darwin",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
