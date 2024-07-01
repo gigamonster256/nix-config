@@ -68,18 +68,20 @@ in {
 
   home.sessionVariables.EDITOR = "nvim";
 
-  home.file."./.config/nvim/" = {
-    source = ./config;
-    recursive = true;
-  };
-
-  home.file."./.config/nvim/lua/caleb/init.lua".text = ''
+  home.file."./.config/nvim/lua/nix/init.lua".text = ''
     vim.opt.rtp:append("${treesitter-parsers}")
   '';
 
-  # make nix plugins available at ~/.local/share/nvim/nix
-  home.file."./.local/share/nvim/nix/" = {
-    source = pluginsPath;
-    recursive = true;
+  home.file = {
+    # make config available at ~/.config/nvim
+    "./.config/nvim/" = {
+      source = inputs.neovim-config;
+      recursive = true;
+    };
+    # make nix plugins available at ~/.local/share/nvim/nix
+    "./.local/share/nvim/nix/" = {
+      source = pluginsPath;
+      recursive = true;
+    };
   };
 }

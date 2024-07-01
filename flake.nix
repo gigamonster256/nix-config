@@ -46,6 +46,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    neovim-config = {
+      url = "github:gigamonster256/neovim-config";
+      flake = false;
+    };
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

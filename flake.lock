@@ -383,6 +383,22 @@
         "type": "github"
       }
     },
+    "neovim-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719861159,
+        "narHash": "sha256-cQGbYpzrGTWaA7wZQWCa4pFnWGzjJz9Ic/aHpO3/+7U=",
+        "owner": "gigamonster256",
+        "repo": "neovim-config",
+        "rev": "76e3a4a6a774052b50022b6e96e76c182075537a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "neovim-config",
+        "type": "github"
+      }
+    },
     "neovim-nightly-overlay": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -518,6 +534,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "neovim-config": "neovim-config",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nh-darwin": "nh-darwin",
         "nix-darwin": "nix-darwin",
