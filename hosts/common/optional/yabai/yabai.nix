@@ -25,7 +25,7 @@
     mouse_action2 = "resize";
   };
   extraConfig = ''
-    when window is dropped in center of another window, swap them (on edges it will split it)
+    # when window is dropped in center of another window, swap them (on edges it will split it)
     yabai -m mouse_drop_action swap
   '';
 }
