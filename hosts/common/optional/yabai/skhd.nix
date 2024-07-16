@@ -65,6 +65,8 @@
   shift + alt - 5 : yabai -m window --space 5;
   shift + alt - 6 : yabai -m window --space 6;
   shift + alt - 7 : yabai -m window --space 7;
+  shift + alt - 8 : yabai -m window --space 8;
+  shift + alt - 9 : yabai -m window --space 9;
 
   # -- Starting/Stopping/Restarting Yabai --
 
