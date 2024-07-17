@@ -77,9 +77,13 @@ in {
 
   home.sessionVariables.EDITOR = "nvim";
 
-  home.file."./.config/nvim/lua/nix/init.lua".text = ''
-    vim.opt.rtp:append("${treesitter-parsers}")
-  '';
+  home.file."./.config/nvim/lua/nix/init.lua".text =
+    /*
+    lua
+    */
+    ''
+      vim.opt.rtp:append("${treesitter-parsers}")
+    '';
 
   home.file = {
     # make config available at ~/.config/nvim
