@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }: let
   # unstable plugins for neovim nightly
@@ -38,19 +39,27 @@
   ];
 
   pluginsPath = pkgs.linkFarm "nvim-plugins" (map pluginToLink neovimPlugins);
-in {
-  home.packages = with pkgs; [
-    unzip
+
+  # packages neovim wants to see on the PATH
+  runtimeDeps = with pkgs; [
     ripgrep
     fd
-    alejandra
     nodejs # for copilot
   ];
 
+  # wrap runtime dependencies in a PATH prefix (only accessible to neovim)
+  wrappedNeovim = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default.overrideAttrs (oldAttrs: {
+    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [pkgs.makeBinaryWrapper];
+    postFixup = ''
+      wrapProgram $out/bin/nvim \
+        --prefix PATH : ${lib.makeBinPath runtimeDeps}
+    '';
+  });
+in {
   programs.neovim = {
     enable = true;
-    # remove once overlay is fixed
-    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+
+    package = wrappedNeovim;
 
     viAlias = true;
     vimAlias = true;
