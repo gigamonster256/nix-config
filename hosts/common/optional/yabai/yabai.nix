@@ -1,17 +1,22 @@
 {
-  config = {
+  config = let
+    padding = 5;
+  in {
     # default layout (can be bsp, stack or float)
     layout = "bsp";
 
     # new window spawns to the right if vertical split, or bottom if horizontal split
     window_placement = "second_child";
 
-    # padding set to 10px
-    top_padding = 50; # 50px for sketchybar
-    bottom_padding = 10;
-    left_padding = 10;
-    right_padding = 10;
-    window_gap = 8;
+    # sketchybar
+    external_bar = "main:40:0"; # [<main|all|off>:<top_padding>:<bottom_padding>]
+
+    # padding set globally
+    top_padding = padding;
+    bottom_padding = padding;
+    left_padding = padding;
+    right_padding = padding;
+    window_gap = padding;
 
     # -- mouse settings --
     mouse_follows_focus = "off";
