@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }: let
   # unstable plugins for neovim nightly
@@ -96,5 +97,16 @@ in {
       source = pluginsPath;
       recursive = true;
     };
+  };
+
+  # remove stale nvim lua cache 
+  # this could probably be narrowed down to the specific file (nix/init.lua) but this is fine for now
+  home.activation = {
+    clearNvimCache = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
+      NVIM_CACHE="${config.xdg.cacheHome}/nvim/luac"
+      if [[ -d "$NVIM_CACHE" ]]; then
+        $DRY_RUN_CMD rm -rf "$VERBOSE_ARG" "$NVIM_CACHE"
+      fi
+    '';
   };
 }
