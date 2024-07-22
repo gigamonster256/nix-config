@@ -49,9 +49,34 @@
   ];
 
   # wrap runtime dependencies in a PATH prefix (only accessible to neovim)
-  wrappedNeovim = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default.overrideAttrs (oldAttrs: {
-    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [pkgs.makeBinaryWrapper];
-    postFixup = ''
+  # https://stackoverflow.com/questions/68523367/in-nixpkgs-how-do-i-override-files-of-a-package-without-recompilation/68523368#68523368
+  originalNvim = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  wrappedNeovim = originalNvim.overrideAttrs (old: {
+    name = "neovim-with-apps";
+    nativeBuildInputs = [pkgs.makeWrapper];
+    buildCommand = ''
+      set -euo pipefail
+      ${
+        # Copy original files, for each split-output (`out`, `dev` etc.).
+        # E.g. `${package.dev}` to `$dev`, and so on. If none, just "out".
+        # Symlink all files from the original package to here (`cp -rs`),
+        # to save disk space.
+        # We could alternatiively also copy (`cp -a --no-preserve=mode`).
+        lib.concatStringsSep "\n"
+        (
+          map
+          (
+            outputName: ''
+              echo "Copying output ${outputName}"
+              set -x
+              cp -rs --no-preserve=mode "${originalNvim.${outputName}}" "''$${outputName}"
+              set +x
+            ''
+          )
+          (["out"] ++ (lib.optional (! pkgs.stdenv.isDarwin) "debug")) # separateDebugInfo shenanigans (https://github.com/NixOS/nixpkgs/issues/203380)
+          # (old.outputs or ["out"])
+        )
+      }
       wrapProgram $out/bin/nvim \
         --prefix PATH : ${lib.makeBinPath runtimeDeps}
     '';
@@ -99,7 +124,7 @@ in {
     };
   };
 
-  # remove stale nvim lua cache 
+  # remove stale nvim lua cache
   # this could probably be narrowed down to the specific file (nix/init.lua) but this is fine for now
   home.activation = {
     clearNvimCache = inputs.home-manager.lib.hm.dag.entryAfter ["writeBoundary"] ''
