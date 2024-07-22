@@ -5,12 +5,6 @@
       alignment = "left";
       segments = [
         {
-          foreground = "p:os";
-          style = "plain";
-          template = "{{.Icon}} ";
-          type = "os";
-        }
-        {
           foreground = "p:blue";
           style = "plain";
           template = "{{ .UserName }}@{{ .HostName }} ";
@@ -19,12 +13,10 @@
         {
           foreground = "p:pink";
           properties = {
-            folder_icon = "....";
             home_icon = "~";
-            style = "agnoster_short";
+            style = "folder";
           };
           style = "plain";
-          template = "{{ .Path }} ";
           type = "path";
         }
         {
