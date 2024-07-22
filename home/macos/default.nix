@@ -14,5 +14,6 @@
     # code editing
     vscode
     nil
+    net-news-wire
   ];
 }
