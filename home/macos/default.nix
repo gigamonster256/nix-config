@@ -7,6 +7,7 @@
 # (some sort of merging difference between the two ways of building?)
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    raycast
     iterm2
     pinentry_mac
     trilium-desktop
