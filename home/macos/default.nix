@@ -15,5 +15,6 @@
     vscode
     nil
     net-news-wire
+    bitwarden-cli
   ];
 }
