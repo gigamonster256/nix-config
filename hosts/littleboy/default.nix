@@ -6,9 +6,7 @@
   config,
   pkgs,
   ...
-}: let
-  hyprland-pkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-in {
+}: {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
@@ -82,10 +80,7 @@ in {
     catppuccin-sddm
   ];
 
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  };
+  programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   services.displayManager.sddm = {
     enable = true;
@@ -112,8 +107,6 @@ in {
       intel-compute-runtime
       intel-media-driver
     ];
-    package = pkgs.mesa.drivers;
-    # package = hyprland-pkgs.mesa.drivers;
   };
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
