@@ -34,11 +34,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     neovim-config = {
       url = "github:gigamonster256/neovim-config";
       flake = false;
