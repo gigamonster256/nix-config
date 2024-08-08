@@ -7,7 +7,7 @@
         {
           foreground = "p:blue";
           style = "plain";
-          template = "{{ .UserName }}@{{ .HostName }} ";
+          template = "{{ .UserName }}@{{ .HostName }}";
           type = "session";
         }
         {
