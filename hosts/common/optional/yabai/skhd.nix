@@ -58,15 +58,15 @@
   shift + alt - n : yabai -m window --space next;
 
   # move window to space #
-  shift + alt - 1 : yabai -m window --space 1;
-  shift + alt - 2 : yabai -m window --space 2;
-  shift + alt - 3 : yabai -m window --space 3;
-  shift + alt - 4 : yabai -m window --space 4;
-  shift + alt - 5 : yabai -m window --space 5;
-  shift + alt - 6 : yabai -m window --space 6;
-  shift + alt - 7 : yabai -m window --space 7;
-  shift + alt - 8 : yabai -m window --space 8;
-  shift + alt - 9 : yabai -m window --space 9;
+  shift + alt - 1 : yabai -m window --space 1 --focus;
+  shift + alt - 2 : yabai -m window --space 2 --focus;
+  shift + alt - 3 : yabai -m window --space 3 --focus;
+  shift + alt - 4 : yabai -m window --space 4 --focus;
+  shift + alt - 5 : yabai -m window --space 5 --focus;
+  shift + alt - 6 : yabai -m window --space 6 --focus;
+  shift + alt - 7 : yabai -m window --space 7 --focus;
+  shift + alt - 8 : yabai -m window --space 8 --focus;
+  shift + alt - 9 : yabai -m window --space 9 --focus;
 
   # -- Starting/Stopping/Restarting Yabai --
 
