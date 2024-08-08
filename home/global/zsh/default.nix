@@ -52,6 +52,7 @@
       ll = "ls -l";
       la = "ls -la";
       l = "ls";
+      gr = "cd $(git rev-parse --show-toplevel)";
     };
   };
 }
