@@ -20,4 +20,5 @@ in {
   sketchybar-plugins = withAllFarm "sketchybar-plugins" (import ./sketchybar-plugins {inherit pkgs;});
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes {inherit pkgs;});
+  manga-tui = pkgs.callPackage ./manga-tui.nix {};
 }
