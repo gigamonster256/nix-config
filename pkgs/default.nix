@@ -11,7 +11,7 @@
         paths = pkgs.lib.attrValues pkgs';
       };
     };
-in {
+in rec {
   # themes avilable in $out/share/sddm/themes/<package-name>
   sddm-themes = withAllFlat "sddm-themes" (import ./sddm-themes {inherit pkgs;});
   # themes available in $out/share/btop/themes/<theme-name>.theme
@@ -21,4 +21,9 @@ in {
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes {inherit pkgs;});
   manga-tui = pkgs.callPackage ./manga-tui.nix {};
+  inherit
+    (pkgs.callPackage ./electron {})
+    electron_31-bin
+    ;
+  electron_31 = electron_31-bin;
 }
