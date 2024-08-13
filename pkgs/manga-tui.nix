@@ -3,8 +3,6 @@
   stdenv,
   rustPlatform,
   fetchFromGitHub,
-  cargo,
-  rustc,
   darwin,
   openssl,
   pkg-config,
