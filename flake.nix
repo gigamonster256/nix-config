@@ -31,7 +31,7 @@
 
     nh_darwin = {
       url = "github:ToyVo/nh_darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     neovim-config = {

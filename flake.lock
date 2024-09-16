@@ -664,7 +664,7 @@
         "devshell": "devshell_4",
         "flake-parts": "flake-parts_4",
         "nixpkgs": [
-          "nixpkgs"
+          "nixpkgs-unstable"
         ]
       },
       "locked": {
