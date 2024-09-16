@@ -16,5 +16,6 @@
     nil
     net-news-wire
     bitwarden-cli
+    wireshark
   ];
 }
