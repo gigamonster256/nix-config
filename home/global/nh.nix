@@ -16,5 +16,4 @@ in {
   ];
   # home.sessionVariables.FLAKE = lib.mkDefault "github:gigamonster256/nix-config";
   home.sessionVariables.FLAKE = "${config.home.homeDirectory}/projects/nix-config";
-  home.shellAliases.nh = lib.mkIf isDarwin "nh_darwin";
 }
