@@ -15,6 +15,9 @@
       # see https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/ne/neovim-unwrapped/treesitter-parsers.nix
       # for details (or the equivalent file in neovim nightly/your nixpkgs checkout)
       nix
+      elixir
+      python
+      cpp
     ]);
 
   treesitter-parsers = pkgs.symlinkJoin {
