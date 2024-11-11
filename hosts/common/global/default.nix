@@ -1,4 +1,4 @@
-{
+{config, lib, ...}: {
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -18,5 +18,6 @@
       "gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc="
       "eigenvalue.cachix.org-1:ykerQDDa55PGxU25CETy9wF6uVDpadGGXYrFNJA3TUs="
     ];
+    trusted-users = ["root"] ++ lib.attrNames config.users.users;
   };
 }
