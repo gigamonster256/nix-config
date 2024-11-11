@@ -27,6 +27,10 @@
     };
   };
 
+  home.packages = with pkgs; [
+    devenv
+  ];
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
