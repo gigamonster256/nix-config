@@ -15,7 +15,7 @@
     vscode
     nil
     net-news-wire
-    bitwarden-cli
+    # bitwarden-cli # broken on 24.11 so far
     wireshark
   ];
 }

@@ -5,9 +5,6 @@
   ...
 }: {
   imports = [
-    outputs.darwinModules.wireless
-    outputs.darwinModules.wireless-activation-script
-
     ../common/global
 
     ../common/optional/yabai
