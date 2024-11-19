@@ -8,7 +8,7 @@
   inherit (pkgs.stdenv) isDarwin;
   nh-pkg =
     if isDarwin
-    then inputs.nh_darwin.packages.${pkgs.stdenv.hostPlatform.system}.default
+    then inputs.nh_plus.packages.${pkgs.stdenv.hostPlatform.system}.default
     else pkgs.nh;
 in {
   home.packages = [
