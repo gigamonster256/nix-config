@@ -5,3 +5,6 @@ result
 
 # trilium source
 trilium*.zip
+
+# pre-commit hooks
+.pre-commit-config.yaml

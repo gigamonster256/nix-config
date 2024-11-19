@@ -43,6 +43,8 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
   };
 
   outputs = {
@@ -128,10 +130,18 @@
     (flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = pkgsFor.${system};
-      in {
+      in rec {
         packages = import ./pkgs {inherit pkgs;};
         formatter = pkgs.alejandra;
-        devShells = import ./shell.nix {inherit pkgs;};
+        checks = {
+          pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              alejandra.enable = true;
+            };
+          };
+        };
+        devShells = let inherit (checks.pre-commit-check) shellHook; in import ./shell.nix {inherit pkgs shellHook;};
       }
     ))
     [
