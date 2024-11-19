@@ -1,4 +1,8 @@
-{config, lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   nix.settings = {
     experimental-features = [
       "nix-command"
