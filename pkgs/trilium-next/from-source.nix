@@ -107,7 +107,7 @@ in
     '';
 
     meta = with lib; {
-      description = "Trilium Next Notes";
+      description = "Open-source, cross-platform hierarchical note taking application with focus on building large personal knowledge bases.";
       homepage = "https://github.com/TriliumNext/Notes";
       license = licenses.agpl3Plus;
     };

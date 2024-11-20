@@ -7,14 +7,8 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    # use native macOS arm version of trilium-desktop
-    trilium-desktop = prev.trilium-desktop.overrideAttrs (oldAttrs: {
-      meta.platforms = [
-        "aarch64-darwin"
-      ];
-      version = "0.63.6";
-      src = ../trilium-mac-arm64-0.63.6.zip;
-    });
+    # custom trilium-next-desktop package
+    trilium-desktop = final.trilium-next-desktop;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

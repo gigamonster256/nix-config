@@ -58,6 +58,7 @@
         ...
       }: {
         formatter = pkgs.alejandra;
+        packages = import ./pkgs {inherit pkgs;};
 
         pre-commit.settings.hooks.alejandra.enable = true;
         devShells.default = config.pre-commit.devShell;
