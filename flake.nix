@@ -14,7 +14,7 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lite-config.url = "github:yelite/lite-config";
+    lite-config.url = "github:gigamonster256/lite-config";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -86,9 +86,6 @@
           };
         };
 
-        # dummy home manager module to enable home manager
-        # need to ask upstream to fix this
-        homeModules = [{}];
         homeConfigurations = {
           "caleb@chnorton-mbp" = import ./home/chnorton-mbp.nix;
           "caleb@littleboy" = import ./home/littleboy.nix;
