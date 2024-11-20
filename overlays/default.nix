@@ -15,13 +15,6 @@
       version = "0.63.6";
       src = ../trilium-mac-arm64-0.63.6.zip;
     });
-
-    # something funky is going on with gitstatus
-    gitstatus = prev.gitstatus.overrideAttrs (oldAttrs: {
-      installCheckPhase = ''
-        echo "skipping tests"
-      '';
-    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
