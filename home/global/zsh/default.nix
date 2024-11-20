@@ -13,15 +13,9 @@
 
   programs.zsh = {
     enable = true;
-    syntaxHighlighting = {
-      enable = true;
-    };
-    autosuggestion = {
-      enable = true;
-    };
-    historySubstringSearch = {
-      enable = true;
-    };
+    syntaxHighlighting.enable = true;
+    autosuggestion.enable = true;
+    historySubstringSearch.enable = true;
     initExtra = ''
       # Plugins
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
@@ -40,7 +34,7 @@
 
       # Shell integrations
       # fzf
-      eval "$(fzf --zsh)"
+      eval "$(${pkgs.fzf}/bin/fzf --zsh)"
       # catppuccin mocha theme
       export FZF_DEFAULT_OPTS=" \
         --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
