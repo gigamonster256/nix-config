@@ -21,7 +21,6 @@ in rec {
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes {inherit pkgs;});
   trilium-next = pkgs.callPackage ./triliumNext.nix {};
-  manga-tui = pkgs.callPackage ./manga-tui.nix {};
   inherit
     (pkgs.callPackage ./electron {})
     electron_31-bin
