@@ -1,0 +1,11 @@
+diff --git a/plugins/clock.sh b/plugins/clock.sh
+index 6cc739b..d5cdcda 100755
+--- a/plugins/clock.sh
++++ b/plugins/clock.sh
+@@ -4,5 +4,5 @@
+ # the item invoking this script:
+ # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
+ 
+-sketchybar --set "$NAME" label="$(date '+%d/%m %H:%M')"
++sketchybar --set "$NAME" label="$(date '+%m/%d %H:%M')"
+ 
