@@ -18,6 +18,7 @@
       elixir
       python
       cpp
+      java
     ]);
 
   treesitter-parsers = pkgs.symlinkJoin {
