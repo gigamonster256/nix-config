@@ -111,8 +111,6 @@
 
     installPhase = ''
       mkdir -p $out/Applications
-      ls -al
-      ls -al ..
       cp -r '../TriliumNext Notes.app' $out/Applications
     '';
   };
