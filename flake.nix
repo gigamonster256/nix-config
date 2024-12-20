@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nh = {
-      url = "github:gigamonster256/nh";
+      url = "github:viperML/nh";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     neovim-config = {

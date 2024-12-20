@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "devshell": {
-      "inputs": {
-        "nixpkgs": [
-          "nh_plus",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722113426,
-        "narHash": "sha256-Yo/3loq572A8Su6aY5GP56knpuKYRvM2a1meP9oJZCw=",
-        "owner": "numtide",
-        "repo": "devshell",
-        "rev": "67cce7359e4cd3c45296fb4aaf6a19e2a9c757ae",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "devshell",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -176,15 +155,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1733434973,
-        "narHash": "sha256-mswdAo9TmKFv2og38CKksX4XUM2Z21rd8Lz8zRCrfjM=",
-        "owner": "gigamonster256",
+        "lastModified": 1733912267,
+        "narHash": "sha256-I3ubew5jt8YZ27AOtIodRAYo0aew6wxY8UkWCSqz6B4=",
+        "owner": "viperML",
         "repo": "nh",
-        "rev": "89fc8bdb36a18c0c85ec312bd33f2386a5c4a46a",
+        "rev": "6a69a145b0c7dbd5616bbded512b8bf8b5d2f8a4",
         "type": "github"
       },
       "original": {
-        "owner": "gigamonster256",
+        "owner": "viperML",
         "repo": "nh",
         "type": "github"
       }
