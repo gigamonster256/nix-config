@@ -19,10 +19,9 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nh_plus = {
-      url = "github:ToyVo/nh_plus";
+    nh = {
+      url = "github:gigamonster256/nh";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.flake-parts.follows = "flake-parts";
     };
     neovim-config = {
       url = "github:gigamonster256/neovim-config";

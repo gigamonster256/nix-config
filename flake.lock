@@ -169,27 +169,23 @@
         "type": "github"
       }
     },
-    "nh_plus": {
+    "nh": {
       "inputs": {
-        "devshell": "devshell",
-        "flake-parts": [
-          "flake-parts"
-        ],
         "nixpkgs": [
           "nixpkgs-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1734116841,
-        "narHash": "sha256-/oeuhLjH9XYt4HWQ4NfIQBEwrpK7JK5gEgPX7BQ3uo0=",
-        "owner": "ToyVo",
-        "repo": "nh_plus",
-        "rev": "efd625b90d6ede8987d7f59bd0a3b8f424e2d5f3",
+        "lastModified": 1733434973,
+        "narHash": "sha256-mswdAo9TmKFv2og38CKksX4XUM2Z21rd8Lz8zRCrfjM=",
+        "owner": "gigamonster256",
+        "repo": "nh",
+        "rev": "89fc8bdb36a18c0c85ec312bd33f2386a5c4a46a",
         "type": "github"
       },
       "original": {
-        "owner": "ToyVo",
-        "repo": "nh_plus",
+        "owner": "gigamonster256",
+        "repo": "nh",
         "type": "github"
       }
     },
@@ -264,7 +260,7 @@
         "home-manager": "home-manager",
         "lite-config": "lite-config",
         "neovim-config": "neovim-config",
-        "nh_plus": "nh_plus",
+        "nh": "nh",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
