@@ -6,7 +6,7 @@ stdenv.mkDerivation {
   name = "builtin-sketchybar-plugins";
   inherit (sketchybar) src;
   dontBuild = true;
-  patches = [../patches/sketchybar-american-calendar.patch];
+  patches = [../patches/sketchybar-date.patch];
   installPhase = ''
     runHook preInstall
 
