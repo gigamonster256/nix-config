@@ -8,7 +8,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     raycast
-    iterm2
     pinentry_mac
     trilium-desktop
     # code editing

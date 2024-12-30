@@ -11,6 +11,7 @@
     ./nvim
     ./nh.nix
     ./nix.nix
+    ./ghostty.nix
   ];
 
   fonts.fontconfig.enable = true;

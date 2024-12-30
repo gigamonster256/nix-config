@@ -29,7 +29,7 @@
       zstyle ':completion:*' menu no
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-      # tmux integration # does not work when using iterm2 with tmux control mode
+      # tmux integration
       # zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
       # Shell integrations
