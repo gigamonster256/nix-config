@@ -135,11 +135,9 @@
     "neovim-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1720296065,
-        "narHash": "sha256-UZQRl1ftVfcdSXosqCP2an4UfdC+VPHyd6q85KCEbGE=",
         "owner": "gigamonster256",
         "repo": "neovim-config",
-        "rev": "bed29d674c2efcb78ed0b4b5da2abf0f4c777a78",
+        "rev": "e6f7b5dda6e2d8f931d333e5b3d84a0ab55ae7db",
         "type": "github"
       },
       "original": {
