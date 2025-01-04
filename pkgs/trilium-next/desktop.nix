@@ -16,7 +16,7 @@
   metaCommon,
 }: let
   pname = "trilium-next-desktop";
-  version = "0.90.8";
+  version = "0.90.12";
 
   source = os: arch: hash: {
     url = "https://github.com/TriliumNext/Notes/releases/download/v${version}/TriliumNextNotes-v${version}-${os}-${arch}.zip";
@@ -30,7 +30,7 @@
     x86_64-linux = linuxSource "x64" lib.fakeHash;
     aarch64-linux = linuxSource "arm64" lib.fakeHash;
     x86_64-darwin = darwinSource "x64" lib.fakeHash;
-    aarch64-darwin = darwinSource "arm64" "sha256-4qvJHx72ImjK9VnsfJa8G9i4OsF3oqx9mJylDEW6Tn4=";
+    aarch64-darwin = darwinSource "arm64" "sha256-KFuL9bne9NkpXNSnm5iR1JhgtWrgdF4KGfETSLFswdg=";
   };
 
   src = fetchurl sources.${stdenv.hostPlatform.system};
