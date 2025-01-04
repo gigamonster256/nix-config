@@ -12,8 +12,8 @@
     homeDirectory = "/home/caleb";
   };
 
-  home.packages = with pkgs; [
-    kitty
-    firefox
+  home.packages = [
+    pkgs.kitty
+    pkgs.firefox
   ];
 }

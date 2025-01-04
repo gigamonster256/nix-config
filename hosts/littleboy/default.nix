@@ -56,13 +56,8 @@
     generateKey = false;
   };
 
-  networking.wireless = {
-    networks = {
-      "@HOME_SSID@" = {
-        authProtocols = ["WPA-PSK"]; # cheap laptop is dumb and can't do WPA3
-      };
-    };
-  };
+  # littleboy cant do WPA3
+  networking.wireless.fallbackToWPA2 = lib.mkForce true;
 
   # Set your hostname
   networking.hostName = "littleboy";
@@ -70,17 +65,19 @@
   # Set your time zone
   time.timeZone = "America/Chicago";
 
-  # enable sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  services.printing.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
     git
     catppuccin-sddm
+    brightnessctl
   ];
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   services.displayManager.sddm = {
     enable = true;
@@ -98,11 +95,7 @@
     enableSSHSupport = true;
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-
+  hardware.graphics = {
     extraPackages = with pkgs; [
       intel-compute-runtime
       intel-media-driver
