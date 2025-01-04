@@ -20,6 +20,7 @@ in {
       background-opacity = 0.85
 
       mouse-hide-while-typing = true
+      focus-follows-mouse = true
 
       ${window-style}
 
