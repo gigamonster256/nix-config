@@ -1,9 +1,12 @@
 {
-  home.packages = [
-    # pkgs.ghostty
-  ];
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  home.packages = lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.unstable.ghostty;
 
-  home.file."./.config/ghostty/config" = {
+  home.file."${config.xdg.configHome}/ghostty/config" = {
     text = ''
       # use zsh on path (for nix)
       command = zsh
@@ -12,6 +15,8 @@
       background-opacity = 0.85
 
       mouse-hide-while-typing = true
+
+      config-file = ?nix-escape-hatch
     '';
   };
 }
