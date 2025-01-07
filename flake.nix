@@ -24,8 +24,8 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     neovim-config = {
-      url = "github:gigamonster256/neovim-config";
-      flake = false;
+      url = "github:gigamonster256/neovim-config/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
@@ -38,11 +38,7 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    flake-parts,
-    ...
-  }: let
+  outputs = inputs @ {flake-parts, ...}: let
     overlays = import ./overlays {inherit inputs;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
