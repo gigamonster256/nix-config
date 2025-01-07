@@ -27,4 +27,5 @@ in rec {
     electron_31-bin
     ;
   electron_31 = electron_31-bin;
+  fv = pkgs.callPackage ./fv.nix {};
 }
