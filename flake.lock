@@ -105,6 +105,26 @@
         "type": "github"
       }
     },
+    "gigamonster256-nur": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1736315198,
+        "narHash": "sha256-EJSTqEopJSB8iBhxMU+iOCO3z5Mt8Eyysz1xDBNMPiM=",
+        "owner": "gigamonster256",
+        "repo": "nur-packages",
+        "rev": "af78a09795e855a6ddb492e936d892f2feebe47c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
     "git-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -2532,6 +2552,7 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "gigamonster256-nur": "gigamonster256-nur",
         "git-hooks-nix": "git-hooks-nix",
         "home-manager": "home-manager",
         "lite-config": "lite-config",

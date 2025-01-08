@@ -14,6 +14,10 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    gigamonster256-nur = {
+      url = "github:gigamonster256/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     lite-config.url = "github:gigamonster256/lite-config";
     sops-nix = {
       url = "github:Mic92/sops-nix";
