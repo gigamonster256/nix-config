@@ -1,14 +1,10 @@
-{
-  pkgs,
-  inputs,
-  outputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../common/global
 
-    ../common/optional/yabai
+    # ../common/optional/yabai
     ../common/optional/sketchybar
+    ../common/optional/aerospace
   ];
 
   services.nix-daemon.enable = true;

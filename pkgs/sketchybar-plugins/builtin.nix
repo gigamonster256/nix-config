@@ -1,12 +1,12 @@
 {
-  stdenv,
+  stdenvNoCC,
   sketchybar,
 }:
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   name = "builtin-sketchybar-plugins";
   inherit (sketchybar) src;
   dontBuild = true;
-  patches = [../patches/sketchybar-date.patch];
+  patches = [./sketchybar-date.patch];
   installPhase = ''
     runHook preInstall
 

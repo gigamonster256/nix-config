@@ -1,11 +1,15 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   services.sketchybar = {
     enable = true;
     config = import ./config.nix {
-      inherit pkgs;
+      inherit config pkgs;
     };
   };
-  fonts.packages = with pkgs; [
-    sketchybar-app-font
+  fonts.packages = [
+    pkgs.sketchybar-app-font
   ];
 }

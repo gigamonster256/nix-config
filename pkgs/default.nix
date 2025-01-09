@@ -2,13 +2,13 @@
 # You can build them using 'nix build .#example'
 {pkgs}: let
   attrsToPaths = attrs: pkgs.lib.mapAttrsToList (name: path: {inherit name path;}) attrs;
-  withAllFarm = name: pkgs': pkgs' // {all = pkgs.linkFarm name (attrsToPaths pkgs');};
-  withAllFlat = name: pkgs':
-    pkgs'
+  withAllFarm = name: drvs: drvs // {all = pkgs.linkFarm name (attrsToPaths drvs);};
+  withAllFlat = name: drvs:
+    drvs
     // {
       all = pkgs.symlinkJoin {
         inherit name;
-        paths = pkgs.lib.attrValues pkgs';
+        paths = pkgs.lib.attrValues drvs;
       };
     };
 in rec {
