@@ -69,7 +69,11 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays = builtins.attrValues overlays;
+          overlays =
+            (builtins.attrValues overlays)
+            ++ [
+              inputs.neovim-config.overlays.default
+            ];
           exportOverlayPackages = false;
           setPerSystemPkgs = false;
         };

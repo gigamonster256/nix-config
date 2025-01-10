@@ -28,7 +28,7 @@
   };
 
   home.packages = [
-    inputs.neovim-config.packages.${pkgs.system}.default
+    pkgs.neovim
     pkgs.devenv
   ];
 
