@@ -76,12 +76,8 @@
 
         hostModuleDir = ./hosts;
         hosts = {
-          chnorton-mbp = {
-            system = "aarch64-darwin";
-          };
-          littleboy = {
-            system = "x86_64-linux";
-          };
+          chnorton-mbp.system = "aarch64-darwin";
+          littleboy.system = "x86_64-linux";
         };
 
         homeConfigurations = {
