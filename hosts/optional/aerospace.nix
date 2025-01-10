@@ -20,7 +20,7 @@
       ];
 
       mode.main.binding = let
-        workspaces = lib.lists.map toString (lib.lists.range 1 9);
+        workspaces = lib.lists.map toString (lib.lists.range 1 9); # ++ ["A"];
         forAllWorkspaces = keyfn: actionfn:
           builtins.listToAttrs (lib.lists.map
             (ws: {
@@ -28,8 +28,8 @@
               value = actionfn ws;
             })
             workspaces);
-        focusWorkspaces = forAllWorkspaces (ws: "alt-${ws}") (ws: "workspace ${ws}");
-        moveToWorkspace = forAllWorkspaces (ws: "alt-shift-${ws}") (ws: "move-node-to-workspace ${ws}");
+        focusWorkspaces = forAllWorkspaces (ws: "alt-${lib.toLower ws}") (ws: "workspace ${ws}");
+        moveToWorkspace = forAllWorkspaces (ws: "alt-shift-${lib.toLower ws}") (ws: "move-node-to-workspace ${ws}");
       in
         focusWorkspaces
         // moveToWorkspace;
