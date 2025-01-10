@@ -4,7 +4,7 @@ keys:
   - &hosts
     - &littleboy age1ydrhl3zfgp8dur2ve6qf3q5xfvlr95rsgxec97t2dqxdup52d5aq89va8j
 creation_rules:
-  - path_regex: hosts/common/secrets.ya?ml$
+  - path_regex: hosts/secrets.ya?ml$
     key_groups:
       - age:
           - *littleboy
