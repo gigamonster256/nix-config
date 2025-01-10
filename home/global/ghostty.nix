@@ -21,8 +21,8 @@
       else "macos-titlebar-style = hidden";
   in {
     text = ''
-      # use zsh on path (for nix)
-      command = zsh
+      # use nix shell
+      command = ${lib.getExe config.programs.zsh.package}
 
       theme = catppuccin-mocha
       background-opacity = 0.85

@@ -16,7 +16,7 @@
     syntaxHighlighting.enable = true;
     autosuggestion.enable = true;
     # historySubstringSearch.enable = true;
-    initExtra = ''
+    initExtraBeforeCompInit = ''
       # Plugins
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
