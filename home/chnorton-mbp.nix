@@ -21,6 +21,7 @@
         net-news-wire
         # bitwarden-cli # broken on 24.11 so far
         wireshark
+        slack
         ;
     };
   };

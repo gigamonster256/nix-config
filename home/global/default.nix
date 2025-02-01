@@ -27,10 +27,15 @@
     };
   };
 
-  home.packages = [
-    pkgs.neovim
-    pkgs.devenv
-  ];
+  home.packages = builtins.attrValues {
+    inherit
+      (pkgs)
+      neovim
+      devenv
+      ;
+  };
+
+  home.sessionVariables.EDITOR = "nvim";
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
