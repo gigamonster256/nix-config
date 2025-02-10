@@ -6,39 +6,32 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    gigamonster256-nur = {
-      url = "github:gigamonster256/nur-packages";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    gigamonster256-nur.url = "github:gigamonster256/nur-packages";
+    gigamonster256-nur.inputs.nixpkgs.follows = "nixpkgs";
+
     lite-config.url = "github:gigamonster256/lite-config";
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    nh = {
-      url = "github:viperML/nh";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    neovim-config = {
-      url = "github:gigamonster256/neovim-config/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    spicetify-nix = {
-      url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    git-hooks-nix = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    nh.url = "github:viperML/nh";
+    nh.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    neovim-config.url = "github:gigamonster256/neovim-config/nvf";
+    neovim-config.inputs.nixpkgs.follows = "nixpkgs";
+
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
+    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    git-hooks-nix.url = "github:cachix/git-hooks.nix";
+    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {flake-parts, ...}: let
@@ -58,7 +51,12 @@
         formatter = pkgs.alejandra;
 
         pre-commit.settings.hooks.alejandra.enable = true;
-        devShells.default = config.pre-commit.devShell;
+        devShells.default = import ./shell.nix {
+          inherit pkgs;
+          additionalShells = [
+            config.pre-commit.devShell
+          ];
+        };
       };
       flake = {
         inherit overlays;
