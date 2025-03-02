@@ -1,8 +1,5 @@
 {pkgs, ...}: {
   imports = [
-    ./global
-
-    ./optional/spotify.nix
     ./optional/btop.nix
   ];
 
@@ -25,4 +22,6 @@
         ;
     };
   };
+
+  programs.spicetify.enable = true;
 }

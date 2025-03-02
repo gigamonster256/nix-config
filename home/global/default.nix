@@ -11,6 +11,7 @@
     ./nh.nix
     ./nix.nix
     ./ghostty.nix
+    ./spicetify.nix
   ];
 
   fonts.fontconfig.enable = true;

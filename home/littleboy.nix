@@ -1,9 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ./global
-
     ./optional/waybar/default.nix
-    ./optional/spotify.nix
     ./optional/btop.nix
   ];
 
@@ -16,4 +13,6 @@
     pkgs.kitty
     pkgs.firefox
   ];
+
+  programs.spicetify.enable = true;
 }

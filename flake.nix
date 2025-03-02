@@ -4,8 +4,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    systems.url = "github:nix-systems/default";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -19,30 +20,36 @@
     lite-config.url = "github:gigamonster256/lite-config";
 
     sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # TODO: Remove once 4.0 is released
     nh.url = "github:viperML/nh";
     nh.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    neovim-config.url = "github:gigamonster256/neovim-config/nvf";
-    neovim-config.inputs.nixpkgs.follows = "nixpkgs";
-
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
-    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    git-hooks-nix.url = "github:cachix/git-hooks.nix";
-    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks.url = "github:cachix/git-hooks.nix";
+    git-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {flake-parts, ...}: let
+  outputs = inputs @ {
+    flake-parts,
+    lite-config,
+    git-hooks,
+    ...
+  }: let
     overlays = import ./overlays {inherit inputs;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
-        inputs.git-hooks-nix.flakeModule
-        inputs.lite-config.flakeModule
+        git-hooks.flakeModule
+        lite-config.flakeModule
       ];
-      systems = import inputs.systems;
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
       perSystem = {
         config,
         pkgs,
@@ -53,9 +60,7 @@
         pre-commit.settings.hooks.alejandra.enable = true;
         devShells.default = import ./shell.nix {
           inherit pkgs;
-          additionalShells = [
-            config.pre-commit.devShell
-          ];
+          additionalShells = [config.pre-commit.devShell];
         };
       };
       flake = {
@@ -67,11 +72,7 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays =
-            (builtins.attrValues overlays)
-            ++ [
-              inputs.neovim-config.overlays.default
-            ];
+          overlays = builtins.attrValues overlays;
           exportOverlayPackages = false;
           setPerSystemPkgs = false;
         };
@@ -82,6 +83,7 @@
           littleboy.system = "x86_64-linux";
         };
 
+        homeModules = [./home/global];
         homeConfigurations = {
           "caleb@chnorton-mbp" = import ./home/chnorton-mbp.nix;
           "caleb@littleboy" = import ./home/littleboy.nix;
