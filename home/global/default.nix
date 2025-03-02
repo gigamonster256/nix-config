@@ -8,6 +8,7 @@
   # You can import other home-manager modules here
   imports = [
     ./zsh
+    ./waybar
     ./nh.nix
     ./nix.nix
     ./ghostty.nix

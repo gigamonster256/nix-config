@@ -1,9 +1,4 @@
 {pkgs, ...}: {
-  imports = [
-    ./optional/waybar/default.nix
-    ./optional/btop.nix
-  ];
-
   home = {
     username = "caleb";
     homeDirectory = "/home/caleb";
@@ -15,4 +10,12 @@
   ];
 
   programs.spicetify.enable = true;
+  programs.waybar.enable = true;
+  programs.ghostty.enable = true;
+
+  # TODO: refactor this
+  programs.btop.enable = true;
+  home.file."./.config/btop/themes" = {
+    source = "${pkgs.btop-themes.catppuccin}/share/btop/themes";
+  };
 }
