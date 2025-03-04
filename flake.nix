@@ -17,6 +17,9 @@
     gigamonster256-nur.url = "github:gigamonster256/nur-packages";
     gigamonster256-nur.inputs.nixpkgs.follows = "nixpkgs";
 
+    neovim.url = "github:gigamonster256/neovim-config/nvf";
+    neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     lite-config.url = "github:gigamonster256/lite-config";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -37,6 +40,7 @@
     flake-parts,
     lite-config,
     git-hooks,
+    neovim,
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
@@ -72,7 +76,7 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays = builtins.attrValues overlays;
+          overlays = (builtins.attrValues overlays) ++ [neovim.overlays.default];
           exportOverlayPackages = false;
           setPerSystemPkgs = false;
         };
