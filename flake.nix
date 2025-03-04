@@ -92,7 +92,6 @@
           "caleb@chnorton-mbp" = import ./home/chnorton-mbp.nix;
           "caleb@littleboy" = import ./home/littleboy.nix;
           chnorton = import ./home/chnorton.nix;
-          "chnorton@olympus" = import ./home/olympus.nix;
         };
       };
     };
