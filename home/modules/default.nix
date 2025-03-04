@@ -29,19 +29,19 @@
     };
   };
 
-  home.packages = builtins.attrValues {
-    inherit
-      (pkgs)
-      neovim
-      devenv
-      ;
+  home = {
+    packages = builtins.attrValues {
+      inherit
+        (pkgs)
+        neovim
+        devenv
+        ;
+    };
+    sessionVariables.EDITOR = "nvim";
+    # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+    stateVersion = "23.11";
   };
-
-  home.sessionVariables.EDITOR = "nvim";
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
 }

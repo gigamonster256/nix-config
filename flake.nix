@@ -50,10 +50,6 @@
         git-hooks.flakeModule
         lite-config.flakeModule
       ];
-      systems = [
-        "aarch64-darwin"
-        "x86_64-linux"
-      ];
       perSystem = {
         config,
         pkgs,
@@ -77,21 +73,26 @@
         nixpkgs = {
           config.allowUnfree = true;
           overlays = (builtins.attrValues overlays) ++ [neovim.overlays.default];
-          exportOverlayPackages = false;
-          setPerSystemPkgs = false;
+          setPerSystemPkgs = true;
         };
 
-        hostModuleDir = ./hosts;
+        hostModules = [./hosts/modules];
         hosts = {
-          chnorton-mbp.system = "aarch64-darwin";
-          littleboy.system = "x86_64-linux";
+          chnorton-mbp = {
+            system = "aarch64-darwin";
+            modules = [./hosts/chnorton-mbp];
+          };
+          littleboy = {
+            system = "x86_64-linux";
+            modules = [./hosts/littleboy];
+          };
         };
 
-        homeModules = [./home/global];
+        homeModules = [./home/modules];
         homeConfigurations = {
-          "caleb@chnorton-mbp" = import ./home/chnorton-mbp.nix;
-          "caleb@littleboy" = import ./home/littleboy.nix;
-          chnorton = import ./home/chnorton.nix;
+          "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
+          "caleb@littleboy" = {modules = [./home/littleboy.nix];};
+          chnorton = {modules = [./home/chnorton.nix];};
         };
       };
     };

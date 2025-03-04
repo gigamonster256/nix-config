@@ -5,7 +5,6 @@
   ...
 }: {
   services.aerospace = {
-    enable = true;
     settings = let
       inherit (config.services) sketchybar;
     in {

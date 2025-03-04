@@ -222,11 +222,11 @@
     },
     "lite-config": {
       "locked": {
-        "lastModified": 1732128972,
-        "narHash": "sha256-njmYFq4ECOynk5HIt3fONgr932IRnCpp0m5scon5iPI=",
+        "lastModified": 1741118383,
+        "narHash": "sha256-zQrn6bLM6F13tdsnL8DJaoNcLPcoSRitn55DSV7JQWU=",
         "owner": "gigamonster256",
         "repo": "lite-config",
-        "rev": "d060f48bb119c5e4396adbcf29f0c55c404e97f6",
+        "rev": "c561b2927ed7fd92e1a25ec5813a31deee830942",
         "type": "github"
       },
       "original": {

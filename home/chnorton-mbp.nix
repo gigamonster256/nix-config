@@ -1,7 +1,5 @@
 {pkgs, ...}: {
   home = {
-    username = "caleb";
-    homeDirectory = "/Users/caleb";
     packages = builtins.attrValues {
       inherit
         (pkgs)

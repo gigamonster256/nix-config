@@ -1,13 +1,12 @@
-{
+{config, ...}: {
   services = {
     yabai = let
       yabaiConfig = import ./yabai.nix;
     in {
-      enable = true;
       inherit (yabaiConfig) config extraConfig;
     };
     skhd = {
-      enable = true;
+      enable = config.services.yabai.enable;
       skhdConfig = import ./skhd.nix;
     };
   };

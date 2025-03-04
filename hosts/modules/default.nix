@@ -3,6 +3,12 @@
   lib,
   ...
 }: {
+  imports = [
+    ./sketchybar
+    ./yabai
+
+    ./aerospace.nix
+  ];
   nix.settings = {
     experimental-features = [
       "nix-command"

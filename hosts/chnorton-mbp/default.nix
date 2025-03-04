@@ -1,12 +1,4 @@
 {pkgs, ...}: {
-  imports = [
-    ../global
-
-    # ../common/optional/yabai
-    ../optional/sketchybar
-    ../optional/aerospace.nix
-  ];
-
   services.nix-daemon.enable = true;
 
   security = {pam.enableSudoTouchIdAuth = true;};
@@ -20,6 +12,8 @@
     enable = true;
     enableSSHSupport = true;
   };
+  services.sketchybar.enable = true;
+  services.aerospace.enable = true;
 
   users.users = {
     # Replace with your username

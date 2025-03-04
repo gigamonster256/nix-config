@@ -1,9 +1,4 @@
 {pkgs, ...}: {
-  home = {
-    username = "caleb";
-    homeDirectory = "/home/caleb";
-  };
-
   home.packages = [
     pkgs.kitty
     pkgs.firefox
