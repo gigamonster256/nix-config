@@ -13,6 +13,7 @@
     ./nix.nix
     ./ghostty.nix
     ./spicetify.nix
+    ./macos-trampolines
   ];
 
   fonts.fontconfig.enable = true;
