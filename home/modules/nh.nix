@@ -1,8 +1,6 @@
 {
-  config,
   inputs,
   pkgs,
-  lib,
   ...
 }: let
   inherit (pkgs.stdenv) isDarwin;
@@ -14,6 +12,5 @@ in {
   home.packages = [
     nh-pkg
   ];
-  # home.sessionVariables.FLAKE = lib.mkDefault "github:gigamonster256/nix-config";
-  home.sessionVariables.NH_FLAKE = "${config.home.homeDirectory}/projects/nix-config";
+  home.sessionVariables.NH_FLAKE = "github:gigamonster256/nix-config";
 }

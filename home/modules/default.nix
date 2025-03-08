@@ -13,6 +13,7 @@
     ./nix.nix
     ./ghostty.nix
     ./spicetify.nix
+    ./firefox.nix
     ./macos-trampolines
   ];
 

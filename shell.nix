@@ -5,6 +5,7 @@
 }:
 pkgs.mkShellNoCC {
   NIX_CONFIG = "extra-experimental-features = nix-command flakes ca-derivations";
+
   nativeBuildInputs = with pkgs; [
     nix
     home-manager
@@ -15,6 +16,10 @@ pkgs.mkShellNoCC {
     gnupg
     age
   ];
+
+  shellHook = ''
+    export NH_FLAKE=`git rev-parse --show-toplevel`
+  '';
 
   inputsFrom = additionalShells;
 }
