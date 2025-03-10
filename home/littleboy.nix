@@ -2,6 +2,7 @@
   home.packages = [
     pkgs.kitty
     pkgs.firefox
+    pkgs.trilium-desktop
   ];
 
   programs.spicetify.enable = true;

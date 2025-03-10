@@ -27,7 +27,7 @@
   darwinSource = source "macos";
 
   sources = {
-    x86_64-linux = linuxSource "x64" lib.fakeHash;
+    x86_64-linux = linuxSource "x64" "sha256-2FmTv9GSP1fZf+6XUc7ba5hTbSsElWfikvB7DgxFIko=";
     aarch64-linux = linuxSource "arm64" lib.fakeHash;
     x86_64-darwin = darwinSource "x64" lib.fakeHash;
     aarch64-darwin = darwinSource "arm64" "sha256-KFuL9bne9NkpXNSnm5iR1JhgtWrgdF4KGfETSLFswdg=";

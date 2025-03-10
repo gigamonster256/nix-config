@@ -30,6 +30,7 @@
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
+      experimental-features = "nix-command flakes";
       # Opinionated: disable global registry
       flake-registry = "";
       # Workaround for https://github.com/NixOS/nix/issues/9574
@@ -48,6 +49,7 @@
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   sops.age = {
     sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

@@ -76,7 +76,6 @@
           setPerSystemPkgs = true;
         };
 
-        hostModules = [./hosts/modules];
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
