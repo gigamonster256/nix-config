@@ -76,10 +76,11 @@
           setPerSystemPkgs = true;
         };
 
+        hostModules = [./hosts/modules];
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
-            modules = [./hosts/chnorton-mbp];
+            modules = [./hosts/chnorton-mbp ./hosts/darwin-modules];
           };
           littleboy = {
             system = "x86_64-linux";
