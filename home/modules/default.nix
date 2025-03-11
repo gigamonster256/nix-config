@@ -15,6 +15,7 @@
     ./spicetify.nix
     ./firefox.nix
     ./macos-trampolines
+    ./jujutsu.nix
   ];
 
   fonts.fontconfig.enable = true;
