@@ -3,6 +3,7 @@
     pkgs.kitty
     pkgs.firefox
     pkgs.trilium-desktop
+    pkgs.jujutsu
   ];
 
   programs.spicetify.enable = true;
