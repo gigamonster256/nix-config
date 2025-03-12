@@ -38,6 +38,7 @@
         (pkgs)
         neovim
         devenv
+        magic-wormhole # TODO try out the rust or go version?
         ;
       inherit (pkgs.unstable)
         hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
