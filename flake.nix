@@ -39,6 +39,8 @@
   };
 
   outputs = inputs @ {
+    self,
+    nixpkgs,
     nixos-hardware,
     flake-parts,
     lite-config,
@@ -72,6 +74,14 @@
         nixosModules = import ./modules/nixos;
         darwinModules = import ./modules/darwin;
         homeManagerModules = import ./modules/home-manager;
+        images.tinyca =
+          (self.nixosConfigurations.tinyca.extendModules {
+            modules = ["${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
+          })
+          .config
+          .system
+          .build
+          .sdImage;
       };
       lite-config = {
         nixpkgs = {
@@ -101,6 +111,7 @@
             modules = [
               sops-nix.nixosModules.sops
               nixos-hardware.nixosModules.raspberry-pi-3
+              "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
               ./hosts/pi-certs
             ];
           };

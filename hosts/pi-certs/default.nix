@@ -6,15 +6,9 @@
 }: {
   imports = [./base.nix ./step-ca];
 
-  environment.systemPackages = with pkgs; [vim git yubikey-manager];
+  environment.systemPackages = with pkgs; [step-cli yubikey-manager];
   services.pcscd.enable = true;
   services.infnoise.enable = true;
-  # users = {
-  #   users.myUsername = {
-  #     password = "myPassword";
-  #     isNormalUser = true;
-  #     extraGroups = ["wheel"];
-  #   };
-  # };
+  services.openssh.enable = true;
   system.stateVersion = "24.11";
 }
