@@ -39,6 +39,9 @@
         neovim
         devenv
         ;
+      inherit (pkgs.unstable)
+        hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
+      ;
     };
     sessionVariables.EDITOR = "nvim";
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
