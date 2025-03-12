@@ -4,17 +4,17 @@
   lib,
   ...
 }: {
-  imports = [./base.nix];
+  imports = [./base.nix ./step-ca];
 
   environment.systemPackages = with pkgs; [vim git yubikey-manager];
   services.pcscd.enable = true;
   services.infnoise.enable = true;
-  users = {
-    users.myUsername = {
-      password = "myPassword";
-      isNormalUser = true;
-      extraGroups = ["wheel"];
-    };
-  };
+  # users = {
+  #   users.myUsername = {
+  #     password = "myPassword";
+  #     isNormalUser = true;
+  #     extraGroups = ["wheel"];
+  #   };
+  # };
   system.stateVersion = "24.11";
 }

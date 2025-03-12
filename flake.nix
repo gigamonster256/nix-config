@@ -44,6 +44,7 @@
     lite-config,
     git-hooks,
     neovim,
+    sops-nix,
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
@@ -83,15 +84,22 @@
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
-            modules = [./hosts/chnorton-mbp ./hosts/darwin-modules];
+            modules = [
+              ./hosts/chnorton-mbp
+              ./hosts/darwin-modules
+            ];
           };
           littleboy = {
             system = "x86_64-linux";
-            modules = [./hosts/littleboy];
+            modules = [
+              sops-nix.nixosModules.sops
+              ./hosts/littleboy
+            ];
           };
           tinyca = {
             system = "aarch64-linux";
             modules = [
+              sops-nix.nixosModules.sops
               nixos-hardware.nixosModules.raspberry-pi-3
               ./hosts/pi-certs
             ];

@@ -1,0 +1,6 @@
+{
+	"ca-url": "https://certs.nortonweb.org",
+	"ca-config": "/etc/step/config/ca.json",
+	"fingerprint": "db6802e07bff58628ff13242f5d7a67f13192fdd5fb82313077d110d735257ec",
+	"root": "/etc/step/certs/root_ca.crt"
+}
