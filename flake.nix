@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
@@ -37,6 +39,7 @@
   };
 
   outputs = inputs @ {
+    nixos-hardware,
     flake-parts,
     lite-config,
     git-hooks,
@@ -85,6 +88,13 @@
           littleboy = {
             system = "x86_64-linux";
             modules = [./hosts/littleboy];
+          };
+          tinyca = {
+            system = "aarch64-linux";
+            modules = [
+              nixos-hardware.nixosModules.raspberry-pi-3
+              ./hosts/pi-certs
+            ];
           };
         };
 
