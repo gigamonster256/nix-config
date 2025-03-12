@@ -18,6 +18,8 @@
   programs.spicetify.enable = true;
   programs.ghostty.enable = true;
   programs.gh.enable = true;
+  programs.eza.enable = true;
+  programs.bat.enable = true;
 
   # TODO: refactor this
   programs.btop.enable = true;
