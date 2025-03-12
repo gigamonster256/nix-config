@@ -17,6 +17,7 @@
 
   programs.spicetify.enable = true;
   programs.ghostty.enable = true;
+  programs.gh.enable = true;
 
   # TODO: refactor this
   programs.btop.enable = true;
