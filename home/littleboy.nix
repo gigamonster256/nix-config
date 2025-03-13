@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   home.packages = [
     pkgs.trilium-desktop
+    pkgs.wpa_supplicant_gui
   ];
 
   programs.spicetify.enable = true;
