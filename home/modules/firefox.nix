@@ -57,6 +57,21 @@
             definedAliases = ["@hm"];
           };
 
+          "Sourcegraph" = {
+            urls = [
+              {
+                template = "https://sourcegraph.com/search";
+                params = [
+                  {
+                    name = "q";
+                    value = "context:global+{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            definedAliases = ["@sg"];
+          };
+
           "Bing".metaData.hidden = true;
           "DuckDuckGo".metaData.hidden = true;
           "Wikipedia (en)".metaData.alias = "@wiki";
