@@ -5,4 +5,6 @@
 
     ./aerospace.nix
   ];
+
+  nix.settings.sandbox = true;
 }
