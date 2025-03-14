@@ -14,6 +14,7 @@
     enable = true;
     address = ""; # all interfaces
     port = 443;
+    openFirewall = true;
     settings =
       (lib.pipe ./config/ca.json [builtins.readFile builtins.fromJSON])
       // {
