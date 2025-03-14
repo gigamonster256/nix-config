@@ -47,6 +47,7 @@
     git-hooks,
     neovim,
     sops-nix,
+    spicetify-nix,
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
@@ -117,7 +118,7 @@
           };
         };
 
-        homeModules = [./home/modules];
+        homeModules = [./home/modules spicetify-nix.homeManagerModules.default];
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
           "caleb@littleboy" = {modules = [./home/littleboy.nix];};
