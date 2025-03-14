@@ -2,12 +2,12 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   nix = {
-    package = lib.mkDefault pkgs.nix;
     settings = {
       experimental-features = [
         "nix-command"
@@ -24,6 +24,7 @@ in {
       ];
       warn-dirty = false;
       flake-registry = "";
+      trusted-users = ["root"] ++ lib.attrNames config.users.users;
     };
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
