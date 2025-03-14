@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   home.packages = with pkgs; [
     fzf
     tmux
@@ -34,41 +38,46 @@
 
       # Shell integrations
       # fzf
-      eval "$(${pkgs.fzf}/bin/fzf --zsh)"
+      eval "$(${lib.getExe pkgs.fzf} --zsh)"
       # catppuccin mocha theme
       export FZF_DEFAULT_OPTS=" \
         --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
         --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
         --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
     '';
-    initExtra = ''
+    initExtra = let
+      run = cmd: lib.getExe pkgs.${cmd};
+      ddOpts = "status=progress conv=fsync,noerror bs=64k";
+      fromPipeddOpts = "iflag=fullblock oflag=direct ${ddOpts}";
+      fileType = file: "$(${run "file"} ${file} --mime-type -b)";
+      zstdcat = "${pkgs.zstd}/bin/zstdcat";
+      xzcat = "${pkgs.xz}/bin/xzcat";
+      dd = "${pkgs.coreutils}/bin/dd";
+      tar = "${run "gnutar"}";
+      unzip = "${run "unzip"}";
+    in ''
       flash(){
-          if [ $(${pkgs.file}/bin/file $1 --mime-type -b) = "application/zstd" ]; then
+          if [ ${fileType "$1"} = "application/zstd" ]; then
             echo "Flashing zst using zstdcat | dd"
-            ( set -x; ${pkgs.zstd}/bin/zstdcat $1 | sudo dd of=$2 status=progress iflag=fullblock oflag=direct conv=fsync,noerror bs=64k )
-          elif [ $(${pkgs.file}/bin/file $1 --mime-type -b) = "application/x-xz" ]; then
+            ( set -x; ${zstdcat} $1 | sudo ${dd} of=$2 ${fromPipeddOpts} )
+          elif [ ${fileType "$1"} = "application/x-xz" ]; then
             echo "Flashing xz using xzcat | dd"
-            ( set -x; ${pkgs.xz}/bin/xzcat $1 | sudo dd of=$2 status=progress iflag=fullblock oflag=direct conv=fsync,noerror bs=64k )
+            ( set -x; ${xzcat} $1 | sudo ${dd} of=$2 ${fromPipeddOpts} )
           else
             echo "Flashing arbitrary file $1 to $2"
-            ( set -x; sudo dd if=$1 of=$2 status=progress conv=sync,noerror bs=64k )
+            ( set -x; sudo ${dd} if=$1 of=$2 ${ddOpts} )
           fi
       }
       extract(){
          if [ -f $1 ] ; then
              case $1 in
-                 *.tar.bz2)   tar xjf $1;;
-                 *.tar.gz)    tar xzf $1;;
-                 *.bz2)       bunzip2 $1;;
-                 *.rar)       rar x $1;;
-                 *.gz)        gunzip $1;;
-                 *.tar)       tar xf $1;;
-                 *.tbz2)      tar xjf $1;;
-                 *.tgz)       tar xzf $1;;
-                 *.zip)       unzip $1;;
-                 *.Z)         uncompress $1;;
-                 *.7z)        7z x $1;;
-                 *)           echo "'$1' cannot be extracted via extract()";;
+                 *.tar.bz2) ${tar} xjf $1;;
+                 *.tar.gz)  ${tar} xzf $1;;
+                 *.tar)     ${tar} xf $1;;
+                 *.tbz2)    ${tar} xjf $1;;
+                 *.tgz)     ${tar} xzf $1;;
+                 *.zip)     ${unzip} $1;;
+                 *)         echo "'$1' cannot be extracted via extract()";;
              esac
          else
              echo "'$1' is not a valid file"
