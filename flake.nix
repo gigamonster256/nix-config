@@ -22,8 +22,6 @@
     neovim.url = "github:gigamonster256/neovim-config/nvf";
     neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    lite-config.url = "github:gigamonster256/lite-config";
-
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -43,7 +41,6 @@
     nixpkgs,
     nixos-hardware,
     flake-parts,
-    lite-config,
     git-hooks,
     neovim,
     sops-nix,
@@ -51,12 +48,13 @@
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
+    nixosModules = import ./modules/nixos;
+    darwinModules = import ./modules/darwin;
+    homeManagerModules = import ./modules/home-manager;
+    flakeModules = import ./modules/flake;
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [
-        git-hooks.flakeModule
-        lite-config.flakeModule
-      ];
+      imports = [git-hooks.flakeModule] ++ (builtins.attrValues flakeModules);
       perSystem = {
         config,
         pkgs,
@@ -71,10 +69,7 @@
         };
       };
       flake = {
-        inherit overlays;
-        nixosModules = import ./modules/nixos;
-        darwinModules = import ./modules/darwin;
-        homeManagerModules = import ./modules/home-manager;
+        inherit overlays nixosModules darwinModules homeManagerModules flakeModules;
         images.tinyca =
           (self.nixosConfigurations.tinyca.extendModules {
             modules = ["${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
@@ -87,30 +82,25 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays = (builtins.attrValues overlays) ++ [neovim.overlays.default];
+          overlays = [neovim.overlays.default] ++ (builtins.attrValues overlays);
           setPerSystemPkgs = true;
         };
 
         hostModules = [./hosts/modules];
+        nixosModules = [./hosts/modules/nixos sops-nix.nixosModules.sops] ++ (builtins.attrValues nixosModules);
+        darwinModules = [./hosts/modules/darwin] ++ (builtins.attrValues darwinModules);
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
-            modules = [
-              ./hosts/chnorton-mbp
-              ./hosts/darwin-modules
-            ];
+            modules = [./hosts/chnorton-mbp];
           };
           littleboy = {
             system = "x86_64-linux";
-            modules = [
-              sops-nix.nixosModules.sops
-              ./hosts/littleboy
-            ];
+            modules = [./hosts/littleboy];
           };
           tinyca = {
             system = "aarch64-linux";
             modules = [
-              sops-nix.nixosModules.sops
               nixos-hardware.nixosModules.raspberry-pi-3
               "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
               ./hosts/pi-certs
@@ -118,7 +108,7 @@
           };
         };
 
-        homeModules = [./home/modules spicetify-nix.homeManagerModules.default];
+        homeModules = [./home/modules spicetify-nix.homeManagerModules.default] ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
           "caleb@littleboy" = {modules = [./home/littleboy.nix];};

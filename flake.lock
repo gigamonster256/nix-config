@@ -220,21 +220,6 @@
         "type": "github"
       }
     },
-    "lite-config": {
-      "locked": {
-        "lastModified": 1741118383,
-        "narHash": "sha256-zQrn6bLM6F13tdsnL8DJaoNcLPcoSRitn55DSV7JQWU=",
-        "owner": "gigamonster256",
-        "repo": "lite-config",
-        "rev": "c561b2927ed7fd92e1a25ec5813a31deee830942",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gigamonster256",
-        "repo": "lite-config",
-        "type": "github"
-      }
-    },
     "mnw": {
       "locked": {
         "lastModified": 1735150973,
@@ -2545,7 +2530,6 @@
         "gigamonster256-nur": "gigamonster256-nur",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
-        "lite-config": "lite-config",
         "neovim": "neovim",
         "nh": "nh",
         "nix-darwin": "nix-darwin",
