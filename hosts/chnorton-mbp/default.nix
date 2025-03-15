@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   services.nix-daemon.enable = true;
 
-  security = {pam.enableSudoTouchIdAuth = true;};
+  security.pam.enableSudoTouchIdAuth = true;
 
   environment.systemPackages = with pkgs; [
     gnupg
@@ -12,6 +12,7 @@
     enable = true;
     enableSSHSupport = true;
   };
+  
   services.sketchybar.enable = true;
   services.aerospace.enable = true;
 
@@ -23,9 +24,5 @@
     };
   };
 
-  networking.hostName = "chnorton-mbp";
-
   system.stateVersion = 4;
-
-  nixpkgs.hostPlatform = "aarch64-darwin";
 }

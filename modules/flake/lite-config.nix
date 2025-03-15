@@ -242,7 +242,7 @@
           {
             _file = ./.;
             nixpkgs.pkgs = liteConfigPkgs;
-            networking.hostName = hostName;
+            networking.hostName = lib.mkDefault hostName;
           }
         ]
         ++ platformModules
