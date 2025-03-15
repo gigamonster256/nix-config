@@ -1,14 +1,17 @@
-{config, ...}: {
-  sops.secrets.wireless = {
+{
+  config,
+  lib,
+  ...
+}: {
+  sops.secrets.wireless = lib.mkIf config.networking.wireless.enable {
     sopsFile = ../secrets.yaml;
     restartUnits = ["wpa_supplicant.service"];
   };
 
   networking.wireless = {
-    enable = true;
-    userControlled.enable = true;
-    fallbackToWPA2 = false;
-    # allowAuxiliaryImperativeNetworks = true;
+    userControlled.enable = lib.mkDefault true;
+    fallbackToWPA2 = lib.mkDefault false;
+    allowAuxiliaryImperativeNetworks = lib.mkDefault false;
     secretsFile = config.sops.secrets.wireless.path;
     networks = {
       "Penguin Plaza".pskRaw = "ext:home_psk";
