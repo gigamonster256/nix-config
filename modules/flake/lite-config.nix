@@ -267,7 +267,7 @@
       then {darwinConfigurations.${hostName} = cfg.flakes.nix-darwin.lib.darwinSystem builderArgs;}
       else throw "System type ${hostPlatform.system} not supported.");
 
-  mkHomeConfiguration = pkgs: username: homeConfig:
+  mkHomeConfiguration = pkgs: configName: homeConfig:
     cfg.flakes.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules =
@@ -283,11 +283,10 @@
               then "/Users/${config.home.username}"
               else throw "System type ${hostPlatform.system} not supported.";
             # if username has an @, use the part before the @
-            matches = lib.strings.match "([^@]*)@.*" username;
-          in let
+            matches = lib.strings.match "([^@]*)@.*" configName;
             username =
-              if matches == []
-              then username
+              if matches == null
+              then configName
               else builtins.head matches;
           in {
             _file = ./.;
