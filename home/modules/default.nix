@@ -15,13 +15,13 @@
     ./spicetify.nix
     ./firefox.nix
     ./macos-trampolines
+    ./git.nix
     ./jujutsu.nix
   ];
 
   fonts.fontconfig.enable = true;
 
   programs = {
-    git.enable = true;
     direnv = {
       enable = true;
       nix-direnv.enable = true;
