@@ -22,3 +22,5 @@ jobs:
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Build littleboy
       run: nix build .#nixosConfigurations.littleboy.config.system.build.toplevel
+    - name: Build littleboy home-manager
+      run: nix build .#homeConfigurations.caleb@littleboy.config.home.activationPackage
