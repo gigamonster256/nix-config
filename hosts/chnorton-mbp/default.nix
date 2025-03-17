@@ -12,7 +12,7 @@
     enable = true;
     enableSSHSupport = true;
   };
-  
+
   services.sketchybar.enable = true;
   services.aerospace.enable = true;
 
