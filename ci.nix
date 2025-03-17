@@ -12,7 +12,7 @@ in {
   };
   aarch64-linux = {
     tinyca = nixosFor "tinyca";
-    tinyca-image = self.images.tinyca;
+    # tinyca-image = self.images.tinyca;
   };
   aarch64-darwin = let
     homeFor = homeForSystem "aarch64-darwin";
