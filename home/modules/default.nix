@@ -17,6 +17,7 @@
     ./macos-trampolines
     ./git.nix
     ./jujutsu.nix
+    ./hyprland
   ];
 
   fonts.fontconfig.enable = true;

@@ -40,11 +40,7 @@
     brightnessctl
   ];
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-  };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  programs.hyprland.enable = true;
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
