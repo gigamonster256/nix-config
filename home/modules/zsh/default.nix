@@ -7,7 +7,6 @@
     fzf
     tmux
     eternal-terminal
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
   programs.oh-my-posh = {
