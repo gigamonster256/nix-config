@@ -1,3 +1,3 @@
-{
-  programs.btop.enable = true;
-}
+{}
+# just my global config
+

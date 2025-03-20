@@ -18,6 +18,7 @@
     ./git.nix
     ./jujutsu.nix
     ./hyprland
+    ./btop.nix
   ];
 
   fonts.fontconfig.enable = true;
@@ -31,6 +32,7 @@
         global.load_dotenv = true;
       };
     };
+    btop.enable = true;
   };
 
   home = {

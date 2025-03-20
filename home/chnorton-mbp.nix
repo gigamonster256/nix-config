@@ -20,10 +20,4 @@
   programs.gh.enable = true;
   programs.eza.enable = true;
   programs.bat.enable = true;
-
-  # TODO: refactor this
-  programs.btop.enable = true;
-  home.file."./.config/btop/themes" = {
-    source = "${pkgs.btop-themes.catppuccin}/share/btop/themes";
-  };
 }

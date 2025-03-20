@@ -9,10 +9,4 @@
   programs.ghostty.enable = true;
   programs.firefox.enable = true;
   wayland.windowManager.hyprland.enable = true;
-
-  # TODO: refactor this
-  programs.btop.enable = true;
-  home.file."./.config/btop/themes" = {
-    source = "${pkgs.btop-themes.catppuccin}/share/btop/themes";
-  };
 }
