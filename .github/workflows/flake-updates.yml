@@ -28,6 +28,7 @@ jobs:
         env:
           MERGE_METHOD: "rebase"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          # https://github.com/orgs/community/discussions/55906
+          GITHUB_TOKEN: "${{ secrets.AUTO_MERGE_PAT }}"
           PULL_REQUEST: "${{ steps.update.outputs.pull-request-number }}"
             
