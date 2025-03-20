@@ -31,4 +31,5 @@ jobs:
         retention-days: 7
         overwrite: true
         path: ./result-*
+        name: artifacts-${{ runner.os }}
         
