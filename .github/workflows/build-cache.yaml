@@ -18,18 +18,23 @@ jobs:
         extra_nix_config: |
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-          accept-flake-config = true
-    - name: Build cachix
-      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --cachix-cache gigamonster256 --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
+          # fix for https://github.com/nix-community/nix-eval-jobs/issues/140
+          # nix-eval-jobs does not respect flake's nixConfig when checking to see if a 
+          # derivation is already cached
+          # accept-flake-config = true
+          extra-substituters = https://gigamonster256.cachix.org
+          extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
+    - name: Build and upload cachix
+      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --cachix-cache gigamonster256 --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
       env:
         CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
     - name: Build artifacts
-      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).artifacts"
+      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).artifacts"
     - name: Upload artifacts
       uses: actions/upload-artifact@v4.6.2
       with:
         retention-days: 7
         overwrite: true
         path: ./result-*
-        name: artifacts-${{ runner.os }}
+        name: artifacts-${{ matrix.os }}
         
