@@ -7,10 +7,14 @@
         trilium-desktop
         vscode
         net-news-wire
-        # bitwarden-cli # broken on 24.11 so far
         wireshark
         slack
         element-desktop
+        ;
+      inherit
+        (pkgs.unstable)
+        bitwarden-desktop # macos only on unstable
+        # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933 on unstable
         ;
     };
   };
