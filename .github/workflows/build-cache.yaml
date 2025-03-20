@@ -18,11 +18,17 @@ jobs:
         extra_nix_config: |
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-    # TODO: see about having nix-fast-build do the uploading
-    - name: Setup cachix
-      uses: cachix/cachix-action@v16
+          accept-flake-config = true
+    - name: Build cachix
+      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --cachix-cache gigamonster256 --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
+      env:
+        CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+    - name: Build artifacts
+      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).artifacts"
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4.6.2
       with:
-        name: gigamonster256
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - name: Build and cache
-      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
+        retention-days: 7
+        overwrite: true
+        path: ./result-*
+        
