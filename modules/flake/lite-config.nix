@@ -349,7 +349,7 @@ in {
         };
       in {
         _module.args.liteConfigPkgs = pkgs;
-        _module.args.pkgs = lib.mkIf cfg.nixpkgs.setPerSystemPkgs liteConfigPkgs;
+        _module.args.pkgs = mkIf cfg.nixpkgs.setPerSystemPkgs liteConfigPkgs;
         packages.homeConfigurations = createHomeConfigurations liteConfigPkgs;
       };
     };
