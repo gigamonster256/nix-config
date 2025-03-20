@@ -25,4 +25,4 @@ jobs:
         name: gigamonster256
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
     - name: Build and cache
-      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem)"
+      run: nix run nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
