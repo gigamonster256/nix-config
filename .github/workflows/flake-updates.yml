@@ -26,7 +26,7 @@ jobs:
       - name: Merge PR
         uses: pascalgn/automerge-action@v0.16.4
         env:
-          MERGE_METHOD: "rebase"
+          # MERGE_METHOD: "rebase"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           PULL_REQUEST: "${{ steps.update.outputs.pull-request-number }}"
