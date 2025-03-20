@@ -78,7 +78,10 @@
           .system
           .build
           .sdImage;
-        ci = import ./ci.nix {inherit self;};
+        ci = import ./ci.nix {
+          inherit self;
+          inherit (nixpkgs) lib;
+        };
       };
       lite-config = {
         nixpkgs = {

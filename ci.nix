@@ -1,29 +1,35 @@
-{self}: let
-  nixosFor = hostname: self.nixosConfigurations.${hostname}.config.system.build.toplevel;
-  darwinFor = hostname: self.darwinConfigurations.${hostname}.config.system.build.toplevel;
-  homeForSystem = system: hostname: self.packages.${system}.homeConfigurations.${hostname}.config.home.activationPackage;
-in {
-  x86_64-linux = let
-    homeFor = homeForSystem "x86_64-linux";
+{
+  self,
+  lib,
+}: let
+  mkSpec = system: {
+    nixos ? [],
+    darwin ? [],
+    home ? [],
+    artifacts ? {},
+  }: let
+    nixosAttrs = lib.genAttrs nixos (hostname: self.nixosConfigurations.${hostname}.config.system.build.toplevel);
+    darwinAttrs = lib.genAttrs darwin (hostname: self.darwinConfigurations.${hostname}.config.system.build.toplevel);
+    homeAttrs = lib.genAttrs home (homename: self.packages.${system}.homeConfigurations.${homename}.config.home.activationPackage);
   in {
-    cachix = {
-      littleboy = nixosFor "littleboy";
-      littleboy-home = homeFor "caleb@littleboy";
-      chnorton-home = homeFor "chnorton";
-    };
+    inherit artifacts;
+    cachix = nixosAttrs // darwinAttrs // homeAttrs;
   };
-  aarch64-linux = {
-    cachix = {
-      tinyca = nixosFor "tinyca";
+  mkCaches = lib.mapAttrs mkSpec;
+in
+  mkCaches {
+    x86_64-linux = {
+      nixos = ["littleboy"];
+      home = ["caleb@littleboy" "chnorton"];
     };
-    # tinyca-image = self.images.tinyca;
-  };
-  aarch64-darwin = let
-    homeFor = homeForSystem "aarch64-darwin";
-  in {
-    cachix = {
-      macbook = darwinFor "chnorton-mbp";
-      macbook-home = homeFor "caleb@chnorton-mbp";
+    aarch64-linux = {
+      nixos = ["tinyca"];
+      artifacts = {
+        tinyca-image = self.images.tinyca;
+      };
     };
-  };
-}
+    aarch64-darwin = {
+      darwin = ["chnorton-mbp"];
+      home = ["caleb@chnorton-mbp"];
+    };
+  }
