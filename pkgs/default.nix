@@ -22,10 +22,5 @@ in rec {
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes {inherit pkgs;});
   # trilium-next-desktop = pkgs.callPackage ./trilium-next/from-source.nix {};
   trilium-next-desktop = (import ./trilium-next/prebuilt.nix {inherit pkgs;}).trilium-next;
-  inherit
-    (pkgs.callPackage ./electron {})
-    electron_31-bin
-    ;
-  electron_31 = electron_31-bin;
   fv = pkgs.callPackage ./fv.nix {};
 }
