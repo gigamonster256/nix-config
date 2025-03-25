@@ -83,12 +83,12 @@
          fi
       }
     '';
-    shellAliases = {
-      ls = "ls --color=auto";
-      ll = "ls -l";
-      la = "ls -la";
-      l = "ls";
-      gr = "cd $(git rev-parse --show-toplevel)";
-    };
+  };
+  home.shellAliases = {
+    ls = "ls --color=auto";
+    ll = "ls -l";
+    la = "ls -la";
+    l = "ls";
+    gr = "cd $(git rev-parse --show-toplevel)";
   };
 }
