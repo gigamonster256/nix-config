@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+        build: [artifacts, cachix]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
@@ -24,17 +25,19 @@ jobs:
           # accept-flake-config = true
           extra-substituters = https://gigamonster256.cachix.org
           extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
-    - name: Build and upload cachix
-      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --no-link --cachix-cache gigamonster256 --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).cachix"
-      env:
-        CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
-    - name: Build artifacts
-      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).artifacts"
+    - name: Setup cachix
+      if: ${{ matrix.build == 'cachix' }}
+      uses: cachix/cachix-action@v16
+      with:
+        name: gigamonster256
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - name: Build
+      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).${{ matrix.build }}"
     - name: Upload artifacts
+      if: ${{ matrix.build == 'artifacts' }}
       uses: actions/upload-artifact@v4.6.2
       with:
         retention-days: 7
         if-no-files-found: ignore
         path: ./result-*
         name: artifacts-${{ matrix.os }}
-        
