@@ -16,6 +16,8 @@ in rec {
   sddm-themes = withAllFlat "sddm-themes" (import ./sddm-themes {inherit pkgs;});
   # themes available in $out/share/btop/themes/<theme-name>.theme
   btop-themes = withAllFlat "btop-themes" (import ./btop-themes {inherit pkgs;});
+  # themes available in $out/share/eza/themes/<theme-name>
+  eza-themes = withAllFlat "eza-themes" (import ./eza-themes {inherit pkgs;});
   # plugins available in $out/<package-name>/<plugin-name>.sh using all
   sketchybar-plugins = withAllFarm "sketchybar-plugins" (import ./sketchybar-plugins {inherit pkgs;});
   # themes available in $out/<package-name>/<theme-name>.css using all

@@ -19,6 +19,7 @@
     ./jujutsu.nix
     ./hyprland
     ./btop.nix
+    ./eza.nix
   ];
 
   fonts.fontconfig.enable = true;
