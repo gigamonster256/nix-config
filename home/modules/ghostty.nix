@@ -13,9 +13,9 @@
       else inputs.gigamonster256-nur.packages.${pkgs.stdenv.hostPlatform.system}.ghostty-darwin;
     settings = let
       # Monaspace Neon Nerd Font
-      font = "MonaspiceNe Nerd Font Mono";
+      font = "MonaspiceNe Nerd Font";
       # Monaspace Radon Nerd Font (cursive)
-      italic-font = "MonaspiceRn Nerd Font Mono";
+      italic-font = "MonaspiceRn Nerd Font";
     in
       lib.mkDefault {
         command = "${lib.getExe config.programs.zsh.package}";
