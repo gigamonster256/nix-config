@@ -1,4 +1,8 @@
-{pkgs,config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.jujutsu = {
     enable = true;
     package = pkgs.unstable.jujutsu;
@@ -6,7 +10,11 @@
       user = {
         name = config.programs.git.userName;
         email = config.programs.git.userEmail;
-        ui.merge-editor = ":builtin";
+      };
+      ui = {
+        merge-editor = ":builtin";
+        default-command = ["log"];
+        pager = ":builtin";
       };
     };
   };
