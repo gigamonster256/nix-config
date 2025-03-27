@@ -54,6 +54,13 @@
     stateVersion = "23.11";
   };
 
+  # typos
+  home.shellAliases = {
+    nvom = "nvim";
+    nivm = "nvim";
+    sl = "ls";
+  };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 }

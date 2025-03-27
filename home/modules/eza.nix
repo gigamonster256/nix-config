@@ -21,6 +21,4 @@
   xdg.configFile."eza/theme.yml" = lib.mkIf config.programs.eza.enable {
     source = "${pkgs.eza-themes.builtin}/share/eza/themes/catppuccin.yml";
   };
-
-  home.shellAliases.ls = lib.mkForce "eza";
 }
