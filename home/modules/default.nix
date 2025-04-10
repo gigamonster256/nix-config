@@ -3,6 +3,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }: {
   # You can import other home-manager modules here
@@ -33,7 +34,12 @@
         global.load_dotenv = true;
       };
     };
+    git.enable = true;
     btop.enable = true;
+    eza.enable = true;
+    jujutsu.enable = true;
+    zsh.enable = true;
+    nh.enable = true;
   };
 
   home = {
@@ -51,7 +57,7 @@
     };
     sessionVariables.EDITOR = "nvim";
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "23.11";
+    stateVersion = lib.mkDefault "23.11";
   };
 
   # typos

@@ -1,20 +1,22 @@
 {
   pkgs,
+  lib,
   config,
   ...
 }: {
-  programs.jujutsu = {
-    enable = true;
-    package = pkgs.unstable.jujutsu;
+  programs.jujutsu = let
+    inherit (lib) mkDefault;
+  in {
+    package = mkDefault pkgs.unstable.jujutsu;
     settings = {
       user = {
-        name = config.programs.git.userName;
-        email = config.programs.git.userEmail;
+        name = mkDefault config.programs.git.userName;
+        email = mkDefault config.programs.git.userEmail;
       };
       ui = {
-        merge-editor = ":builtin";
-        default-command = ["log"];
-        pager = ":builtin";
+        merge-editor = mkDefault ":builtin";
+        default-command = mkDefault ["log"];
+        pager = mkDefault ":builtin";
       };
     };
   };

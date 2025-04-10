@@ -5,11 +5,12 @@
   ...
 }: {
   programs.spicetify = let
+    inherit (lib) mkDefault;
     spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
   in {
-    theme = lib.mkDefault spicePkgs.themes.dribbblish;
-    colorScheme = lib.mkDefault "catppuccin-mocha";
-    enabledExtensions = lib.mkDefault (builtins.attrValues {
+    theme = mkDefault spicePkgs.themes.dribbblish;
+    colorScheme = mkDefault "catppuccin-mocha";
+    enabledExtensions = mkDefault (builtins.attrValues {
       inherit
         (spicePkgs.extensions)
         fullAppDisplay
