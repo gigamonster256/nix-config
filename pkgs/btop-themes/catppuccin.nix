@@ -1,8 +1,8 @@
 {
-  stdenv,
+  stdenvNoCC,
   fetchurl,
 }:
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   pname = "btop-catpuccin-theme";
   version = "1.0.0";
   dontBuild = true;

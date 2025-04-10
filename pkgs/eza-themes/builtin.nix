@@ -1,8 +1,8 @@
 {
-  stdenv,
+  stdenvNoCC,
   fetchFromGitHub,
 }:
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   name = "eza-themes";
   dontBuild = true;
   installPhase = ''
