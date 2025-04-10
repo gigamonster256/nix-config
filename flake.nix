@@ -26,7 +26,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # TODO: Remove once 4.0 is released
-    nh.url = "github:viperML/nh";
+    nh.url = "github:nix-community/nh";
     nh.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
