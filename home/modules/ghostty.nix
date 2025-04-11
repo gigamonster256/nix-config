@@ -12,10 +12,10 @@
       then pkgs.unstable.ghostty
       else inputs.gigamonster256-nur.packages.${pkgs.stdenv.hostPlatform.system}.ghostty-darwin;
     settings = let
-      # Monaspace Neon Nerd Font
-      font = "MonaspiceNe Nerd Font";
-      # Monaspace Radon Nerd Font (cursive)
-      italic-font = "MonaspiceRn Nerd Font";
+      # Monaspace Neon
+      font = "Monaspace Neon Var";
+      # Monaspace Radon (cursiveish)
+      italic-font = "Monaspace Radon Var";
     in
       lib.mkDefault {
         command = "${lib.getExe config.programs.zsh.package}";
@@ -30,6 +30,9 @@
         font-family-bold-italic = italic-font;
         font-thicken = true;
         config-file = "?nix-escape-hatch";
+        font-feature = [
+          "cv01=2" # slashed 0s
+        ];
       };
   };
 }
