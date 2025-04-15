@@ -28,10 +28,12 @@
         font-family = font;
         font-family-italic = italic-font;
         font-family-bold-italic = italic-font;
-        font-thicken = true;
         config-file = "?nix-escape-hatch";
+        # https://github.com/githubnext/monaspace?tab=readme-ov-file#character-variants
         font-feature = [
           "cv01=2" # slashed 0s
+          "+cv02" # no bottom serif on 1
+          "+cv31" # 6 pointed asterisk
         ];
       };
   };
