@@ -21,6 +21,8 @@
 
     neovim.url = "github:gigamonster256/neovim-config/nvf";
     neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    neovim.inputs.flake-parts.follows = "flake-parts";
+    neovim.inputs.git-hooks.follows = "git-hooks";
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
