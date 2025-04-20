@@ -40,6 +40,8 @@
     jujutsu.enable = true;
     zsh.enable = true;
     nh.enable = true;
+    nix-index-database.comma.enable = true;
+    nix-index.enable = true;
   };
 
   home = {

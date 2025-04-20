@@ -36,6 +36,9 @@
 
     git-hooks.url = "github:cachix/git-hooks.nix";
     git-hooks.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -47,6 +50,7 @@
     neovim,
     sops-nix,
     spicetify-nix,
+    nix-index-database,
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
@@ -113,7 +117,7 @@
           };
         };
 
-        homeModules = [./home/modules spicetify-nix.homeManagerModules.default] ++ (builtins.attrValues homeManagerModules);
+        homeModules = [./home/modules spicetify-nix.homeManagerModules.default nix-index-database.hmModules.nix-index] ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
           "caleb@littleboy" = {modules = [./home/littleboy.nix];};
