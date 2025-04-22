@@ -32,6 +32,20 @@
       in
         focusWorkspaces
         // moveToWorkspace;
+
+      workspace-to-monitor-force-assignment = let
+        workspaces = lib.lists.range 1 9;
+        assignment = ws:
+          if ws <= 5
+          then "main"
+          else ["secondary" "main"];
+      in
+        builtins.listToAttrs (lib.lists.map
+          (ws: {
+            name = builtins.toString ws;
+            value = assignment ws;
+          })
+          workspaces);
     };
   };
 }
