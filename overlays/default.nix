@@ -10,7 +10,7 @@ in {
   # https://nixos.wiki/wiki/Overlays
   modifications = final: _prev: {
     # custom trilium-next-desktop package
-    trilium-desktop = (customPkgs final).trilium-next-desktop;
+    # trilium-desktop = (customPkgs final).trilium-next-desktop;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

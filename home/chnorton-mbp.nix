@@ -4,7 +4,6 @@
       inherit
         (pkgs)
         pinentry_mac
-        trilium-desktop
         vscode
         net-news-wire
         wireshark
@@ -14,6 +13,7 @@
       inherit
         (pkgs.unstable)
         bitwarden-desktop # macos only on unstable
+        trilium-next-desktop
         # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933 on unstable
         ;
     };

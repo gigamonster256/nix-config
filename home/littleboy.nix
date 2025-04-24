@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = [
-    pkgs.trilium-desktop
+    pkgs.unstable.trilium-next-desktop
     pkgs.wpa_supplicant_gui
   ];
 
