@@ -1,6 +1,6 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # You can build them using 'nix build .#example'
-{pkgs}: let
+{pkgs ? import <nixpkgs> {}}: let
   attrsToPaths = attrs: pkgs.lib.mapAttrsToList (name: path: {inherit name path;}) attrs;
   withAllFarm = name: drvs: drvs // {all = pkgs.linkFarm name (attrsToPaths drvs);};
   withAllFlat = name: drvs:
