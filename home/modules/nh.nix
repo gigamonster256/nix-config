@@ -8,8 +8,8 @@
   inherit (lib) mkDefault;
 in {
   programs.nh = {
-    # use nh beta - adds darwin support and repl helpers
-    package = mkDefault inputs.nh.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    # nh 4.0 is in unstable
+    package = mkDefault pkgs.unstable.nh;
     # TODO: wait for home-manager/#6468 to land in my home-manager channel
     # flake = mkDefault "github:gigamonster256/nix-config";
   };
