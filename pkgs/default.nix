@@ -25,4 +25,6 @@ in rec {
   # trilium-next-desktop = pkgs.callPackage ./trilium-next/from-source.nix {};
   trilium-next-desktop = (import ./trilium-next/prebuilt.nix {inherit pkgs;}).trilium-next;
   fv = pkgs.callPackage ./fv.nix {};
+  flash = pkgs.callPackage ./flash.nix {};
+  extract = pkgs.callPackage ./extract.nix {};
 }
