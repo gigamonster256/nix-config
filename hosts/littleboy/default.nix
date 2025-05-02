@@ -14,6 +14,7 @@
 
   # Add the rest of your current configuration
   boot.loader = {
+    timeout = 0;
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
   };
