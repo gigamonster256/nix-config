@@ -24,6 +24,9 @@
     neovim.inputs.flake-parts.follows = "flake-parts";
     neovim.inputs.git-hooks.follows = "git-hooks";
 
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -44,6 +47,7 @@
     flake-parts,
     git-hooks,
     neovim,
+    lanzaboote,
     sops-nix,
     spicetify-nix,
     nix-index-database,
@@ -93,7 +97,13 @@
         };
 
         hostModules = [./hosts/modules];
-        nixosModules = [./hosts/modules/nixos sops-nix.nixosModules.sops] ++ (builtins.attrValues nixosModules);
+        nixosModules =
+          [
+            ./hosts/modules/nixos
+            sops-nix.nixosModules.sops
+            lanzaboote.nixosModules.lanzaboote
+          ]
+          ++ (builtins.attrValues nixosModules);
         darwinModules = [./hosts/modules/darwin] ++ (builtins.attrValues darwinModules);
         hosts = {
           chnorton-mbp = {
@@ -113,7 +123,13 @@
           };
         };
 
-        homeModules = [./home/modules spicetify-nix.homeManagerModules.default nix-index-database.hmModules.nix-index] ++ (builtins.attrValues homeManagerModules);
+        homeModules =
+          [
+            ./home/modules
+            spicetify-nix.homeManagerModules.default
+            nix-index-database.hmModules.nix-index
+          ]
+          ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
           "caleb@littleboy" = {modules = [./home/littleboy.nix];};
@@ -126,10 +142,12 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://gigamonster256.cachix.org"
+      "https://lanzaboote.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc="
+      "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
     ];
   };
 }

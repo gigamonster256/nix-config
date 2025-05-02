@@ -12,11 +12,16 @@
     ./hardware-configuration.nix
   ];
 
-  # Add the rest of your current configuration
-  boot.loader = {
-    timeout = 0;
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+    };
+    loader = {
+      timeout = 0;
+      systemd-boot.enable = lib.mkForce false; # use lanzaboote
+      efi.canTouchEfiVariables = true;
+    };
   };
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
