@@ -5,14 +5,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # TODO: remove in favor of nixos-facter-modules?
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
 
+    # nix on macOS
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # declarative dotfiles
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -24,12 +27,25 @@
     neovim.inputs.flake-parts.follows = "flake-parts";
     neovim.inputs.git-hooks.follows = "git-hooks";
 
+    # secure boot
     lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
+    # declarative disk partitioning
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    # erase your darlings
+    impermanence.url = "github:nix-community/impermanence";
+
+    # automatic hardware configuration
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+
+    # gpg and age based secret management
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # customized spotify the nix way
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
@@ -43,14 +59,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
-    nixos-hardware,
     flake-parts,
-    git-hooks,
-    neovim,
-    lanzaboote,
-    sops-nix,
-    spicetify-nix,
-    nix-index-database,
     ...
   }: let
     overlays = import ./overlays {inherit inputs;};
@@ -60,15 +69,20 @@
     flakeModules = import ./modules/flake;
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [git-hooks.flakeModule] ++ (builtins.attrValues flakeModules);
+      imports =
+        [
+          inputs.git-hooks.flakeModule
+        ]
+        ++ (builtins.attrValues flakeModules);
       perSystem = {
         config,
         pkgs,
         ...
       }: {
+        # TODO: use official formatter
         formatter = pkgs.alejandra;
-
         pre-commit.settings.hooks.alejandra.enable = true;
+
         devShells.default = import ./shell.nix {
           inherit pkgs;
           additionalShells = [config.pre-commit.devShell];
@@ -92,7 +106,11 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays = [neovim.overlays.default] ++ (builtins.attrValues overlays);
+          overlays =
+            [
+              inputs.neovim.overlays.default
+            ]
+            ++ (builtins.attrValues overlays);
           setPerSystemPkgs = true;
         };
 
@@ -100,11 +118,20 @@
         nixosModules =
           [
             ./hosts/modules/nixos
+          ]
+          ++ (with inputs; [
             sops-nix.nixosModules.sops
             lanzaboote.nixosModules.lanzaboote
-          ]
+            disko.nixosModules.disko
+            impermanence.nixosModules.impermanence
+            nixos-facter-modules.nixosModules.facter
+          ])
           ++ (builtins.attrValues nixosModules);
-        darwinModules = [./hosts/modules/darwin] ++ (builtins.attrValues darwinModules);
+        darwinModules =
+          [
+            ./hosts/modules/darwin
+          ]
+          ++ (builtins.attrValues darwinModules);
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
@@ -117,7 +144,7 @@
           tinyca = {
             system = "aarch64-linux";
             modules = [
-              nixos-hardware.nixosModules.raspberry-pi-3
+              inputs.nixos-hardware.nixosModules.raspberry-pi-3
               ./hosts/pi-certs
             ];
           };
@@ -126,9 +153,11 @@
         homeModules =
           [
             ./home/modules
+          ]
+          ++ (with inputs; [
             spicetify-nix.homeManagerModules.default
             nix-index-database.hmModules.nix-index
-          ]
+          ])
           ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};

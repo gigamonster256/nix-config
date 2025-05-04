@@ -1,17 +1,20 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
+  modulesPath,
   inputs,
   lib,
   config,
   pkgs,
   ...
 }: {
-  # You can import other NixOS modules here
+  # not 100% sure if this is needed
   imports = [
-    ./hardware-configuration.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    ./disko.nix
   ];
 
+  # boot config
   boot = {
     lanzaboote = {
       enable = true;
@@ -22,22 +25,39 @@
       systemd-boot.enable = lib.mkForce false; # use lanzaboote
       efi.canTouchEfiVariables = true;
     };
-  };
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+    # binfmt.emulatedSystems = ["aarch64-linux"];
 
+    # pretty sure nixos-facter-modules takes care of this
+    initrd.availableKernelModules = ["ahci" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci"];
+    initrd.kernelModules = [];
+    kernelModules = ["kvm-intel"];
+    extraModulePackages = [];
+  };
+
+  # TODO: stolen from original hardware-configuration.nix not sure if needed
+  # networking.useDHCP = lib.mkDefault false; # conflicts with nixos-facter-modules
+  networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  networking.useNetworkd = lib.mkDefault true;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # secrets management
   sops.age = {
     sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
     generateKey = false;
   };
 
-  # littleboy cant do WPA3
+  # wireless (wpa_supplicant)
+  # TODO: use networkmanager
   networking.wireless.enable = true;
+  # littleboy cant do WPA3
   networking.wireless.fallbackToWPA2 = true;
 
-  # Set your time zone
+  # time zone
   time.timeZone = "America/Chicago";
 
-  services.printing.enable = true;
+  # printing
+  # services.printing.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -46,6 +66,7 @@
     brightnessctl
   ];
 
+  # hyprland plus sddm login manager
   programs.hyprland.enable = true;
   services.displayManager.sddm = {
     enable = true;
@@ -63,6 +84,8 @@
     enableSSHSupport = true;
   };
 
+  # hardware
+  facter.reportPath = ./facter.json;
   hardware.graphics = {
     extraPackages = with pkgs; [
       intel-compute-runtime
@@ -89,5 +112,5 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.11";
 }
