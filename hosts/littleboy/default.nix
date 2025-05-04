@@ -47,6 +47,16 @@
     pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
   };
 
+  # impermanence
+  impermanence = {
+    enable = true;
+    btrfsWipe = {
+      enable = true;
+      rootSubvolume = "root";
+      device = "/dev/mapper/crypted";
+    };
+  };
+
   # TODO: stolen from original hardware-configuration.nix not sure if needed
   # networking.useDHCP = lib.mkDefault false; # conflicts with nixos-facter-modules
   networking.interfaces.wlo1.useDHCP = lib.mkDefault true;

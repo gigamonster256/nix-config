@@ -68,7 +68,7 @@ in {
               echo "PCR 15 check failed"
               exit 1
             else
-              echo "PCR 15 check suceed"
+              echo "PCR 15 check succeeded"
             fi
           '';
           serviceConfig = {
