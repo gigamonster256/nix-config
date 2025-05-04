@@ -16,6 +16,9 @@
 
   # boot config
   boot = {
+    # tpm2 luks unlock
+    initrd.systemd.enable = true;
+    # secure boot
     lanzaboote = {
       enable = true;
       pkiBundle = "/var/lib/sbctl";

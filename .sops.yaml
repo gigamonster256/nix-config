@@ -2,7 +2,7 @@ keys:
   - &users
     - &caleb 483A112B3567C4F0DF8974E1D776F5702D7E83AB
   - &hosts
-    - &littleboy age1ydrhl3zfgp8dur2ve6qf3q5xfvlr95rsgxec97t2dqxdup52d5aq89va8j
+    - &littleboy age1ftswaxmqv2f6rc8qzqnrl2sdzmanrwuf844feqq9f6m9yvunl9vs0qmszl
 creation_rules:
   - path_regex: hosts/modules/secrets.yaml$
     key_groups:
