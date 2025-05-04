@@ -31,7 +31,10 @@
       environment.persistence."${cfg.persistPath}" = {
         hideMounts = true;
         directories = [
+          "/var/log"
           "/var/lib/nixos"
+          "/var/lib/bluetooth"
+          "/var/lib/systemd/coredump"
           config.boot.lanzaboote.pkiBundle
         ];
         files =
