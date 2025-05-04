@@ -2,7 +2,6 @@
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   modulesPath,
-  inputs,
   lib,
   config,
   pkgs,
@@ -17,7 +16,11 @@
   # boot config
   boot = {
     # tpm2 luks unlock
-    initrd.systemd.enable = true;
+    initrd.systemd = {
+      enable = true;
+      # TODO: add a password hash for recovery if pcr15 validation fails
+      emergencyAccess = false;
+    };
     # secure boot
     lanzaboote = {
       enable = true;
@@ -35,6 +38,13 @@
     initrd.kernelModules = [];
     kernelModules = ["kvm-intel"];
     extraModulePackages = [];
+  };
+
+  # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
+  systemIdentity = {
+    enable = true;
+    # if this changes, 'systemctl disable check-pcrs; systemctl default' in emergency shell to skip check
+    pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
   };
 
   # TODO: stolen from original hardware-configuration.nix not sure if needed
