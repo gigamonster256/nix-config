@@ -120,11 +120,14 @@
             ./hosts/modules/nixos
           ]
           ++ (with inputs; [
+            home-manager.nixosModules.home-manager
             sops-nix.nixosModules.sops
             lanzaboote.nixosModules.lanzaboote
             disko.nixosModules.disko
             impermanence.nixosModules.impermanence
             nixos-facter-modules.nixosModules.facter
+            spicetify-nix.nixosModules.default
+            nix-index-database.nixosModules.nix-index
           ])
           ++ (builtins.attrValues nixosModules);
         darwinModules =
@@ -139,7 +142,15 @@
           };
           littleboy = {
             system = "x86_64-linux";
-            modules = [./hosts/littleboy];
+            modules = [
+              ./hosts/littleboy
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  users.caleb = ./home/littleboy.nix;
+                };
+              }
+            ];
           };
           tinyca = {
             system = "aarch64-linux";
@@ -161,7 +172,7 @@
           ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
           "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
-          "caleb@littleboy" = {modules = [./home/littleboy.nix];};
+          # "caleb@littleboy" = {modules = [./home/littleboy.nix];};
           chnorton = {modules = [./home/chnorton.nix];};
         };
       };

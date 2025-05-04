@@ -20,7 +20,10 @@ in
   mkCaches {
     x86_64-linux = {
       nixos = ["littleboy"];
-      home = ["caleb@littleboy" "chnorton"];
+      home = [
+        # "caleb@littleboy"
+        "chnorton"
+      ];
     };
     aarch64-linux = {
       nixos = ["tinyca"];
