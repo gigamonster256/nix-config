@@ -15,7 +15,7 @@
       btrfsWipe = {
         enable = lib.mkEnableOption "btrfs wipe";
         device = lib.mkOption {
-          default = "/dev/mapper/crypted";
+          default = config.fileSystems."/".device;
         };
         rootSubvolume = lib.mkOption {
           default = "root";
@@ -27,6 +27,13 @@
     cfg = config.impermanence;
   in
     lib.mkIf cfg.enable {
+      # TODO: make this flexible/more correct
+      assertions = [
+        {
+          assertion = cfg.btrfsWipe.enable == false || config.fileSystems."/".fsType == "btrfs";
+          message = "impermanence.btrfsWipe.enable requires btrfs filesystem";
+        }
+      ];
       fileSystems."${cfg.persistPath}".neededForBoot = true;
       environment.persistence."${cfg.persistPath}" = {
         hideMounts = true;

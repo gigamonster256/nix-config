@@ -47,7 +47,6 @@
     btrfsWipe = {
       enable = true;
       rootSubvolume = "root";
-      device = "/dev/mapper/crypted";
     };
   };
 
