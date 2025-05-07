@@ -32,12 +32,6 @@
       efi.canTouchEfiVariables = true;
     };
     # binfmt.emulatedSystems = ["aarch64-linux"];
-
-    # pretty sure nixos-facter-modules takes care of this
-    initrd.availableKernelModules = ["ahci" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci"];
-    initrd.kernelModules = [];
-    kernelModules = ["kvm-intel"];
-    extraModulePackages = [];
   };
 
   # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
@@ -56,13 +50,6 @@
       device = "/dev/mapper/crypted";
     };
   };
-
-  # TODO: stolen from original hardware-configuration.nix not sure if needed
-  # networking.useDHCP = lib.mkDefault false; # conflicts with nixos-facter-modules
-  networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
-  networking.useNetworkd = lib.mkDefault true;
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # secrets management
   sops.age = {
@@ -109,12 +96,6 @@
 
   # hardware
   facter.reportPath = ./facter.json;
-  hardware.graphics = {
-    extraPackages = with pkgs; [
-      intel-compute-runtime
-      intel-media-driver
-    ];
-  };
 
   # Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
