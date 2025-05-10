@@ -1,16 +1,14 @@
 {
-  "layer" = "top"; # Waybar at top layer
-  "position" = "top"; # Waybar at the bottom of your screen
-  "height" = 24; # Waybar height
-  # "width"= 1366; # Waybar width
-  # Choose the order of the modules
-  "modules-left" = [
+  layer = "top";
+  position = "top";
+  height = 24;
+  modules-left = [
     "hyprland/workspaces"
   ];
-  "modules-center" = [
+  modules-center = [
     "hyprland/window"
   ];
-  "modules-right" = [
+  modules-right = [
     "wireplumber"
     "network"
     "cpu"
@@ -20,66 +18,63 @@
     "clock"
   ];
   "hyprland/workspaces" = {
-    "disable-scroll" = true;
-    "all-outputs" = false;
-    "format" = "{icon}";
-    "format-icons" = {
-      "1=web" = "";
-      "2=code" = "";
-      "3=term" = "";
-      "4=work" = "";
-      "5=music" = "";
-      "6=docs" = "";
-      "urgent" = "";
-      "focused" = "";
-      "default" = "";
+    all-outputs = false;
+    disable-scroll = true;
+    format = "{icon}";
+    format-icons = {
+      default = "";
+      active = "";
+      urgent = "";
     };
   };
-  "tray" = {
-    # "icon-size"= 21;
-    "spacing" = 10;
-  };
-  "clock" = {
-    "format-alt" = "{=%Y-%m-%d}";
-  };
-  "cpu" = {
-    "format" = "{usage}% ";
-  };
-  "memory" = {
-    "format" = "{}% ";
-  };
-  "battery" = {
-    "bat" = "BAT0";
-    "states" = {
-      # "good"= 95;
-      "warning" = 30;
-      "critical" = 15;
+  wireplumber = {
+    reverse-scrolling = 1;
+    format = "{volume}% {icon}";
+    format-bluetooth = "{volume}% {icon}";
+    format-icons = {
+      car = "";
+      default = [
+        ""
+        ""
+      ];
+      handsfree = "";
+      headphones = "";
+      headset = "";
+      phone = "";
+      portable = "";
     };
-    "format" = "{capacity}% {icon}";
-    # "format-good"= ""; # An empty format will hide the module
-    # "format-full"= "";
-    "format-icons" = ["" "" "" "" ""];
+    format-muted = "";
   };
-  "network" = {
-    # "interface"= "wlp2s0"; # (Optional) To force the use of this interface
-    "format-wifi" = "{essid} ({signalStrength}%) ";
-    "format-ethernet" = "{ifname}= {ipaddr}/{cidr} ";
-    "format-disconnected" = "Disconnected ⚠";
+  network = {
+    format-disconnected = "Disconnected ⚠";
+    format-ethernet = "{ipaddr} ";
+    format-wifi = "{essid} ";
   };
-  "wireplumber" = {
-    "reverse-scrolling" = 1;
-    "format" = "{volume}% {icon}";
-    "format-bluetooth" = "{volume}% {icon}";
-    "format-muted" = "";
-    "format-icons" = {
-      "headphones" = "";
-      "handsfree" = "";
-      "headset" = "";
-      "phone" = "";
-      "portable" = "";
-      "car" = "";
-      "default" = ["" ""];
+  cpu = {
+    format = "{usage}% ";
+  };
+  memory = {
+    format = "{}% ";
+  };
+  battery = {
+    bat = "BAT0";
+    format = "{capacity}% {icon}";
+    format-icons = [
+      ""
+      ""
+      ""
+      ""
+      ""
+    ];
+    states = {
+      critical = 15;
+      warning = 30;
     };
-    # "on-click"= "pavucontrol"
+  };
+  tray = {
+    spacing = 10;
+  };
+  clock = {
+    tooltip-format = "{:%Y-%m-%d}";
   };
 }
