@@ -84,6 +84,7 @@
     # issue with missing sddm-greeter-qt6
     package = pkgs.kdePackages.sddm;
   };
+  programs.hyprlock.enable = true;
 
   programs.zsh.enable = true;
 

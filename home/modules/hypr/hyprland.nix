@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   wayland.windowManager.hyprland = {
     settings = lib.mkDefault {
       "$terminal" = "ghostty";
@@ -128,7 +132,8 @@
             moveBindings = lib.lists.map (ws: "${moveModifier},${ws},movetoworkspace,${ws}") workspaces;
           in
             switchBindings ++ moveBindings
-        );
+        )
+        ++ (lib.optional config.programs.hyprlock.enable "$mainMod,L,exec,hyprlock");
       # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = [
         "$mainMod,mouse:272,movewindow"
