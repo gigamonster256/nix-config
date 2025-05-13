@@ -4,20 +4,24 @@
   config,
   ...
 }: let
-  inherit (lib) mkDefault;
+  inherit
+    (lib)
+    mkDefault
+    getExe
+    ;
 in {
+  imports = [
+    ./oh-my-posh.nix
+  ];
+
   home.packages = lib.mkIf config.programs.zsh.enable (with pkgs; [
     fzf
     tmux
     eternal-terminal
+    # helper scripts
     flash
     extract
   ]);
-
-  programs.oh-my-posh = {
-    enable = mkDefault config.programs.zsh.enable;
-    settings = mkDefault (import ./posh-config.nix);
-  };
 
   programs.zsh = {
     syntaxHighlighting.enable = mkDefault true;
@@ -45,7 +49,7 @@ in {
 
         # Shell integrations
         # fzf
-        eval "$(${lib.getExe pkgs.fzf} --zsh)"
+        eval "$(${getExe pkgs.fzf} --zsh)"
         # catppuccin mocha theme
         export FZF_DEFAULT_OPTS=" \
           --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
