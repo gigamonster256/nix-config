@@ -1,24 +1,32 @@
 {
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
-}: {
-  programs.eza = {
-    colors = "auto";
-    icons = "auto";
-    enableZshIntegration = config.programs.zsh.enable;
-    git = config.programs.git.enable;
-    extraOptions = [
-      "--group-directories-first"
-      "--header"
-      "--no-quotes"
-    ];
-  };
+}:
+let
+  inherit (lib) mkDefault mkIf mkMerge;
+  cfg = config.programs.eza;
+in
+mkMerge [
+  {
+    programs.eza = {
+      colors = mkDefault "auto";
+      icons = mkDefault "auto";
+      enableZshIntegration = mkDefault config.programs.zsh.enable;
+      git = mkDefault config.programs.git.enable;
+      extraOptions = mkDefault [
+        "--group-directories-first"
+        "--header"
+        "--no-quotes"
+      ];
+    };
+  }
+  (mkIf cfg.enable {
+    home.sessionVariables.EZA_CONFIG_DIR = mkDefault "${config.xdg.configHome}/eza";
 
-  home.sessionVariables.EZA_CONFIG_DIR = "${config.xdg.configHome}/eza";
-
-  xdg.configFile."eza/theme.yml" = lib.mkIf config.programs.eza.enable {
-    source = "${pkgs.eza-themes.builtin}/share/eza/themes/catppuccin.yml";
-  };
-}
+    xdg.configFile."eza/theme.yml" = mkDefault {
+      source = "${pkgs.eza-themes.builtin}/share/eza/themes/catppuccin.yml";
+    };
+  })
+]

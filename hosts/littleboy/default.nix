@@ -3,10 +3,11 @@
 {
   modulesPath,
   lib,
-  config,
   pkgs,
+  config,
   ...
-}: {
+}:
+{
   # not 100% sure if this is needed
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -106,7 +107,7 @@
           # Add your SSH public key(s) here, if you plan on using SSH to connect
         ];
         # Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-        extraGroups = ["wheel"];
+        extraGroups = [ "wheel" ];
         shell = pkgs.zsh;
       };
     };

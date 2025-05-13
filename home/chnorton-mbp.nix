@@ -1,8 +1,8 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home = {
     packages = builtins.attrValues {
-      inherit
-        (pkgs)
+      inherit (pkgs)
         pinentry_mac
         vscode
         net-news-wire
@@ -10,8 +10,7 @@
         slack
         element-desktop
         ;
-      inherit
-        (pkgs.unstable)
+      inherit (pkgs.unstable)
         bitwarden-desktop # macos only on unstable
         trilium-next-desktop
         # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933 on unstable

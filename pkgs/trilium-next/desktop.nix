@@ -14,7 +14,8 @@
   copyDesktopItems,
   wrapGAppsHook3,
   metaCommon,
-}: let
+}:
+let
   pname = "trilium-next-desktop";
   version = "0.90.12";
 
@@ -35,15 +36,23 @@
 
   src = fetchurl sources.${stdenv.hostPlatform.system};
 
-  meta =
-    metaCommon
-    // {
-      mainProgram = "trilium";
-      platforms = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
-    };
+  meta = metaCommon // {
+    mainProgram = "trilium";
+    platforms = [
+      "x86_64-linux"
+      "x86_64-darwin"
+      "aarch64-linux"
+      "aarch64-darwin"
+    ];
+  };
 
   linux = stdenv.mkDerivation rec {
-    inherit pname version meta src;
+    inherit
+      pname
+      version
+      meta
+      src
+      ;
 
     # TODO: migrate off autoPatchelfHook and use nixpkgs' electron
     nativeBuildInputs = [
@@ -70,7 +79,7 @@
         icon = "trilium";
         comment = meta.description;
         desktopName = "Trilium Notes";
-        categories = ["Office"];
+        categories = [ "Office" ];
         startupWMClass = "trilium notes";
       })
     ];
@@ -105,9 +114,14 @@
   };
 
   darwin = stdenv.mkDerivation {
-    inherit pname version meta src;
+    inherit
+      pname
+      version
+      meta
+      src
+      ;
 
-    nativeBuildInputs = [unzip];
+    nativeBuildInputs = [ unzip ];
 
     installPhase = ''
       mkdir -p $out/Applications
@@ -115,6 +129,4 @@
     '';
   };
 in
-  if stdenv.hostPlatform.isDarwin
-  then darwin
-  else linux
+if stdenv.hostPlatform.isDarwin then darwin else linux

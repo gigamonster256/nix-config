@@ -1,10 +1,14 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
-  pkgs,
   lib,
+  pkgs,
   ...
-}: {
+}:
+let
+  inherit (lib) mkDefault;
+in
+{
   # You can import other home-manager modules here
   imports = [
     ./zsh
@@ -45,20 +49,18 @@
 
   home = {
     packages = builtins.attrValues {
-      inherit
-        (pkgs)
+      inherit (pkgs)
         neovim
         devenv
         magic-wormhole # TODO try out the rust or go version?
         ;
-      inherit
-        (pkgs.unstable)
+      inherit (pkgs.unstable)
         hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
         ;
     };
     sessionVariables.EDITOR = "nvim";
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = lib.mkDefault "23.11";
+    stateVersion = mkDefault "23.11";
   };
 
   # typos

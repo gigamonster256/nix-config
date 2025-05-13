@@ -12,25 +12,23 @@
 writeShellApplication {
   name = "extract";
 
-  runtimeInputs =
-    [
-      gnutar
-      unzip
-      bzip2
-      gzip
-      p7zip
-    ]
-    ++ lib.optional withUnfree unrar;
+  runtimeInputs = [
+    gnutar
+    unzip
+    bzip2
+    gzip
+    p7zip
+  ] ++ lib.optional withUnfree unrar;
 
-  text = let
-    extractRar =
-      if withUnfree
-      then "unrar x \"$1\""
-      else "echo 'unrar is not available, please install extract with unfree'";
-  in
-    /*
-    bash
-    */
+  text =
+    let
+      extractRar =
+        if withUnfree then
+          "unrar x \"$1\""
+        else
+          "echo 'unrar is not available, please install extract with unfree'";
+    in
+    # bash
     ''
       if [ -f "$1" ] ; then
         case $1 in

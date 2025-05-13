@@ -1,3 +1,4 @@
-{pkgs}: {
-  builtin = pkgs.callPackage ./builtin.nix {};
+{ pkgs }:
+{
+  builtin = pkgs.callPackage ./builtin.nix { };
 }

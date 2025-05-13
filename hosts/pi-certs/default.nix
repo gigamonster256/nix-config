@@ -1,12 +1,19 @@
 {
+  lib,
   pkgs,
   config,
-  lib,
   ...
-}: {
-  imports = [./base.nix ./step-ca];
+}:
+{
+  imports = [
+    ./base.nix
+    ./step-ca
+  ];
 
-  environment.systemPackages = with pkgs; [step-cli yubikey-manager];
+  environment.systemPackages = with pkgs; [
+    step-cli
+    yubikey-manager
+  ];
   services.pcscd.enable = true;
   services.infnoise.enable = true;
   services.openssh.enable = true;

@@ -52,52 +52,59 @@
     git-hooks.url = "github:cachix/git-hooks.nix";
     git-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    flake-parts,
-    ...
-  }: let
-    overlays = import ./overlays {inherit inputs;};
-    nixosModules = import ./modules/nixos;
-    darwinModules = import ./modules/darwin;
-    homeManagerModules = import ./modules/home-manager;
-    flakeModules = import ./modules/flake;
-  in
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      imports =
-        [
-          inputs.git-hooks.flakeModule
-        ]
-        ++ (builtins.attrValues flakeModules);
-      perSystem = {
-        config,
-        pkgs,
-        ...
-      }: {
-        # TODO: use official formatter
-        formatter = pkgs.alejandra;
-        pre-commit.settings.hooks.alejandra.enable = true;
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      flake-parts,
+      ...
+    }:
+    let
+      overlays = import ./overlays { inherit inputs; };
+      nixosModules = import ./modules/nixos;
+      darwinModules = import ./modules/darwin;
+      homeManagerModules = import ./modules/home-manager;
+      flakeModules = import ./modules/flake;
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        # inputs.git-hooks.flakeModule
+        inputs.treefmt-nix.flakeModule
+      ] ++ (builtins.attrValues flakeModules);
+      perSystem =
+        {
+          config,
+          pkgs,
+          ...
+        }:
+        {
+          treefmt = import ./treefmt.nix { inherit pkgs; };
 
-        devShells.default = import ./shell.nix {
-          inherit pkgs;
-          additionalShells = [config.pre-commit.devShell];
+          devShells.default = import ./shell.nix {
+            inherit pkgs;
+            # additionalShells = [config.pre-commit.devShell];
+          };
         };
-      };
       flake = {
-        inherit overlays nixosModules darwinModules homeManagerModules flakeModules;
+        inherit
+          overlays
+          nixosModules
+          darwinModules
+          homeManagerModules
+          flakeModules
+          ;
         images.tinyca =
           (self.nixosConfigurations.tinyca.extendModules {
-            modules = ["${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
-          })
-          .config
-          .system
-          .build
-          .sdImage;
+            modules = [
+              "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
+            ];
+          }).config.system.build.sdImage;
         ci = import ./ci.nix {
           inherit self;
           inherit (nixpkgs) lib;
@@ -106,15 +113,13 @@
       lite-config = {
         nixpkgs = {
           config.allowUnfree = true;
-          overlays =
-            [
-              inputs.neovim.overlays.default
-            ]
-            ++ (builtins.attrValues overlays);
+          overlays = [
+            inputs.neovim.overlays.default
+          ] ++ (builtins.attrValues overlays);
           setPerSystemPkgs = true;
         };
 
-        hostModules = [./hosts/modules];
+        hostModules = [ ./hosts/modules ];
         nixosModules =
           [
             ./hosts/modules/nixos
@@ -130,15 +135,13 @@
             nix-index-database.nixosModules.nix-index
           ])
           ++ (builtins.attrValues nixosModules);
-        darwinModules =
-          [
-            ./hosts/modules/darwin
-          ]
-          ++ (builtins.attrValues darwinModules);
+        darwinModules = [
+          ./hosts/modules/darwin
+        ] ++ (builtins.attrValues darwinModules);
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
-            modules = [./hosts/chnorton-mbp];
+            modules = [ ./hosts/chnorton-mbp ];
           };
           littleboy = {
             system = "x86_64-linux";
@@ -171,9 +174,13 @@
           ])
           ++ (builtins.attrValues homeManagerModules);
         homeConfigurations = {
-          "caleb@chnorton-mbp" = {modules = [./home/chnorton-mbp.nix];};
+          "caleb@chnorton-mbp" = {
+            modules = [ ./home/chnorton-mbp.nix ];
+          };
           # "caleb@littleboy" = {modules = [./home/littleboy.nix];};
-          chnorton = {modules = [./home/chnorton.nix];};
+          chnorton = {
+            modules = [ ./home/chnorton.nix ];
+          };
         };
       };
     };

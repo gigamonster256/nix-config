@@ -1,7 +1,9 @@
 # This file defines overlays
-{inputs, ...}: let
-  customPkgs = pkgs: import ../pkgs {inherit pkgs;};
-in {
+{ inputs, ... }:
+let
+  customPkgs = pkgs: import ../pkgs { inherit pkgs; };
+in
+{
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: customPkgs final;
 
@@ -17,13 +19,15 @@ in {
   # using the --unpack hash
   electron_shananagains = final: prev: {
     electron_35 = prev.electron_35.overrideAttrs (oldAttrs: {
-      passthru.headers = let
-        headersFetcher = vers: hash:
-          final.fetchurl {
-            url = "https://artifacts.electronjs.org/headers/dist/v${vers}/node-v${vers}-headers.tar.gz";
-            sha256 = hash;
-          };
-      in
+      passthru.headers =
+        let
+          headersFetcher =
+            vers: hash:
+            final.fetchurl {
+              url = "https://artifacts.electronjs.org/headers/dist/v${vers}/node-v${vers}-headers.tar.gz";
+              sha256 = hash;
+            };
+        in
         # nix-prefetch-url url (not using --unpack)
         headersFetcher oldAttrs.version "19b6amp8cqhgmif5rmgi7vayyr8m7mh8b179s3f4azxyzfis192z";
     });

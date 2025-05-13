@@ -1,12 +1,15 @@
 {
   inputs,
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
-}: let
+}:
+let
   inherit (lib) mkDefault;
-in {
+  cfg = config.programs.nh;
+in
+{
   programs.nh = {
     # nh 4.0 is in unstable
     package = mkDefault pkgs.unstable.nh;
@@ -14,5 +17,5 @@ in {
     # flake = mkDefault "github:gigamonster256/nix-config";
   };
   # TODO: the beta changes the session variable name to NH_FLAKE
-  home.sessionVariables.NH_FLAKE = lib.mkIf config.programs.nh.enable (mkDefault "github:gigamonster256/nix-config");
+  home.sessionVariables.NH_FLAKE = lib.mkIf cfg.enable (mkDefault "github:gigamonster256/nix-config");
 }

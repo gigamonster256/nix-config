@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   programs.hyprlock.settings = lib.mkDefault {
     general = {
       hide_cursor = true;

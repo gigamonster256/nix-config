@@ -1,3 +1,4 @@
-{pkgs}: {
-  catppuccin = pkgs.callPackage ./catppuccin.nix {};
+{ pkgs }:
+{
+  catppuccin = pkgs.callPackage ./catppuccin.nix { };
 }

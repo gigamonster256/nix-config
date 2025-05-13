@@ -1,22 +1,30 @@
 {
-  config,
   lib,
+  config,
   ...
-}: {
-  sops.secrets.wireless = lib.mkIf config.networking.wireless.enable {
+}:
+let
+  inherit (lib)
+    mkDefault
+    mkIf
+    ;
+  cfg = config.networking.wireless;
+in
+{
+  sops.secrets.wireless = mkIf cfg.enable {
     sopsFile = ../secrets.yaml;
-    restartUnits = ["wpa_supplicant.service"];
+    restartUnits = [ "wpa_supplicant.service" ];
   };
 
   networking.wireless = {
-    userControlled.enable = lib.mkDefault true;
-    fallbackToWPA2 = lib.mkDefault false;
-    allowAuxiliaryImperativeNetworks = lib.mkDefault false;
+    userControlled.enable = mkDefault true;
+    fallbackToWPA2 = mkDefault false;
+    allowAuxiliaryImperativeNetworks = mkDefault false;
     secretsFile = config.sops.secrets.wireless.path;
     networks = {
       "Penguin Plaza".pskRaw = "ext:home_psk";
       "TAMU_WiFi" = {
-        authProtocols = ["WPA-EAP"];
+        authProtocols = [ "WPA-EAP" ];
         auth = ''
           eap=PEAP
           identity="chnorton"

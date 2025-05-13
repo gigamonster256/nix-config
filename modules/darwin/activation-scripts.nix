@@ -1,14 +1,15 @@
 {
-  config,
   lib,
   pkgs,
+  config,
   ...
 }:
-with lib; let
+with lib;
+let
   inherit (pkgs) stdenv;
-
   cfg = config.system;
-in {
+in
+{
   config = {
     system.activationScripts.script.text = mkForce ''
       #! ${stdenv.shell}

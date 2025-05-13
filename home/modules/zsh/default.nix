@@ -1,36 +1,27 @@
 {
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
-}: let
-  inherit
-    (lib)
+}:
+let
+  inherit (lib)
     mkDefault
     getExe
     ;
-in {
+  cfg = config.programs.zsh;
+in
+{
   imports = [
     ./oh-my-posh.nix
   ];
-
-  home.packages = lib.mkIf config.programs.zsh.enable (with pkgs; [
-    fzf
-    tmux
-    eternal-terminal
-    # helper scripts
-    flash
-    extract
-  ]);
 
   programs.zsh = {
     syntaxHighlighting.enable = mkDefault true;
     autosuggestion.enable = mkDefault true;
     # historySubstringSearch.enable = true;
     initExtraBeforeCompInit =
-      /*
-      bash
-      */
+      # bash
       ''
         # Plugins
         source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
@@ -57,11 +48,23 @@ in {
           --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
       '';
     initExtra =
-      /*
-      bash
-      */
+      # bash
       "";
   };
+
+  home.packages = lib.mkIf cfg.enable (
+    builtins.attrValues {
+      inherit (pkgs)
+        fzf
+        tmux
+        eternal-terminal
+        # helper scripts
+        flash
+        extract
+        ;
+    }
+  );
+
   home.shellAliases = {
     l = mkDefault "ls";
     gr = mkDefault "cd $(git rev-parse --show-toplevel)";

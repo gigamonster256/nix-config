@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   imports = [
     ./wireless.nix
     ./hyprland.nix

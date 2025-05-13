@@ -1,6 +1,6 @@
 {
-  pkgs ? import <nixpkgs> {},
-  additionalShells ? [],
+  pkgs ? import <nixpkgs> { },
+  additionalShells ? [ ],
   ...
 }:
 pkgs.mkShellNoCC {
@@ -8,7 +8,6 @@ pkgs.mkShellNoCC {
 
   nativeBuildInputs = with pkgs; [
     nix
-    home-manager
     git
 
     sops

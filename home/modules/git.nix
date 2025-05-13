@@ -1,7 +1,9 @@
-{lib, ...}: {
-  programs.git = let
-    inherit (lib) mkDefault;
-  in {
+{ lib, ... }:
+let
+  inherit (lib) mkDefault;
+in
+{
+  programs.git = {
     userName = mkDefault "Caleb Norton";
     userEmail = mkDefault "n0603919@outlook.com";
     aliases = {

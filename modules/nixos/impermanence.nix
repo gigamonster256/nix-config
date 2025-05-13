@@ -1,10 +1,11 @@
 {
-  pkgs,
-  utils,
   lib,
+  utils,
+  pkgs,
   config,
   ...
-}: {
+}:
+{
   options = {
     impermanence = {
       enable = lib.mkEnableOption "impermanence";
@@ -23,9 +24,10 @@
       };
     };
   };
-  config = let
-    cfg = config.impermanence;
-  in
+  config =
+    let
+      cfg = config.impermanence;
+    in
     lib.mkIf cfg.enable {
       # TODO: make this flexible/more correct
       assertions = [
@@ -44,24 +46,23 @@
           "/var/lib/systemd/coredump"
           config.boot.lanzaboote.pkiBundle
         ];
-        files =
-          [
-            "/etc/machine-id"
-          ]
-          ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths);
+        files = [
+          "/etc/machine-id"
+        ] ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths);
       };
-      boot.initrd.systemd = let
-        cfg = config.impermanence.btrfsWipe;
-      in
+      boot.initrd.systemd =
+        let
+          cfg = config.impermanence.btrfsWipe;
+        in
         lib.mkIf cfg.enable {
           extraBin = {
             mkdir = "${pkgs.coreutils}/bin/mkdir";
           };
           services.btrfs-wipe = {
             description = "Prepare btrfs subvolumes for root";
-            wantedBy = ["initrd.target"];
-            after = ["${utils.escapeSystemdPath cfg.device}.device"];
-            before = ["sysroot.mount"];
+            wantedBy = [ "initrd.target" ];
+            after = [ "${utils.escapeSystemdPath cfg.device}.device" ];
+            before = [ "sysroot.mount" ];
             unitConfig.DefaultDependencies = "no";
             serviceConfig.Type = "oneshot";
             script = ''

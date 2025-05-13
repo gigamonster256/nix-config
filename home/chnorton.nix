@@ -1,3 +1,2 @@
-{}
+{ }
 # just my global config
-

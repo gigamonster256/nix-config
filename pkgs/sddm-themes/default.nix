@@ -1,3 +1,4 @@
-{pkgs}: {
-  sugar-dark = pkgs.callPackage ./sugar-dark.nix {};
+{ pkgs }:
+{
+  sugar-dark = pkgs.callPackage ./sugar-dark.nix { };
 }

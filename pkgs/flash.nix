@@ -14,9 +14,7 @@ writeShellApplication {
   ];
 
   text =
-    /*
-    bash
-    */
+    # bash
     ''
       if [ "$(file "$1" --mime-type -b)" = "application/zstd" ]; then
         echo "Flashing zst using zstdcat | dd"

@@ -1,8 +1,9 @@
 {
-  config,
+  lib,
   pkgs,
+  config,
 }:
-pkgs.lib.strings.concatStrings [
+lib.concatStrings [
   ''
     PLUGIN_DIR="${pkgs.sketchybar-plugins.all}"
 
@@ -27,47 +28,48 @@ pkgs.lib.strings.concatStrings [
     # only the properties deviating from the current defaults need to be set
   ''
   (
-    if config.services.aerospace.enable
-    then ''
-      sketchybar --add event aerospace_workspace_change
+    if config.services.aerospace.enable then
+      ''
+        sketchybar --add event aerospace_workspace_change
 
-      for sid in $(aerospace list-workspaces --all); do
-          sketchybar --add item space.$sid left \
-              --subscribe space.$sid aerospace_workspace_change \
-              --set space.$sid \
-              background.color=0x40ffffff \
-              background.corner_radius=5 \
-              background.height=25 \
-              background.drawing=off \
-              icon="$sid" \
-              icon.padding_left=7 \
-              icon.padding_right=7 \
-              label.drawing=off \
-              click_script="aerospace workspace $sid" \
-              script="$PLUGIN_DIR/aerospace.sh $sid"
-      done
+        for sid in $(aerospace list-workspaces --all); do
+            sketchybar --add item space.$sid left \
+                --subscribe space.$sid aerospace_workspace_change \
+                --set space.$sid \
+                background.color=0x40ffffff \
+                background.corner_radius=5 \
+                background.height=25 \
+                background.drawing=off \
+                icon="$sid" \
+                icon.padding_left=7 \
+                icon.padding_right=7 \
+                label.drawing=off \
+                click_script="aerospace workspace $sid" \
+                script="$PLUGIN_DIR/aerospace.sh $sid"
+        done
 
-    ''
-    else ''
-      SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-      for i in "''${!SPACE_ICONS[@]}"
-      do
-        sid="$(($i+1))"
-        space=(
-          space="$sid"
-          icon="''${SPACE_ICONS[i]}"
-          icon.padding_left=7
-          icon.padding_right=7
-          background.color=0x40ffffff
-          background.corner_radius=5
-          background.height=25
-          label.drawing=off
-          script="$PLUGIN_DIR/builtin/space.sh"
-          click_script="yabai -m space --focus $sid"
-        )
-        sketchybar --add space space."$sid" left --set space."$sid" "''${space[@]}"
-      done
-    ''
+      ''
+    else
+      ''
+        SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+        for i in "''${!SPACE_ICONS[@]}"
+        do
+          sid="$(($i+1))"
+          space=(
+            space="$sid"
+            icon="''${SPACE_ICONS[i]}"
+            icon.padding_left=7
+            icon.padding_right=7
+            background.color=0x40ffffff
+            background.corner_radius=5
+            background.height=25
+            label.drawing=off
+            script="$PLUGIN_DIR/builtin/space.sh"
+            click_script="yabai -m space --focus $sid"
+          )
+          sketchybar --add space space."$sid" left --set space."$sid" "''${space[@]}"
+        done
+      ''
   )
   ''
     sketchybar --add item chevron left \

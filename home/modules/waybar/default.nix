@@ -1,22 +1,24 @@
 {
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
 }:
-lib.mkMerge [
+let
+  inherit (lib) mkDefault mkIf mkMerge;
+  cfg = config.programs.waybar;
+in
+mkMerge [
   {
     programs.waybar = {
-      settings.mainBar = lib.mkDefault (import ./config.nix);
-      style = lib.mkDefault (builtins.readFile ./style.css);
+      settings.mainBar = mkDefault (import ./config.nix);
+      style = mkDefault (builtins.readFile ./style.css);
     };
   }
-  (lib.mkIf
-    config.programs.waybar.enable
-    {
-      fonts.fontconfig.enable = lib.mkDefault true;
-      home.packages = [
-        pkgs.font-awesome
-      ];
-    })
+  (mkIf cfg.enable {
+    fonts.fontconfig.enable = true;
+    home.packages = [
+      pkgs.font-awesome
+    ];
+  })
 ]

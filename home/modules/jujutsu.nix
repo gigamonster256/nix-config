@@ -1,12 +1,14 @@
 {
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
-}: {
-  programs.jujutsu = let
-    inherit (lib) mkDefault;
-  in {
+}:
+let
+  inherit (lib) mkDefault;
+in
+{
+  programs.jujutsu = {
     package = mkDefault pkgs.unstable.jujutsu;
     settings = {
       user = {
@@ -15,7 +17,7 @@
       };
       ui = {
         merge-editor = mkDefault ":builtin";
-        default-command = mkDefault ["log"];
+        default-command = mkDefault [ "log" ];
         pager = mkDefault ":builtin";
       };
     };
