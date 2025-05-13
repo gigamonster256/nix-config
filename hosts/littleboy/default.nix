@@ -18,8 +18,7 @@
     # tpm2 luks unlock
     initrd.systemd = {
       enable = true;
-      # TODO: add a password hash for recovery if pcr15 validation fails
-      emergencyAccess = false;
+      emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
     };
     # secure boot
     lanzaboote = {
