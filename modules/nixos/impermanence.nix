@@ -48,7 +48,7 @@
           [
             "/etc/machine-id"
           ]
-          ++ config.sops.age.sshKeyPaths;
+          ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths);
       };
       boot.initrd.systemd = let
         cfg = config.impermanence.btrfsWipe;

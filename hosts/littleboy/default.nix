@@ -50,12 +50,6 @@
     };
   };
 
-  # secrets management
-  sops.age = {
-    sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
-    generateKey = false;
-  };
-
   # wireless (wpa_supplicant)
   # TODO: use networkmanager
   networking.wireless.enable = true;
@@ -97,21 +91,25 @@
   # hardware
   facter.reportPath = ./facter.json;
 
-  # Configure your system-wide user settings (groups, etc), add more users as needed.
-  users.users = {
-    # Replace with your username
-    caleb = {
-      # You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "defaultpassword";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        # Add your SSH public key(s) here, if you plan on using SSH to connect
-      ];
-      # Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel"];
-      shell = pkgs.zsh;
+  sops.secrets.caleb-password = {
+    neededForUsers = true;
+    sopsFile = ./secrets.yaml;
+  };
+
+  users = {
+    mutableUsers = false;
+    users = {
+      # Replace with your username
+      caleb = {
+        hashedPasswordFile = config.sops.secrets.caleb-password.path;
+        isNormalUser = true;
+        openssh.authorizedKeys.keys = [
+          # Add your SSH public key(s) here, if you plan on using SSH to connect
+        ];
+        # Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
+        extraGroups = ["wheel"];
+        shell = pkgs.zsh;
+      };
     };
   };
 
