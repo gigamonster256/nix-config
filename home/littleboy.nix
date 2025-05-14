@@ -3,6 +3,7 @@
   home.packages = [
     pkgs.unstable.trilium-next-desktop
     pkgs.wpa_supplicant_gui
+    pkgs.ntop
   ];
 
   programs.spicetify.enable = true;
