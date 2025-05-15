@@ -59,7 +59,7 @@ in
     in
     mkMerge [
       {
-        home.pointerCursor = {
+        home.pointerCursor = mkIf pkgs.stdenv.isLinux {
           # enable = mkDefault config.wayland.windowManager.hyprland.enable;
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Classic";

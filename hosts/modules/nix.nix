@@ -32,6 +32,8 @@ in
       trusted-users = [
         "root"
         "@wheel"
+        "@staff"
+        "caleb"
       ];
     };
     registry = mapAttrs (_: flake: { inherit flake; }) flakeInputs;
