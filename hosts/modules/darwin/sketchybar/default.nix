@@ -16,6 +16,6 @@ in
   );
   fonts.packages = mkIf cfg.enable [
     pkgs.sketchybar-app-font
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    pkgs.nerd-fonts.jetbrains-mono
   ];
 }

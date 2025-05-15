@@ -1,4 +1,8 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (lib)
     mkDefault
@@ -80,10 +84,10 @@ in
               definedAliases = [ "@sg" ];
             };
 
-            "Bing".metaData.hidden = true;
-            "DuckDuckGo".metaData.hidden = true;
-            "Wikipedia (en)".metaData.alias = "@wiki";
-            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            bing.metaData.hidden = true;
+            ddg.metaData.hidden = true;
+            wikipedia.metaData.alias = "@wiki";
+            google.metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
         force = true; # overwrite config on hm switch
       };

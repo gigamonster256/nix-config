@@ -15,30 +15,38 @@ in
     # trilium-desktop = (customPkgs final).trilium-next-desktop;
   };
 
-  # induced by https://github.com/NixOS/nixpkgs/pull/385341 and backports to 24.11
-  # using the --unpack hash
-  electron_shananagains = final: prev: {
-    electron_35 = prev.electron_35.overrideAttrs (oldAttrs: {
-      passthru.headers =
-        let
-          headersFetcher =
-            vers: hash:
-            final.fetchurl {
-              url = "https://artifacts.electronjs.org/headers/dist/v${vers}/node-v${vers}-headers.tar.gz";
-              sha256 = hash;
-            };
-        in
-        # nix-prefetch-url url (not using --unpack)
-        headersFetcher oldAttrs.version "19b6amp8cqhgmif5rmgi7vayyr8m7mh8b179s3f4azxyzfis192z";
-    });
-  };
+  # # induced by https://github.com/NixOS/nixpkgs/pull/385341 and backports to 24.11
+  # # using the --unpack hash
+  # electron_shananagains = final: prev: {
+  #   electron_35 = prev.electron_35.overrideAttrs (oldAttrs: {
+  #     passthru.headers =
+  #       let
+  #         headersFetcher =
+  #           vers: hash:
+  #           final.fetchurl {
+  #             url = "https://artifacts.electronjs.org/headers/dist/v${vers}/node-v${vers}-headers.tar.gz";
+  #             sha256 = hash;
+  #           };
+  #       in
+  #       # nix-prefetch-url url (not using --unpack)
+  #       headersFetcher oldAttrs.version "19b6amp8cqhgmif5rmgi7vayyr8m7mh8b179s3f4azxyzfis192z";
+  #   });
+  # };
 
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      inherit (final) system;
-      config.allowUnfree = true;
-    };
+  # # When applied, the unstable nixpkgs set (declared in the flake inputs) will
+  # # be accessible through 'pkgs.unstable'
+  # unstable-packages = final: _prev: {
+  #   unstable = import inputs.nixpkgs-unstable {
+  #     inherit (final) system;
+  #     config.allowUnfree = true;
+  #   };
+  # };
+
+  mac-ghostty-from-nur = final: prev: {
+    ghostty =
+      if final.stdenv.hostPlatform.isDarwin then
+        final.nur.repos.gigamonster256.ghostty-darwin
+      else
+        prev.ghostty;
   };
 }

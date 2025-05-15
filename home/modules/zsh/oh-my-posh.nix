@@ -17,7 +17,7 @@ in
     settings = mkDefault (import ./posh-config.nix);
   };
 
-  programs.zsh.initExtra = mkIf cfg.enable ''
+  programs.zsh.initContent = mkIf cfg.enable ''
     # disable auto update notice
     ${getExe cfg.package} disable notice
   '';

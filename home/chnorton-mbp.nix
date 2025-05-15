@@ -9,17 +9,13 @@
         wireshark
         slack
         element-desktop
-        ;
-      inherit (pkgs.unstable)
-        bitwarden-desktop # macos only on unstable
+        bitwarden-desktop
         trilium-next-desktop
-        # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933 on unstable
+        # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933
         ;
     };
   };
 
   programs.spicetify.enable = true;
   programs.ghostty.enable = true;
-  programs.gh.enable = true;
-  programs.bat.enable = true;
 }

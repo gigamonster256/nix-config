@@ -1,7 +1,7 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # You can build them using 'nix build .#example'
 {
-  pkgs ? import <nixpkgs-unstable> { },
+  pkgs ? import <nixpkgs> { },
 }:
 let
   attrsToPaths = attrs: pkgs.lib.mapAttrsToList (name: path: { inherit name path; }) attrs;
@@ -34,7 +34,6 @@ rec {
   fv = pkgs.callPackage ./fv.nix { };
   flash = pkgs.callPackage ./flash.nix { };
   extract = pkgs.callPackage ./extract.nix { };
-  # uses edition 2024 -- only in unstable for now
-  recursive-cpu-usage = pkgs.unstable.callPackage ./recursive-cpu-usage.nix { };
+  recursive-cpu-usage = pkgs.callPackage ./recursive-cpu-usage.nix { };
   ntop = pkgs.callPackage ./ntop.nix { };
 }

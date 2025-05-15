@@ -16,12 +16,6 @@ in
 mkMerge [
   {
     programs.ghostty = {
-      # TODO: refactor when ghostty makes it into nixpkgs for darwin
-      package =
-        if pkgs.stdenv.hostPlatform.isLinux then
-          pkgs.unstable.ghostty
-        else
-          inputs.gigamonster256-nur.packages.${pkgs.stdenv.hostPlatform.system}.ghostty-darwin;
       settings =
         let
           # Monaspace Neon
@@ -53,7 +47,7 @@ mkMerge [
   (lib.mkIf cfg.enable {
     fonts.fontconfig.enable = true;
     home.packages = [
-      pkgs.unstable.monaspace
+      pkgs.monaspace
     ];
   })
 ]
