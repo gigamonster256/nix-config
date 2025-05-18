@@ -2,10 +2,11 @@
   inputs,
   lib,
   pkgs,
+  config,
   ...
 }:
 let
-  inherit (lib) mkDefault;
+  inherit (lib) mkDefault mkIf;
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 in
 {
@@ -21,4 +22,5 @@ in
       }
     );
   };
+  home.packages = mkIf (config.programs.spicetify.enable && pkgs.stdenv.isLinux) [ pkgs.playerctl ];
 }
