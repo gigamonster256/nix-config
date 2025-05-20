@@ -18,4 +18,6 @@
 
   programs.spicetify.enable = true;
   programs.ghostty.enable = true;
+
+  home.stateVersion = "25.11";
 }
