@@ -18,17 +18,10 @@ jobs:
         id: update
         uses: DeterminateSystems/update-flake-lock@v24
         with:
-          pr-title: "Update flake.lock" # Title of PR to be created
-          pr-labels: |                  # Labels to be set on the PR
+          pr-title: "Update flake.lock"
+          pr-labels: |
             dependencies
             automated
             automerge
-      - name: Merge PR
-        uses: pascalgn/automerge-action@v0.16.4
-        env:
-          MERGE_METHOD: "rebase"
-          MERGE_COMMIT_MESSAGE: "pull-request-title"
-          # https://github.com/orgs/community/discussions/55906
-          GITHUB_TOKEN: "${{ secrets.AUTO_MERGE_PAT }}"
-          PULL_REQUEST: "${{ steps.update.outputs.pull-request-number }}"
-            
+          branch: flake-update
+
