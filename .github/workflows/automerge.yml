@@ -1,0 +1,21 @@
+name: "Automerge PRs"
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - labeled
+      - synchronize
+      - opened
+jobs:
+  automerge:
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'automerge') &&
+      github.event.pull_request.head.ref == 'flake-update'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Automerge
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          MERGE_METHOD: "rebase"
+          MERGE_COMMIT_MESSAGE: "pull-request-title"
