@@ -4,7 +4,7 @@
   ...
 }:
 let
-  inherit (lib) mkDefault;
+  inherit (lib) mkDefault optionalAttrs;
 in
 {
   # You can import other home-manager modules here
@@ -47,14 +47,21 @@ in
   };
 
   home = {
-    packages = builtins.attrValues {
-      inherit (pkgs)
-        neovim
-        devenv
-        magic-wormhole # TODO try out the rust or go version?
-        # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
-        ;
-    };
+    packages = builtins.attrValues (
+      {
+        inherit (pkgs)
+          neovim
+          devenv
+          magic-wormhole # TODO try out the rust or go version?
+          # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
+          ;
+      }
+      // (optionalAttrs pkgs.stdenv.isLinux {
+        inherit (pkgs)
+          usbutils
+          ;
+      })
+    );
     sessionVariables.EDITOR = "nvim";
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
     stateVersion = mkDefault "23.11";
