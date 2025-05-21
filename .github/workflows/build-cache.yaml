@@ -3,8 +3,13 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+    paths-ignore: []
 jobs:
   build:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.head_ref == 'flake-update')
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
