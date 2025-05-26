@@ -11,6 +11,9 @@
       source = [
         "${./catppuccin-mocha.conf}"
       ];
+      ecosystem = {
+        no_update_news = true;
+      };
       monitor = ",preferred,auto,auto";
       exec-once = [
         "waybar"
