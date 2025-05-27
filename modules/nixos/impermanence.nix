@@ -55,9 +55,8 @@
           cfg = config.impermanence.btrfsWipe;
         in
         lib.mkIf cfg.enable {
-          extraBin = {
-            mkdir = "${pkgs.coreutils}/bin/mkdir";
-          };
+          # try to resume from hibernation before we go mucking about with the persist subvolume
+          services.create-needed-for-boot-dirs.after = [ "systemd-hibernate-resume.service" ];
           services.btrfs-wipe = {
             description = "Prepare btrfs subvolumes for root";
             wantedBy = [ "initrd-root-device.target" ];
@@ -71,8 +70,7 @@
             script =
               # bash
               ''
-                mkdir /btrfs_tmp
-                mount ${cfg.device} /btrfs_tmp
+                mount --mkdir ${cfg.device} /btrfs_tmp
                 if [[ -e /btrfs_tmp/${cfg.rootSubvolume} ]]; then
                     mkdir -p /btrfs_tmp/old_roots
                     timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${cfg.rootSubvolume})" "+%Y-%m-%-d_%H:%M:%S")
