@@ -42,7 +42,7 @@
     impermanence.url = "github:nix-community/impermanence";
 
     # automatic hardware configuration
-    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+    nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
 
     # gpg and age based secret management
     sops-nix.url = "github:Mic92/sops-nix";
