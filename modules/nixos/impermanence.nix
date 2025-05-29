@@ -77,17 +77,9 @@
                     mv /btrfs_tmp/${cfg.rootSubvolume} "/btrfs_tmp/old_roots/$timestamp"
                 fi
 
-                delete_subvolume_recursively() {
-                    IFS=$'\n'
-                    for subvol in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-                        delete_subvolume_recursively "/btrfs_tmp/$subvol"
-                    done
-                    btrfs subvolume delete "$1"
-                }
-
                 # Delete old roots after 30 days
                 for old_root in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-                    delete_subvolume_recursively "$old_root"
+                    btrfs subvolume delete --recursive "$old_root"
                 done
 
                 # Create new root subvolume
