@@ -196,6 +196,7 @@
           ++ (with inputs; [
             spicetify-nix.homeManagerModules.default
             nix-index-database.hmModules.nix-index
+            impermanence.homeManagerModules.impermanence
             # stylix.homeManagerModules.stylix # issues with being included in home-manager and nixos configuration
           ])
           ++ (builtins.attrValues homeManagerModules);

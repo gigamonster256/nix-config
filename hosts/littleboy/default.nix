@@ -14,6 +14,8 @@
     ./disko.nix
   ];
 
+  programs.steam.enable = true;
+
   # boot config
   boot = {
     # tpm2 luks unlock
