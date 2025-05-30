@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -105,10 +106,11 @@
           "$mainMod,C,killactive"
           "$mainMod,F,exec,firefox"
           "$mainMod,S,exec,spotify"
+          # TODO: use rofi home-manager config with package set to rofi-wayland
+          "$mainMod,Space,exec,${lib.getExe pkgs.rofi-wayland} -show drun"
           "$mainMod,M,exit,"
           # "$mainMod,E,exec,$fileManager"
           "$mainMod,V,togglefloating,"
-          # "$mainMod,R,exec,$menu"
           "$mainMod,P,pseudo,"
           "$mainMod,J,togglesplit,"
           # move focus with mainMod + arrow keys
