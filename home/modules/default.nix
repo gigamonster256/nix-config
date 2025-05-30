@@ -58,6 +58,7 @@ in
       }
       // (optionalAttrs pkgs.stdenv.isLinux {
         inherit (pkgs)
+          file
           usbutils
           ;
       })
