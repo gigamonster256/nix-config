@@ -11,6 +11,7 @@ in
 mkMerge [
   {
     programs.waybar = {
+      enable = mkDefault config.wayland.windowManager.hyprland.enable;
       settings.mainBar = mkDefault (import ./config.nix);
       style = mkDefault (builtins.readFile ./style.css);
     };

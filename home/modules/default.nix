@@ -23,6 +23,7 @@ in
     ./btop.nix
     ./eza.nix
     ./cursor.nix
+    ./rofi.nix
   ];
 
   fonts.fontconfig.enable = true;

@@ -105,9 +105,6 @@
           "$mainMod,Return,exec,$terminal"
           "$mainMod,C,killactive"
           "$mainMod,F,exec,firefox"
-          "$mainMod,S,exec,spotify"
-          # TODO: use rofi home-manager config with package set to rofi-wayland
-          "$mainMod,Space,exec,${lib.getExe pkgs.rofi-wayland} -show drun"
           "$mainMod,M,exit,"
           # "$mainMod,E,exec,$fileManager"
           "$mainMod,V,togglefloating,"
@@ -139,7 +136,19 @@
           in
           switchBindings ++ moveBindings
         )
-        ++ (lib.optional config.programs.hyprlock.enable "$mainMod,L,exec,hyprlock");
+        ++ (lib.optional config.programs.hyprlock.enable "$mainMod,L,exec,hyprlock")
+        ++ (
+          let
+            roficfg = config.programs.rofi;
+          in
+          lib.optional roficfg.enable "$mainMod,Space,exec,${lib.getExe roficfg.finalPackage} -show drun"
+        )
+        ++ (
+          let
+            spotifycfg = config.programs.spicetify;
+          in
+          lib.optional spotifycfg.enable "$mainMod,S,exec,${lib.getExe spotifycfg.spicedSpotify}"
+        );
       # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = [
         "$mainMod,mouse:272,movewindow"
