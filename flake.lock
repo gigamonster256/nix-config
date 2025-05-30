@@ -374,11 +374,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1744917203,
-        "narHash": "sha256-sBk3uaIyUG1c/uSWk75Ao/TWiPpqnW64I0gZbrUm1Ic=",
+        "lastModified": 1748644536,
+        "narHash": "sha256-2Nifi4z5m8jlEshfdFbKCS1ZkCCyNLw8t8A6atX/Emw=",
         "owner": "gigamonster256",
         "repo": "neovim-config",
-        "rev": "5734cb5942539434dfdaaf2bb79845eb501098cb",
+        "rev": "bbac1b4945ae4a3e824dd6b2682b293116bac868",
         "type": "github"
       },
       "original": {
