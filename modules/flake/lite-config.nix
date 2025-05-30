@@ -218,18 +218,17 @@ let
       { liteConfigPkgs, ... }:
       let
         hostPlatform = liteConfigPkgs.stdenv.hostPlatform;
-        homeManagerSystemModule =
+        hostSpecificModules =
           if hostPlatform.isLinux then
-            cfg.flakes.home-manager.nixosModules.default
+            {
+              homeManagerSystemModule = cfg.flakes.home-manager.nixosModules.default;
+              platformModules = cfg.nixosModules;
+            }
           else if hostPlatform.isDarwin then
-            cfg.flakes.home-manager.darwinModules.default
-          else
-            throw "System type ${hostPlatform.system} not supported.";
-        platformModules =
-          if hostPlatform.isLinux then
-            cfg.nixosModules
-          else if hostPlatform.isDarwin then
-            cfg.darwinModules
+            {
+              homeManagerSystemModule = cfg.flakes.home-manager.darwinModules.default;
+              platformModules = cfg.darwinModules;
+            }
           else
             throw "System type ${hostPlatform.system} not supported.";
         specialArgs = {
@@ -245,17 +244,22 @@ let
               networking.hostName = lib.mkDefault hostName;
             }
           ]
-          ++ platformModules
+          ++ hostSpecificModules.platformModules
           ++ [
-            homeManagerSystemModule
-            {
-              _file = ./.;
-              home-manager = {
-                sharedModules = cfg.homeModules;
-                useGlobalPkgs = true;
-                extraSpecialArgs = specialArgs;
-              };
-            }
+            hostSpecificModules.homeManagerSystemModule
+            (
+              { config, ... }:
+              {
+                _file = ./.;
+                home-manager = {
+                  sharedModules = cfg.homeModules;
+                  useGlobalPkgs = true;
+                  extraSpecialArgs = specialArgs // {
+                    systemConfig = config;
+                  };
+                };
+              }
+            )
           ];
         builderArgs = {
           inherit specialArgs modules;

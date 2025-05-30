@@ -36,7 +36,10 @@
           message = "impermanence.btrfsWipe.enable requires btrfs filesystem";
         }
       ];
+      # ensure persist path is available at boot
       fileSystems."${cfg.persistPath}".neededForBoot = true;
+      # allow other users to access bind mounted directories - useful for home-manager impermanence
+      programs.fuse.userAllowOther = true;
       environment.persistence."${cfg.persistPath}" = {
         hideMounts = true;
         directories = [
