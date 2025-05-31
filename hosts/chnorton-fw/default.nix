@@ -4,6 +4,7 @@
   modulesPath,
   lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -22,12 +23,12 @@
     };
     # secure boot
     lanzaboote = {
-      # enable = true;
+      enable = true;
       pkiBundle = "/var/lib/sbctl";
     };
     loader = {
       timeout = 0;
-      systemd-boot.enable = lib.mkForce true; # use lanzaboote
+      systemd-boot.enable = lib.mkForce false; # use lanzaboote
       efi.canTouchEfiVariables = true;
     };
     # binfmt.emulatedSystems = ["aarch64-linux"];
@@ -36,6 +37,7 @@
   # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
   systemIdentity = {
     enable = true;
+    pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
   };
 
   # impermanence
@@ -86,18 +88,17 @@
   # hardware
   facter.reportPath = ./facter.json;
 
-  # sops.secrets.caleb-password = {
-  #   neededForUsers = true;
-  #   sopsFile = ./secrets.yaml;
-  # };
+  sops.secrets.caleb-password = {
+    neededForUsers = true;
+    sopsFile = ./secrets.yaml;
+  };
 
   users = {
     mutableUsers = false;
     users = {
       # Replace with your username
       caleb = {
-        # hashedPasswordFile = config.sops.secrets.caleb-password.path;
-        initialPassword = "defaultpassword";
+        hashedPasswordFile = config.sops.secrets.caleb-password.path;
         isNormalUser = true;
         openssh.authorizedKeys.keys = [
           # Add your SSH public key(s) here, if you plan on using SSH to connect

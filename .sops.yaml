@@ -3,7 +3,14 @@ keys:
     - &caleb 483A112B3567C4F0DF8974E1D776F5702D7E83AB
   - &hosts
     - &littleboy age1ftswaxmqv2f6rc8qzqnrl2sdzmanrwuf844feqq9f6m9yvunl9vs0qmszl
+    - &chnorton-fw age1wjf3y6jmkrt2snudreumyywlvs5ayavn7t85h80tg84w36zn0y6s4g6479
 creation_rules:
+  - path_regex: hosts/chnorton-fw/secrets.yaml$
+    key_groups:
+      - age:
+          - *chnorton-fw
+        pgp:
+          - *caleb
   - path_regex: hosts/littleboy/secrets.yaml$
     key_groups:
       - age:
@@ -14,6 +21,7 @@ creation_rules:
     key_groups:
       - age:
           - *littleboy
+          - *chnorton-fw
         pgp:
           - *caleb
   - path_regex: hosts/pi-certs/step-ca/secrets.yaml
