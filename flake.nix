@@ -168,6 +168,12 @@
             system = "aarch64-darwin";
             modules = [ ./hosts/chnorton-mbp ];
           };
+          chnorton-fw = {
+            system = "x86_64-linux";
+            modules = [
+              ./hosts/chnorton-fw
+            ];
+          };
           littleboy = {
             system = "x86_64-linux";
             modules = [
