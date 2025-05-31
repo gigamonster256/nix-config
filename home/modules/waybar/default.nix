@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkDefault mkIf mkMerge;
+  inherit (lib)
+    mkDefault
+    mkIf
+    mkMerge
+    mkForce
+    ;
   cfg = config.programs.waybar;
 in
 mkMerge [
@@ -13,7 +18,7 @@ mkMerge [
     programs.waybar = {
       enable = mkDefault config.wayland.windowManager.hyprland.enable;
       settings.mainBar = mkDefault (import ./config.nix);
-      style = mkDefault (builtins.readFile ./style.css);
+      style = mkForce (builtins.readFile ./style.css);
     };
   }
   (mkIf cfg.enable {

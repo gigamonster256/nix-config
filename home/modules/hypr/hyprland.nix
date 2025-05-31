@@ -6,12 +6,9 @@
 }:
 {
   wayland.windowManager.hyprland = {
-    settings = lib.mkDefault {
+    settings = {
       "$terminal" = "ghostty";
       "$mainMod" = "SUPER";
-      source = [
-        "${./catppuccin-mocha.conf}"
-      ];
       ecosystem = {
         no_update_news = true;
       };
@@ -27,8 +24,6 @@
         gaps_in = 2;
         gaps_out = 5;
         border_size = 2;
-        "col.active_border" = "$mauve $maroon 45deg";
-        "col.inactive_border" = "rgba($mauveAlphaaa)";
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";
@@ -47,7 +42,6 @@
           enabled = true;
           range = 4;
           render_power = 3;
-          color = "rgba(1a1a1aee)";
         };
       };
 

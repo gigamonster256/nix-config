@@ -9,6 +9,7 @@ let
   inherit (lib)
     mkDefault
     mkIf
+    mkForce
     mkMerge
     ;
   cfg = config.programs.ghostty;
@@ -23,17 +24,16 @@ mkMerge [
           # Monaspace Radon (cursiveish)
           italic-font = "Monaspace Radon Var";
         in
-        mkDefault {
+        {
           command = "${lib.getExe config.programs.zsh.package}";
-          theme = "catppuccin-mocha";
-          background-opacity = 0.85;
+          background-opacity = mkForce 0.85;
           mouse-hide-while-typing = true;
           focus-follows-mouse = true;
           window-decoration = false;
           macos-titlebar-style = "hidden";
-          font-family = font;
-          font-family-italic = italic-font;
-          font-family-bold-italic = italic-font;
+          font-family = mkForce font;
+          font-family-italic = mkForce italic-font;
+          font-family-bold-italic = mkForce italic-font;
           config-file = "?nix-escape-hatch";
           # https://github.com/githubnext/monaspace?tab=readme-ov-file#character-variants
           font-feature = [
