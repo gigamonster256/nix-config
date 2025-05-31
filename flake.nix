@@ -172,6 +172,12 @@
             system = "x86_64-linux";
             modules = [
               ./hosts/chnorton-fw
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  users.caleb = ./home/littleboy.nix;
+                };
+              }
             ];
           };
           littleboy = {
