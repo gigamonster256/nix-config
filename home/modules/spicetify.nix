@@ -6,21 +6,27 @@
   ...
 }:
 let
-  inherit (lib) mkDefault mkIf;
+  inherit (lib) mkDefault mkIf mkMerge;
+  cfg = config.programs.spicetify;
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 in
-{
-  programs.spicetify = {
-    theme = mkDefault spicePkgs.themes.dribbblish;
-    colorScheme = mkDefault "catppuccin-mocha";
-    enabledExtensions = mkDefault (
-      builtins.attrValues {
-        inherit (spicePkgs.extensions)
-          fullAppDisplay
-          shuffle
-          ;
-      }
-    );
-  };
-  home.packages = mkIf (config.programs.spicetify.enable && pkgs.stdenv.isLinux) [ pkgs.playerctl ];
-}
+mkMerge [
+  {
+    programs.spicetify = {
+      theme = mkDefault spicePkgs.themes.dribbblish;
+      colorScheme = mkDefault "catppuccin-mocha";
+      enabledExtensions = mkDefault (
+        builtins.attrValues {
+          inherit (spicePkgs.extensions)
+            fullAppDisplay
+            shuffle
+            ;
+        }
+      );
+    };
+  }
+  (mkIf cfg.enable {
+    home.packages = mkIf pkgs.stdenv.isLinux [ pkgs.playerctl ];
+    impermanence.directories = [ ".config/spotify" ];
+  })
+]

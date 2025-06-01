@@ -27,7 +27,7 @@ in
         default = config.home.homeDirectory;
       };
       directories = mkOption {
-        type = with types; listOf str;
+        type = with types; listOf anything; # let the impermanence module do the type checking
         default = [ ];
       };
       files = mkOption {
@@ -43,18 +43,11 @@ in
     mkIf cfg.enable {
       home.persistence."${cfg.persistPath}/${cfg.userPath}" = {
         allowOther = true;
-        directories =
-          cfg.directories
-          ++ [
-            ".ssh"
-            ".gnupg"
-            ".local/share/nix"
-          ]
-          ++ (optional systemConfig.programs.steam.enable {
-            directory = ".local/share/Steam";
-            method = "symlink";
-          })
-          ++ (optional config.programs.spicetify.enable ".config/spotify");
+        directories = cfg.directories ++ [
+          ".ssh"
+          ".gnupg"
+          ".local/share/nix"
+        ];
         files = cfg.files ++ [ ];
       };
     };

@@ -23,6 +23,9 @@ in
     ./eza.nix
     ./cursor.nix
     ./rofi.nix
+    ./steam.nix
+    ./slack.nix
+    ./trilium.nix
   ];
 
   fonts.fontconfig.enable = true;
