@@ -6,6 +6,7 @@
     inherit (pkgs)
       wpa_supplicant_gui
       ntop
+      vscode-fhs
       ;
   };
 
