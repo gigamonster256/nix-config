@@ -57,7 +57,7 @@
   time.timeZone = "America/Chicago";
 
   # printing
-  # services.printing.enable = true;
+  services.printing.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
