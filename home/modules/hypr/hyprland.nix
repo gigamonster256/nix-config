@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -9,13 +8,12 @@
     settings = {
       "$terminal" = "ghostty";
       "$mainMod" = "SUPER";
-      ecosystem = {
-        no_update_news = true;
-      };
+      ecosystem.no_update_news = true;
       monitor = ",preferred,auto,auto";
       exec-once = [
         "waybar"
       ];
+      xwayland.force_zero_scaling = true;
       env = [
         "XCURSOR_SIZE,24"
         "HYPRCURSOR_SIZE,24"
