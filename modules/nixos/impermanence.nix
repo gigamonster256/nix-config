@@ -42,13 +42,20 @@
       programs.fuse.userAllowOther = true;
       environment.persistence."${cfg.persistPath}" = {
         hideMounts = true;
-        directories = [
-          "/var/log"
-          "/var/lib/nixos"
-          "/var/lib/bluetooth"
-          "/var/lib/systemd/coredump"
-          config.boot.lanzaboote.pkiBundle
-        ];
+        directories =
+          [
+            "/var/log"
+            "/var/lib/nixos"
+            "/var/lib/bluetooth"
+            "/var/lib/systemd/coredump"
+            config.boot.lanzaboote.pkiBundle
+          ]
+          ++ (
+            let
+              fprintcfg = config.services.fprintd;
+            in
+            lib.optional fprintcfg.enable "/var/lib/fprint"
+          );
         files = [
           "/etc/machine-id"
         ] ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths);

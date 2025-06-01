@@ -76,6 +76,7 @@
     package = pkgs.kdePackages.sddm;
   };
   programs.hyprlock.enable = true;
+  services.fprintd.enable = true;
 
   programs.zsh.enable = true;
 
