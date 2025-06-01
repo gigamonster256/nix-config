@@ -175,7 +175,7 @@
               {
                 home-manager = {
                   useGlobalPkgs = true;
-                  users.caleb = ./home/littleboy.nix;
+                  users.caleb = ./home/chnorton-fw.nix;
                 };
               }
             ];
