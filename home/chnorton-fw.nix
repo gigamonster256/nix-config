@@ -21,4 +21,9 @@
   programs.firefox.enable = true;
   wayland.windowManager.hyprland.enable = true;
 
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    targets.firefox.profileNames = [ "default" ];
+  };
 }

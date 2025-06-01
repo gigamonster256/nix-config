@@ -20,7 +20,6 @@ in
     ./git.nix
     ./jujutsu.nix
     ./hypr
-    ./btop.nix
     ./eza.nix
     ./cursor.nix
     ./rofi.nix

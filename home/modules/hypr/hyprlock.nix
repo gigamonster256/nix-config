@@ -9,7 +9,7 @@ in
 {
   programs.hyprlock = {
     enable = mkDefault config.wayland.windowManager.hyprland.enable;
-    settings = mkDefault {
+    settings = {
       general = {
         hide_cursor = true;
       };
@@ -42,13 +42,6 @@ in
         monitor = "";
         # size = 20%, 5%
         outline_thickness = 3;
-        inner_color = "rgba(0, 0, 0, 0.0)";
-
-        outer_color = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        check_color = "rgba(00ff99ee) rgba(ff6633ee) 120deg";
-        fail_color = "rgba(ff6633ee) rgba(ff0066ee) 40deg";
-
-        font_color = "rgb(143, 143, 143)";
         fade_on_empty = false;
         # placeholder_text = Input password...
         # fail_text = $PAMFAIL

@@ -1,16 +1,10 @@
 {
-  lib,
   pkgs,
   ...
 }:
-let
-  inherit (lib)
-    mkDefault
-    ;
-in
 {
   programs.firefox = {
-    profiles.default = mkDefault {
+    profiles.default = {
       search = {
         engines =
           let
