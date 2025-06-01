@@ -89,6 +89,9 @@
   # hardware
   facter.reportPath = ./facter.json;
 
+  # all the games
+  programs.steam.enable = true;
+
   sops.secrets.caleb-password = {
     neededForUsers = true;
     sopsFile = ./secrets.yaml;
