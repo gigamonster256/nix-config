@@ -104,7 +104,7 @@
         [
           "$mainMod,Return,exec,$terminal"
           "$mainMod,C,killactive"
-          "$mainMod,F,exec,firefox"
+          "$mainMod,F,fullscreen"
           "$mainMod,M,exit,"
           # "$mainMod,E,exec,$fileManager"
           "$mainMod,V,togglefloating,"
