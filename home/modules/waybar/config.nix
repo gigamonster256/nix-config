@@ -66,7 +66,6 @@ in
     format = "{}% ";
   };
   battery = {
-    bat = "BAT0";
     format = "{capacity}% {icon}";
     format-icons = [
       ""
