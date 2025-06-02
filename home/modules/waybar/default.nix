@@ -6,19 +6,28 @@
 }@inputs:
 let
   inherit (lib)
-    mkDefault
     mkIf
     mkMerge
-    mkForce
+    mkAfter
     ;
   cfg = config.programs.waybar;
 in
 mkMerge [
   {
     programs.waybar = {
-      enable = mkDefault config.wayland.windowManager.hyprland.enable;
-      settings.mainBar = mkDefault (import ./config.nix inputs);
-      style = mkForce (builtins.readFile ./style.css);
+      enable = config.wayland.windowManager.hyprland.enable;
+      settings.mainBar = import ./config.nix inputs;
+      # after stylix color definitions
+      style = mkAfter (builtins.readFile ./style.css);
+      systemd = {
+        enable = true;
+        # enableInspect = true;
+      };
+    };
+    stylix.targets.waybar = {
+      # only color definitions
+      addCss = false;
+      font = "sansSerif";
     };
   }
   (mkIf cfg.enable {

@@ -11,12 +11,4 @@
   wayland.windowManager.hyprland.enable = true;
 
   impermanence.enable = true;
-
-  stylix = {
-    enable = true;
-    # autoEnable = false;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    targets.rofi.enable = true;
-    targets.firefox.profileNames = [ "default" ];
-  };
 }

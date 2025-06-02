@@ -1,6 +1,11 @@
 { lib, config, ... }:
 let
-  inherit (lib) mkIf getExe;
+  inherit (lib)
+    mkIf
+    getExe
+    ;
+  icon = symbol: "<span font_desc='Font Awesome 6 Free'>${symbol}</span>";
+  textIcon = text: i: "${text} ${icon i}";
 in
 {
   layer = "top";
@@ -16,15 +21,15 @@ in
     "wireplumber"
     "network"
     "cpu"
-    "memory"
     "battery"
+    "power-profiles-daemon"
     "tray"
     "clock"
   ];
   "hyprland/workspaces" = {
     all-outputs = false;
     disable-scroll = true;
-    format = "{icon}";
+    format = icon "{icon}";
     format-icons = {
       default = "";
       active = "";
@@ -33,8 +38,8 @@ in
   };
   wireplumber = {
     reverse-scrolling = 1;
-    format = "{volume}% {icon}";
-    format-bluetooth = "{volume}% {icon}";
+    format = textIcon "{volume}%" "{icon}";
+    format-bluetooth = textIcon "{volume}%" "{icon}";
     format-icons = {
       car = "";
       default = [
@@ -47,7 +52,7 @@ in
       phone = "";
       portable = "";
     };
-    format-muted = "MUTE ";
+    format-muted = textIcon "MUTE" "";
     on-click =
       let
         sonuscfg = config.programs.sonusmix;
@@ -55,18 +60,27 @@ in
       mkIf sonuscfg.enable "${getExe sonuscfg.package}";
   };
   network = {
-    format-disconnected = "Disconnected ⚠";
-    format-ethernet = "{ipaddr} ";
-    format-wifi = "{essid} ";
+    format-disconnected = textIcon "Disconnected" "⚠";
+    format-ethernet = textIcon "{ipaddr}" "";
+    format-wifi = textIcon "{essid}" "";
   };
   cpu = {
-    format = "{usage}% ";
+    format = textIcon "{usage}%" "";
   };
   memory = {
-    format = "{}% ";
+    format = textIcon "{}%" "";
+  };
+  power-profiles-daemon = {
+    format = icon "{icon}";
+    format-icons = {
+      default = "";
+      performance = "";
+      balanced = "";
+      power-saver = "";
+    };
   };
   battery = {
-    format = "{capacity}% {icon}";
+    format = textIcon "{capacity}%" "{icon}";
     format-icons = [
       ""
       ""

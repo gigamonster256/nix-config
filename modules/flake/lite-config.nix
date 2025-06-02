@@ -191,6 +191,14 @@ let
         '';
       };
 
+      standaloneHomeModules = mkOption {
+        type = types.listOf types.deferredModule;
+        default = [ ];
+        description = ''
+          Home manager modules to be imported by all hosts.
+        '';
+      };
+
       homeConfigurations = mkOption {
         type = types.attrsOf homeManagerConfigType;
         default = { };
@@ -280,6 +288,7 @@ let
       modules =
         homeConfig.modules
         ++ cfg.homeModules
+        ++ cfg.standaloneHomeModules
         ++ [
           (
             { config, ... }:

@@ -213,9 +213,11 @@
             spicetify-nix.homeManagerModules.default
             nix-index-database.hmModules.nix-index
             impermanence.homeManagerModules.impermanence
-            # stylix.homeManagerModules.stylix # issues with being included in home-manager and nixos configuration
           ])
           ++ (builtins.attrValues homeManagerModules);
+        standaloneHomeModules = [
+          inputs.stylix.homeModules.stylix # issues with being included in home-manager and nixos configuration... kinda clunky
+        ];
         homeConfigurations = {
           "caleb@chnorton-mbp" = {
             modules = [ ./home/chnorton-mbp.nix ];

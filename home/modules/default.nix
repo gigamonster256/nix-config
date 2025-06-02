@@ -12,7 +12,6 @@ in
     ./zsh
     ./waybar
     ./hypr
-    ./style
     ./nh.nix
     ./nix.nix
     ./ghostty.nix
@@ -22,12 +21,12 @@ in
     ./git.nix
     ./jujutsu.nix
     ./eza.nix
-    ./cursor.nix
     ./rofi.nix
     ./steam.nix
     ./slack.nix
     ./trilium.nix
     ./sonusmix.nix
+    ./stylix.nix
   ];
 
   fonts.fontconfig.enable = true;

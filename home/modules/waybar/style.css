@@ -6,7 +6,7 @@
 
 window#waybar {
     background: transparent;
-    color: white;
+    color: @base05;
 }
 
 #window,
@@ -19,17 +19,17 @@ window#waybar {
 #cpu,
 #memory,
 #battery,
+#power-profiles-daemon,
 #clock {
     padding: 0 5px;
 }
 
 #workspaces button {
     padding: 0 4px;
-    color: white;
 }
 
 #workspaces button.active {
-    color: #cba6f7;
+    color: @base0E;
 }
 
 #workspaces button:hover {
@@ -39,5 +39,5 @@ window#waybar {
 }
 
 #network.disconnected {
-    background: #f53c3c;
+    background: @base08;
 }

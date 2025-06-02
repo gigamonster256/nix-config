@@ -17,9 +17,7 @@ in
         "desc:GIGA-BYTE,preferred,auto-left,auto" # home monitor
         ",preferred,auto,auto"
       ];
-      exec-once = [
-        "waybar"
-      ];
+      exec-once = [ ];
       xwayland.force_zero_scaling = true;
       env = [
         "XCURSOR_SIZE,24"
