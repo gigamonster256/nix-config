@@ -11,6 +11,8 @@ in
   imports = [
     ./zsh
     ./waybar
+    ./hypr
+    ./style
     ./nh.nix
     ./nix.nix
     ./ghostty.nix
@@ -19,7 +21,6 @@ in
     ./macos-trampolines
     ./git.nix
     ./jujutsu.nix
-    ./hypr
     ./eza.nix
     ./cursor.nix
     ./rofi.nix
