@@ -3,13 +3,20 @@
   config,
   ...
 }:
+let
+  inherit (lib) mkDefault;
+in
 {
   wayland.windowManager.hyprland = {
     settings = {
       "$terminal" = "ghostty";
       "$mainMod" = "SUPER";
       ecosystem.no_update_news = true;
-      monitor = ",preferred,auto,auto";
+      monitor = mkDefault [
+        "desc:BOE,preferred,auto,1.566667" # framework monitor
+        "desc:GIGA-BYTE,preferred,auto-left,auto" # home monitor
+        ",preferred,auto,auto"
+      ];
       exec-once = [
         "waybar"
       ];
@@ -141,26 +148,33 @@
           in
           lib.optional spotifycfg.enable "$mainMod,S,exec,${lib.getExe spotifycfg.spicedSpotify}"
         );
-      # Move/resize windows with mainMod + LMB/RMB and dragging
+      # mouse binds
       bindm = [
+        # Move/resize windows with mainMod + LMB/RMB and dragging
         "$mainMod,mouse:272,movewindow"
         "$mainMod,mouse:273,resizewindow"
+
+        # middle mouse move
+        ",mouse:274,movewindow"
       ];
-      # Laptop multimedia keys for volume and LCD brightness
-      bindel = [
-        ",XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.5"
-        ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      # binds that work when screen is locked
+      bindl = [
+        # mute key
         ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        # Playerctl media keys
+        ",XF86AudioNext,exec,playerctl next"
+        ",XF86AudioPlay,exec,playerctl play-pause"
+        ",XF86AudioPause,exec,playerctl play-pause"
+        ",XF86AudioPrev,exec,playerctl previous"
+      ];
+      # binds that repeat (and active when screen locked)
+      bindel = [
+        # Laptop multimedia keys for volume and LCD brightness
+        ",XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1"
+        ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ",XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         ",XF86MonBrightnessUp,exec,brightnessctl s 10%+"
         ",XF86MonBrightnessDown,exec,brightnessctl s 10%-"
-      ];
-      # Playerctl media keys
-      bindl = [
-        ",XF86AudioNext,exec,playerctl next"
-        ",XF86AudioPause,exec,playerctl play-pause"
-        ",XF86AudioPlay,exec,playerctl play-pause"
-        ",XF86AudioPrev,exec,playerctl previous"
       ];
 
       windowrulev2 = [
