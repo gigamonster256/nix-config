@@ -146,7 +146,7 @@ in
           let
             spotifycfg = config.programs.spicetify;
           in
-          lib.optional spotifycfg.enable "$mainMod,S,exec,${lib.getExe spotifycfg.spicedSpotify}"
+          lib.optional spotifycfg.enable ",XF86AudioMedia,exec,${lib.getExe spotifycfg.spicedSpotify}"
         );
       # mouse binds
       bindm = [
