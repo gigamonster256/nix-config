@@ -26,6 +26,7 @@ in
     ./steam.nix
     ./slack.nix
     ./trilium.nix
+    ./sonusmix.nix
   ];
 
   fonts.fontconfig.enable = true;

@@ -1,3 +1,7 @@
+{ lib, config, ... }:
+let
+  inherit (lib) mkIf getExe;
+in
 {
   layer = "top";
   position = "top";
@@ -43,7 +47,12 @@
       phone = "";
       portable = "";
     };
-    format-muted = "";
+    format-muted = "MUTE ";
+    on-click =
+      let
+        sonuscfg = config.programs.sonusmix;
+      in
+      mkIf sonuscfg.enable "${getExe sonuscfg.package}";
   };
   network = {
     format-disconnected = "Disconnected ⚠";

@@ -3,7 +3,7 @@
   pkgs,
   config,
   ...
-}:
+}@inputs:
 let
   inherit (lib)
     mkDefault
@@ -17,7 +17,7 @@ mkMerge [
   {
     programs.waybar = {
       enable = mkDefault config.wayland.windowManager.hyprland.enable;
-      settings.mainBar = mkDefault (import ./config.nix);
+      settings.mainBar = mkDefault (import ./config.nix inputs);
       style = mkForce (builtins.readFile ./style.css);
     };
   }
