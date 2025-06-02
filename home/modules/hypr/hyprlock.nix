@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  systemConfig,
   ...
 }:
 let
@@ -13,6 +14,7 @@ in
       general = {
         hide_cursor = true;
       };
+      auth.fingerprint.enabled = systemConfig.services.fprintd.enable;
       animations = {
         enabled = true;
         bezier = "linear,1,1,0,0";
