@@ -2,7 +2,7 @@
   description = "My nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # modular flakes
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -43,6 +43,9 @@
 
     # automatic hardware configuration
     nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
+
+    # hardware quirks/optimizations
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     # gpg and age based secret management
     sops-nix.url = "github:Mic92/sops-nix";
@@ -172,6 +175,7 @@
             system = "x86_64-linux";
             modules = [
               ./hosts/chnorton-fw
+              inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
               {
                 home-manager = {
                   useGlobalPkgs = true;
