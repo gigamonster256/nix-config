@@ -9,6 +9,4 @@
   programs.ghostty.enable = true;
   programs.firefox.enable = true;
   wayland.windowManager.hyprland.enable = true;
-
-  impermanence.enable = true;
 }

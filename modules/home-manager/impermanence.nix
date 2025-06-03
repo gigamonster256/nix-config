@@ -9,15 +9,19 @@ let
     mkEnableOption
     mkOption
     types
+    mkMerge
     mkIf
     mkDefault
     optional
     ;
+  cfg = config.impermanence;
 in
 {
   options = {
     impermanence = {
-      enable = mkEnableOption "impermanence";
+      enable = mkEnableOption "impermanence" // {
+        default = systemConfig.impermanence.enable;
+      };
       persistPath = mkOption {
         type = types.singleLineStr;
         default = systemConfig.impermanence.persistPath or "/persist";
@@ -36,11 +40,8 @@ in
       };
     };
   };
-  config =
-    let
-      cfg = config.impermanence;
-    in
-    mkIf cfg.enable {
+  config = mkIf cfg.enable (mkMerge [
+    {
       home.persistence."${cfg.persistPath}/${cfg.userPath}" = {
         allowOther = true;
         directories = cfg.directories ++ [
@@ -50,5 +51,27 @@ in
         ];
         files = cfg.files ++ [ ];
       };
-    };
+    }
+    # programs built into home-manager/nixos
+    (mkIf config.programs.firefox.enable {
+      impermanence.directories = [ ".mozilla" ];
+    })
+    (mkIf systemConfig.programs.steam.enable {
+      impermanence.directories = [
+        {
+          directory = ".local/share/Steam";
+          method = "symlink";
+        }
+      ];
+    })
+    (mkIf config.programs.direnv.enable {
+      impermanence.directories = [ ".local/share/direnv" ];
+    })
+    (mkIf config.programs.zsh.enable {
+      impermanence.files = [ ".zsh_history" ];
+    })
+    (mkIf config.programs.vscode.enable {
+      impermanence.directories = [ ".vscode" ];
+    })
+  ]);
 }

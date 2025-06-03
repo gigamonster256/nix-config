@@ -1,12 +1,9 @@
 { pkgs, ... }:
 {
-  impermanence.enable = true;
-
   home.packages = builtins.attrValues {
     inherit (pkgs)
       wpa_supplicant_gui
       ntop
-      vscode-fhs
       ;
   };
 
@@ -15,5 +12,6 @@
   programs.firefox.enable = true;
   programs.slack.enable = true;
   programs.trilium.enable = true;
+  programs.vscode.enable = true;
   wayland.windowManager.hyprland.enable = true;
 }

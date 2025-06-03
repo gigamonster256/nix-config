@@ -22,7 +22,6 @@ in
     ./jujutsu.nix
     ./eza.nix
     ./rofi.nix
-    ./steam.nix
     ./slack.nix
     ./trilium.nix
     ./sonusmix.nix
