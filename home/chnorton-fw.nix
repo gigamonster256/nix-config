@@ -13,5 +13,6 @@
   programs.slack.enable = true;
   programs.trilium.enable = true;
   programs.vscode.enable = true;
+  programs.vesktop.enable = true;
   wayland.windowManager.hyprland.enable = true;
 }

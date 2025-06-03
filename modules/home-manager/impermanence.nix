@@ -82,6 +82,9 @@ in
       (mkIf config.programs.vscode.enable {
         impermanence.directories = [ ".vscode" ];
       })
+      (mkIf config.programs.vesktop.enable {
+        impermanence.directories = [ ".config/vesktop" ];
+      })
     ]))
   ];
 }
