@@ -316,6 +316,7 @@ let
       extraSpecialArgs = {
         inherit inputs;
         hostPlatform = pkgs.stdenv.hostPlatform;
+        systemConfig = null; # Standalone home configurations do not have a systemConfig
       };
     };
   createHomeConfigurations =

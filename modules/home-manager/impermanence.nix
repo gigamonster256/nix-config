@@ -20,7 +20,7 @@ in
   options = {
     impermanence = {
       enable = mkEnableOption "impermanence" // {
-        default = systemConfig.impermanence.enable;
+        default = systemConfig.impermanence.enable or false;
       };
       persistPath = mkOption {
         type = types.singleLineStr;
@@ -40,38 +40,48 @@ in
       };
     };
   };
-  config = mkIf cfg.enable (mkMerge [
+  config = mkMerge [
     {
-      home.persistence."${cfg.persistPath}/${cfg.userPath}" = {
-        allowOther = true;
-        directories = cfg.directories ++ [
-          ".ssh"
-          ".gnupg"
-          ".local/share/nix"
-        ];
-        files = cfg.files ++ [ ];
-      };
-    }
-    # programs built into home-manager/nixos
-    (mkIf config.programs.firefox.enable {
-      impermanence.directories = [ ".mozilla" ];
-    })
-    (mkIf systemConfig.programs.steam.enable {
-      impermanence.directories = [
+      assertions = [
         {
-          directory = ".local/share/Steam";
-          method = "symlink";
+          assertion = cfg.enable == false || systemConfig != null;
+          message = "home-manager impermanence.enable requires a valid system configuration";
         }
       ];
-    })
-    (mkIf config.programs.direnv.enable {
-      impermanence.directories = [ ".local/share/direnv" ];
-    })
-    (mkIf config.programs.zsh.enable {
-      impermanence.files = [ ".zsh_history" ];
-    })
-    (mkIf config.programs.vscode.enable {
-      impermanence.directories = [ ".vscode" ];
-    })
-  ]);
+    }
+    (mkIf (systemConfig != null && cfg.enable) (mkMerge [
+      {
+        home.persistence."${cfg.persistPath}/${cfg.userPath}" = {
+          allowOther = true;
+          directories = cfg.directories ++ [
+            ".ssh"
+            ".gnupg"
+            ".local/share/nix"
+          ];
+          files = cfg.files ++ [ ];
+        };
+      }
+      # programs built into home-manager/nixos
+      (mkIf config.programs.firefox.enable {
+        impermanence.directories = [ ".mozilla" ];
+      })
+      (mkIf systemConfig.programs.steam.enable {
+        impermanence.directories = [
+          {
+            directory = ".local/share/Steam";
+            method = "symlink";
+          }
+        ];
+      })
+      (mkIf config.programs.direnv.enable {
+        impermanence.directories = [ ".local/share/direnv" ];
+      })
+      (mkIf config.programs.zsh.enable {
+        impermanence.files = [ ".zsh_history" ];
+      })
+      (mkIf config.programs.vscode.enable {
+        impermanence.directories = [ ".vscode" ];
+      })
+    ]))
+  ];
 }

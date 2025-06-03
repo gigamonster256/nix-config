@@ -3,26 +3,22 @@
   config,
   ...
 }:
-let
-  inherit (lib) mkDefault;
-in
 {
   wayland.windowManager.hyprland = {
     settings = {
       "$terminal" = "ghostty";
       "$mainMod" = "SUPER";
       ecosystem.no_update_news = true;
-      monitor = mkDefault [
+      monitor = [
+        # TODO: use auto-center variants once stable gets them
         "desc:BOE,preferred,auto,1.566667" # framework monitor
         "desc:GIGA-BYTE,preferred,auto-left,auto" # home monitor
+        "desc:Dell Inc. DELL E2416H,preferred,auto-up,auto" # work monitor
         ",preferred,auto,auto"
       ];
       exec-once = [ ];
       xwayland.force_zero_scaling = true;
-      env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-      ];
+      env = [ ];
       general = {
         gaps_in = 2;
         gaps_out = 5;
