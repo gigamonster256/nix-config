@@ -39,20 +39,11 @@ in
   wireplumber = {
     reverse-scrolling = 1;
     format = textIcon "{volume}%" "{icon}";
-    format-bluetooth = textIcon "{volume}%" "{icon}";
-    format-icons = {
-      car = "";
-      default = [
-        ""
-        ""
-      ];
-      handsfree = "";
-      headphones = "";
-      headset = "";
-      phone = "";
-      portable = "";
-    };
-    format-muted = textIcon "MUTE" "";
+    format-muted = textIcon "MUTE" "";
+    format-icons = [
+      ""
+      ""
+    ];
     on-click =
       let
         sonuscfg = config.programs.sonusmix;
