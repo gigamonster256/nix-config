@@ -39,7 +39,9 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # erase your darlings
-    impermanence.url = "github:nix-community/impermanence";
+    impermanence.url = "github:nix-community/impermanence/home-manager-v2";
+    impermanence.inputs.nixpkgs.follows = "nixpkgs";
+    impermanence.inputs.home-manager.follows = "home-manager";
 
     # automatic hardware configuration
     nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";

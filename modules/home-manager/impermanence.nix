@@ -26,16 +26,12 @@ in
         type = types.singleLineStr;
         default = systemConfig.impermanence.persistPath or "/persist";
       };
-      userPath = mkOption {
-        type = types.singleLineStr;
-        default = config.home.homeDirectory;
-      };
       directories = mkOption {
         type = with types; listOf anything; # let the impermanence module do the type checking
         default = [ ];
       };
       files = mkOption {
-        type = with types; listOf str;
+        type = with types; listOf anything; # let the impermanence module do the type checking
         default = [ ];
       };
     };
@@ -51,8 +47,7 @@ in
     }
     (mkIf (systemConfig != null && cfg.enable) (mkMerge [
       {
-        home.persistence."${cfg.persistPath}/${cfg.userPath}" = {
-          allowOther = true;
+        home.persistence."${cfg.persistPath}" = {
           directories = cfg.directories ++ [
             ".ssh"
             ".gnupg"
@@ -66,12 +61,7 @@ in
         impermanence.directories = [ ".mozilla" ];
       })
       (mkIf systemConfig.programs.steam.enable {
-        impermanence.directories = [
-          {
-            directory = ".local/share/Steam";
-            method = "symlink";
-          }
-        ];
+        impermanence.directories = [ ".local/share/Steam" ];
       })
       (mkIf config.programs.direnv.enable {
         impermanence.directories = [ ".local/share/direnv" ];
