@@ -1,4 +1,7 @@
-{ lib, ... }:
+{ lib, config, ... }:
+let
+  inherit (lib) mkDefault;
+in
 {
   imports = [
     ./wireless.nix
@@ -7,5 +10,6 @@
     ./sops.nix
   ];
 
-  home-manager.backupFileExtension = lib.mkDefault "backup";
+  home-manager.backupFileExtension = mkDefault "backup";
+  services.blueman.enable = mkDefault config.hardware.bluetooth.enable;
 }
