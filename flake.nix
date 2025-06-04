@@ -39,7 +39,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # erase your darlings
-    impermanence.url = "github:nix-community/impermanence/home-manager-v2";
+    impermanence.url = "github:gigamonster256/impermanence/home-manager-v2";
     impermanence.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.inputs.home-manager.follows = "home-manager";
 
