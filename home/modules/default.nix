@@ -12,19 +12,17 @@ in
     ./zsh
     ./waybar
     ./hypr
+    ./macos-trampolines
+    ./impermanence-apps.nix
     ./nh.nix
     ./nix.nix
     ./ghostty.nix
     ./spicetify.nix
     ./firefox.nix
-    ./macos-trampolines
     ./git.nix
     ./jujutsu.nix
     ./eza.nix
     ./rofi.nix
-    ./slack.nix
-    ./trilium.nix
-    ./sonusmix.nix
     ./stylix.nix
   ];
 
