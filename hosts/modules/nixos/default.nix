@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./wireless.nix
+    ./openconnect.nix
     ./hyprland.nix
     ./sudo.nix
     ./sops.nix
