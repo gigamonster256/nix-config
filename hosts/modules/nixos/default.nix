@@ -9,6 +9,7 @@ in
     ./hyprland.nix
     ./sudo.nix
     ./sops.nix
+    ./nixos.nix
   ];
 
   home-manager.backupFileExtension = mkDefault "backup";
