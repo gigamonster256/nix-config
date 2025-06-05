@@ -601,6 +601,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-test": {
+      "locked": {
+        "lastModified": 1749152505,
+        "narHash": "sha256-y7Ih1TMV3tqjX7Hgq68MrZIVniJb/O7ptr7jkwa0j+s=",
+        "owner": "gigamonster256",
+        "repo": "nixpkgs",
+        "rev": "57460ca0ca1fd32ffe43cf394aad6401069c733a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "ref": "push-luyxmqrzvuzo",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -669,6 +685,7 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-test": "nixpkgs-test",
         "nur": "nur",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",

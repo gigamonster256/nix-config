@@ -59,4 +59,14 @@ in
   #     };
   #   });
   # };
+
+  # packages being tested
+  test-packages-overlay =
+    final: _:
+    let
+      test-pkgs = import inputs.nixpkgs-test { inherit (final) system; };
+    in
+    {
+      inherit (test-pkgs) magic-wormhole;
+    };
 }
