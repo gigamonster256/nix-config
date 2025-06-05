@@ -3,8 +3,8 @@
     {
       name,
       defaultEnable ? false,
-      packageName,
-      packageOptions? {},
+      packageName ? name,
+      packageOptions ? { },
       directories ? [ ],
       files ? [ ],
     }:

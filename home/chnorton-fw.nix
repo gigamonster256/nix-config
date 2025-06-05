@@ -14,5 +14,7 @@
   programs.trilium.enable = true;
   programs.vscode.enable = true;
   programs.vesktop.enable = true;
+  programs.bitwarden.enable = true;
+
   wayland.windowManager.hyprland.enable = true;
 }
