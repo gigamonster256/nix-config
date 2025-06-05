@@ -63,6 +63,12 @@ in
       (mkIf systemConfig.programs.steam.enable {
         impermanence.directories = [ ".local/share/Steam" ];
       })
+      (mkIf systemConfig.programs.alvr.enable {
+        impermanence.directories = [
+          ".config/alvr"
+          ".config/openvr"
+        ];
+      })
       (mkIf config.programs.direnv.enable {
         impermanence.directories = [ ".local/share/direnv" ];
       })
