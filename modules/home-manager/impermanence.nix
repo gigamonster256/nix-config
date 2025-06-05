@@ -63,7 +63,10 @@ in
       impermanence.directories = [ ".mozilla" ];
     })
     (mkIf systemConfig.programs.steam.enable {
-      impermanence.directories = [ ".local/share/Steam" ];
+      impermanence.directories = [
+        ".local/share/Steam"
+        ".local/share/applications" # save installed game entries - a little crufty
+      ];
     })
     (mkIf systemConfig.programs.alvr.enable {
       impermanence.directories = [
