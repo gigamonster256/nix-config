@@ -11,8 +11,7 @@ let
     types
     mkMerge
     mkIf
-    mkDefault
-    optional
+    mkAfter
     ;
   cfg = config.impermanence;
 in
@@ -36,51 +35,53 @@ in
       };
     };
   };
-  config = mkMerge [
+  config = mkIf cfg.enable (mkMerge [
     {
       assertions = [
         {
-          assertion = cfg.enable == false || systemConfig != null;
+          assertion = systemConfig != null;
           message = "home-manager impermanence.enable requires a valid system configuration";
         }
       ];
+      home.persistence."${cfg.persistPath}" = {
+        inherit (cfg) directories files;
+      };
     }
-    (mkIf (systemConfig != null && cfg.enable) (mkMerge [
-      {
-        home.persistence."${cfg.persistPath}" = {
-          directories = cfg.directories ++ [
-            ".ssh"
-            ".gnupg"
-            ".local/share/nix"
-          ];
-          files = cfg.files ++ [ ];
-        };
-      }
-      # programs built into home-manager/nixos
-      (mkIf config.programs.firefox.enable {
-        impermanence.directories = [ ".mozilla" ];
-      })
-      (mkIf systemConfig.programs.steam.enable {
-        impermanence.directories = [ ".local/share/Steam" ];
-      })
-      (mkIf systemConfig.programs.alvr.enable {
-        impermanence.directories = [
-          ".config/alvr"
-          ".config/openvr"
+    # defaults
+    {
+      impermanence = {
+        directories = mkAfter [
+          ".ssh"
+          ".gnupg"
+          ".local/share/nix"
         ];
-      })
-      (mkIf config.programs.direnv.enable {
-        impermanence.directories = [ ".local/share/direnv" ];
-      })
-      (mkIf config.programs.zsh.enable {
-        impermanence.files = [ ".zsh_history" ];
-      })
-      (mkIf config.programs.vscode.enable {
-        impermanence.directories = [ ".vscode" ];
-      })
-      (mkIf config.programs.vesktop.enable {
-        impermanence.directories = [ ".config/vesktop" ];
-      })
-    ]))
-  ];
+        files = mkAfter [ ];
+      };
+    }
+    # programs built into home-manager/nixos
+    (mkIf config.programs.firefox.enable {
+      impermanence.directories = [ ".mozilla" ];
+    })
+    (mkIf systemConfig.programs.steam.enable {
+      impermanence.directories = [ ".local/share/Steam" ];
+    })
+    (mkIf systemConfig.programs.alvr.enable {
+      impermanence.directories = [
+        ".config/alvr"
+        ".config/openvr"
+      ];
+    })
+    (mkIf config.programs.direnv.enable {
+      impermanence.directories = [ ".local/share/direnv" ];
+    })
+    (mkIf config.programs.zsh.enable {
+      impermanence.files = [ ".zsh_history" ];
+    })
+    (mkIf config.programs.vscode.enable {
+      impermanence.directories = [ ".vscode" ];
+    })
+    (mkIf config.programs.vesktop.enable {
+      impermanence.directories = [ ".config/vesktop" ];
+    })
+  ]);
 }
