@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # nixpkgs under test
+    nixpkgs-test.url = "github:gigamonster256/nixpkgs/push-luyxmqrzvuzo";
+
     # modular flakes
     flake-parts.url = "github:hercules-ci/flake-parts";
     flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
