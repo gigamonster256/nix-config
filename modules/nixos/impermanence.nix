@@ -1,77 +1,84 @@
 {
   lib,
   utils,
-  pkgs,
   config,
   ...
 }:
+let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    mkMerge
+    mkAfter
+    ;
+  cfg = config.impermanence;
+in
 {
   options = {
     impermanence = {
-      enable = lib.mkEnableOption "impermanence";
-      persistPath = lib.mkOption {
-        type = lib.types.singleLineStr;
+      enable = mkEnableOption "impermanence";
+      persistPath = mkOption {
+        type = types.singleLineStr;
         default = "/persist";
       };
+      directories = mkOption {
+        type = with types; listOf anything;
+        default = [ ];
+      };
+      files = mkOption {
+        type = with types; listOf anything;
+        default = [ ];
+      };
       btrfsWipe = {
-        enable = lib.mkEnableOption "btrfs wipe";
-        device = lib.mkOption {
-          default = config.fileSystems."/".device;
-        };
-        rootSubvolume = lib.mkOption {
-          default = "root";
+        enable = mkEnableOption "btrfs wipe";
+        rootSubvolume = mkOption {
+          # extract the "subvol=<subvolume>" option
+          default =
+            let
+              inherit (config.fileSystems."/") options;
+              subvolOption = builtins.head (
+                builtins.filter (opt: builtins.match "subvol=.*" opt != null) options
+              );
+              subvolName = builtins.match "subvol=(.*)" subvolOption;
+            in
+            builtins.head subvolName;
         };
       };
     };
   };
-  config =
-    let
-      cfg = config.impermanence;
-    in
-    lib.mkIf cfg.enable {
-      # TODO: make this flexible/more correct
-      assertions = [
-        {
-          assertion = cfg.btrfsWipe.enable == false || config.fileSystems."/".fsType == "btrfs";
-          message = "impermanence.btrfsWipe.enable requires btrfs filesystem";
-        }
-      ];
+  config = mkIf cfg.enable (mkMerge [
+    {
       # ensure persist path is available at boot
       fileSystems."${cfg.persistPath}".neededForBoot = true;
-      # allow other users to access bind mounted directories - useful for home-manager impermanence
-      programs.fuse.userAllowOther = true;
       environment.persistence."${cfg.persistPath}" = {
+        inherit (cfg) directories files;
         hideMounts = true;
-        directories =
-          [
-            "/var/log"
-            "/var/lib/nixos"
-            "/var/lib/bluetooth"
-            "/var/lib/systemd/coredump"
-            config.boot.lanzaboote.pkiBundle
-          ]
-          ++ (
-            let
-              fprintcfg = config.services.fprintd;
-            in
-            lib.optional fprintcfg.enable "/var/lib/fprint"
-          );
-        files = [
-          "/etc/machine-id"
-        ] ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths);
       };
-      boot.initrd.systemd =
-        let
-          cfg = config.impermanence.btrfsWipe;
-        in
-        lib.mkIf cfg.enable {
+    }
+    # systemd btrfs wipe unit
+    (
+      let
+        cfg = config.impermanence.btrfsWipe;
+        rootFS = config.fileSystems."/";
+      in
+      mkIf cfg.enable {
+        # TODO: make this flexible/more correct
+        assertions = [
+          {
+            assertion = rootFS.fsType == "btrfs";
+            message = "impermanence.btrfsWipe.enable requires btrfs filesystem";
+          }
+        ];
+        boot.initrd.systemd = {
           # try to resume from hibernation before we go mucking about with the persist subvolume
           services.create-needed-for-boot-dirs.after = [ "systemd-hibernate-resume.service" ];
           services.btrfs-wipe = {
             description = "Prepare btrfs subvolumes for root";
             wantedBy = [ "initrd-root-device.target" ];
             after = [
-              "${utils.escapeSystemdPath cfg.device}.device"
+              "${utils.escapeSystemdPath rootFS.device}.device"
               "local-fs-pre.target"
             ];
             before = [ "sysroot.mount" ];
@@ -80,7 +87,7 @@
             script =
               # bash
               ''
-                mount --mkdir ${cfg.device} /btrfs_tmp
+                mount --mkdir ${rootFS.device} /btrfs_tmp
                 if [[ -e /btrfs_tmp/${cfg.rootSubvolume} ]]; then
                     mkdir -p /btrfs_tmp/old_roots
                     timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${cfg.rootSubvolume})" "+%Y-%m-%-d_%H:%M:%S")
@@ -98,5 +105,34 @@
               '';
           };
         };
-    };
+      }
+    )
+    # defaults
+    {
+      impermanence = {
+        directories = mkAfter [
+          "/var/log"
+          "/var/lib/nixos"
+          "/var/lib/systemd/coredump"
+          "/var/lib/systemd/timers"
+        ];
+        files = mkAfter (
+          [
+            "/etc/machine-id"
+          ]
+          # TODO: clean this up
+          ++ (builtins.map (lib.removePrefix cfg.persistPath) config.sops.age.sshKeyPaths)
+        );
+      };
+    }
+    (mkIf config.hardware.bluetooth.enable {
+      impermanence.directories = [ "/var/lib/bluetooth" ];
+    })
+    (mkIf config.services.fprintd.enable {
+      impermanence.directories = [ "/var/lib/fprint" ];
+    })
+    (mkIf config.boot.lanzaboote.enable {
+      impermanence.directories = [ config.boot.lanzaboote.pkiBundle ];
+    })
+  ]);
 }
