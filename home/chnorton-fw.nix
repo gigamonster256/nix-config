@@ -16,5 +16,8 @@
   programs.vesktop.enable = true;
   programs.bitwarden.enable = true;
 
+  # folder for persistent projects
+  impermanence.directories = [ "git" ];
+
   wayland.windowManager.hyprland.enable = true;
 }
