@@ -112,6 +112,8 @@
   programs.alvr.enable = true;
   programs.alvr.openFirewall = true;
 
+  programs.zoom-us.enable = true;
+
   sops.secrets.caleb-password = {
     neededForUsers = true;
     sopsFile = ./secrets.yaml;

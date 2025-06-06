@@ -86,5 +86,14 @@ in
     (mkIf config.programs.vesktop.enable {
       impermanence.directories = [ ".config/vesktop" ];
     })
+    (mkIf systemConfig.programs.zoom-us.enable {
+      impermanence = {
+        directories = [ ".zoom" ];
+        files = [
+          ".config/zoom.conf"
+          ".config/zoomus.conf"
+        ];
+      };
+    })
   ]);
 }
