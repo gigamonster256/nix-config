@@ -51,6 +51,10 @@
     })
   ];
 
+  # use latest linux kernel for wifi chipset (suspend/hibernate working)
+  # https://lore.kernel.org/linux-wireless/3a0844ff5162142c4a9f3cf7104f75076ddd3b87.1735910562.git.quan.zhou@mediatek.com
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
   systemIdentity = {
     enable = true;
