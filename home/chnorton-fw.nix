@@ -19,5 +19,9 @@
   # folder for persistent projects
   impermanence.directories = [ "git" ];
 
+  # battery is set to charge to 80% max
+  # sudo framework_tool --charge-limit
+  programs.waybar.settings.mainBar.battery.full-at = 80;
+
   wayland.windowManager.hyprland.enable = true;
 }
