@@ -8,10 +8,11 @@
   ...
 }:
 {
-  # not 100% sure if this is needed
   imports = [
+    # not 100% sure if this is needed
     (modulesPath + "/installer/scan/not-detected.nix")
     ./disko.nix
+    ./amdgpu-kmod.nix
   ];
 
   # boot config
@@ -33,23 +34,6 @@
     };
     # binfmt.emulatedSystems = ["aarch64-linux"];
   };
-
-  # amd gpu high priority queues
-  # https://wiki.nixos.org/wiki/VR#Patching_AMDGPU_to_allow_high_priority_queues
-  # https://wiki.nixos.org/wiki/Linux_kernel#Patching_a_single_In-tree_kernel_module
-  # https://github.com/NixOS/nixpkgs/issues/217119
-  # https://github.com/NixOS/nixpkgs/pull/321663
-  boot.extraModulePackages = [
-    (pkgs.callPackage ./amdgpu-kmod.nix {
-      inherit (config.boot.kernelPackages) kernel;
-      patches = [
-        (pkgs.fetchpatch2 {
-          url = "https://github.com/Frogging-Family/community-patches/raw/a6a468420c0df18d51342ac6864ecd3f99f7011e/linux61-tkg/cap_sys_nice_begone.mypatch";
-          hash = "sha256-1wUIeBrUfmRSADH963Ax/kXgm9x7ea6K6hQ+bStniIY=";
-        })
-      ];
-    })
-  ];
 
   # use latest linux kernel for wifi chipset (suspend/hibernate working)
   # https://lore.kernel.org/linux-wireless/3a0844ff5162142c4a9f3cf7104f75076ddd3b87.1735910562.git.quan.zhou@mediatek.com
