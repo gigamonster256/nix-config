@@ -1,7 +1,6 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
-  modulesPath,
   lib,
   pkgs,
   config,
@@ -9,8 +8,6 @@
 }:
 {
   imports = [
-    # not 100% sure if this is needed
-    (modulesPath + "/installer/scan/not-detected.nix")
     ./disko.nix
     ./amdgpu-kmod.nix
   ];
