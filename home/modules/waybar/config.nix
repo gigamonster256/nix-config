@@ -88,6 +88,7 @@ in
     spacing = 10;
   };
   clock = {
+    format = "{:%I:%M}"; # 12 hour time
     tooltip-format = "{:%Y-%m-%d}";
   };
 }
