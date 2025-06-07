@@ -45,10 +45,7 @@
   # impermanence
   impermanence = {
     enable = true;
-    btrfsWipe = {
-      enable = true;
-      rootSubvolume = "root";
-    };
+    btrfsWipe.enable = true;
   };
 
   # wireless (wpa_supplicant)

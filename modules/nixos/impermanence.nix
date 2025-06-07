@@ -33,18 +33,6 @@ in
       };
       btrfsWipe = {
         enable = mkEnableOption "btrfs wipe";
-        rootSubvolume = mkOption {
-          # extract the "subvol=<subvolume>" option
-          default =
-            let
-              inherit (config.fileSystems."/") options;
-              subvolOption = builtins.head (
-                builtins.filter (opt: builtins.match "subvol=.*" opt != null) options
-              );
-              subvolName = builtins.match "subvol=(.*)" subvolOption;
-            in
-            builtins.head subvolName;
-        };
       };
     };
   };
@@ -85,13 +73,22 @@ in
             unitConfig.DefaultDependencies = "no";
             serviceConfig.Type = "oneshot";
             script =
+              let
+                # parse for "subvol=<subvolume>" option
+                inherit (rootFS) options;
+                subvolOption = builtins.head (
+                  builtins.filter (opt: builtins.match "subvol=.*" opt != null) options
+                );
+                subvolName = builtins.match "subvol=(.*)" subvolOption;
+                rootSubvolume = builtins.head subvolName;
+              in
               # bash
               ''
                 mount --mkdir ${rootFS.device} /btrfs_tmp
-                if [[ -e /btrfs_tmp/${cfg.rootSubvolume} ]]; then
+                if [[ -e /btrfs_tmp/${rootSubvolume} ]]; then
                     mkdir -p /btrfs_tmp/old_roots
-                    timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${cfg.rootSubvolume})" "+%Y-%m-%-d_%H:%M:%S")
-                    mv /btrfs_tmp/${cfg.rootSubvolume} "/btrfs_tmp/old_roots/$timestamp"
+                    timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/${rootSubvolume})" "+%Y-%m-%-d_%H:%M:%S")
+                    mv /btrfs_tmp/${rootSubvolume} "/btrfs_tmp/old_roots/$timestamp"
                 fi
 
                 # Delete old roots after 30 days
@@ -100,7 +97,7 @@ in
                 done
 
                 # Create new root subvolume
-                btrfs subvolume create /btrfs_tmp/${cfg.rootSubvolume}
+                btrfs subvolume create /btrfs_tmp/${rootSubvolume}
                 umount /btrfs_tmp
               '';
           };
