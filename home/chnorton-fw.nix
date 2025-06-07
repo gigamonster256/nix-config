@@ -7,6 +7,9 @@
       ;
   };
 
+  # amd gpu
+  programs.btop.package = pkgs.btop-rocm;
+
   programs.spicetify.enable = true;
   programs.ghostty.enable = true;
   programs.firefox.enable = true;
