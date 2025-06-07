@@ -134,13 +134,6 @@ let
   };
   liteConfigType = types.submodule {
     options = {
-      myLib = mkOption {
-        type = with types; nullOr attrs;
-        default = null;
-        description = ''
-          Custom library to be passed to nixos and home-manager modules.
-        '';
-      };
       nixpkgs = mkOption {
         type = nixpkgsOptionType;
         default = { };
@@ -248,7 +241,6 @@ let
             throw "System type ${hostPlatform.system} not supported.";
         specialArgs = {
           inherit inputs hostPlatform;
-          inherit (cfg) myLib;
         };
         modules =
           hostConfig.modules
@@ -272,7 +264,6 @@ let
                   useGlobalPkgs = true;
                   extraSpecialArgs = specialArgs // {
                     systemConfig = config;
-                    inherit (cfg) myLib;
                   };
                 };
               }
@@ -324,7 +315,6 @@ let
 
       extraSpecialArgs = {
         inherit inputs;
-        inherit (cfg) myLib;
         inherit (pkgs.stdenv) hostPlatform;
         systemConfig = null; # Standalone home configurations do not have a systemConfig
       };

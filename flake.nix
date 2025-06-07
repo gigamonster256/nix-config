@@ -131,7 +131,6 @@
         };
       };
       lite-config = {
-        myLib = import ./lib;
         nixpkgs = {
           config.allowUnfree = true;
           overlays =
