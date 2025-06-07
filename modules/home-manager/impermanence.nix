@@ -95,5 +95,8 @@ in
         ];
       };
     })
+    (mkIf config.programs.nix-index-database.comma.enable {
+      impermanence.files = [ ".local/state/comma-choices" ];
+    })
   ]);
 }
