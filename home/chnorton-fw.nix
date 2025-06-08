@@ -18,6 +18,7 @@
   programs.vscode.enable = true;
   programs.vesktop.enable = true;
   programs.bitwarden.enable = true;
+  programs.cemu.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];

@@ -58,5 +58,13 @@ in
       packageName = "bitwarden-desktop";
       directories = [ ".config/Bitwarden" ];
     })
+    (mkPersistentProgram {
+      name = "cemu";
+      directories = [
+        ".config/Cemu"
+        ".local/share/Cemu"
+        ".cache/Cemu"
+      ];
+    })
   ];
 }
