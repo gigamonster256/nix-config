@@ -19,6 +19,7 @@
   programs.vesktop.enable = true;
   programs.bitwarden.enable = true;
   programs.cemu.enable = true;
+  programs.ryujinx.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];

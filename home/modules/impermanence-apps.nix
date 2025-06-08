@@ -66,5 +66,10 @@ in
         ".cache/Cemu"
       ];
     })
+    (mkPersistentProgram {
+      name = "ryujinx";
+      packageName = "ryubing";
+      directories = [ ".config/Ryujinx" ];
+    })
   ];
 }
