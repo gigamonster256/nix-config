@@ -19,23 +19,33 @@
           style = "plain";
           type = "path";
         }
+        /*
+          {
+            foreground = "p:lavender";
+            properties = {
+              branch_icon = " ";
+              cherry_pick_icon = " ";
+              commit_icon = " ";
+              fetch_status = false;
+              fetch_upstream_icon = false;
+              merge_icon = " ";
+              no_commits_icon = " ";
+              rebase_icon = " ";
+              revert_icon = " ";
+              tag_icon = " ";
+            };
+            style = "plain";
+            template = "{{ .HEAD }} ";
+            type = "git";
+          }
+        */
         {
           foreground = "p:lavender";
           properties = {
-            branch_icon = " ";
-            cherry_pick_icon = " ";
-            commit_icon = " ";
-            fetch_status = false;
-            fetch_upstream_icon = false;
-            merge_icon = " ";
-            no_commits_icon = " ";
-            rebase_icon = " ";
-            revert_icon = " ";
-            tag_icon = " ";
+            fetch_status = true;
           };
           style = "plain";
-          template = "{{ .HEAD }} ";
-          type = "git";
+          type = "jujutsu";
         }
         {
           foreground = "p:closer";
