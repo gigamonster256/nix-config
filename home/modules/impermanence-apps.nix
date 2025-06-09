@@ -71,5 +71,9 @@ in
       packageName = "ryubing";
       directories = [ ".config/Ryujinx" ];
     })
+    (mkPersistentProgram {
+      name = "wiiu-downloader";
+      directories = [ ".config/WiiUDownloader" ];
+    })
   ];
 }

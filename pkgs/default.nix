@@ -36,4 +36,5 @@ rec {
   extract = pkgs.callPackage ./extract.nix { };
   recursive-cpu-usage = pkgs.callPackage ./recursive-cpu-usage.nix { };
   ntop = pkgs.callPackage ./ntop.nix { };
+  wiiu-downloader = pkgs.callPackage ./wiiu-downloader.nix { };
 }
