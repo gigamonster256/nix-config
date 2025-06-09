@@ -80,8 +80,13 @@ in
     (mkIf config.programs.zsh.enable {
       impermanence.files = [ ".zsh_history" ];
     })
+    # https://github.com/nix-community/home-manager/blob/master/modules/programs/vscode.nix
+    # differs based on which vscode fork is used
     (mkIf config.programs.vscode.enable {
-      impermanence.directories = [ ".vscode" ];
+      impermanence.directories = [
+        ".config/Code"
+        ".vscode"
+      ];
     })
     (mkIf config.programs.vesktop.enable {
       impermanence.directories = [ ".config/vesktop" ];

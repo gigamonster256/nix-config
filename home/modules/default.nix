@@ -24,6 +24,7 @@ in
     ./eza.nix
     ./rofi.nix
     ./stylix.nix
+    ./vscode.nix
   ];
 
   fonts.fontconfig.enable = true;
