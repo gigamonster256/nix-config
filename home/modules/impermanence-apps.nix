@@ -75,5 +75,10 @@ in
       name = "wiiu-downloader";
       directories = [ ".config/WiiUDownloader" ];
     })
+    (mkPersistentProgram {
+      name = "element";
+      packageName = "element-desktop";
+      directories = [ ".config/Element" ];
+    })
   ];
 }

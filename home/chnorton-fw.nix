@@ -21,6 +21,7 @@
   programs.cemu.enable = true;
   programs.ryujinx.enable = true;
   programs.wiiu-downloader.enable = true;
+  programs.element.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];
