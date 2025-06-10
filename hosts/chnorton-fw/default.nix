@@ -101,6 +101,8 @@
     sopsFile = ./secrets.yaml;
   };
 
+  laptop.lidDevice = "LID0";
+
   users = {
     mutableUsers = false;
     users = {

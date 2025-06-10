@@ -10,6 +10,7 @@ in
     ./sudo.nix
     ./sops.nix
     ./nixos.nix
+    ./fingerprint.nix
   ];
 
   home-manager.backupFileExtension = mkDefault "backup";
