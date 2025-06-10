@@ -2,10 +2,17 @@
   inputs,
   lib,
   pkgs,
+  config,
+  systemConfig,
   ...
 }:
 let
-  inherit (lib) mkDefault mapAttrs mapAttrsToList;
+  inherit (lib)
+    mkDefault
+    mapAttrs
+    mapAttrsToList
+    mkIf
+    ;
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in
 {
@@ -33,4 +40,7 @@ in
     registry = mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     nixPath = mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
+
+  # actually install the specified nix in standalone mode
+  home.packages = mkIf (systemConfig == null) [ config.nix.package ];
 }
