@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json";
   blocks = [
@@ -5,13 +6,13 @@
       alignment = "left";
       segments = [
         {
-          foreground = "p:blue";
+          foreground = "p:base0D";
           style = "plain";
           template = "{{ .UserName }}@{{ replaceP `^([^.]+).*$` .HostName `$1` }}";
           type = "session";
         }
         {
-          foreground = "p:pink";
+          foreground = "p:base0E";
           properties = {
             home_icon = "~";
             style = "folder";
@@ -21,7 +22,7 @@
         }
         /*
           {
-            foreground = "p:lavender";
+            foreground = "p:base07";
             properties = {
               branch_icon = " ";
               cherry_pick_icon = " ";
@@ -40,7 +41,7 @@
           }
         */
         {
-          foreground = "p:lavender";
+          foreground = "p:base07";
           properties = {
             fetch_status = true;
           };
@@ -48,7 +49,7 @@
           type = "jujutsu";
         }
         {
-          foreground = "p:closer";
+          foreground = "p:base05";
           style = "plain";
           template = "";
           type = "text";
@@ -59,16 +60,29 @@
   ];
   transient_prompt = {
     background = "transparent";
-    foreground = "p:closer";
+    foreground = "p:base05";
     template = " ";
   };
   final_space = true;
   palette = {
-    blue = "#89B4FA";
-    closer = "p:os";
-    lavender = "#B4BEFE";
-    os = "#ACB0BE";
-    pink = "#F5C2E7";
+    inherit (config.lib.stylix.colors.withHashtag)
+      base00
+      base01
+      base02
+      base03
+      base04
+      base05
+      base06
+      base07
+      base08
+      base09
+      base0A
+      base0B
+      base0C
+      base0D
+      base0E
+      base0F
+      ;
   };
   version = 2;
 }
