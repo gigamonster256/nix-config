@@ -16,9 +16,12 @@ in
 
   # gtk portal and nautilus as file picker
   config = mkIf config.wayland.windowManager.hyprland.enable {
-    home.packages = [
-      pkgs.nautilus
-    ];
+    home.packages = builtins.attrValues {
+      inherit (pkgs)
+        nautilus
+        wl-clipboard
+        ;
+    };
     xdg.portal = {
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       xdgOpenUsePortal = true;
