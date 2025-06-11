@@ -21,7 +21,11 @@ in
 
   config =
     mkIf
-      (config.services.fprintd.enable && config.facter.report.hardware.system.form_factor == "laptop")
+      (
+        config.services.fprintd.enable
+        && builtins.hasAttr "hardware" config.facter.report
+        && config.facter.report.hardware.system.form_factor == "laptop"
+      )
       {
         assertions = [
           {
