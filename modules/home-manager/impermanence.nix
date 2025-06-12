@@ -103,5 +103,8 @@ in
     (mkIf config.programs.nix-index-database.comma.enable {
       impermanence.files = [ ".local/state/comma-choices" ];
     })
+    (mkIf config.programs.rofi.enable {
+      impermanence.files = [ ".cache/rofi3.druncache" ];
+    })
   ]);
 }
