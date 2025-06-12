@@ -30,6 +30,18 @@
       efi.canTouchEfiVariables = true;
     };
     # binfmt.emulatedSystems = ["aarch64-linux"];
+
+    # pretty boot
+    plymouth.enable = true;
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "udev.log_priority=3"
+      "rd.systemd.show_status=auto"
+    ];
   };
 
   # use latest linux kernel for wifi chipset (suspend/hibernate working)

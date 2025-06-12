@@ -11,6 +11,7 @@ in
     ./sops.nix
     ./nixos.nix
     ./fingerprint.nix
+    ./stylix.nix
   ];
 
   home-manager.backupFileExtension = mkDefault "backup";
