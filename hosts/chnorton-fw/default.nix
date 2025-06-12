@@ -94,6 +94,9 @@
   programs.alvr.enable = true;
   programs.alvr.openFirewall = true;
 
+  hardware.steam-hardware.enable = true;
+  services.joycond.enable = true;
+
   programs.zoom-us.enable = true;
 
   sops.secrets.caleb-password = {
