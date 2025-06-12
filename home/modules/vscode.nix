@@ -1,5 +1,6 @@
 {
   programs.vscode.profiles.default.userSettings = {
-    files.autoSave = "afterDelay";
+    "files.autoSave" = "afterDelay";
+    "terminal.integrated.fontFamily" = "Monaspace Neon";
   };
 }
