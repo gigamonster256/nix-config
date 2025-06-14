@@ -83,6 +83,8 @@
       misc = {
         force_default_wallpaper = 0;
         disable_hyprland_logo = false;
+        # switch to an app when it is activated (things like clicking a notification or tray icon)
+        focus_on_activate = true;
       };
 
       input = {
