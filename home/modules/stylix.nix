@@ -1,6 +1,10 @@
 { pkgs, config, ... }:
 {
   stylix = {
+    # FIXME: auto set this for home-manager standalone and nix-darwin
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    polarity = "dark";
     iconTheme =
       let
         name = "Papirus";
