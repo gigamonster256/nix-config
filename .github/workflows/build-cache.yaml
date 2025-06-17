@@ -26,10 +26,28 @@ jobs:
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
           # fix for https://github.com/nix-community/nix-eval-jobs/issues/140
           # nix-eval-jobs does not respect flake's nixConfig when checking to see if a 
-          # derivation is already cached
+          # derivation is already cached (see next step)
           # accept-flake-config = true
-          extra-substituters = https://gigamonster256.cachix.org
-          extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
+          # extra-substituters = https://gigamonster256.cachix.org
+          # extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
+    - name: nix actions cache
+      uses: DeterminateSystems/magic-nix-cache-action@v11
+    - name: Set NIX_CONFIG from flake.nix
+      run: |
+        nix_config_json=$(nix eval --impure --json --expr "((import ''$PWD/flake.nix'').nixConfig or {})")
+        nix_config_str=$(
+          echo "$nix_config_json" | jq -r '
+            to_entries | map(
+              if (.value | type == "array")
+                then "\(.key) = \(.value | join(" "))"
+                else "\(.key) = \(.value)"
+              end
+            ) | join("\n")
+          '
+        )
+        echo "NIX_CONFIG<<EOF" >> $GITHUB_ENV
+        echo "$nix_config_str" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
     - name: Setup cachix
       if: ${{ matrix.build == 'cachix' }}
       uses: cachix/cachix-action@v16
