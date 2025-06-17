@@ -73,19 +73,11 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    catppuccin-sddm
     brightnessctl
   ];
 
-  # hyprland plus sddm login manager
+  # hyprland
   programs.hyprland.enable = true;
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    theme = "catppuccin-mocha";
-    # issue with missing sddm-greeter-qt6
-    package = pkgs.kdePackages.sddm;
-  };
   programs.hyprlock.enable = true;
   services.fwupd.enable = true;
 
