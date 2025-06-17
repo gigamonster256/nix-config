@@ -49,4 +49,18 @@ in
       else
         prev.ghostty;
   };
+
+  flake-schemas = final: prev: {
+    # 2.27 is used in the flake-schema as the base
+    # but has been removed from nixpkgs so use 2.28 derivation
+    nix = prev.nixVersions.nix_2_28.overrideAttrs (_oldAttrs: {
+      version = "2.27-flake-schemas";
+      src = final.fetchFromGitHub {
+        owner = "DeterminateSystems";
+        repo = "nix-src";
+        rev = "flake-schemas";
+        hash = "sha256-Yy1Cd3Xm4UJTctYsVQfD5jY5z7pVncvLu8cq0cjjYT4=";
+      };
+    });
+  };
 }
