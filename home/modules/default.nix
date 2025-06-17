@@ -24,6 +24,7 @@ in
     ./eza.nix
     ./rofi.nix
     ./stylix.nix
+    ./sops.nix
     ./vscode.nix
   ];
 

@@ -215,6 +215,7 @@
             spicetify-nix.homeManagerModules.default
             nix-index-database.hmModules.nix-index
             impermanence.homeManagerModules.impermanence
+            sops-nix.homeManagerModules.sops
           ])
           ++ (builtins.attrValues homeManagerModules);
         standaloneHomeModules = [
