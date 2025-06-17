@@ -76,6 +76,9 @@
     stylix.inputs.nur.follows = "nur";
     stylix.inputs.git-hooks.follows = "git-hooks";
     stylix.inputs.home-manager.follows = "home-manager";
+
+    # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
+    flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
   };
 
   outputs =
@@ -89,7 +92,7 @@
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./modules/nixos;
       darwinModules = import ./modules/darwin;
-      homeManagerModules = import ./modules/home-manager;
+      homeModules = import ./modules/home-manager;
       flakeModules = import ./modules/flake;
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -116,8 +119,11 @@
           overlays
           nixosModules
           darwinModules
-          homeManagerModules
+          homeModules
           flakeModules
+          ;
+        inherit (inputs.flake-schemas)
+          schemas
           ;
         images.tinyca =
           (self.nixosConfigurations.tinyca.extendModules {
@@ -217,7 +223,7 @@
             impermanence.homeManagerModules.impermanence
             sops-nix.homeManagerModules.sops
           ])
-          ++ (builtins.attrValues homeManagerModules);
+          ++ (builtins.attrValues homeModules);
         standaloneHomeModules = [
           inputs.stylix.homeModules.stylix # issues with being included in home-manager and nixos configuration... kinda clunky
         ];
