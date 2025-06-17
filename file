@@ -1,0 +1,4 @@
+NIX_CONFIG=hello
+there
+NIX_CONFIG="hello
+there"
