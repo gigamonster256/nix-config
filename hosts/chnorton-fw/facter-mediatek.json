@@ -23,8 +23,8 @@
     },
     "bluetooth": [
       {
-        "index": 65,
-        "attached_to": 60,
+        "index": 62,
+        "attached_to": 59,
         "class_list": [
           "usb",
           "bluetooth"
@@ -44,25 +44,28 @@
           "value": 277
         },
         "vendor": {
-          "hex": "8087",
-          "value": 32903
+          "hex": "0e8d",
+          "name": "MediaTek Inc.",
+          "value": 3725
         },
         "device": {
-          "hex": "0a2b",
-          "value": 2603
+          "hex": "0717",
+          "name": "Wireless_Device",
+          "value": 1815
         },
         "revision": {
           "hex": "0000",
-          "name": "0.10",
+          "name": "1.00",
           "value": 0
         },
-        "model": "Bluetooth Device",
-        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-5/3-5:1.0",
-        "sysfs_bus_id": "3-5:1.0",
+        "serial": "000000000",
+        "model": "MediaTek Wireless_Device",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-5/3-5:1.2",
+        "sysfs_bus_id": "3-5:1.2",
         "resources": [
           {
             "type": "baud",
-            "speed": 12000000,
+            "speed": 480000000,
             "bits": 0,
             "stop_bits": 0,
             "parity": 0,
@@ -71,14 +74,116 @@
         ],
         "detail": {
           "device_class": {
+            "hex": "00ef",
+            "name": "miscellaneous",
+            "value": 239
+          },
+          "device_subclass": {
+            "hex": "0002",
+            "name": "comm",
+            "value": 2
+          },
+          "device_protocol": 1,
+          "interface_class": {
             "hex": "00e0",
             "name": "wireless",
             "value": 224
           },
-          "device_subclass": {
+          "interface_subclass": {
             "hex": "0001",
             "name": "audio",
             "value": 1
+          },
+          "interface_protocol": 1,
+          "interface_number": 2,
+          "interface_alternate_setting": 1,
+          "interface_association": {
+            "function_class": {
+              "hex": "00e0",
+              "name": "wireless",
+              "value": 224
+            },
+            "function_subclass": {
+              "hex": "0001",
+              "name": "audio",
+              "value": 1
+            },
+            "function_protocol": 1,
+            "interface_count": 3,
+            "first_interface": 0
+          }
+        },
+        "hotplug": "usb",
+        "driver": "btusb",
+        "driver_module": "btusb",
+        "drivers": [
+          "btusb"
+        ],
+        "driver_modules": [
+          "btusb"
+        ],
+        "module_alias": "usb:v0E8Dp0717d0100dcEFdsc02dp01icE0isc01ip01in02"
+      },
+      {
+        "index": 66,
+        "attached_to": 59,
+        "class_list": [
+          "usb",
+          "bluetooth"
+        ],
+        "bus_type": {
+          "hex": "0086",
+          "name": "USB",
+          "value": 134
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0115",
+          "name": "Bluetooth Device",
+          "value": 277
+        },
+        "vendor": {
+          "hex": "0e8d",
+          "name": "MediaTek Inc.",
+          "value": 3725
+        },
+        "device": {
+          "hex": "0717",
+          "name": "Wireless_Device",
+          "value": 1815
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "1.00",
+          "value": 0
+        },
+        "serial": "000000000",
+        "model": "MediaTek Wireless_Device",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-5/3-5:1.0",
+        "sysfs_bus_id": "3-5:1.0",
+        "resources": [
+          {
+            "type": "baud",
+            "speed": 480000000,
+            "bits": 0,
+            "stop_bits": 0,
+            "parity": 0,
+            "handshake": 0
+          }
+        ],
+        "detail": {
+          "device_class": {
+            "hex": "00ef",
+            "name": "miscellaneous",
+            "value": 239
+          },
+          "device_subclass": {
+            "hex": "0002",
+            "name": "comm",
+            "value": 2
           },
           "device_protocol": 1,
           "interface_class": {
@@ -93,7 +198,22 @@
           },
           "interface_protocol": 1,
           "interface_number": 0,
-          "interface_alternate_setting": 0
+          "interface_alternate_setting": 0,
+          "interface_association": {
+            "function_class": {
+              "hex": "00e0",
+              "name": "wireless",
+              "value": 224
+            },
+            "function_subclass": {
+              "hex": "0001",
+              "name": "audio",
+              "value": 1
+            },
+            "function_protocol": 1,
+            "interface_count": 3,
+            "first_interface": 0
+          }
         },
         "hotplug": "usb",
         "driver": "btusb",
@@ -104,11 +224,11 @@
         "driver_modules": [
           "btusb"
         ],
-        "module_alias": "usb:v8087p0A2Bd0010dcE0dsc01dp01icE0isc01ip01in00"
+        "module_alias": "usb:v0E8Dp0717d0100dcEFdsc02dp01icE0isc01ip01in00"
       },
       {
-        "index": 74,
-        "attached_to": 60,
+        "index": 75,
+        "attached_to": 59,
         "class_list": [
           "usb",
           "bluetooth"
@@ -128,25 +248,28 @@
           "value": 277
         },
         "vendor": {
-          "hex": "8087",
-          "value": 32903
+          "hex": "0e8d",
+          "name": "MediaTek Inc.",
+          "value": 3725
         },
         "device": {
-          "hex": "0a2b",
-          "value": 2603
+          "hex": "0717",
+          "name": "Wireless_Device",
+          "value": 1815
         },
         "revision": {
           "hex": "0000",
-          "name": "0.10",
+          "name": "1.00",
           "value": 0
         },
-        "model": "Bluetooth Device",
+        "serial": "000000000",
+        "model": "MediaTek Wireless_Device",
         "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-5/3-5:1.1",
         "sysfs_bus_id": "3-5:1.1",
         "resources": [
           {
             "type": "baud",
-            "speed": 12000000,
+            "speed": 480000000,
             "bits": 0,
             "stop_bits": 0,
             "parity": 0,
@@ -155,14 +278,14 @@
         ],
         "detail": {
           "device_class": {
-            "hex": "00e0",
-            "name": "wireless",
-            "value": 224
+            "hex": "00ef",
+            "name": "miscellaneous",
+            "value": 239
           },
           "device_subclass": {
-            "hex": "0001",
-            "name": "audio",
-            "value": 1
+            "hex": "0002",
+            "name": "comm",
+            "value": 2
           },
           "device_protocol": 1,
           "interface_class": {
@@ -177,7 +300,22 @@
           },
           "interface_protocol": 1,
           "interface_number": 1,
-          "interface_alternate_setting": 0
+          "interface_alternate_setting": 0,
+          "interface_association": {
+            "function_class": {
+              "hex": "00e0",
+              "name": "wireless",
+              "value": 224
+            },
+            "function_subclass": {
+              "hex": "0001",
+              "name": "audio",
+              "value": 1
+            },
+            "function_protocol": 1,
+            "interface_count": 3,
+            "first_interface": 0
+          }
         },
         "hotplug": "usb",
         "driver": "btusb",
@@ -188,7 +326,7 @@
         "driver_modules": [
           "btusb"
         ],
-        "module_alias": "usb:v8087p0A2Bd0010dcE0dsc01dp01icE0isc01ip01in01"
+        "module_alias": "usb:v0E8Dp0717d0100dcEFdsc02dp01icE0isc01ip01in01"
       }
     ],
     "bridge": [
@@ -1434,7 +1572,7 @@
     "camera": [
       {
         "index": 56,
-        "attached_to": 60,
+        "attached_to": 59,
         "class_list": [
           "camera",
           "usb"
@@ -1535,8 +1673,8 @@
         "module_alias": "usb:v32ACp001Cd0111dcEFdsc02dp01ic0Eisc01ip01in00"
       },
       {
-        "index": 62,
-        "attached_to": 60,
+        "index": 63,
+        "attached_to": 59,
         "class_list": [
           "camera",
           "usb"
@@ -1803,7 +1941,7 @@
           "[13]",
           "[14]"
         ],
-        "bogo": 3992.82,
+        "bogo": 3992.62,
         "cache": 1024,
         "units": 12,
         "physical_id": 0,
@@ -2098,7 +2236,7 @@
         "module_alias": "usb:v1D6Bp0003d0613dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 60,
+        "index": 59,
         "attached_to": 16,
         "class_list": [
           "usb",
@@ -2264,7 +2402,7 @@
         "module_alias": "usb:v1D6Bp0002d0613dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 64,
+        "index": 65,
         "attached_to": 16,
         "class_list": [
           "usb",
@@ -2337,7 +2475,7 @@
         "module_alias": "usb:v1D6Bp0003d0613dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 66,
+        "index": 68,
         "attached_to": 48,
         "class_list": [
           "usb",
@@ -2410,7 +2548,7 @@
         "module_alias": "usb:v1D6Bp0003d0613dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 67,
+        "index": 69,
         "attached_to": 21,
         "class_list": [
           "usb",
@@ -2493,7 +2631,7 @@
         "module_alias": "usb:v1D6Bp0002d0613dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 69,
+        "index": 70,
         "attached_to": 32,
         "class_list": [
           "usb",
@@ -2576,7 +2714,7 @@
         "module_alias": "usb:v1D6Bp0002d0613dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 73,
+        "index": 74,
         "attached_to": 21,
         "class_list": [
           "usb",
@@ -2763,7 +2901,7 @@
     ],
     "mouse": [
       {
-        "index": 78,
+        "index": 79,
         "attached_to": 0,
         "bus_type": {
           "hex": "0081",
@@ -2788,7 +2926,7 @@
           "hex": "0274",
           "value": 628
         },
-        "sysfs_id": "/devices/platform/AMDI0010:03/i2c-2/i2c-PIXA3854:00/0018:093A:0274.0005/input/input9",
+        "sysfs_id": "/devices/platform/AMDI0010:03/i2c-2/i2c-PIXA3854:00/0018:093A:0274.0003/input/input9",
         "unix_device_names": [
           "/dev/input/event7",
           "/dev/input/ + handler"
@@ -2824,28 +2962,22 @@
           "value": 130
         },
         "vendor": {
-          "hex": "8086",
-          "name": "Intel Corporation",
-          "value": 32902
+          "hex": "14c3",
+          "value": 5315
         },
         "sub_vendor": {
-          "hex": "8086",
-          "name": "Intel Corporation",
-          "value": 32902
+          "hex": "14c3",
+          "value": 5315
         },
         "device": {
-          "hex": "24fd",
-          "value": 9469
+          "hex": "0717",
+          "value": 1815
         },
         "sub_device": {
-          "hex": "0050",
-          "value": 80
+          "hex": "0717",
+          "value": 1815
         },
-        "revision": {
-          "hex": "0078",
-          "value": 120
-        },
-        "model": "Intel WLAN controller",
+        "model": "WLAN controller",
         "sysfs_id": "/devices/pci0000:00/0000:00:02.3/0000:c0:00.0",
         "sysfs_bus_id": "0000:c0:00.0",
         "sysfs_iommu_group_id": 15,
@@ -2856,7 +2988,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 57
+            "address": 100
           },
           {
             "type": "irq",
@@ -2866,15 +2998,23 @@
           },
           {
             "type": "mem",
-            "base": 2964324352,
-            "range": 8192,
+            "base": 2959081472,
+            "range": 2097152,
+            "enabled": true,
+            "access": "read_write",
+            "prefetch": "no"
+          },
+          {
+            "type": "mem",
+            "base": 2961178624,
+            "range": 32768,
             "enabled": true,
             "access": "read_write",
             "prefetch": "no"
           },
           {
             "type": "phwaddr",
-            "address": 57
+            "address": 100
           },
           {
             "type": "wlan",
@@ -2890,8 +3030,6 @@
               "9",
               "10",
               "11",
-              "12",
-              "13",
               "36",
               "40",
               "44",
@@ -2910,7 +3048,9 @@
               "128",
               "132",
               "136",
-              "140"
+              "140",
+              "144",
+              "149"
             ],
             "frequencies": [
               "2.412",
@@ -2924,8 +3064,6 @@
               "2.452",
               "2.457",
               "2.462",
-              "2.467",
-              "2.472",
               "5.18",
               "5.2",
               "5.22",
@@ -2944,7 +3082,9 @@
               "5.64",
               "5.66",
               "5.68",
-              "5.7"
+              "5.7",
+              "5.72",
+              "5.745"
             ],
             "auth_modes": [
               "open",
@@ -2968,19 +3108,19 @@
           "irq": 107,
           "prog_if": 0
         },
-        "driver": "iwlwifi",
-        "driver_module": "iwlwifi",
+        "driver": "mt7925e",
+        "driver_module": "mt7925e",
         "drivers": [
-          "iwlwifi"
+          "mt7925e"
         ],
         "driver_modules": [
-          "iwlwifi"
+          "mt7925e"
         ],
-        "module_alias": "pci:v00008086d000024FDsv00008086sd00000050bc02sc80i00"
+        "module_alias": "pci:v000014C3d00000717sv000014C3sd00000717bc02sc80i00"
       },
       {
-        "index": 57,
-        "attached_to": 69,
+        "index": 60,
+        "attached_to": 58,
         "class_list": [
           "network_controller",
           "usb"
@@ -3021,21 +3161,13 @@
         },
         "serial": "4013000001",
         "model": "Realtek USB 10/100/1G/2.5G LAN",
-        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.3/usb5/5-1/5-1:1.0",
-        "sysfs_bus_id": "5-1:1.0",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.3/usb6/6-1/6-1:1.0",
+        "sysfs_bus_id": "6-1:1.0",
         "unix_device_name": "enp195s0f3u1",
         "unix_device_names": [
           "enp195s0f3u1"
         ],
         "resources": [
-          {
-            "type": "baud",
-            "speed": 480000000,
-            "bits": 0,
-            "stop_bits": 0,
-            "parity": 0,
-            "handshake": 0
-          },
           {
             "type": "hwaddr",
             "address": 57
@@ -3085,7 +3217,7 @@
     ],
     "network_interface": [
       {
-        "index": 75,
+        "index": 76,
         "attached_to": 0,
         "class_list": [
           "network_interface"
@@ -3108,8 +3240,8 @@
         ]
       },
       {
-        "index": 76,
-        "attached_to": 57,
+        "index": 77,
+        "attached_to": 60,
         "class_list": [
           "network_interface"
         ],
@@ -3125,7 +3257,7 @@
         },
         "model": "Ethernet network interface",
         "sysfs_id": "/class/net/enp195s0f3u1",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.3/usb5/5-1/5-1:1.0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.3/usb6/6-1/6-1:1.0",
         "unix_device_name": "enp195s0f3u1",
         "unix_device_names": [
           "enp195s0f3u1"
@@ -3150,7 +3282,7 @@
         ]
       },
       {
-        "index": 77,
+        "index": 78,
         "attached_to": 37,
         "class_list": [
           "network_interface"
@@ -3175,20 +3307,20 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 57
+            "address": 100
           },
           {
             "type": "phwaddr",
-            "address": 57
+            "address": 100
           }
         ],
-        "driver": "iwlwifi",
-        "driver_module": "iwlwifi",
+        "driver": "mt7925e",
+        "driver_module": "mt7925e",
         "drivers": [
-          "iwlwifi"
+          "mt7925e"
         ],
         "driver_modules": [
-          "iwlwifi"
+          "mt7925e"
         ]
       }
     ],
@@ -3549,7 +3681,7 @@
           },
           {
             "type": "mem",
-            "base": 2962227200,
+            "base": 2966421504,
             "range": 1048576,
             "enabled": false,
             "access": "read_write",
@@ -3557,7 +3689,7 @@
           },
           {
             "type": "mem",
-            "base": 2963275776,
+            "base": 2967470080,
             "range": 8192,
             "enabled": false,
             "access": "read_write",
@@ -3565,7 +3697,7 @@
           },
           {
             "type": "mem",
-            "base": 2963283968,
+            "base": 2967478272,
             "range": 4096,
             "enabled": false,
             "access": "read_write",
@@ -3573,7 +3705,7 @@
           },
           {
             "type": "mem",
-            "base": 2963288064,
+            "base": 2967482368,
             "range": 4096,
             "enabled": false,
             "access": "read_write",
@@ -3893,7 +4025,7 @@
           },
           {
             "type": "mem",
-            "base": 2965372928,
+            "base": 2958032896,
             "range": 16384,
             "enabled": true,
             "access": "read_write",
@@ -3924,8 +4056,8 @@
     },
     "usb": [
       {
-        "index": 59,
-        "attached_to": 60,
+        "index": 57,
+        "attached_to": 61,
         "class_list": [
           "usb",
           "unknown"
@@ -3961,8 +4093,8 @@
         },
         "serial": "11AD1D00B9CC400216210B00",
         "model": "Framework DisplayPort Expansion Card",
-        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-2/3-2:1.1",
-        "sysfs_bus_id": "3-2:1.1",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.4/usb7/7-1/7-1:1.1",
+        "sysfs_bus_id": "7-1:1.1",
         "resources": [
           {
             "type": "baud",
@@ -4011,8 +4143,8 @@
         "module_alias": "usb:v32ACp0003d0000dc00dsc00dp00ic03isc00ip00in01"
       },
       {
-        "index": 63,
-        "attached_to": 60,
+        "index": 64,
+        "attached_to": 59,
         "class_list": [
           "usb",
           "unknown"
@@ -4090,8 +4222,8 @@
         "module_alias": "usb:v32ACp0002d0000dc00dsc00dp00ic11isc00ip00in00"
       },
       {
-        "index": 68,
-        "attached_to": 60,
+        "index": 67,
+        "attached_to": 61,
         "class_list": [
           "usb",
           "unknown"
@@ -4127,8 +4259,8 @@
         },
         "serial": "11AD1D00B9CC400216210B00",
         "model": "Framework DisplayPort Expansion Card",
-        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.0/usb3/3-2/3-2:1.0",
-        "sysfs_bus_id": "3-2:1.0",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.3/0000:c3:00.4/usb7/7-1/7-1:1.0",
+        "sysfs_bus_id": "7-1:1.0",
         "resources": [
           {
             "type": "baud",
@@ -4169,8 +4301,8 @@
         "module_alias": "usb:v32ACp0003d0000dc00dsc00dp00ic11isc00ip00in00"
       },
       {
-        "index": 70,
-        "attached_to": 60,
+        "index": 71,
+        "attached_to": 59,
         "class_list": [
           "usb",
           "unknown"
@@ -4268,8 +4400,8 @@
         "module_alias": "usb:v32ACp001Cd0111dcEFdsc02dp01icFEisc01ip01in02"
       },
       {
-        "index": 71,
-        "attached_to": 67,
+        "index": 72,
+        "attached_to": 69,
         "class_list": [
           "usb",
           "unknown"
@@ -4352,8 +4484,8 @@
         "module_alias": "usb:v27C6p609Cd0100dcEFdsc00dp00icFFisc00ip00in00"
       },
       {
-        "index": 72,
-        "attached_to": 60,
+        "index": 73,
+        "attached_to": 59,
         "class_list": [
           "usb",
           "unknown"
@@ -4494,13 +4626,13 @@
         "resources": [
           {
             "type": "irq",
-            "base": 43,
+            "base": 60,
             "triggered": 0,
             "enabled": true
           },
           {
             "type": "mem",
-            "base": 2958032896,
+            "base": 2962227200,
             "range": 1048576,
             "enabled": true,
             "access": "read_write",
@@ -4512,7 +4644,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 43,
+          "irq": 60,
           "prog_if": 48
         },
         "driver": "xhci_hcd",
@@ -4579,7 +4711,7 @@
         "resources": [
           {
             "type": "irq",
-            "base": 41,
+            "base": 58,
             "triggered": 0,
             "enabled": true
           },
@@ -4597,7 +4729,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 41,
+          "irq": 58,
           "prog_if": 48
         },
         "driver": "xhci_hcd",
@@ -4664,13 +4796,13 @@
         "resources": [
           {
             "type": "irq",
-            "base": 46,
+            "base": 41,
             "triggered": 0,
             "enabled": true
           },
           {
             "type": "mem",
-            "base": 2961178624,
+            "base": 2965372928,
             "range": 524288,
             "enabled": true,
             "access": "read_write",
@@ -4682,7 +4814,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 46,
+          "irq": 41,
           "prog_if": 64
         },
         "driver": "thunderbolt",
@@ -4749,13 +4881,13 @@
         "resources": [
           {
             "type": "irq",
-            "base": 45,
+            "base": 63,
             "triggered": 0,
             "enabled": true
           },
           {
             "type": "mem",
-            "base": 2959081472,
+            "base": 2963275776,
             "range": 1048576,
             "enabled": true,
             "access": "read_write",
@@ -4767,7 +4899,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 45,
+          "irq": 63,
           "prog_if": 48
         },
         "driver": "xhci_hcd",
@@ -4834,13 +4966,13 @@
         "resources": [
           {
             "type": "irq",
-            "base": 43,
+            "base": 60,
             "triggered": 0,
             "enabled": true
           },
           {
             "type": "mem",
-            "base": 2961702912,
+            "base": 2965897216,
             "range": 524288,
             "enabled": true,
             "access": "read_write",
@@ -4852,7 +4984,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 43,
+          "irq": 60,
           "prog_if": 64
         },
         "driver": "thunderbolt",
@@ -4925,7 +5057,7 @@
           },
           {
             "type": "mem",
-            "base": 2960130048,
+            "base": 2964324352,
             "range": 1048576,
             "enabled": true,
             "access": "read_write",
