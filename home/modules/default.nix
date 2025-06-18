@@ -26,6 +26,7 @@ in
     ./stylix.nix
     ./sops.nix
     ./vscode.nix
+    ./fnott.nix
   ];
 
   fonts.fontconfig.enable = true;

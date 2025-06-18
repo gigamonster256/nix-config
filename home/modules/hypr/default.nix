@@ -27,6 +27,5 @@ in
       xdgOpenUsePortal = true;
       config.gtk."org.freedesktop.impl.portal.FileChooser" = "nautilus";
     };
-    services.fnott.enable = true;
   };
 }
