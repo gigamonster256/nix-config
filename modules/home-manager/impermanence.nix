@@ -106,5 +106,8 @@ in
     (mkIf config.programs.rofi.enable {
       impermanence.files = [ ".cache/rofi3.druncache" ];
     })
+    (mkIf systemConfig.services.gnome.gnome-keyring.enable {
+      impermanence.directories = [ ".local/share/keyrings" ];
+    })
   ]);
 }

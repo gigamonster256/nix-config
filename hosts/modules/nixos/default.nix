@@ -13,6 +13,7 @@ in
     ./fingerprint.nix
     ./stylix.nix
     ./sddm.nix
+    ./keyring.nix
   ];
 
   home-manager.backupFileExtension = mkDefault "backup";
