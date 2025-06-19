@@ -22,6 +22,7 @@
   programs.ryujinx.enable = true;
   programs.wiiu-downloader.enable = true;
   programs.element.enable = true;
+  programs.newsflash.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];
