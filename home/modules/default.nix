@@ -27,6 +27,7 @@ in
     ./sops.nix
     ./vscode.nix
     ./fnott.nix
+    ./neovim.nix
   ];
 
   fonts.fontconfig.enable = true;
