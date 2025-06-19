@@ -9,9 +9,6 @@ let
   ghcfg = config.programs.gh;
 in
 {
-  sops.secrets.gh_token = {
-    sopsFile = ./secrets.yaml;
-  };
   programs.git = {
     userName = mkDefault "Caleb Norton";
     userEmail = mkDefault "n0603919@outlook.com";
@@ -30,9 +27,5 @@ in
         user = mkDefault "gigamonster256";
       };
     };
-  };
-
-  home.shellAliases = {
-    gh = "GH_TOKEN=`cat ${config.sops.secrets.gh_token.path}` gh";
   };
 }
