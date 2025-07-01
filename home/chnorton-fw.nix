@@ -23,6 +23,7 @@
   programs.wiiu-downloader.enable = true;
   programs.element.enable = true;
   programs.newsflash.enable = true;
+  programs.gemini-cli.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];

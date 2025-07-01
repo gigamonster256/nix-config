@@ -88,5 +88,9 @@ in
         ".local/share/news_flash" # waiting on https://gitlab.com/news-flash/news_flash_gtk/-/commit/408fc0f17621e0123cb597833bf2d1053e79ac01 to land (v4.0.0)
       ];
     })
+    (mkPersistentProgram {
+      name = "gemini-cli";
+      directories = [ ".gemini" ];
+    })
   ];
 }
