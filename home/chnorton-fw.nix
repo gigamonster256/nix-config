@@ -5,6 +5,9 @@
       wpa_supplicant_gui
       ntop
       ;
+    inherit (pkgs.kdePackages)
+      okular
+      ;
   };
 
   # amd gpu
