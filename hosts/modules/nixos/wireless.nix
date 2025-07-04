@@ -32,6 +32,7 @@ in
           password=ext:tamu_psk
         '';
       };
+      "Caleb's iPhone".pskRaw = "ext:hotspot_psk";
     };
   };
 }
