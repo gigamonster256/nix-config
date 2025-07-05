@@ -6,7 +6,12 @@
   ...
 }:
 let
-  inherit (lib) mkMerge mkIf getExe;
+  inherit (lib)
+    mkMerge
+    mkIf
+    getExe
+    optionals
+    ;
 in
 mkMerge [
   # immediately log out if autoLogin is enabled - basically use the lock screen as a login screen
@@ -102,10 +107,12 @@ mkMerge [
           follow_mouse = 1;
           touchpad.natural_scroll = true;
         };
+
         # https://wiki.hyprland.org/Configuring/Variables/#gestures
         gestures.workspace_swipe = false;
+
         # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
-        bind =
+        bind = builtins.concatLists [
           [
             "$mainMod,Return,exec,$terminal"
             "$mainMod,C,killactive"
@@ -127,7 +134,7 @@ mkMerge [
             "$mainMod,mouse_down,workspace,e-1"
             "$mainMod,mouse_up,workspace,e+1"
           ]
-          ++ (
+          (
             # screenshots using hyprshot
             let
               hyprshot = getExe pkgs.hyprshot;
@@ -144,33 +151,55 @@ mkMerge [
               "$mainMod SHIFT,PRINT,exec,${hyprclip} -m region"
             ]
           )
-          ++ (
+          (
             # Switch workspaces with mainMod + [1-9]
             # $mainMod,1,workspace,1
             # Move active window to a workspace with mainMod + SHIFT + [1-9]
             # $mainMod SHIFT,1,movetoworkspace,1
             let
-              workspaces = lib.lists.map toString (lib.lists.range 1 9);
+              workspaces = map toString (lib.lists.range 1 9);
               switchModifier = "$mainMod";
               moveModifier = "$mainMod SHIFT";
-              switchBindings = lib.lists.map (ws: "${switchModifier},${ws},workspace,${ws}") workspaces;
-              moveBindings = lib.lists.map (ws: "${moveModifier},${ws},movetoworkspace,${ws}") workspaces;
+              switchBindings = map (ws: "${switchModifier},${ws},workspace,${ws}") workspaces;
+              moveBindings = map (ws: "${moveModifier},${ws},movetoworkspace,${ws}") workspaces;
             in
             switchBindings ++ moveBindings
           )
-          ++ (lib.optional config.programs.hyprlock.enable "$mainMod,L,exec,hyprlock")
-          ++ (
+          (
+            # keybinds if other modules are enabled
             let
-              roficfg = config.programs.rofi;
+              moduleBinds = { module, binds }: optionals module.enable (binds module);
+              moduleKeybinds = [
+                {
+                  module = config.programs.hyprlock;
+                  binds = m: [
+                    "$mainMod,L,exec,${getExe m.package}"
+                  ];
+                }
+                {
+                  module = config.programs.rofi;
+                  binds =
+                    m:
+                    let
+                      rofi = getExe m.finalPackage;
+                    in
+                    [
+                      "$mainMod,space,exec,${rofi} -show drun"
+                      # other rofi modes? (emoji picker etc...)
+                    ];
+                }
+                {
+                  module = config.programs.spicetify;
+                  binds = m: [
+                    ",XF86AudioMedia,exec,${getExe m.spicedSpotify}"
+                  ];
+                }
+              ];
             in
-            lib.optional roficfg.enable "$mainMod,Space,exec,${lib.getExe roficfg.finalPackage} -show drun"
+            builtins.concatMap moduleBinds moduleKeybinds
           )
-          ++ (
-            let
-              spotifycfg = config.programs.spicetify;
-            in
-            lib.optional spotifycfg.enable ",XF86AudioMedia,exec,${lib.getExe spotifycfg.spicedSpotify}"
-          );
+        ];
+
         # mouse binds
         bindm = [
           # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -180,6 +209,7 @@ mkMerge [
           # middle mouse move
           ",mouse:274,movewindow"
         ];
+
         # binds that work when screen is locked
         bindl = [
           # mute key
@@ -190,6 +220,7 @@ mkMerge [
           ",XF86AudioPause,exec,playerctl play-pause"
           ",XF86AudioPrev,exec,playerctl previous"
         ];
+
         # binds that repeat (and active when screen locked)
         bindel = [
           # Laptop multimedia keys for volume and LCD brightness
