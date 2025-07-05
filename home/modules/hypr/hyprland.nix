@@ -1,11 +1,12 @@
 {
   lib,
+  pkgs,
   config,
   systemConfig,
   ...
 }:
 let
-  inherit (lib) mkMerge mkIf;
+  inherit (lib) mkMerge mkIf getExe;
 in
 mkMerge [
   # immediately log out if autoLogin is enabled - basically use the lock screen as a login screen
@@ -126,6 +127,23 @@ mkMerge [
             "$mainMod,mouse_down,workspace,e-1"
             "$mainMod,mouse_up,workspace,e+1"
           ]
+          ++ (
+            # screenshots using hyprshot
+            let
+              hyprshot = getExe pkgs.hyprshot;
+              hyprclip = "${hyprshot} --clipboard-only";
+            in
+            [
+              # macOS shortcut inspired
+              "$mainMod ALT,F3,exec,${hyprclip} -m output"
+              "$mainMod ALT,F4,exec,${hyprclip} -m window"
+              "$mainMod ALT,F5,exec,${hyprclip} -m region"
+              # printscreen style
+              ",PRINT,exec,${hyprclip} -m output"
+              "$mainMod,PRINT,exec,${hyprclip} -m window"
+              "$mainMod SHIFT,PRINT,exec,${hyprclip} -m region"
+            ]
+          )
           ++ (
             # Switch workspaces with mainMod + [1-9]
             # $mainMod,1,workspace,1
