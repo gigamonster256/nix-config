@@ -37,4 +37,5 @@ rec {
   recursive-cpu-usage = pkgs.callPackage ./recursive-cpu-usage.nix { };
   ntop = pkgs.callPackage ./ntop.nix { };
   wiiu-downloader = pkgs.callPackage ./wiiu-downloader.nix { };
+  zig-tetris = pkgs.callPackage ./zig-tetris.nix { };
 }
