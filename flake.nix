@@ -20,7 +20,6 @@
     nur.url = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
     nur.inputs.flake-parts.follows = "flake-parts";
-    nur.inputs.treefmt-nix.follows = "treefmt-nix";
 
     # custom neovim config using nvf
     neovim.url = "github:gigamonster256/neovim-config/nvf";
