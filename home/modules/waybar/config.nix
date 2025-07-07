@@ -1,4 +1,10 @@
-{ lib, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  systemConfig,
+  ...
+}:
 let
   inherit (lib)
     mkIf
@@ -20,6 +26,7 @@ in
   modules-right = [
     "wireplumber"
     "network"
+    "custom/vpn"
     "cpu"
     "battery"
     "power-profiles-daemon"
@@ -90,5 +97,16 @@ in
   clock = {
     format = "{:%I:%M}"; # 12 hour time
     tooltip-format = "{:%Y-%m-%d}";
+  };
+  "custom/vpn" = {
+    format = "{text}";
+    exec = getExe (
+      pkgs.waybar-plugins.vpn-status.override {
+        # look for VPN interfaces in the system configuration
+        interfaces = builtins.attrNames systemConfig.networking.openconnect.interfaces;
+      }
+    );
+    interval = 5;
+    return-type = "json";
   };
 }

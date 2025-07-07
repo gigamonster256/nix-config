@@ -27,6 +27,7 @@ rec {
   sketchybar-plugins = withAllFarm "sketchybar-plugins" (
     import ./sketchybar-plugins { inherit pkgs; }
   );
+  waybar-plugins = withAllFarm "waybar-plugins" (import ./waybar-plugins { inherit pkgs; });
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes { inherit pkgs; });
   # trilium-next-desktop = pkgs.callPackage ./trilium-next/from-source.nix {};
