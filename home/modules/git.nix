@@ -4,7 +4,7 @@
   ...
 }:
 let
-  inherit (lib) mkDefault;
+  inherit (lib) mkDefault mkIf;
   gitcfg = config.programs.git;
   ghcfg = config.programs.gh;
 in
@@ -27,5 +27,10 @@ in
         user = mkDefault "gigamonster256";
       };
     };
+  };
+
+  home.shellAliases = mkIf ghcfg.enable {
+    gpl = "gh pr list";
+    gpm = "gh pr merge";
   };
 }
