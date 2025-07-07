@@ -73,8 +73,6 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     stylix.inputs.flake-parts.follows = "flake-parts";
     stylix.inputs.nur.follows = "nur";
-    stylix.inputs.git-hooks.follows = "git-hooks";
-    stylix.inputs.home-manager.follows = "home-manager";
 
     # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
     flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
