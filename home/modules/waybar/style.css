@@ -20,7 +20,9 @@ window#waybar {
 #memory,
 #battery,
 #power-profiles-daemon,
-#clock {
+#clock,
+#custom-vpn,
+#custom-wlogout {
     padding: 0 5px;
 }
 

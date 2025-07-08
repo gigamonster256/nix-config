@@ -32,6 +32,7 @@ in
     "power-profiles-daemon"
     "tray"
     "clock"
+    "custom/wlogout"
   ];
   "hyprland/workspaces" = {
     all-outputs = false;
@@ -114,5 +115,11 @@ in
     );
     interval = 5;
     return-type = "json";
+  };
+  "custom/wlogout" = {
+    format = icon "";
+    interval = "once";
+    on-click = getExe pkgs.wlogout;
+    tooltip = false; # disable tooltip
   };
 }
