@@ -103,7 +103,13 @@ in
     exec = getExe (
       pkgs.waybar-plugins.vpn-status.override {
         # look for VPN interfaces in the system configuration
-        interfaces = builtins.attrNames systemConfig.networking.openconnect.interfaces;
+        interfaces = builtins.concatMap builtins.attrNames (
+          with systemConfig.networking;
+          [
+            openconnect.interfaces
+            wg-quick.interfaces
+          ]
+        );
       }
     );
     interval = 5;
