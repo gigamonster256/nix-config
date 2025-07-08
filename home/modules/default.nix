@@ -28,6 +28,7 @@ in
     ./vscode.nix
     ./fnott.nix
     ./neovim.nix
+    ./wlogout.nix
   ];
 
   fonts.fontconfig.enable = true;

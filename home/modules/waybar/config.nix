@@ -56,7 +56,7 @@ in
       let
         sonuscfg = config.programs.sonusmix;
       in
-      mkIf sonuscfg.enable "${getExe sonuscfg.package}";
+      mkIf sonuscfg.enable (getExe sonuscfg.package);
   };
   network = {
     format-disconnected = textIcon "Disconnected" "⚠";
@@ -119,7 +119,7 @@ in
   "custom/wlogout" = {
     format = icon "";
     interval = "once";
-    on-click = getExe pkgs.wlogout;
+    on-click = getExe config.programs.wlogout.package;
     tooltip = false; # disable tooltip
   };
 }
