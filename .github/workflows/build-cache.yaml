@@ -31,7 +31,7 @@ jobs:
           # extra-substituters = https://gigamonster256.cachix.org
           # extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
     - name: nix actions cache
-      uses: DeterminateSystems/magic-nix-cache-action@v11
+      uses: DeterminateSystems/magic-nix-cache-action@v12
     - name: Set NIX_CONFIG from flake.nix
       run: |
         nix_config_json=$(nix eval --impure --json --expr "((import ''$PWD/flake.nix'').nixConfig or {})")
