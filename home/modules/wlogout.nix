@@ -1,7 +1,7 @@
 { config, ... }:
 {
   programs.wlogout = {
-    enable = true;
+    enable = config.wayland.windowManager.hyprland.enable;
     # TODO: fix hardcoded colors
     style =
       let
