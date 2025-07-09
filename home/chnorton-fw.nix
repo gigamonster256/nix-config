@@ -27,6 +27,7 @@
   programs.element.enable = true;
   programs.newsflash.enable = true;
   programs.gemini-cli.enable = true;
+  programs.onlyoffice.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];
