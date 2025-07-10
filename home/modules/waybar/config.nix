@@ -97,7 +97,7 @@ in
   };
   clock = {
     format = "{:%I:%M}"; # 12 hour time
-    tooltip-format = "{:%Y-%m-%d}";
+    tooltip-format = "{:%A %Y-%m-%d}";
   };
   "custom/vpn" = {
     format = "{text}";
