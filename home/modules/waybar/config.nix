@@ -32,6 +32,7 @@ in
     "power-profiles-daemon"
     "tray"
     "clock"
+    "idle_inhibitor"
     "custom/wlogout"
   ];
   "hyprland/workspaces" = {
@@ -98,6 +99,13 @@ in
   clock = {
     format = "{:%I:%M}"; # 12 hour time
     tooltip-format = "{:%A %Y-%m-%d}";
+  };
+  idle_inhibitor = {
+    format = icon "{icon}";
+    format-icons = {
+      activated = "";
+      deactivated = "";
+    };
   };
   "custom/vpn" = {
     format = "{text}";

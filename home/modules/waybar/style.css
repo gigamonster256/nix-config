@@ -21,6 +21,7 @@ window#waybar {
 #battery,
 #power-profiles-daemon,
 #clock,
+#idle-inhibitor,
 #custom-vpn,
 #custom-wlogout {
     padding: 0 5px;
