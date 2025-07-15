@@ -53,11 +53,7 @@ in
       ""
       ""
     ];
-    on-click =
-      let
-        sonuscfg = config.programs.sonusmix;
-      in
-      mkIf sonuscfg.enable (getExe sonuscfg.package);
+    on-click = getExe pkgs.pavucontrol;
   };
   network = {
     format-disconnected = textIcon "Disconnected" "⚠";

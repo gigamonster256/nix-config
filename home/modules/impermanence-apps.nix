@@ -51,7 +51,7 @@ in
     (mkPersistentProgram {
       name = "sonusmix";
       directories = [ ".local/share/org.sonusmix.Sonusmix" ];
-      defaultEnable = config.wayland.windowManager.hyprland.enable;
+      # defaultEnable = config.wayland.windowManager.hyprland.enable;
     })
     (mkPersistentProgram {
       name = "bitwarden";
