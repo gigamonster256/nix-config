@@ -216,7 +216,7 @@
           ]
           ++ (with inputs; [
             spicetify-nix.homeManagerModules.default
-            nix-index-database.hmModules.nix-index
+            nix-index-database.homeModules.nix-index
             impermanence.homeManagerModules.impermanence
             sops-nix.homeManagerModules.sops
           ])
