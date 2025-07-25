@@ -37,4 +37,19 @@
       autostart = false;
     };
   };
+
+  security.polkit.extraConfig = # javascript
+    ''
+      polkit.addRule(function(action, subject) {
+        if (action.id == "org.freedesktop.systemd1.manage-units" &&
+          subject.isInGroup("vpn")) {
+          var unit = action.lookup("unit");
+          if (unit == "openconnect-TAMU.service") {
+            return polkit.Result.YES;
+          }
+        }
+      });
+    '';
+
+  users.groups.vpn = { };
 }
