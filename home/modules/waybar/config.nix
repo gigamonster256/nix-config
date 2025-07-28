@@ -7,7 +7,6 @@
 }:
 let
   inherit (lib)
-    mkIf
     getExe
     ;
   icon = symbol: "<span font_desc='Font Awesome 6 Free'>${symbol}</span>";
@@ -84,6 +83,7 @@ in
       ""
       ""
     ];
+    format-charging = textIcon "{capacity}%" "";
     states = {
       critical = 15;
       warning = 30;
