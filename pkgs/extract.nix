@@ -18,7 +18,8 @@ writeShellApplication {
     bzip2
     gzip
     p7zip
-  ] ++ lib.optional withUnfree unrar;
+  ]
+  ++ lib.optional withUnfree unrar;
 
   text =
     let
