@@ -74,6 +74,10 @@
     stylix.inputs.flake-parts.follows = "flake-parts";
     stylix.inputs.nur.follows = "nur";
 
+    # pretty colors in firefox
+    nix-userstyles.url = "github:knoopx/nix-userstyles";
+    nix-userstyles.inputs.nixpkgs.follows = "nixpkgs";
+
     # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
     flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
   };
@@ -96,7 +100,8 @@
       imports = [
         inputs.git-hooks.flakeModule
         inputs.treefmt-nix.flakeModule
-      ] ++ (builtins.attrValues flakeModules);
+      ]
+      ++ (builtins.attrValues flakeModules);
       perSystem =
         {
           config,
@@ -147,30 +152,28 @@
         };
 
         hostModules = [ ./hosts/modules ];
-        nixosModules =
-          [
-            ./hosts/modules/nixos
-          ]
-          ++ (with inputs; [
-            home-manager.nixosModules.home-manager
-            sops-nix.nixosModules.sops
-            lanzaboote.nixosModules.lanzaboote
-            disko.nixosModules.disko
-            impermanence.nixosModules.impermanence
-            nixos-facter-modules.nixosModules.facter
-            spicetify-nix.nixosModules.default
-            nix-index-database.nixosModules.nix-index
-            stylix.nixosModules.stylix
-          ])
-          ++ (builtins.attrValues nixosModules);
-        darwinModules =
-          [
-            ./hosts/modules/darwin
-          ]
-          ++ (with inputs; [
-            stylix.darwinModules.stylix
-          ])
-          ++ (builtins.attrValues darwinModules);
+        nixosModules = [
+          ./hosts/modules/nixos
+        ]
+        ++ (with inputs; [
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+          lanzaboote.nixosModules.lanzaboote
+          disko.nixosModules.disko
+          impermanence.nixosModules.impermanence
+          nixos-facter-modules.nixosModules.facter
+          spicetify-nix.nixosModules.default
+          nix-index-database.nixosModules.nix-index
+          stylix.nixosModules.stylix
+        ])
+        ++ (builtins.attrValues nixosModules);
+        darwinModules = [
+          ./hosts/modules/darwin
+        ]
+        ++ (with inputs; [
+          stylix.darwinModules.stylix
+        ])
+        ++ (builtins.attrValues darwinModules);
         hosts = {
           chnorton-mbp = {
             system = "aarch64-darwin";
@@ -210,17 +213,16 @@
           };
         };
 
-        homeModules =
-          [
-            ./home/modules
-          ]
-          ++ (with inputs; [
-            spicetify-nix.homeManagerModules.default
-            nix-index-database.homeModules.nix-index
-            impermanence.homeManagerModules.impermanence
-            sops-nix.homeManagerModules.sops
-          ])
-          ++ (builtins.attrValues homeModules);
+        homeModules = [
+          ./home/modules
+        ]
+        ++ (with inputs; [
+          spicetify-nix.homeManagerModules.default
+          nix-index-database.homeModules.nix-index
+          impermanence.homeManagerModules.impermanence
+          sops-nix.homeManagerModules.sops
+        ])
+        ++ (builtins.attrValues homeModules);
         standaloneHomeModules = [
           inputs.stylix.homeModules.stylix # issues with being included in home-manager and nixos configuration... kinda clunky
         ];

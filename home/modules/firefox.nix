@@ -1,5 +1,8 @@
 {
+  inputs,
+  lib,
   pkgs,
+  config,
   ...
 }:
 {
@@ -84,6 +87,43 @@
             google.metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
         force = true; # overwrite config on hm switch
+      };
+      userContent =
+        let
+          styles = [
+            "brave-search"
+            "bsky"
+            "chatgpt"
+            "cinny"
+            "duckduckgo"
+            "github"
+            "google"
+            "hacker-news"
+            "lobste.rs"
+            "nixos-*"
+            "npm"
+            "ollama"
+            "perplexity"
+            "reddit"
+            "spotify-web"
+            "stack-overflow"
+            "whatsapp-web"
+            "wikipedia"
+            "youtube"
+          ];
+          # fix this filtering upstream?
+          palette = lib.filterAttrs (n: _: lib.hasPrefix "base0" n) config.lib.stylix.colors;
+          userStyles = inputs.nix-userstyles.packages.${pkgs.system}.mkUserStyles palette styles;
+        in
+        builtins.readFile "${userStyles}";
+    };
+    policies = {
+      Preferences = {
+        # actually use the userContent.css
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = {
+          Status = "user";
+          Value = true;
+        };
       };
     };
   };

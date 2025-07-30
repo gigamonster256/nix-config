@@ -50,6 +50,22 @@
         "type": "github"
       }
     },
+    "base16-schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696158499,
+        "narHash": "sha256-5yIHgDTPjoX/3oDEfLSQ0eJZdFL1SaCfb9d6M0RmOTM=",
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "rev": "a9112eaae86d9dd8ee6bb9445b664fba2f94037a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "type": "github"
+      }
+    },
     "base16-vim": {
       "flake": false,
       "locked": {
@@ -67,6 +83,22 @@
         "type": "github"
       }
     },
+    "catppuccin-userstyles": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1753807912,
+        "narHash": "sha256-Bxzcd1dnOLVHd/byyQxyKCh0Zox6Qx839gvjZeZ2lpQ=",
+        "owner": "catppuccin",
+        "repo": "userstyles",
+        "rev": "37fa23cf4eae05862c191a2afb2d31f32efc0920",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "userstyles",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1731098351,
@@ -80,6 +112,18 @@
         "owner": "ipetkov",
         "repo": "crane",
         "type": "github"
+      }
+    },
+    "discord-userstyle": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-aohGUCm6YadZds6eiwnfICb6hc35jIGgGZxQtjrocXA=",
+        "type": "file",
+        "url": "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
       }
     },
     "disko": {
@@ -426,6 +470,28 @@
         "type": "github"
       }
     },
+    "nix-colors": {
+      "inputs": {
+        "base16-schemes": "base16-schemes",
+        "nixpkgs-lib": [
+          "nix-userstyles",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1707825078,
+        "narHash": "sha256-hTfge2J2W+42SZ7VHXkf4kjU+qzFqPeC9k66jAUBMHk=",
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "rev": "b01f024090d2c4fc3152cd0cf12027a7b8453ba1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -463,6 +529,29 @@
       "original": {
         "owner": "nix-community",
         "repo": "nix-index-database",
+        "type": "github"
+      }
+    },
+    "nix-userstyles": {
+      "inputs": {
+        "catppuccin-userstyles": "catppuccin-userstyles",
+        "discord-userstyle": "discord-userstyle",
+        "nix-colors": "nix-colors",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1753810241,
+        "narHash": "sha256-KPu2zsfZO2i2lfsdyidvnlPDpexzrKF5stwi3LvAb8U=",
+        "owner": "knoopx",
+        "repo": "nix-userstyles",
+        "rev": "ad1a171a9ae9c8fde42d08014cd69b0df2f750f1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "knoopx",
+        "repo": "nix-userstyles",
         "type": "github"
       }
     },
@@ -576,6 +665,7 @@
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
+        "nix-userstyles": "nix-userstyles",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
