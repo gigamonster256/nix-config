@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -15,6 +14,7 @@ in
     };
     ui = {
       merge-editor = mkDefault ":builtin";
+      diff-editor = mkDefault ":builtin";
       default-command = mkDefault [ "log" ];
       pager = mkDefault ":builtin";
     };
