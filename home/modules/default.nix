@@ -50,6 +50,7 @@ in
     nh.enable = true;
     nix-index-database.comma.enable = true;
     nix-index.enable = true;
+    opencode.enable = true;
   };
 
   home = {

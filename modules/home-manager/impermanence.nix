@@ -109,5 +109,8 @@ in
     (mkIf systemConfig.services.gnome.gnome-keyring.enable {
       impermanence.directories = [ ".local/share/keyrings" ];
     })
+    (mkIf config.programs.opencode.enable {
+      impermanence.directories = [ ".local/share/opencode" ];
+    })
   ]);
 }
