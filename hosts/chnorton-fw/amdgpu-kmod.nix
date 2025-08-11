@@ -61,11 +61,14 @@ in
           url = "https://github.com/Frogging-Family/community-patches/raw/a6a468420c0df18d51342ac6864ecd3f99f7011e/linux61-tkg/cap_sys_nice_begone.mypatch";
           hash = "sha256-1wUIeBrUfmRSADH963Ax/kXgm9x7ea6K6hQ+bStniIY=";
         })
-        # backlight mod
-        (pkgs.fetchpatch2 {
-          url = "https://lore.kernel.org/lkml/20240610-amdgpu-min-backlight-quirk-v1-1-8459895a5b2a@weissschuh.net/raw";
-          hash = "sha256-tXxI+G9nNc+p4y8ITISe7EioCtETtePpeuCr+oWT/+4=";
-        })
+        # backlight mod - seems to be accepted upstream
+        # (pkgs.fetchpatch2 {
+        #   name = "amdgpu-min-backlight-quirk.patch";
+        #   url = "https://lore.kernel.org/lkml/20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net/t.mbox.gz";
+        #   decode = "gunzip";
+        #   nativeBuildInputs = [ pkgs.gzip ];
+        #   hash = "sha256-cFqDkY7FdRfuVv+8OSZp25He/UA/ZvGx0B/gl83AmVM=";
+        # })
       ];
     })
   ];
