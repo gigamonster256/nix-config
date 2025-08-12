@@ -75,11 +75,13 @@ in
     stateVersion = mkDefault "23.11";
   };
 
-  # typos
   home.shellAliases = {
+    # typos
     nvom = "nvim";
     nivm = "nvim";
     sl = "ls";
+    # just open
+    open = "xdg-open";
   };
 
   # Nicely reload system units when changing configs
