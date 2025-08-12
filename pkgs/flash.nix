@@ -16,6 +16,11 @@ writeShellApplication {
   text =
     # bash
     ''
+      if [ "$#" -ne 2 ]; then
+        echo "Usage: flash <image-file> <device>"
+        exit 1
+      fi
+
       if [ "$(file "$1" --mime-type -b)" = "application/zstd" ]; then
         echo "Flashing zst using zstdcat | dd"
         ( set -x; zstdcat "$1" | sudo dd of="$2" iflag=fullblock oflag=direct status=progress conv=fsync,noerror bs=64k )

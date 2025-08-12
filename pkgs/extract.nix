@@ -31,6 +31,11 @@ writeShellApplication {
     in
     # bash
     ''
+      if [ "$#" -ne 1 ]; then
+        echo "Usage: extract <archive-file>"
+        exit 1
+      fi
+
       if [ -f "$1" ] ; then
         case $1 in
           *.tar.bz2) tar xjf "$1";;
@@ -41,7 +46,11 @@ writeShellApplication {
           *.rar)     ${extractRar};;
           *.tbz2)    tar xjf "$1";;
           *.tgz)     tar xzf "$1";;
-          *.zip)     unzip "$1";;
+          *.zip)
+            dir="''${1%.zip}"
+            mkdir -p "$dir"
+            unzip "$1" -d "$dir"
+          ;;
           *.Z)       uncompress "$1";;
           *.7z)      7z x "$1";;
           *)         echo "'$1' cannot be extracted via extract()";;
