@@ -100,6 +100,8 @@ mkMerge [
           disable_hyprland_logo = false;
           # switch to an app when it is activated (things like clicking a notification or tray icon)
           focus_on_activate = true;
+          # how many pings an app has to miss before the "app not responding" dialog pops up
+          anr_missed_pings = 5;
         };
 
         input = {
