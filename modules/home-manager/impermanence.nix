@@ -112,5 +112,8 @@ in
     (mkIf config.programs.opencode.enable {
       impermanence.directories = [ ".local/share/opencode" ];
     })
+    (mkIf config.programs.gemini-cli.enable {
+      impermanence.directories = [ ".gemini" ];
+    })
   ]);
 }

@@ -87,9 +87,5 @@ in
         ".local/share/news-flash"
       ];
     })
-    (mkPersistentProgram {
-      name = "gemini-cli";
-      directories = [ ".gemini" ];
-    })
   ];
 }
