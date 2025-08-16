@@ -66,6 +66,9 @@
   # printing
   services.printing.enable = true;
 
+  # docker
+  virtualisation.docker.enable = true;
+
   environment.systemPackages = with pkgs; [
     vim
     git
@@ -120,6 +123,7 @@
         extraGroups = [
           "wheel"
           "vpn"
+          "docker"
         ];
         shell = pkgs.zsh;
       };
