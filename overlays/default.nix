@@ -42,12 +42,8 @@ in
   #   };
   # };
 
-  mac-ghostty-from-nur = final: prev: {
-    ghostty =
-      if final.stdenv.hostPlatform.isDarwin then
-        final.nur.repos.gigamonster256.ghostty-darwin
-      else
-        prev.ghostty;
+  ghostty-bin = final: prev: {
+    ghostty = if final.stdenv.hostPlatform.isDarwin then prev.ghostty-bin else prev.ghostty;
   };
 
   # flake-schemas = final: prev: {
