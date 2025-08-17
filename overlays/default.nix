@@ -42,13 +42,13 @@ in
   #   };
   # };
 
-  mac-ghostty-from-nur = final: prev: {
-    ghostty =
-      if final.stdenv.hostPlatform.isDarwin then
-        final.nur.repos.gigamonster256.ghostty-darwin
-      else
-        prev.ghostty;
-  };
+  # mac-ghostty-from-nur = final: prev: {
+  #   ghostty =
+  #     if final.stdenv.hostPlatform.isDarwin then
+  #       final.nur.repos.gigamonster256.ghostty-darwin
+  #     else
+  #       prev.ghostty;
+  # };
 
   # flake-schemas = final: prev: {
   #   # 2.27 is used in the flake-schema as the base
