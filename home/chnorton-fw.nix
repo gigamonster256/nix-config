@@ -28,6 +28,7 @@
   programs.newsflash.enable = true;
   programs.gemini-cli.enable = true;
   programs.onlyoffice.enable = true;
+  programs.prismlauncher.enable = true;
 
   # folder for persistent projects
   impermanence.directories = [ "git" ];

@@ -87,5 +87,11 @@ in
         ".local/share/news-flash"
       ];
     })
+    (mkPersistentProgram {
+      name = "prismlauncher";
+      directories = [
+        ".local/share/PrismLauncher"
+      ];
+    })
   ];
 }
