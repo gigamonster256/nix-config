@@ -102,6 +102,8 @@
 
   programs.zoom-us.enable = true;
 
+  programs.wireshark.enable = true;
+
   sops.secrets.caleb-password = {
     neededForUsers = true;
     sopsFile = ./secrets.yaml;
@@ -124,6 +126,7 @@
           "wheel"
           "vpn"
           "docker"
+          "wireshark"
         ];
         shell = pkgs.zsh;
       };
