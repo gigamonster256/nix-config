@@ -80,6 +80,10 @@
 
     # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
     flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
+
+    # gh actions for nix
+    nix-github-actions.url = "github:nix-community/nix-github-actions";
+    nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -136,6 +140,14 @@
         ci = import ./ci.nix {
           inherit self;
           inherit (nixpkgs) lib;
+        };
+        cachixActions = inputs.nix-github-actions.lib.mkGithubMatrix {
+          checks = builtins.mapAttrs (system: ci: ci.cachix) self.ci;
+          attrPrefix = "cachixActions.checks";
+        };
+        artifactActions = inputs.nix-github-actions.lib.mkGithubMatrix {
+          checks = builtins.mapAttrs (system: ci: ci.artifacts) self.ci;
+          attrPrefix = "artifactActions.checks";
         };
       };
       lite-config = {

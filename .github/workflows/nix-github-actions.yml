@@ -1,0 +1,73 @@
+name: Build systems and artifacts
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+    paths-ignore: []
+jobs:
+  nix-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      cachix: ${{ steps.set-matrix.outputs.cachix }}
+      artifacts: ${{ steps.set-matrix.outputs.artifacts }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: DeterminateSystems/nix-installer-action@v19
+        with:
+          extra-conf:
+            accept-flake-config = true
+      - id: set-matrix
+        name: Generate Nix Matrix
+        run: |
+          set -Eeu
+          cachix="$(nix eval --json '.#cachixActions.matrix')"
+          echo "cachix=$cachix" >> "$GITHUB_OUTPUT"
+          artifacts="$(nix eval --json '.#artifactActions.matrix')"
+          echo "artifacts=$artifacts" >> "$GITHUB_OUTPUT"
+  nix-build-cachix:
+    name: ${{ matrix.name }} (${{ matrix.system }})
+    needs: nix-matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJSON(needs.nix-matrix.outputs.cachix)}}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: DeterminateSystems/nix-installer-action@v19
+        with:
+          extra-conf:
+            accept-flake-config = true
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
+      - uses: cachix/cachix-action@v16
+        with:
+          name: gigamonster256
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - run: nix build -L '.#${{ matrix.attr }}'
+  nix-build-artifacts:
+    name: ${{ matrix.name }} (${{ matrix.system }})
+    needs: nix-matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJSON(needs.nix-matrix.outputs.artifacts)}}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: DeterminateSystems/nix-installer-action@v19
+        with:
+          extra-conf:
+            accept-flake-config = true
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
+      - run: nix build -L '.#${{ matrix.attr }}'
+      - uses: actions/upload-artifact@v4.6.2
+        with:
+          retention-days: 7
+          if-no-files-found: ignore
+          path: ./result
+          name: artifacts-${{ matrix.name }}
