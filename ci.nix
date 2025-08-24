@@ -43,7 +43,7 @@ mkCaches {
   aarch64-linux = {
     nixos = [ "tinyca" ];
     artifacts = {
-      tinyca-image = self.images.tinyca;
+      # tinyca-image = self.images.tinyca;
     };
   };
   aarch64-darwin = {
