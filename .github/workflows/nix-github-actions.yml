@@ -13,6 +13,8 @@ jobs:
     outputs:
       cachix: ${{ steps.set-matrix.outputs.cachix }}
       artifacts: ${{ steps.set-matrix.outputs.artifacts }}
+      cachix_has_jobs: ${{ steps.set-matrix.outputs.cachix_has_jobs }}
+      artifacts_has_jobs: ${{ steps.set-matrix.outputs.artifacts_has_jobs }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -26,11 +28,18 @@ jobs:
           set -Eeu
           cachix="$(nix eval --json '.#cachixActions.matrix')"
           echo "cachix=$cachix" >> "$GITHUB_OUTPUT"
+          # Whether the cachix matrix has any jobs
+          cachix_has_jobs="$(jq -r '.include | length > 0' <<<"$cachix")"
+          echo "cachix_has_jobs=$cachix_has_jobs" >> "$GITHUB_OUTPUT"
           artifacts="$(nix eval --json '.#artifactActions.matrix')"
           echo "artifacts=$artifacts" >> "$GITHUB_OUTPUT"
+          # Whether the artifacts matrix has any jobs
+          artifacts_has_jobs="$(jq -r '.include | length > 0' <<<"$artifacts")"
+          echo "artifacts_has_jobs=$artifacts_has_jobs" >> "$GITHUB_OUTPUT"
   nix-build-cachix:
     name: ${{ matrix.name }} (${{ matrix.system }})
     needs: nix-matrix
+    if: ${{ fromJSON(needs.nix-matrix.outputs.cachix_has_jobs) }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix: ${{fromJSON(needs.nix-matrix.outputs.cachix)}}
@@ -50,6 +59,7 @@ jobs:
   nix-build-artifacts:
     name: ${{ matrix.name }} (${{ matrix.system }})
     needs: nix-matrix
+    if: ${{ fromJSON(needs.nix-matrix.outputs.artifacts_has_jobs) }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix: ${{fromJSON(needs.nix-matrix.outputs.artifacts)}}
