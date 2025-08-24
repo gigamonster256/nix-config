@@ -31,7 +31,10 @@ let
 in
 mkCaches {
   x86_64-linux = {
-    nixos = [ "littleboy" ];
+    nixos = [
+      "chnorton-fw"
+      "littleboy"
+    ];
     home = [
       # "caleb@littleboy"
       "chnorton"
