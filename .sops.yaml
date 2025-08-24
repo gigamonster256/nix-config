@@ -35,4 +35,6 @@ creation_rules:
           - *caleb
         age:
           - *chnorton-fw-home
-
+stores:
+  yaml:
+    indent: 2

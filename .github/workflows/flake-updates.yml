@@ -1,4 +1,3 @@
----
 name: "Update flakes"
 on:
   workflow_dispatch:
@@ -25,4 +24,3 @@ jobs:
             automerge
           branch: flake-update
           token: "${{ secrets.AUTO_MERGE_PAT }}"
-

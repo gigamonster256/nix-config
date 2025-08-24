@@ -16,51 +16,43 @@ jobs:
         build: [artifacts, cachix]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v5
-    - name: Install nix
-      uses: cachix/install-nix-action@v31
-      with:
-        extra_nix_config: |
-          experimental-features = nix-command flakes
-          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-          # fix for https://github.com/nix-community/nix-eval-jobs/issues/140
-          # nix-eval-jobs does not respect flake's nixConfig when checking to see if a 
-          # derivation is already cached (see next step)
-          # accept-flake-config = true
-          # extra-substituters = https://gigamonster256.cachix.org
-          # extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=
-    - name: nix actions cache
-      uses: DeterminateSystems/magic-nix-cache-action@v13
-    - name: Set NIX_CONFIG from flake.nix
-      run: |
-        nix_config_json=$(nix eval --impure --json --expr "((import ''$PWD/flake.nix'').nixConfig or {})")
-        nix_config_str=$(
-          echo "$nix_config_json" | jq -r '
-            to_entries | map(
-              if (.value | type == "array")
-                then "\(.key) = \(.value | join(" "))"
-                else "\(.key) = \(.value)"
-              end
-            ) | join("\n")
-          '
-        )
-        echo "NIX_CONFIG<<EOF" >> $GITHUB_ENV
-        echo "$nix_config_str" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-    - name: Setup cachix
-      if: ${{ matrix.build == 'cachix' }}
-      uses: cachix/cachix-action@v16
-      with:
-        name: gigamonster256
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - name: Build
-      run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).${{ matrix.build }}"
-    - name: Upload artifacts
-      if: ${{ matrix.build == 'artifacts' }}
-      uses: actions/upload-artifact@v4.6.2
-      with:
-        retention-days: 7
-        if-no-files-found: ignore
-        path: ./result-*
-        name: artifacts-${{ matrix.os }}
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Install nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: "experimental-features = nix-command flakes\naccess-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\n# fix for https://github.com/nix-community/nix-eval-jobs/issues/140\n# nix-eval-jobs does not respect flake's nixConfig when checking to see if a \n# derivation is already cached (see next step)\n# accept-flake-config = true\n# extra-substituters = https://gigamonster256.cachix.org\n# extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=\n"
+      - name: nix actions cache
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+      - name: Set NIX_CONFIG from flake.nix
+        run: |
+          nix_config_json=$(nix eval --impure --json --expr "((import ''$PWD/flake.nix'').nixConfig or {})")
+          nix_config_str=$(
+            echo "$nix_config_json" | jq -r '
+              to_entries | map(
+                if (.value | type == "array")
+                  then "\(.key) = \(.value | join(" "))"
+                  else "\(.key) = \(.value)"
+                end
+              ) | join("\n")
+            '
+          )
+          echo "NIX_CONFIG<<EOF" >> $GITHUB_ENV
+          echo "$nix_config_str" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Setup cachix
+        if: ${{ matrix.build == 'cachix' }}
+        uses: cachix/cachix-action@v16
+        with:
+          name: gigamonster256
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: Build
+        run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).${{ matrix.build }}"
+      - name: Upload artifacts
+        if: ${{ matrix.build == 'artifacts' }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          retention-days: 7
+          if-no-files-found: ignore
+          path: ./result-*
+          name: artifacts-${{ matrix.os }}

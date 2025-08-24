@@ -19,8 +19,7 @@ jobs:
           fetch-depth: 0
       - uses: DeterminateSystems/nix-installer-action@v19
         with:
-          extra-conf:
-            accept-flake-config = true
+          extra-conf: accept-flake-config = true
       - id: set-matrix
         name: Generate Nix Matrix
         run: |
@@ -41,8 +40,7 @@ jobs:
           fetch-depth: 0
       - uses: DeterminateSystems/nix-installer-action@v19
         with:
-          extra-conf:
-            accept-flake-config = true
+          extra-conf: accept-flake-config = true
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: cachix/cachix-action@v16
         with:
@@ -61,8 +59,7 @@ jobs:
           fetch-depth: 0
       - uses: DeterminateSystems/nix-installer-action@v19
         with:
-          extra-conf:
-            accept-flake-config = true
+          extra-conf: accept-flake-config = true
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - run: nix build -L '.#${{ matrix.attr }}'
       - uses: actions/upload-artifact@v4.6.2
