@@ -32,7 +32,7 @@ in
 mkCaches {
   x86_64-linux = {
     nixos = [
-      "chnorton-fw"
+      # "chnorton-fw" # too big for github actions default runner disk :(
       "littleboy"
     ];
     home = [
