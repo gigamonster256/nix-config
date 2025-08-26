@@ -15,7 +15,7 @@ in
     # defaultSession = "hyprland-uwsm"; # default is first installed desktop (fine if only 1 installed)
     # FIXME: font hardcode this
     autoLogin = {
-      enable = config.services.displayManager.defaultSession != null; # some window manager is enabled
+      enable = config.services.displayManager.sessionData.sessionNames != [ ]; # some window manager is enabled
       user = mkDefault "caleb";
     };
     sddm = {
