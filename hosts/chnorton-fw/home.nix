@@ -17,6 +17,13 @@
           #   ;
         };
 
+        xdg.mimeApps = {
+          enable = true;
+          defaultApplications = {
+            "application/pdf" = "org.kde.okular.desktop";
+          };
+        };
+
         # amd gpu
         programs.btop.package = pkgs.btop-rocm;
 
@@ -89,6 +96,12 @@
     prismlauncher = {
       directories = [
         ".local/share/PrismLauncher"
+      ];
+    };
+    libreoffice = {
+      directories = [
+        ".config/libreoffice"
+        # ".local/share/libreoffice"
       ];
     };
   };
