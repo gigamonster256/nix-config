@@ -16,19 +16,23 @@
     { pkgs, ... }:
     {
       # gtk portal and nautilus as file picker
-      config = {
-        wayland.windowManager.hyprland.enable = true;
-        home.packages = builtins.attrValues {
-          inherit (pkgs)
-            nautilus
-            wl-clipboard
-            ;
-        };
-        xdg.portal = {
-          extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-          xdgOpenUsePortal = true;
-          config.gtk."org.freedesktop.impl.portal.FileChooser" = "nautilus";
-        };
+      wayland.windowManager.hyprland.enable = true;
+      home.packages = builtins.attrValues {
+        inherit (pkgs)
+          nautilus
+          wl-clipboard
+          ;
       };
+      xdg.portal = {
+        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        xdgOpenUsePortal = true;
+        config.gtk."org.freedesktop.impl.portal.FileChooser" = "nautilus";
+      };
+      # auto start on tty1
+      programs.zsh.profileExtra = ''
+        if [ "$(tty)" = "/dev/tty1" ] && [ -z "''${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
+          exec Hyprland
+        fi
+      '';
     };
 }

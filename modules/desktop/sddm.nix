@@ -6,30 +6,29 @@
       config,
       ...
     }:
-    let
-      inherit (lib) mkDefault;
-    in
     {
-      environment.systemPackages = [
-        # pkgs.catppuccin-sddm
-      ];
       services.displayManager = {
         # defaultSession = "hyprland-uwsm"; # default is first installed desktop (fine if only 1 installed)
-        # FIXME: font hardcode this
+        # FIXME: dont hardcode this
         autoLogin = {
           enable =
             config.services.displayManager.sessionData ? sessionNames
             && config.services.displayManager.sessionData.sessionNames != [ ]; # some window manager is enabled
-          user = mkDefault "caleb";
+          user = lib.mkDefault "caleb";
         };
         sddm = {
           # enable = true;
-          wayland.enable = true;
-          theme = "catppuccin-mocha";
+          wayland.enable = lib.mkDefault false;
+          theme = lib.mkDefault "catppuccin-mocha";
           # issue with missing sddm-greeter-qt6
-          package = pkgs.kdePackages.sddm;
-          autoLogin.relogin = mkDefault config.services.displayManager.autoLogin.enable;
+          package = lib.mkDefault pkgs.kdePackages.sddm;
+          autoLogin.relogin = lib.mkDefault config.services.displayManager.autoLogin.enable;
         };
       };
+      environment.systemPackages =
+        let
+          sddmcfg = config.services.displayManager.sddm;
+        in
+        lib.optional (sddmcfg.enable && lib.hasPrefix "catppuccin" sddmcfg.theme) pkgs.catppuccin-sddm;
     };
 }
