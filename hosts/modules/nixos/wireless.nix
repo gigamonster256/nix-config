@@ -22,7 +22,7 @@ in
     allowAuxiliaryImperativeNetworks = mkDefault false;
     secretsFile = config.sops.secrets.wireless.path;
     networks = {
-      "Penguin Plaza".pskRaw = "ext:home_psk";
+      # "Penguin Plaza".pskRaw = "ext:home_psk";
       "Nortfam6".pskRaw = "ext:fam_psk";
       "TAMU_WiFi" = {
         authProtocols = [ "WPA-EAP" ];

@@ -10,6 +10,7 @@
   imports = [
     ./disko.nix
     ./amdgpu-kmod.nix
+    ./router.nix
   ];
 
   # boot config
