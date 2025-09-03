@@ -106,4 +106,10 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "24.11";
+
+  router = {
+    enable = true;
+    wanInterface = "wlo1";
+    lanInterface = "enp0s21f0u1u2";
+  };
 }

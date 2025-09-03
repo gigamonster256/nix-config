@@ -14,6 +14,7 @@ in
     ./stylix.nix
     ./sddm.nix
     ./keyring.nix
+    ./router.nix
   ];
 
   home-manager.backupFileExtension = mkDefault "backup";

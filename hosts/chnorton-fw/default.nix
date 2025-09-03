@@ -10,7 +10,6 @@
   imports = [
     ./disko.nix
     ./amdgpu-kmod.nix
-    ./router.nix
   ];
 
   # boot config
@@ -136,4 +135,10 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "25.11";
+
+  # router = {
+  #   enable = true;
+  #   wanInterface = "wlp192s0";
+  #   lanInterface = "eth0";
+  # };
 }
