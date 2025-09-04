@@ -98,7 +98,7 @@
             "duckduckgo"
             # "github"
             "google"
-            "hacker-news"
+            # "hacker-news"
             "lobste.rs"
             "nixos-*"
             "npm"
