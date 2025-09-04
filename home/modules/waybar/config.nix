@@ -8,9 +8,17 @@
 let
   inherit (lib)
     getExe
+    mkIf
     ;
   icon = symbol: "<span font_desc='Font Awesome 6 Free'>${symbol}</span>";
   textIcon = text: i: "${text} ${icon i}";
+  vpnInterfaceNames = builtins.concatMap builtins.attrNames (
+    with systemConfig.networking;
+    [
+      openconnect.interfaces
+      wg-quick.interfaces
+    ]
+  );
 in
 {
   layer = "top";
@@ -25,12 +33,13 @@ in
   modules-right = [
     "wireplumber"
     "network"
-    "custom/vpn"
+    (if vpnInterfaceNames != [ ] then "custom/vpn" else null)
     "cpu"
     "battery"
     "power-profiles-daemon"
     "tray"
     "clock"
+    (if config.services.fnott.enable then "custom/fnott" else null)
     "idle_inhibitor"
     "custom/wlogout"
   ];
@@ -103,18 +112,36 @@ in
       deactivated = "";
     };
   };
-  "custom/vpn" = {
+  "custom/fnott" = mkIf config.services.fnott.enable {
+    format = icon "{text}";
+    tooltip = false;
+    interval = 5;
+    exec = ''
+      transient_unit="$XDG_RUNTIME_DIR/systemd/transient/fnott.service"
+      if [ -L "$transient_unit" ]; then
+        echo '{"text": ""}' # bell-slash (disabled)
+      else
+        echo '{"text": ""}' # bell (active)
+      fi
+    '';
+    return-type = "json";
+    on-click = ''
+      transient_unit="$XDG_RUNTIME_DIR/systemd/transient/fnott.service"
+      if [ -L "$transient_unit" ]; then
+        rm "$transient_unit"
+        systemctl --user daemon-reload
+      else
+        systemctl --user stop fnott.service
+        ln -sf /dev/null "$transient_unit"
+        systemctl --user daemon-reload
+      fi
+    '';
+  };
+  "custom/vpn" = mkIf (vpnInterfaceNames != [ ]) {
     format = "{text}";
     exec = getExe (
       pkgs.waybar-plugins.vpn-status.override {
-        # look for VPN interfaces in the system configuration
-        interfaces = builtins.concatMap builtins.attrNames (
-          with systemConfig.networking;
-          [
-            openconnect.interfaces
-            wg-quick.interfaces
-          ]
-        );
+        interfaces = vpnInterfaceNames;
       }
     );
     interval = 5;

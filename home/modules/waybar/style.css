@@ -23,7 +23,8 @@ window#waybar {
 #clock,
 #idle-inhibitor,
 #custom-vpn,
-#custom-wlogout {
+#custom-wlogout,
+#custom-fnott {
     padding: 0 5px;
 }
 
