@@ -10,7 +10,7 @@ let
     getExe
     mkIf
     ;
-  icon = symbol: "<span font_desc='Font Awesome 6 Free'>${symbol}</span>";
+  icon = symbol: "<span font_desc='Font Awesome 7 Free'>${symbol}</span>";
   textIcon = text: i: "${text} ${icon i}";
   vpnInterfaceNames = builtins.concatMap builtins.attrNames (
     with systemConfig.networking;
