@@ -7,6 +7,7 @@
   bzip2,
   gzip,
   p7zip,
+  xz,
   withUnfree ? true,
 }:
 writeShellApplication {
@@ -18,6 +19,7 @@ writeShellApplication {
     bzip2
     gzip
     p7zip
+    xz
   ]
   ++ lib.optional withUnfree unrar;
 
@@ -46,6 +48,7 @@ writeShellApplication {
           *.rar)     ${extractRar};;
           *.tbz2)    tar xjf "$1";;
           *.tgz)     tar xzf "$1";;
+          *.xz)      unxz "$1";;
           *.zip)
             dir="''${1%.zip}"
             mkdir -p "$dir"
