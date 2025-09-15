@@ -110,8 +110,8 @@ mkMerge [
           touchpad.natural_scroll = true;
         };
 
-        # https://wiki.hyprland.org/Configuring/Variables/#gestures
-        gestures.workspace_swipe = false;
+        # https://wiki.hypr.land/Configuring/Gestures
+        # gestures = [];
 
         # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
         bind = builtins.concatLists [
