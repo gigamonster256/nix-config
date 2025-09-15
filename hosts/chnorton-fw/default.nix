@@ -29,7 +29,7 @@
       systemd-boot.enable = lib.mkForce false; # use lanzaboote
       efi.canTouchEfiVariables = true;
     };
-    # binfmt.emulatedSystems = ["aarch64-linux"];
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     # pretty boot
     plymouth.enable = true;
