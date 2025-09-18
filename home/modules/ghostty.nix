@@ -40,6 +40,8 @@ mkMerge [
           window-decoration = false;
           macos-titlebar-style = "hidden";
           config-file = "?nix-escape-hatch";
+          # start new ghostty processes in home
+          working-directory = "home";
         };
     };
   }
