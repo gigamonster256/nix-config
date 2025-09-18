@@ -8,6 +8,9 @@
     inherit (pkgs.kdePackages)
       okular
       ;
+    inherit (pkgs.python3Packages)
+      meshtastic
+      ;
   };
 
   # amd gpu
