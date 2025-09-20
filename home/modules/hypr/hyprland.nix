@@ -25,10 +25,9 @@ mkMerge [
         "$mainMod" = "SUPER";
         ecosystem.no_update_news = true;
         monitor = [
-          # TODO: use auto-center variants once stable gets them
           "desc:BOE,preferred,auto,1.566667" # framework monitor
-          "desc:GIGA-BYTE,preferred,auto-left,auto" # home monitor
-          "desc:Dell Inc. DELL E2416H,preferred,auto-up,auto" # work monitor
+          "desc:GIGA-BYTE,preferred,auto-center-left,auto" # no hdr on dockcase ",bitdepth,10" # home monitor
+          "desc:Dell Inc. DELL E2416H,preferred,auto-center-up,auto" # work monitor
           ",preferred,auto,auto"
         ];
         exec-once = [ ];
