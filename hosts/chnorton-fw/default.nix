@@ -127,6 +127,7 @@
           "vpn"
           "docker"
           "wireshark"
+          "dialout"
         ];
         shell = pkgs.zsh;
       };

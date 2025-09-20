@@ -4,6 +4,7 @@
     inherit (pkgs)
       wpa_supplicant_gui
       ntop
+      chirp
       ;
     inherit (pkgs.kdePackages)
       okular

@@ -32,7 +32,10 @@ mkMerge [
           ",preferred,auto,auto"
         ];
         exec-once = [ ];
-        xwayland.force_zero_scaling = true;
+        xwayland = {
+          force_zero_scaling = true;
+          create_abstract_socket = true; # chirp (wxPython) hangs trying to connect to /tmp/.X11-unix/X0 without this
+        };
         env = [ ];
         general = {
           gaps_in = 2;
