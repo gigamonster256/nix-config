@@ -40,4 +40,5 @@ rec {
   wiiu-downloader = pkgs.callPackage ./wiiu-downloader.nix { };
   zig-tetris = pkgs.callPackage ./zig-tetris.nix { };
   inherit (pkgs.callPackage ./vpn.nix { }) vpn-scripts vpn-on vpn-off;
+  dvd = pkgs.callPackage ./dvd { };
 }
