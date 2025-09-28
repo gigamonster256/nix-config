@@ -100,7 +100,7 @@
       homeModules = import ./modules/home-manager;
       flakeModules = import ./modules/flake;
     in
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    flake-parts.lib.mkFlake { inherit self inputs; } {
       imports = [
         inputs.git-hooks.flakeModule
         inputs.treefmt-nix.flakeModule

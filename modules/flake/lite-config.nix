@@ -1,4 +1,5 @@
 {
+  self,
   inputs,
   lib,
   withSystem,
@@ -240,7 +241,7 @@ let
           else
             throw "System type ${hostPlatform.system} not supported.";
         specialArgs = {
-          inherit inputs hostPlatform;
+          inherit self inputs hostPlatform;
         };
         modules =
           hostConfig.modules
