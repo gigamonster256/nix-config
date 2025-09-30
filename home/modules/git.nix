@@ -15,6 +15,9 @@ in
     aliases = {
       exec = mkDefault "!exec ";
     };
+    extraConfig = {
+      init.defaultBranch = "master";
+    };
   };
   programs.gh = {
     enable = mkDefault gitcfg.enable;
