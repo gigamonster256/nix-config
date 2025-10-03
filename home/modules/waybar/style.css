@@ -45,3 +45,23 @@ window#waybar {
 #network.disconnected {
     background: @base08;
 }
+
+window#waybar.battery-warning {
+    background: @base09; /* urgent */
+    color: @base04; /* secondary */
+}
+
+window#waybar.battery-critical {
+    background: @base08; /* error */
+    color: @base04; /* secondary */
+}
+
+window#waybar.battery-warning #workspaces button,
+window#waybar.battery-critical #workspaces button {
+    color: @base04; /* secondary */
+}
+
+window#waybar.battery-warning #workspaces button.active,
+window#waybar.battery-critical #workspaces button.active {
+    color: @base0E;
+}
