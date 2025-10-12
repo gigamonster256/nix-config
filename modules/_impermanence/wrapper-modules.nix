@@ -22,6 +22,30 @@
       imports = [
         # import nixos impermanence module
         inputs.impermanence.nixosModules.impermanence
+        {
+          home-manager.sharedModules = [
+            # import home-manager impermanence module
+            inputs.impermanence.homeManagerModules.impermanence
+            # set defaults for impermanence paths (between mkOption and mkDefault)
+            {
+              impermanence.enable = lib.mkOverride 1250 cfg.enable;
+              impermanence.persistPath = lib.mkOverride 1250 cfg.persistPath;
+            }
+            (
+              { config, ... }:
+              let
+                cfg = config.impermanence;
+              in
+              {
+                config = mkIf cfg.enable {
+                  home.persistence."${cfg.persistPath}" = {
+                    inherit (cfg) directories files;
+                  };
+                };
+              }
+            )
+          ];
+        }
       ];
 
       options = {
@@ -131,5 +155,60 @@
           };
         }
       ]);
+    };
+
+  # this wrapper for impermanence is imported unconditionally so that
+  # programs and home configs can set impermanence options
+  # however the actual use of the options only happens in the nixos module above
+  flake.modules.homeManager.base =
+    {
+      lib,
+      config,
+      ...
+    }:
+    let
+      inherit (lib)
+        mkEnableOption
+        mkOption
+        types
+        mkMerge
+        mkIf
+        mkAfter
+        ;
+      cfg = config.impermanence;
+    in
+    {
+      options = {
+        impermanence = {
+          # users can opt in/out of impermanence entirely
+          # the nixos module above will default this to true if nixos.impermanence.enable is true
+          enable = mkEnableOption "impermanence" // {
+            default = false;
+          };
+          persistPath = mkOption {
+            type = types.singleLineStr;
+            default = "/persist";
+          };
+          directories = mkOption {
+            type = with types; listOf anything; # let the impermanence module do the type checking
+            default = [ ];
+          };
+          files = mkOption {
+            type = with types; listOf anything; # let the impermanence module do the type checking
+            default = [ ];
+          };
+        };
+      };
+      # some sane defaults
+      config = {
+        impermanence = {
+          directories = mkAfter [
+            ".ssh"
+            ".gnupg"
+            ".local/share/nix"
+          ];
+          files = mkAfter [ ];
+        };
+      };
     };
 }
