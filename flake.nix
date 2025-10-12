@@ -86,167 +86,34 @@
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-parts,
-      ...
-    }:
-    let
-      overlays = import ./overlays { inherit inputs; };
-      nixosModules = import ./modules/nixos;
-      darwinModules = import ./modules/darwin;
-      homeModules = import ./modules/home-manager;
-      flakeModules = import ./modules/flake;
-    in
-    flake-parts.lib.mkFlake { inherit self inputs; } {
+    { flake-parts, import-tree, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.git-hooks.flakeModule
+        inputs.flake-parts.flakeModules.flakeModules
+        # inputs.flake-parts.flakeModules.partitions
+        inputs.flake-parts.flakeModules.modules
+        inputs.home-manager.flakeModules.home-manager
         inputs.treefmt-nix.flakeModule
-      ]
-      ++ (builtins.attrValues flakeModules);
+        inputs.disko.flakeModules.default
+        (import-tree [
+          ./hosts
+          ./modules
+          ./pkgs
+        ])
+      ];
+
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
+
       perSystem =
-        {
-          config,
-          pkgs,
-          ...
-        }:
+        { pkgs, ... }:
         {
           treefmt = import ./treefmt.nix { inherit pkgs; };
-
-          devShells.default = import ./shell.nix {
-            inherit pkgs;
-            # additionalShells = [config.pre-commit.devShell];
-          };
+          devShells.default = import ./shell.nix { inherit pkgs; };
         };
-      flake = {
-        inherit
-          overlays
-          nixosModules
-          darwinModules
-          homeModules
-          flakeModules
-          ;
-        inherit (inputs.flake-schemas)
-          schemas
-          ;
-        images.tinyca =
-          (self.nixosConfigurations.tinyca.extendModules {
-            modules = [
-              "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
-            ];
-          }).config.system.build.sdImage;
-        ci = import ./ci.nix {
-          inherit self;
-          inherit (nixpkgs) lib;
-        };
-        cachixActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-          checks = builtins.mapAttrs (system: ci: ci.cachix) self.ci;
-          attrPrefix = "cachixActions.checks";
-        };
-        artifactActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-          checks = builtins.mapAttrs (system: ci: ci.artifacts) self.ci;
-          attrPrefix = "artifactActions.checks";
-        };
-      };
-      lite-config = {
-        nixpkgs = {
-          config.allowUnfree = true;
-          overlays =
-            with inputs;
-            [
-              neovim.overlays.default
-              nur.overlays.default
-            ]
-            ++ (builtins.attrValues overlays);
-          setPerSystemPkgs = true;
-        };
-
-        hostModules = [ ./hosts/modules ];
-        nixosModules = [
-          ./hosts/modules/nixos
-        ]
-        ++ (with inputs; [
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-          lanzaboote.nixosModules.lanzaboote
-          disko.nixosModules.disko
-          impermanence.nixosModules.impermanence
-          nixos-facter-modules.nixosModules.facter
-          spicetify-nix.nixosModules.default
-          nix-index-database.nixosModules.nix-index
-          stylix.nixosModules.stylix
-        ])
-        ++ (builtins.attrValues nixosModules);
-        darwinModules = [
-          ./hosts/modules/darwin
-        ]
-        ++ (with inputs; [
-          stylix.darwinModules.stylix
-        ])
-        ++ (builtins.attrValues darwinModules);
-        hosts = {
-          chnorton-mbp = {
-            system = "aarch64-darwin";
-            modules = [ ./hosts/chnorton-mbp ];
-          };
-          chnorton-fw = {
-            system = "x86_64-linux";
-            modules = [
-              ./hosts/chnorton-fw
-              inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  users.caleb = ./home/chnorton-fw.nix;
-                };
-              }
-            ];
-          };
-          littleboy = {
-            system = "x86_64-linux";
-            modules = [
-              ./hosts/littleboy
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  users.caleb = ./home/littleboy.nix;
-                };
-              }
-            ];
-          };
-          tinyca = {
-            system = "aarch64-linux";
-            modules = [
-              # inputs.nixos-hardware.nixosModules.raspberry-pi-3
-              ./hosts/pi-certs
-            ];
-          };
-        };
-
-        homeModules = [
-          ./home/modules
-        ]
-        ++ (with inputs; [
-          spicetify-nix.homeManagerModules.default
-          nix-index-database.homeModules.nix-index
-          impermanence.homeManagerModules.impermanence
-          sops-nix.homeManagerModules.sops
-        ])
-        ++ (builtins.attrValues homeModules);
-        standaloneHomeModules = [
-          inputs.stylix.homeModules.stylix # issues with being included in home-manager and nixos configuration... kinda clunky
-        ];
-        homeConfigurations = {
-          "caleb@chnorton-mbp" = {
-            modules = [ ./home/chnorton-mbp.nix ];
-          };
-          # "caleb@littleboy" = {modules = [./home/littleboy.nix];};
-          chnorton = {
-            modules = [ ./home/chnorton.nix ];
-          };
-        };
-      };
     };
 
   nixConfig = {
