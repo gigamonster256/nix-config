@@ -324,6 +324,21 @@
         "type": "github"
       }
     },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1752730890,
+        "narHash": "sha256-GES8fapSLGz36MMPRVNkSUWXUTtqvGQNXHjRmRLfJUY=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "6ebb8cb87987b20264c09296166543fd3761d274",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -592,6 +607,7 @@
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",

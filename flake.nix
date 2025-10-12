@@ -80,6 +80,9 @@
     # gh actions for nix
     nix-github-actions.url = "github:nix-community/nix-github-actions";
     nix-github-actions.inputs.nixpkgs.follows = "nixpkgs";
+
+    # import tree
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs =
