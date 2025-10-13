@@ -1,14 +1,6 @@
+{ lib, config, ... }:
 {
-  inputs,
-  lib,
-  pkgs,
-  config,
-  ...
-}:
-let
-  inherit (lib) mkDefault;
-  cfg = config.programs.nh;
-in
-{
-  programs.nh.flake = mkDefault "github:gigamonster256/nix-config";
+  flake.modules.homeManager.base = {
+    programs.nh.flake = lib.mkDefault "github:gigamonster256/nix-config";
+  };
 }

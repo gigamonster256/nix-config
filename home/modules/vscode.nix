@@ -1,6 +1,8 @@
 {
-  programs.vscode.profiles.default.userSettings = {
-    "files.autoSave" = "afterDelay";
-    "terminal.integrated.fontFamily" = "Monaspace Neon";
+  flake.modules.homeManager.base = {
+    programs.vscode.profiles.default.userSettings = {
+      "files.autoSave" = "afterDelay";
+      "terminal.integrated.fontFamily" = "Monaspace Neon";
+    };
   };
 }
