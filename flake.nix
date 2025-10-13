@@ -38,7 +38,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     # erase your darlings
-    impermanence.url = "github:gigamonster256/impermanence/home-manager-v2";
+    impermanence.url = "github:nix-community/impermanence/home-manager-v2";
     impermanence.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.inputs.home-manager.follows = "home-manager";
 
@@ -107,6 +107,12 @@
         "aarch64-linux"
         "aarch64-darwin"
       ];
+
+      meta.owner = {
+        name = "Caleb Norton";
+        email = "n0603919@outlook.com";
+      };
+      meta.flake = "github:gigamonster256/nix-config";
 
       perSystem =
         { pkgs, ... }:
