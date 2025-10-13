@@ -1,4 +1,3 @@
-{ pkgs, config, ... }:
 let
   # https://github.com/Atemu/nixos-config/blob/master/modules/amdgpu/kernel-module.nix
   # https://wiki.nixos.org/wiki/Linux_kernel#Patching_a_single_In-tree_kernel_module
@@ -48,28 +47,40 @@ let
       };
     };
 in
+{ self, ... }:
 {
-  # amd gpu high priority queues
-  # https://github.com/NixOS/nixpkgs/issues/217119
-  # https://github.com/NixOS/nixpkgs/pull/321663
-  boot.extraModulePackages = [
-    (pkgs.callPackage amdgpuPatch {
-      inherit (config.boot.kernelPackages) kernel;
-      patches = [
-        # remove cap_sys_nice
-        (pkgs.fetchpatch2 {
-          url = "https://github.com/Frogging-Family/community-patches/raw/a6a468420c0df18d51342ac6864ecd3f99f7011e/linux61-tkg/cap_sys_nice_begone.mypatch";
-          hash = "sha256-1wUIeBrUfmRSADH963Ax/kXgm9x7ea6K6hQ+bStniIY=";
+  flake.modules.nixos.amdgpu-kmod =
+    { pkgs, config, ... }:
+    {
+      # amd gpu high priority queues
+      # https://github.com/NixOS/nixpkgs/issues/217119
+      # https://github.com/NixOS/nixpkgs/pull/321663
+      boot.extraModulePackages = [
+        (pkgs.callPackage amdgpuPatch {
+          inherit (config.boot.kernelPackages) kernel;
+          patches = [
+            # remove cap_sys_nice
+            (pkgs.fetchpatch2 {
+              url = "https://github.com/Frogging-Family/community-patches/raw/a6a468420c0df18d51342ac6864ecd3f99f7011e/linux61-tkg/cap_sys_nice_begone.mypatch";
+              hash = "sha256-1wUIeBrUfmRSADH963Ax/kXgm9x7ea6K6hQ+bStniIY=";
+            })
+            # backlight mod - seems to be accepted upstream
+            # (pkgs.fetchpatch2 {
+            #   name = "amdgpu-min-backlight-quirk.patch";
+            #   url = "https://lore.kernel.org/lkml/20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net/t.mbox.gz";
+            #   decode = "gunzip";
+            #   nativeBuildInputs = [ pkgs.gzip ];
+            #   hash = "sha256-cFqDkY7FdRfuVv+8OSZp25He/UA/ZvGx0B/gl83AmVM=";
+            # })
+          ];
         })
-        # backlight mod - seems to be accepted upstream
-        # (pkgs.fetchpatch2 {
-        #   name = "amdgpu-min-backlight-quirk.patch";
-        #   url = "https://lore.kernel.org/lkml/20241111-amdgpu-min-backlight-quirk-v7-0-f662851fda69@weissschuh.net/t.mbox.gz";
-        #   decode = "gunzip";
-        #   nativeBuildInputs = [ pkgs.gzip ];
-        #   hash = "sha256-cFqDkY7FdRfuVv+8OSZp25He/UA/ZvGx0B/gl83AmVM=";
-        # })
       ];
-    })
-  ];
+    };
+
+  # add the module to the chnorton-fw configuration
+  configurations.nixos.chnorton-fw = {
+    imports = [
+      self.modules.nixos.amdgpu-kmod
+    ];
+  };
 }
