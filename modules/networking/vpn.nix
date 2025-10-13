@@ -22,7 +22,7 @@
 
     {
       sops.secrets = lib.genAttrs [ "vpn/tamu" "vpn/windscribe/private" "vpn/windscribe/preshared" ] (_: {
-        sopsFile = ../secrets.yaml;
+        sopsFile = ../secrets/secrets.yaml;
       });
 
       networking.openconnect.interfaces = {
