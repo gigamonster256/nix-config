@@ -1,2 +1,0 @@
-{ }
-# just my global config
