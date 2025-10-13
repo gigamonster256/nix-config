@@ -1,4 +1,9 @@
-{ config, ... }:
+{ inputs, ... }:
 {
-  sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
+  flake.modules.homeManager.base =
+    { config, ... }:
+    {
+      imports = [ inputs.sops-nix.homeModules.sops ];
+      sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
+    };
 }

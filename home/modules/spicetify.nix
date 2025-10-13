@@ -1,32 +1,44 @@
 {
+  moduleWithSystem,
   inputs,
   lib,
-  pkgs,
-  config,
   ...
 }:
-let
-  inherit (lib) mkDefault mkIf mkMerge;
-  cfg = config.programs.spicetify;
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
-in
-mkMerge [
+lib.mkMerge [
   {
-    programs.spicetify = {
-      theme = mkDefault spicePkgs.themes.dribbblish;
-      colorScheme = mkDefault "catppuccin-mocha";
-      enabledExtensions = mkDefault (
-        builtins.attrValues {
-          inherit (spicePkgs.extensions)
-            fullAppDisplay
-            shuffle
-            ;
-        }
-      );
-    };
+    flake.modules.homeManager.spicetify = moduleWithSystem (
+      { system, ... }:
+      let
+        spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
+      in
+      {
+        programs.spicetify = {
+          theme = lib.mkDefault spicePkgs.themes.dribbblish;
+          colorScheme = lib.mkDefault "catppuccin-mocha";
+          enabledExtensions = lib.mkDefault (
+            builtins.attrValues {
+              inherit (spicePkgs.extensions)
+                fullAppDisplay
+                shuffle
+                ;
+            }
+          );
+        };
+      }
+
+    );
   }
-  (mkIf cfg.enable {
-    home.packages = mkIf pkgs.stdenv.isLinux [ pkgs.playerctl ];
-    impermanence.directories = [ ".config/spotify" ];
-  })
+  {
+    flake.modules.homeManager.spicetify =
+      { config, pkgs, ... }:
+      {
+        imports = [ inputs.spicetify-nix.homeManagerModules.default ];
+        config = (
+          lib.mkIf config.programs.spicetify.enable {
+            home.packages = lib.mkIf pkgs.stdenv.isLinux [ pkgs.playerctl ];
+            impermanence.directories = [ ".config/spotify" ];
+          }
+        );
+      };
+  }
 ]

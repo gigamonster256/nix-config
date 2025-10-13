@@ -1,121 +1,124 @@
-{ lib, config, ... }:
-let
-  inherit (lib)
-    mkIf
-    mkEnableOption
-    mkOption
-    types
-    ;
-  cfg = config.router;
-in
 {
-  options = {
-    router = {
-      enable = mkEnableOption "Set up this machine as a router/firewall.";
-      wanInterface = mkOption {
-        type = types.str;
-        description = "The interface connected to the internet.";
-      };
-      lanInterface = lib.mkOption {
-        type = types.str;
-        description = "The interface connected to the LAN.";
-      };
-    };
-  };
-
-  config = mkIf cfg.enable {
-    # dont do anything if the lid closes
-    services.logind.settings.Login = {
-      HandleLidSwitch = "ignore";
-    };
-
-    boot.kernel.sysctl = {
-      "net.ipv4.conf.all.forwarding" = true;
-      "net.ipv6.conf.all.disable_ipv6" = true;
-    };
-
-    networking = {
-      useDHCP = false;
-      nameservers = [ "1.1.1.1" ];
-      interfaces = {
-        ${cfg.wanInterface}.useDHCP = true;
-
-        # LAN - offering internet to OPNsense
-        ${cfg.lanInterface} = {
-          useDHCP = false;
-          ipv4.addresses = [
-            {
-              address = "10.238.192.1";
-              prefixLength = 24;
-            }
-          ];
+  flake.modules.nixos.base =
+    { lib, config, ... }:
+    let
+      inherit (lib)
+        mkIf
+        mkEnableOption
+        mkOption
+        types
+        ;
+      cfg = config.router;
+    in
+    {
+      options = {
+        router = {
+          enable = mkEnableOption "Set up this machine as a router/firewall.";
+          wanInterface = mkOption {
+            type = types.str;
+            description = "The interface connected to the internet.";
+          };
+          lanInterface = lib.mkOption {
+            type = types.str;
+            description = "The interface connected to the LAN.";
+          };
         };
       };
 
-      nat.enable = false;
-      firewall.enable = false;
-      nftables = {
-        enable = true;
-        ruleset = ''
-          table inet filter {
-            # enable flow offloading for better throughput
-            # flowtable f {
-            #   hook ingress priority 0;
-            #   devices = { wlp192s0, eth0 };
-            # }
+      config = mkIf cfg.enable {
+        # dont do anything if the lid closes
+        services.logind.settings.Login = {
+          HandleLidSwitch = "ignore";
+        };
 
-            chain output {
-              type filter hook output priority 100; policy accept;
-            }
+        boot.kernel.sysctl = {
+          "net.ipv4.conf.all.forwarding" = true;
+          "net.ipv6.conf.all.disable_ipv6" = true;
+        };
 
-            chain input {
-              type filter hook input priority filter; policy drop;
+        networking = {
+          useDHCP = false;
+          nameservers = [ "1.1.1.1" ];
+          interfaces = {
+            ${cfg.wanInterface}.useDHCP = true;
 
-              # Allow trusted networks to access the router
-              iifname {
-                "${cfg.lanInterface}",
-              } counter accept
+            # LAN - offering internet to OPNsense
+            ${cfg.lanInterface} = {
+              useDHCP = false;
+              ipv4.addresses = [
+                {
+                  address = "10.238.192.1";
+                  prefixLength = 24;
+                }
+              ];
+            };
+          };
 
-              # Allow returning traffic from ppp0 and drop everthing else
-              iifname "${cfg.wanInterface}" ct state { established, related } counter accept
-              iifname "${cfg.wanInterface}" drop
-            }
+          nat.enable = false;
+          firewall.enable = false;
+          nftables = {
+            enable = true;
+            ruleset = ''
+              table inet filter {
+                # enable flow offloading for better throughput
+                # flowtable f {
+                #   hook ingress priority 0;
+                #   devices = { wlp192s0, eth0 };
+                # }
 
-            chain forward {
-              type filter hook forward priority filter; policy drop;
+                chain output {
+                  type filter hook output priority 100; policy accept;
+                }
 
-              # enable flow offloading for better throughput
-              # ip protocol { tcp, udp } flow offload @f
+                chain input {
+                  type filter hook input priority filter; policy drop;
 
-              # Allow trusted network WAN access
-              iifname {
-                      "${cfg.lanInterface}",
-              } oifname {
-                      "${cfg.wanInterface}",
-              } counter accept comment "Allow trusted LAN to WAN"
+                  # Allow trusted networks to access the router
+                  iifname {
+                    "${cfg.lanInterface}",
+                  } counter accept
 
-              # Allow established WAN to return
-              iifname {
-                      "${cfg.wanInterface}",
-              } oifname {
-                      "${cfg.lanInterface}",
-              } ct state established,related counter accept comment "Allow established back to LANs"
-            }
-          }
+                  # Allow returning traffic from ppp0 and drop everthing else
+                  iifname "${cfg.wanInterface}" ct state { established, related } counter accept
+                  iifname "${cfg.wanInterface}" drop
+                }
 
-          table ip nat {
-            chain prerouting {
-              type nat hook prerouting priority filter; policy accept;
-            }
+                chain forward {
+                  type filter hook forward priority filter; policy drop;
 
-            # Setup NAT masquerading on the ppp0 interface
-            chain postrouting {
-              type nat hook postrouting priority filter; policy accept;
-              oifname "${cfg.wanInterface}" masquerade
-            }
-          }
-        '';
+                  # enable flow offloading for better throughput
+                  # ip protocol { tcp, udp } flow offload @f
+
+                  # Allow trusted network WAN access
+                  iifname {
+                          "${cfg.lanInterface}",
+                  } oifname {
+                          "${cfg.wanInterface}",
+                  } counter accept comment "Allow trusted LAN to WAN"
+
+                  # Allow established WAN to return
+                  iifname {
+                          "${cfg.wanInterface}",
+                  } oifname {
+                          "${cfg.lanInterface}",
+                  } ct state established,related counter accept comment "Allow established back to LANs"
+                }
+              }
+
+              table ip nat {
+                chain prerouting {
+                  type nat hook prerouting priority filter; policy accept;
+                }
+
+                # Setup NAT masquerading on the ppp0 interface
+                chain postrouting {
+                  type nat hook postrouting priority filter; policy accept;
+                  oifname "${cfg.wanInterface}" masquerade
+                }
+              }
+            '';
+          };
+        };
       };
     };
-  };
 }

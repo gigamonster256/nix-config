@@ -1,3 +1,5 @@
 {
-  impermanence.directories = [ ".config/github-copilot" ];
+  flake.modules.homeManager.base = {
+    impermanence.directories = [ ".config/github-copilot" ];
+  };
 }
