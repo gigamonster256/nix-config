@@ -1,27 +1,30 @@
-{ pkgs, ... }:
 {
-  security.pam.services.sudo_local.touchIdAuth = true;
+  configurations.darwin.chnorton-mbp =
+    { pkgs, ... }:
+    {
+      security.pam.services.sudo_local.touchIdAuth = true;
 
-  environment.systemPackages = with pkgs; [
-    gnupg
-    pinentry_mac
-  ];
+      environment.systemPackages = with pkgs; [
+        gnupg
+        pinentry_mac
+      ];
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+      programs.gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
 
-  services.sketchybar.enable = true;
-  services.aerospace.enable = true;
+      services.sketchybar.enable = true;
+      services.aerospace.enable = true;
 
-  users.users = {
-    # Replace with your username
-    caleb = {
-      home = "/Users/caleb";
-      shell = pkgs.zsh;
+      users.users = {
+        # Replace with your username
+        caleb = {
+          home = "/Users/caleb";
+          shell = pkgs.zsh;
+        };
+      };
+
+      system.stateVersion = 6;
     };
-  };
-
-  system.stateVersion = 6;
 }
