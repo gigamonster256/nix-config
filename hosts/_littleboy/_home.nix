@@ -1,12 +1,17 @@
-{ pkgs, ... }:
 {
-  home.packages = [
-    pkgs.wpa_supplicant_gui
-    pkgs.ntop
-  ];
+  configurations.nixos.littleboy = {
+    home-manager.users.caleb =
+      { pkgs, ... }:
+      {
+        home.packages = [
+          pkgs.wpa_supplicant_gui
+          # pkgs.ntop
+        ];
 
-  programs.spicetify.enable = true;
-  programs.ghostty.enable = true;
-  programs.firefox.enable = true;
-  wayland.windowManager.hyprland.enable = true;
+        programs.spicetify.enable = true;
+        programs.ghostty.enable = true;
+        programs.firefox.enable = true;
+        wayland.windowManager.hyprland.enable = true;
+      };
+  };
 }
