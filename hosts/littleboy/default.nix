@@ -43,10 +43,10 @@
       # };
 
       # impermanence
-      impermanence = {
-        enable = true;
-        btrfsWipe.enable = true;
-      };
+      # impermanence = {
+      #   enable = true;
+      #   btrfsWipe.enable = true;
+      # };
 
       # wireless (wpa_supplicant)
       # TODO: use networkmanager

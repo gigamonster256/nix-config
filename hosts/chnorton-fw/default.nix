@@ -4,7 +4,19 @@
     modules = with config.unify.modules; [
       plymouth
       secure-boot
+      impermanence
+      style
     ];
+
+    users = {
+      caleb = {
+        # HMM, not sure if I like this pattern - perhaps auto import unify home modules included un the
+        # system modules above?
+        modules = with config.unify.modules; [
+          style
+        ];
+      };
+    };
 
     nixos =
       {
@@ -16,10 +28,7 @@
       {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-          inputs.disko.nixosModules.disko
-          inputs.nixos-facter-modules.nixosModules.facter
           inputs.self.modules.nixos.base
-          inputs.self.modules.nixos.style
           inputs.nix-index-database.nixosModules.nix-index
           # home manager
           (
@@ -34,8 +43,6 @@
                 sharedModules = [
                   inputs.nix-index-database.homeModules.nix-index
                   inputs.self.modules.homeManager.base
-                  inputs.self.modules.homeManager.spicetify
-                  inputs.self.modules.homeManager.style
                 ];
               };
             }
@@ -46,7 +53,6 @@
           initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
           binfmt.emulatedSystems = [ "aarch64-linux" ];
         };
-
         systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
 
         # impermanence
