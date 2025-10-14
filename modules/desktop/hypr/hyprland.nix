@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base =
+  unify.modules.desktop.nixos =
     { config, lib, ... }:
     {
       # immediately log out if autoLogin is enabled - basically use the lock screen as a login screen
@@ -8,7 +8,7 @@
       };
     };
 
-  flake.modules.homeManager.base =
+  unify.modules.desktop.home =
     {
       lib,
       pkgs,
