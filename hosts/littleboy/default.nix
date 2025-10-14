@@ -36,11 +36,11 @@
       };
 
       # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
-      systemIdentity = {
-        enable = true;
-        # if this changes, 'systemctl disable check-pcrs; systemctl default' in emergency shell to skip check
-        pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
-      };
+      # systemIdentity = {
+      #   enable = true;
+      #   # if this changes, 'systemctl disable check-pcrs; systemctl default' in emergency shell to skip check
+      #   pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
+      # };
 
       # impermanence
       impermanence = {

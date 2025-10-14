@@ -1,6 +1,11 @@
 { inputs, config, ... }:
 {
   unify.hosts.nixos.chnorton-fw = {
+    modules = with config.unify.modules; [
+      plymouth
+      secure-boot
+    ];
+
     nixos =
       {
         lib,
@@ -11,7 +16,6 @@
       {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-          inputs.lanzaboote.nixosModules.lanzaboote
           inputs.disko.nixosModules.disko
           inputs.nixos-facter-modules.nixosModules.facter
           inputs.self.modules.nixos.base
@@ -38,43 +42,12 @@
           )
         ];
 
-        # boot config
         boot = {
-          # tpm2 luks unlock
-          initrd.systemd = {
-            enable = true;
-            emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
-          };
-          # secure boot
-          lanzaboote = {
-            enable = true;
-            pkiBundle = "/var/lib/sbctl";
-          };
-          loader = {
-            timeout = 0;
-            systemd-boot.enable = lib.mkForce false; # use lanzaboote
-            efi.canTouchEfiVariables = true;
-          };
+          initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
           binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-          # pretty boot
-          plymouth.enable = true;
-          consoleLogLevel = 3;
-          initrd.verbose = false;
-          kernelParams = [
-            "quiet"
-            "splash"
-            "boot.shell_on_fail"
-            "udev.log_priority=3"
-            "rd.systemd.show_status=auto"
-          ];
         };
 
-        # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
-        systemIdentity = {
-          enable = true;
-          pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
-        };
+        systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
 
         # impermanence
         impermanence = {
