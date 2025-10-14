@@ -13,6 +13,10 @@
           default-command = lib.mkDefault [ "log" ];
           pager = lib.mkDefault ":builtin";
         };
+        signing = {
+          behavior = "keep";
+          backend = "gpg";
+        };
       };
     };
 }
