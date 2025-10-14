@@ -1,6 +1,6 @@
 { self, ... }:
 {
-  configurations.nixos = { inherit (self.diskoConfigurations) chnorton-fw; };
+  unify.hosts.nixos.chnorton-fw.nixos = self.diskoConfigurations.chnorton-fw;
 
   flake.diskoConfigurations.chnorton-fw = {
     disko.devices.disk.main = {
