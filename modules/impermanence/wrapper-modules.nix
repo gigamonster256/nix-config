@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.base =
+  unify.modules.impermanence.nixos =
     {
       lib,
       utils,
@@ -160,7 +160,13 @@
   # this wrapper for impermanence is imported unconditionally so that
   # programs and home configs can set impermanence options
   # however the actual use of the options only happens in the nixos module above
-  flake.modules.homeManager.base =
+  unify.home = {
+    imports = [
+      inputs.self.modules.homeManager.impermanence
+    ];
+  };
+
+  unify.modules.impermanence.home =
     {
       lib,
       config,

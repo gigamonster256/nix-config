@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  flake.modules.nixos.style =
+  unify.modules.style.nixos =
     { pkgs, ... }:
     {
       imports = [
@@ -46,7 +46,7 @@
       };
     };
 
-  flake.modules.homeManager.style =
+  unify.modules.style.home =
     {
       pkgs,
       config,

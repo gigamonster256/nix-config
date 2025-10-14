@@ -44,7 +44,6 @@ let
           homeManagerSharedModules = [
             inputs.nix-index-database.homeModules.nix-index
             inputs.self.modules.homeManager.base
-            inputs.self.modules.homeManager.spicetify
             inputs.self.modules.homeManager.style
           ];
         in
@@ -65,6 +64,7 @@ let
                 # internal modules
                 inputs.self.modules.nixos.base
                 inputs.self.modules.nixos.style
+                inputs.self.modules.nixos.impermanence
                 # probably should be moved/deleted
                 inputs.home-manager.nixosModules.home-manager
                 # inputs.spicetify-nix.nixosModules.default
@@ -79,7 +79,9 @@ let
                       extraSpecialArgs = {
                         systemConfig = config;
                       };
-                      sharedModules = homeManagerSharedModules;
+                      sharedModules = homeManagerSharedModules ++ [
+                        inputs.self.modules.homeManager.impermanence
+                      ];
                     };
                   }
                 )

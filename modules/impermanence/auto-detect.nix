@@ -1,6 +1,6 @@
 { self, lib, ... }:
 {
-  flake.modules.nixos.base =
+  unify.modules.impermanence.nixos =
     { config, ... }:
     let
       inherit (lib) mkIf mkMerge;
@@ -48,7 +48,7 @@
       })
     ]);
 
-  flake.modules.homeManager.base =
+  unify.modules.impermanence.home =
     { config, ... }:
     let
       inherit (lib) mkIf mkMerge;
