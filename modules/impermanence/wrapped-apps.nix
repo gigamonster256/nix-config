@@ -40,7 +40,9 @@ let
 in
 { moduleWithSystem, ... }:
 {
-  flake.modules.homeManager.base = moduleWithSystem (
+  # unconditionally import the wrapper modules so that
+  # programs and home configs can set impermanence options
+  unify.home = moduleWithSystem (
     { self', ... }:
     {
       imports = [

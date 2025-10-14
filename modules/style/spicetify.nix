@@ -6,7 +6,7 @@
 }:
 lib.mkMerge [
   {
-    flake.modules.homeManager.spicetify = moduleWithSystem (
+    unify.modules.style.home = moduleWithSystem (
       { system, ... }:
       let
         spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
@@ -29,7 +29,7 @@ lib.mkMerge [
     );
   }
   {
-    flake.modules.homeManager.spicetify =
+    unify.modules.style.home =
       { config, pkgs, ... }:
       {
         imports = [ inputs.spicetify-nix.homeManagerModules.default ];
