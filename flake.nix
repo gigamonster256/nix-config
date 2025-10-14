@@ -125,9 +125,6 @@
         ])
       ];
 
-      # missing default values in unify
-      unify.modules = { };
-
       meta.owner = {
         name = "Caleb Norton";
         email = "n0603919@outlook.com";
