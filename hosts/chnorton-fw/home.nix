@@ -50,8 +50,6 @@
             ",switch:off:Lid Switch,exec,hyprctl keyword monitor 'desc:BOE,preferred,auto,1.566667'"
           ];
         };
-
-        wayland.windowManager.hyprland.enable = true;
       }
     );
   };

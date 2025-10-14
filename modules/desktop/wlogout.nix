@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base =
+  unify.modules.desktop.home =
     { config, ... }:
     {
       programs.wlogout = {

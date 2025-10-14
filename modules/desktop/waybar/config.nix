@@ -1,6 +1,6 @@
 { moduleWithSystem, ... }:
 {
-  flake.modules.homeManager.base = moduleWithSystem (
+  unify.modules.desktop.home = moduleWithSystem (
     { self', ... }:
     {
       lib,
