@@ -74,10 +74,6 @@
     stylix.inputs.flake-parts.follows = "flake-parts";
     stylix.inputs.nur.follows = "nur";
 
-    # pretty colors in firefox
-    nix-userstyles.url = "github:knoopx/nix-userstyles";
-    nix-userstyles.inputs.nixpkgs.follows = "nixpkgs";
-
     # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
     flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
 
