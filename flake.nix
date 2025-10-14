@@ -87,12 +87,24 @@
     # master ghostty
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs.follows = "nixpkgs";
+
+    # unify system config framework
+    unify.url = "git+https://codeberg.org/quasigod/unify";
+    unify.inputs.nixpkgs.follows = "nixpkgs";
+    unify.inputs.home-manager.follows = "home-manager";
+    unify.inputs.flake-parts.follows = "flake-parts";
   };
 
   outputs =
     { flake-parts, import-tree, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
       imports = [
+        inputs.unify.flakeModule
         # inputs.flake-parts.flakeModules.flakeModules
         # inputs.flake-parts.flakeModules.partitions
         inputs.flake-parts.flakeModules.modules
@@ -104,12 +116,6 @@
           ./modules
           ./pkgs
         ])
-      ];
-
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
       ];
 
       meta.owner = {
