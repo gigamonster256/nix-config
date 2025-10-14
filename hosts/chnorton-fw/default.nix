@@ -9,6 +9,7 @@
       gaming
       vr
       dev
+      desktop
     ];
 
     users = {
@@ -18,6 +19,7 @@
         modules = with config.unify.modules; [
           style
           dev
+          desktop
         ];
       };
     };
@@ -78,11 +80,6 @@
           git
           brightnessctl
         ];
-
-        # hyprland
-        programs.hyprland.enable = true;
-        programs.hyprlock.enable = true;
-        services.fwupd.enable = true;
 
         programs.zsh.enable = true;
 

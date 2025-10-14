@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base =
+  unify.modules.desktop.nixos =
     {
       lib,
       pkgs,

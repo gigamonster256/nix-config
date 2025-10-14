@@ -1,35 +1,23 @@
 {
-  flake.modules.nixos.base =
-    {
-      lib,
-      config,
-      ...
-    }:
+  unify.modules.desktop.nixos =
+    { lib, config, ... }:
     let
-      inherit (lib)
-        mkDefault
-        mkIf
-        ;
       cfg = config.programs.hyprland;
     in
     {
-      programs.hyprland.withUWSM = mkDefault true;
-      environment.sessionVariables.NIXOS_OZONE_WL = mkIf cfg.enable 1;
+      # hyprland
+      programs.hyprland.enable = true;
+      programs.hyprlock.enable = true;
+      programs.hyprland.withUWSM = lib.mkDefault true;
+      environment.sessionVariables.NIXOS_OZONE_WL = lib.mkIf cfg.enable 1;
     };
-  flake.modules.homeManager.base =
-    {
-      lib,
-      pkgs,
-      config,
-      ...
-    }:
-    let
-      inherit (lib) mkIf;
-    in
-    {
 
+  unify.modules.desktop.home =
+    { pkgs, config, ... }:
+    {
       # gtk portal and nautilus as file picker
-      config = mkIf config.wayland.windowManager.hyprland.enable {
+      config = {
+        wayland.windowManager.hyprland.enable = true;
         home.packages = builtins.attrValues {
           inherit (pkgs)
             nautilus
