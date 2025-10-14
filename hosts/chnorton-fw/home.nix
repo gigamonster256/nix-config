@@ -29,7 +29,6 @@
         programs.firefox.enable = true;
         programs.slack.enable = true;
         programs.trilium.enable = true;
-        programs.vscode.enable = true;
         programs.vesktop.enable = true;
         programs.bitwarden.enable = true;
         programs.cemu.enable = true;
@@ -37,12 +36,8 @@
         programs.wiiu-downloader.enable = true;
         programs.element.enable = true;
         programs.newsflash.enable = true;
-        programs.gemini-cli.enable = true;
         programs.onlyoffice.enable = true;
         programs.prismlauncher.enable = true;
-
-        # folder for persistent projects
-        impermanence.directories = [ "git" ];
 
         # battery is set to charge to 80% max
         # sudo framework_tool --charge-limit
