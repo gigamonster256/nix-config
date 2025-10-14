@@ -127,7 +127,6 @@
 
       # missing default values in unify
       unify.modules = { };
-      unify.hosts.nixos = { };
 
       meta.owner = {
         name = "Caleb Norton";

@@ -1,136 +1,164 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
-  configurations.nixos.chnorton-fw =
-    {
-      lib,
-      pkgs,
-      config,
-      ...
-    }:
-    {
-      imports = [
-        inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-      ];
-
-      # boot config
-      boot = {
-        # tpm2 luks unlock
-        initrd.systemd = {
-          enable = true;
-          emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
-        };
-        # secure boot
-        lanzaboote = {
-          enable = true;
-          pkiBundle = "/var/lib/sbctl";
-        };
-        loader = {
-          timeout = 0;
-          systemd-boot.enable = lib.mkForce false; # use lanzaboote
-          efi.canTouchEfiVariables = true;
-        };
-        binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-        # pretty boot
-        plymouth.enable = true;
-        consoleLogLevel = 3;
-        initrd.verbose = false;
-        kernelParams = [
-          "quiet"
-          "splash"
-          "boot.shell_on_fail"
-          "udev.log_priority=3"
-          "rd.systemd.show_status=auto"
+  unify.hosts.nixos.chnorton-fw = {
+    nixos =
+      {
+        lib,
+        pkgs,
+        config,
+        ...
+      }:
+      {
+        imports = [
+          inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
+          inputs.lanzaboote.nixosModules.lanzaboote
+          inputs.disko.nixosModules.disko
+          inputs.nixos-facter-modules.nixosModules.facter
+          inputs.self.modules.nixos.base
+          inputs.self.modules.nixos.style
+          inputs.nix-index-database.nixosModules.nix-index
+          # home manager
+          (
+            { config, ... }:
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                # TODO: get rid of this
+                extraSpecialArgs = {
+                  systemConfig = config;
+                };
+                sharedModules = [
+                  inputs.nix-index-database.homeModules.nix-index
+                  inputs.self.modules.homeManager.base
+                  inputs.self.modules.homeManager.spicetify
+                  inputs.self.modules.homeManager.style
+                ];
+              };
+            }
+          )
         ];
-      };
 
-      # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
-      systemIdentity = {
-        enable = true;
-        pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
-      };
+        # boot config
+        boot = {
+          # tpm2 luks unlock
+          initrd.systemd = {
+            enable = true;
+            emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
+          };
+          # secure boot
+          lanzaboote = {
+            enable = true;
+            pkiBundle = "/var/lib/sbctl";
+          };
+          loader = {
+            timeout = 0;
+            systemd-boot.enable = lib.mkForce false; # use lanzaboote
+            efi.canTouchEfiVariables = true;
+          };
+          binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-      # impermanence
-      impermanence = {
-        enable = true;
-        btrfsWipe.enable = true;
-      };
+          # pretty boot
+          plymouth.enable = true;
+          consoleLogLevel = 3;
+          initrd.verbose = false;
+          kernelParams = [
+            "quiet"
+            "splash"
+            "boot.shell_on_fail"
+            "udev.log_priority=3"
+            "rd.systemd.show_status=auto"
+          ];
+        };
 
-      # wireless (wpa_supplicant)
-      # TODO: use networkmanager
-      networking.wireless.enable = true;
+        # extra security https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock
+        systemIdentity = {
+          enable = true;
+          pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
+        };
 
-      # time zone
-      time.timeZone = "America/Chicago";
+        # impermanence
+        impermanence = {
+          enable = true;
+          btrfsWipe.enable = true;
+        };
 
-      # printing
-      services.printing.enable = true;
+        # wireless (wpa_supplicant)
+        # TODO: use networkmanager
+        networking.wireless.enable = true;
+        networking.hostName = "chnorton-fw";
 
-      # docker
-      virtualisation.docker.enable = true;
+        # time zone
+        time.timeZone = "America/Chicago";
 
-      environment.systemPackages = with pkgs; [
-        vim
-        git
-        brightnessctl
-      ];
+        # printing
+        services.printing.enable = true;
 
-      # hyprland
-      programs.hyprland.enable = true;
-      programs.hyprlock.enable = true;
-      services.fwupd.enable = true;
+        # docker
+        virtualisation.docker.enable = true;
 
-      programs.zsh.enable = true;
+        environment.systemPackages = with pkgs; [
+          vim
+          git
+          brightnessctl
+        ];
 
-      # hardware
-      facter.reportPath = ./facter.json;
+        # hyprland
+        programs.hyprland.enable = true;
+        programs.hyprlock.enable = true;
+        services.fwupd.enable = true;
 
-      # all the games
-      programs.steam.enable = true;
-      # VR!!
-      programs.alvr.enable = true;
-      programs.alvr.openFirewall = true;
+        programs.zsh.enable = true;
 
-      hardware.steam-hardware.enable = true;
-      services.joycond.enable = true;
+        # hardware
+        facter.reportPath = ./facter.json;
 
-      programs.zoom-us.enable = true;
+        # all the games
+        programs.steam.enable = true;
+        # VR!!
+        programs.alvr.enable = true;
+        programs.alvr.openFirewall = true;
 
-      programs.wireshark.enable = true;
+        hardware.steam-hardware.enable = true;
+        services.joycond.enable = true;
 
-      sops.secrets.caleb-password = {
-        neededForUsers = true;
-        sopsFile = ./secrets.yaml;
-      };
+        programs.zoom-us.enable = true;
 
-      laptop.lidDevice = "LID0";
+        programs.wireshark.enable = true;
 
-      users = {
-        mutableUsers = false;
+        sops.secrets.caleb-password = {
+          neededForUsers = true;
+          sopsFile = ./secrets.yaml;
+        };
+
+        laptop.lidDevice = "LID0";
+
         users = {
-          # Replace with your username
-          caleb = {
-            hashedPasswordFile = config.sops.secrets.caleb-password.path;
-            isNormalUser = true;
-            openssh.authorizedKeys.keys = [
-              # Add your SSH public key(s) here, if you plan on using SSH to connect
-            ];
-            # Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-            extraGroups = [
-              "wheel"
-              "vpn"
-              "docker"
-              "wireshark"
-              "dialout"
-            ];
-            shell = pkgs.zsh;
+          mutableUsers = false;
+          users = {
+            # Replace with your username
+            caleb = {
+              hashedPasswordFile = config.sops.secrets.caleb-password.path;
+              isNormalUser = true;
+              openssh.authorizedKeys.keys = [
+                # Add your SSH public key(s) here, if you plan on using SSH to connect
+              ];
+              # Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
+              extraGroups = [
+                "wheel"
+                "vpn"
+                "docker"
+                "wireshark"
+                "dialout"
+              ];
+              shell = pkgs.zsh;
+            };
           };
         };
+
+        nixpkgs.hostPlatform = "x86_64-linux";
+
+        # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+        system.stateVersion = "25.11";
       };
-
-      nixpkgs.hostPlatform = "x86_64-linux";
-
-      # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-      system.stateVersion = "25.11";
-    };
+  };
 }

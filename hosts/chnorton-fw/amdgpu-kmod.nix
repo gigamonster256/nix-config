@@ -78,7 +78,7 @@ in
     };
 
   # add the module to the chnorton-fw configuration
-  configurations.nixos.chnorton-fw = {
+  unify.hosts.nixos.chnorton-fw.nixos = {
     imports = [
       self.modules.nixos.amdgpu-kmod
     ];
