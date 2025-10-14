@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base =
+  unify.modules.router.nixos =
     { lib, config, ... }:
     let
       inherit (lib)
