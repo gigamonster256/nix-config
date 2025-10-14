@@ -8,6 +8,7 @@
       style
       gaming
       vr
+      dev
     ];
 
     users = {
@@ -16,6 +17,7 @@
         # system modules above?
         modules = with config.unify.modules; [
           style
+          dev
         ];
       };
     };

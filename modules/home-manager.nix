@@ -20,22 +20,18 @@
             global.load_dotenv = true;
           };
         };
-        git.enable = true;
         btop.enable = true;
         eza.enable = true;
-        jujutsu.enable = true;
         zsh.enable = true;
         nh.enable = true;
         nix-index-database.comma.enable = true;
         nix-index.enable = true;
-        opencode.enable = true;
       };
 
       home = {
         packages = builtins.attrValues (
           {
             inherit (pkgs)
-              neovim
               devenv
               magic-wormhole # TODO try out the rust or go version?
               # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
