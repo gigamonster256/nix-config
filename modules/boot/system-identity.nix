@@ -1,6 +1,6 @@
 # https://forge.lel.lol/patrick/nix-config/src/branch/master/modules/ensure-pcr.nix
 {
-  flake.modules.nixos.base =
+  unify.modules.secure-boot.nixos =
     {
       lib,
       utils,
@@ -27,7 +27,6 @@
     {
       options = {
         systemIdentity = {
-          enable = mkEnableOption "hashing of Luks values into PCR 15 and subsequent checks";
           pcr15 = mkOption {
             type = types.nullOr types.str;
             default = null;
@@ -37,7 +36,7 @@
               'systemd-analyze pcrs 15 --json=short'
               If set to null (the default) it will not check the value.
               If the check fails the boot will abort and you will be dropped into an emergency shell, if enabled.
-              In ermergency shell type:
+              In emergency shell type:
               'systemctl disable check-pcrs'
               'systemctl default'
               to continue booting
@@ -49,14 +48,35 @@
           type =
             with lib.types;
             attrsOf (submodule {
-              config.crypttabExtraOpts = optionals config.systemIdentity.enable [
+              config.crypttabExtraOpts = [
                 "tpm2-device=auto"
                 "tpm2-measure-pcr=yes"
               ];
             });
         };
       };
-      config = mkIf config.systemIdentity.enable {
+      config = {
+        warnings = lib.optional (config.systemIdentity.pcr15 == null) ''
+          You have enabled the secure-boot module but have not set systemIdentity.pcr15
+          This means the PCR 15 value will not be checked at boot time.
+          See https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock for why this could be bad.
+        '';
+        assertions = [
+          (
+            let
+              # https://github.com/NixOS/nixpkgs/blob/7e297ddff44a3cc93673bb38d0374df8d0ad73e4/nixos/modules/system/boot/systemd/initrd.nix#L486
+              ea = config.boot.initrd.systemd.emergencyAccess;
+              access = ea != null && !(lib.isBool ea && !ea);
+            in
+            {
+              assertion = (config.systemIdentity.pcr15 == null || access);
+              message = ''
+                You have set systemIdentity.pcr15 but have not set boot.initrd.systemd.emergencyAccess
+                This means if the PCR 15 check fails you will be locked out of your system with no way to recover.
+              '';
+            }
+          )
+        ];
         boot.kernelParams = [
           "rd.luks=no"
         ];
