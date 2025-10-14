@@ -6,11 +6,13 @@
       secure-boot
       impermanence
       style
+      gaming
+      vr
     ];
 
     users = {
       caleb = {
-        # HMM, not sure if I like this pattern - perhaps auto import unify home modules included un the
+        # Hmm, not sure if I like this pattern - perhaps auto import unify home modules included in the
         # system modules above?
         modules = with config.unify.modules; [
           style
@@ -90,15 +92,6 @@
 
         # hardware
         facter.reportPath = ./facter.json;
-
-        # all the games
-        programs.steam.enable = true;
-        # VR!!
-        programs.alvr.enable = true;
-        programs.alvr.openFirewall = true;
-
-        hardware.steam-hardware.enable = true;
-        services.joycond.enable = true;
 
         programs.zoom-us.enable = true;
 
