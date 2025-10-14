@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base =
+  unify.modules.wireless.nixos =
     {
       lib,
       config,
@@ -19,6 +19,7 @@
       };
 
       networking.wireless = {
+        enable = mkDefault true;
         userControlled.enable = mkDefault true;
         fallbackToWPA2 = mkDefault false;
         allowAuxiliaryImperativeNetworks = mkDefault false;

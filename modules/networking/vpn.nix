@@ -1,6 +1,6 @@
 { moduleWithSystem, ... }:
 {
-  flake.modules.nixos.base = moduleWithSystem (
+  unify.modules.vpn.nixos = moduleWithSystem (
     { self', ... }:
     {
       lib,
