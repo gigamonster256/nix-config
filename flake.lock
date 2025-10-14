@@ -679,7 +679,8 @@
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix",
+        "unify": "unify"
       }
     },
     "rust-overlay": {
@@ -993,6 +994,32 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "type": "github"
+      }
+    },
+    "unify": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1759528684,
+        "narHash": "sha256-1QHGPVIOmRz4k060rIkfc6oiZxCDuIvlAXxFnzXS5Rg=",
+        "ref": "refs/heads/main",
+        "rev": "860b5ac977988b57b4fca57e33ac0f4ef7b8af7f",
+        "revCount": 39,
+        "type": "git",
+        "url": "https://codeberg.org/quasigod/unify"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/quasigod/unify"
       }
     },
     "zig": {
