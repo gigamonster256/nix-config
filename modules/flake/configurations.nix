@@ -64,7 +64,6 @@ let
                 # internal modules
                 inputs.self.modules.nixos.base
                 inputs.self.modules.nixos.style
-                inputs.self.modules.nixos.impermanence
                 # probably should be moved/deleted
                 inputs.home-manager.nixosModules.home-manager
                 # inputs.spicetify-nix.nixosModules.default

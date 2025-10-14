@@ -4,9 +4,8 @@
     { config, ... }:
     let
       inherit (lib) mkIf mkMerge;
-      cfg = config.impermanence;
     in
-    mkIf cfg.enable (mkMerge [
+    (mkMerge [
       {
         home-manager.sharedModules = [
           # these programs store data in the home directory

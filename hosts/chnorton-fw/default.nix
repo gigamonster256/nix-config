@@ -57,12 +57,6 @@
         };
         systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
 
-        # impermanence
-        impermanence = {
-          enable = true;
-          btrfsWipe.enable = true;
-        };
-
         # wireless (wpa_supplicant)
         # TODO: use networkmanager
         networking.wireless.enable = true;
