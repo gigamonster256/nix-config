@@ -1,7 +1,8 @@
 { config, lib, ... }:
 {
-  flake.modules.homeManager.base = {
+  unify.modules.dev.home = {
     programs.git = {
+      enable = lib.mkDefault true;
       settings = {
         user = {
           name = lib.mkDefault config.meta.owner.name;

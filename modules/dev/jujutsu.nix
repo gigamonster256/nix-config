@@ -1,7 +1,8 @@
 {
-  flake.modules.homeManager.base =
+  unify.modules.dev.home =
     { lib, config, ... }:
     {
+      programs.jujutsu.enable = lib.mkDefault true;
       programs.jujutsu.settings = {
         user = {
           name = lib.mkDefault config.programs.git.settings.user.name;

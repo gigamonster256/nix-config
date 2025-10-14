@@ -5,6 +5,15 @@
     inputs.nur.overlays.default
   ]
   ++ (builtins.attrValues inputs.self.overlays);
+
+  unify.nixos = {
+    nixpkgs.overlays = [
+      inputs.neovim.overlays.default
+      inputs.nur.overlays.default
+    ]
+    ++ (builtins.attrValues inputs.self.overlays);
+  };
+
   flake.overlays = {
     # This one brings our custom packages from the 'packages' output of this flake
     # additions = final: _prev: inputs.self.packages.${final.stdenv.hostPlatform.system};
