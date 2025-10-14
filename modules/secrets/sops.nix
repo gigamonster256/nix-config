@@ -9,12 +9,8 @@
 
       sops.age = {
         sshKeyPaths = lib.mkDefault [
-          "${
-            let
-              cfg = config.impermanence;
-            in
-            if cfg.enable then cfg.persistPath else ""
-          }/etc/ssh/ssh_host_ed25519_key"
+          "/persist/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key"
         ];
         generateKey = lib.mkDefault false;
       };
