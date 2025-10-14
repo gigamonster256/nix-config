@@ -1,6 +1,6 @@
 { moduleWithSystem, ... }:
 {
-  configurations.nixos.chnorton-fw = {
+  unify.hosts.nixos.chnorton-fw.nixos = {
     home-manager.users.caleb = moduleWithSystem (
       { self', ... }:
       { pkgs, ... }:
