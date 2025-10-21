@@ -83,6 +83,10 @@
 
     # import tree
     import-tree.url = "github:vic/import-tree";
+
+    # master ghostty
+    ghostty.url = "github:ghostty-org/ghostty";
+    ghostty.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

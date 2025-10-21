@@ -48,6 +48,8 @@
       ghostty = if final.stdenv.hostPlatform.isDarwin then prev.ghostty-bin else prev.ghostty;
     };
 
+    ghostty-tip = inputs.ghostty.overlays.default;
+
     # flake-schemas = final: prev: {
     #   # 2.27 is used in the flake-schema as the base
     #   # but has been removed from nixpkgs so use 2.28 derivation
