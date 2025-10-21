@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.base =
+  unify.nixos =
     { lib, config, ... }:
     {
       imports = [
@@ -16,7 +16,7 @@
       };
     };
 
-  flake.modules.homeManager.base =
+  unify.modules.secrets.home =
     { config, ... }:
     {
       imports = [ inputs.sops-nix.homeModules.sops ];

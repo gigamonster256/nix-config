@@ -76,7 +76,7 @@ in
       packages.extract = pkgs.callPackage extract { };
     };
 
-  flake.modules.nixos.base = moduleWithSystem (
+  unify.nixos = moduleWithSystem (
     { self', ... }:
     {
       environment.systemPackages = [

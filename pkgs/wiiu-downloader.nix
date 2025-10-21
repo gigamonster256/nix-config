@@ -43,7 +43,7 @@ in
       packages.wiiu-downloader = pkgs.callPackage wiiu-downloader { };
     };
 
-  flake.modules.nixos.base = moduleWithSystem (
+  unify.nixos = moduleWithSystem (
     { self', ... }:
     {
       environment.systemPackages = [

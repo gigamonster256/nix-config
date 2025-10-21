@@ -28,7 +28,7 @@ let
       '';
 in
 {
-  flake.modules.nixos.base =
+  unify.nixos =
     { pkgs, config, ... }:
     {
       environment.defaultPackages = [

@@ -44,7 +44,7 @@ in
       packages.flash = pkgs.callPackage flash { };
     };
 
-  flake.modules.nixos.base = moduleWithSystem (
+  unify.nixos = moduleWithSystem (
     { self', ... }:
     {
       environment.systemPackages = [
