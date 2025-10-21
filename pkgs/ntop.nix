@@ -48,7 +48,7 @@ in
       };
     };
 
-  flake.modules.nixos.base = moduleWithSystem (
+  unify.nixos = moduleWithSystem (
     { self', ... }:
     {
       environment.systemPackages = [

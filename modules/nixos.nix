@@ -1,6 +1,6 @@
 flake@{ config, ... }:
 {
-  flake.modules.nixos.base =
+  unify.nixos =
     { lib, config, ... }:
     {
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 20;

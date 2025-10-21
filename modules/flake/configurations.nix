@@ -62,7 +62,7 @@ let
                 inputs.disko.nixosModules.disko
                 inputs.lanzaboote.nixosModules.lanzaboote
                 # internal modules
-                inputs.self.modules.nixos.base
+                config.unify.nixos
                 inputs.self.modules.nixos.style
                 # probably should be moved/deleted
                 inputs.home-manager.nixosModules.home-manager
