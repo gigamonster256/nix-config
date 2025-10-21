@@ -12,6 +12,7 @@
       desktop
       wireless
       vpn
+      laptop
     ];
 
     users = {
@@ -36,7 +37,6 @@
       {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-          inputs.self.modules.nixos.base
           inputs.nix-index-database.nixosModules.nix-index
           # home manager
           (

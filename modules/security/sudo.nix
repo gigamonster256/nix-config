@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.base =
+  unify.nixos =
     { lib, ... }:
     {
       security.sudo.extraConfig = lib.mkAfter ''

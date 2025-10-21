@@ -24,7 +24,7 @@ let
   nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
 in
 {
-  flake.modules.nixos.base = {
+  unify.nixos = {
     nix = {
       settings = {
         inherit
@@ -43,7 +43,8 @@ in
       inherit registry nixPath;
     };
   };
-  flake.modules.homeManager.base =
+
+  unify.home =
     { pkgs, ... }:
     {
       nix = {
