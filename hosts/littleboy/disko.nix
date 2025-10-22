@@ -1,7 +1,4 @@
-{ self, ... }:
 {
-  configurations.nixos = { inherit (self.diskoConfigurations) littleboy; };
-
   flake.diskoConfigurations.littleboy = {
     disko.devices.disk.main = {
       type = "disk";
