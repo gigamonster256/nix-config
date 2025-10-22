@@ -65,20 +65,11 @@
         };
         systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
 
-        # time zone
-        time.timeZone = "America/Chicago";
-
         # printing
         services.printing.enable = true;
 
         # docker
         virtualisation.docker.enable = true;
-
-        environment.systemPackages = with pkgs; [
-          vim
-          git
-          brightnessctl
-        ];
 
         programs.zsh.enable = true;
 
@@ -115,8 +106,6 @@
             };
           };
         };
-
-        nixpkgs.hostPlatform = "x86_64-linux";
 
         # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
         system.stateVersion = "25.11";
