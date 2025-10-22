@@ -1,6 +1,13 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
-  unify.nixos =
+  # globally import sops nixos module
+  unify.nixos = {
+    imports = [
+      config.unify.modules.secrets.nixos
+    ];
+  };
+
+  unify.modules.secrets.nixos =
     { lib, config, ... }:
     {
       imports = [
@@ -9,7 +16,6 @@
 
       sops.age = {
         sshKeyPaths = lib.mkDefault [
-          "/persist/etc/ssh/ssh_host_ed25519_key"
           "/etc/ssh/ssh_host_ed25519_key"
         ];
         generateKey = lib.mkDefault false;
