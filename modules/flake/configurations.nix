@@ -96,8 +96,24 @@ let
                 {
                   networking.hostName = lib.mkDefault name;
                 }
+                inputs.home-manager.darwinModules.home-manager
                 # internal modules
-                # inputs.self.modules.darwin.base
+                inputs.self.modules.darwin.base
+                inputs.self.modules.darwin.style
+                # home manager
+                (
+                  { config, ... }:
+                  {
+                    home-manager = {
+                      useGlobalPkgs = true;
+                      # TODO: get rid of this
+                      extraSpecialArgs = {
+                        systemConfig = config;
+                      };
+                      sharedModules = homeManagerSharedModules;
+                    };
+                  }
+                )
               ];
             }
           );

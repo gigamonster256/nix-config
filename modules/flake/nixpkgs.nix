@@ -28,6 +28,11 @@ in
         config = { inherit allowUnfreePredicate; };
       };
 
+      darwin.base.nixpkgs = {
+        inherit (cfg) overlays;
+        config = { inherit allowUnfreePredicate; };
+      };
+
       # only standalone home-manager needs nixpkgs since used under nixos
       # or nix-darwin uses useGlobalPkgs = true
       homeManager.standalone = {

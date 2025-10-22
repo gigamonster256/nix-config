@@ -44,11 +44,13 @@
     #   };
     # };
 
-    ghostty-bin = final: prev: {
-      ghostty = if final.stdenv.hostPlatform.isDarwin then prev.ghostty-bin else prev.ghostty;
+    ghostty-bin-tip = final: prev: {
+      ghostty =
+        if final.stdenv.hostPlatform.isDarwin then
+          prev.ghostty-bin
+        else
+          (inputs.ghostty.overlays.default final prev).ghostty;
     };
-
-    ghostty-tip = inputs.ghostty.overlays.default;
 
     # flake-schemas = final: prev: {
     #   # 2.27 is used in the flake-schema as the base
