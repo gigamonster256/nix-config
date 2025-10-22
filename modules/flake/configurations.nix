@@ -12,11 +12,6 @@ let
     in
     {
       options.configurations = {
-        # nixos configurations
-        nixos = lib.mkOption {
-          type = lib.types.lazyAttrsOf lib.types.deferredModule;
-          default = { };
-        };
         # nix-darwin configurations
         darwin = lib.mkOption {
           type = lib.types.lazyAttrsOf lib.types.deferredModule;
@@ -48,46 +43,6 @@ let
           ];
         in
         {
-          nixosConfigurations = lib.flip lib.mapAttrs cfg.nixos (
-            name: module:
-            lib.nixosSystem {
-              modules = [
-                # the host configuration
-                module
-                {
-                  _module.args.hostConfig.name = name;
-                }
-                # external modules
-                inputs.nixos-facter-modules.nixosModules.facter
-                inputs.disko.nixosModules.disko
-                inputs.lanzaboote.nixosModules.lanzaboote
-                # internal modules
-                config.unify.nixos
-                inputs.self.modules.nixos.style
-                # probably should be moved/deleted
-                inputs.home-manager.nixosModules.home-manager
-                # inputs.spicetify-nix.nixosModules.default
-                inputs.nix-index-database.nixosModules.nix-index
-                # home manager
-                (
-                  { config, ... }:
-                  {
-                    home-manager = {
-                      useGlobalPkgs = true;
-                      # TODO: get rid of this
-                      extraSpecialArgs = {
-                        systemConfig = config;
-                      };
-                      sharedModules = homeManagerSharedModules ++ [
-                        inputs.self.modules.homeManager.impermanence
-                      ];
-                    };
-                  }
-                )
-              ];
-            }
-          );
-
           darwinConfigurations = lib.flip lib.mapAttrs cfg.darwin (
             name: module:
             inputs.nix-darwin.lib.darwinSystem {
@@ -149,16 +104,16 @@ let
             )
           );
 
-          # checks =
-          #   config.flake.nixosConfigurations
-          #   |> lib.mapAttrsToList (
+          # checks = lib.pipe config.flake.nixosConfigurations [
+          #   (lib.mapAttrsToList (
           #     name: nixos: {
           #       ${nixos.config.nixpkgs.hostPlatform.system} = {
           #         "configurations/nixos/${name}" = nixos.config.system.build.toplevel;
           #       };
           #     }
-          #   )
-          #   |> lib.mkMerge;
+          #   ))
+          #   lib.mkMerge
+          # ];
         };
     };
 in
