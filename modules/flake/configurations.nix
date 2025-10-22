@@ -55,7 +55,7 @@ let
                 # the host configuration
                 module
                 {
-                  networking.hostName = lib.mkDefault name;
+                  _module.args.hostConfig.name = name;
                 }
                 # external modules
                 inputs.nixos-facter-modules.nixosModules.facter
