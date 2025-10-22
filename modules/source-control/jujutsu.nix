@@ -4,8 +4,8 @@
     {
       programs.jujutsu.settings = {
         user = {
-          name = lib.mkDefault config.programs.git.userName;
-          email = lib.mkDefault config.programs.git.userEmail;
+          name = lib.mkDefault config.programs.git.settings.user.name;
+          email = lib.mkDefault config.programs.git.settings.user.email;
         };
         ui = {
           merge-editor = lib.mkDefault ":builtin";

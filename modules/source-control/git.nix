@@ -2,12 +2,14 @@
 {
   flake.modules.homeManager.base = {
     programs.git = {
-      userName = lib.mkDefault config.meta.owner.name;
-      userEmail = lib.mkDefault config.meta.owner.email;
-      aliases = {
-        exec = lib.mkDefault "!exec ";
-      };
-      extraConfig = {
+      settings = {
+        user = {
+          name = lib.mkDefault config.meta.owner.name;
+          email = lib.mkDefault config.meta.owner.email;
+        };
+        alias = {
+          exec = lib.mkDefault "!exec ";
+        };
         init.defaultBranch = "master";
       };
     };
