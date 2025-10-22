@@ -2,6 +2,8 @@
 {
   unify.hosts.nixos.chnorton-fw = {
     modules = with config.unify.modules; [
+      facter
+      disko
       plymouth
       secure-boot
       impermanence
@@ -81,9 +83,6 @@
         ];
 
         programs.zsh.enable = true;
-
-        # hardware
-        facter.reportPath = ./facter.json;
 
         programs.zoom-us.enable = true;
 
