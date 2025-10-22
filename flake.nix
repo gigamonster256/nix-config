@@ -93,7 +93,7 @@
     { flake-parts, import-tree, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.flake-parts.flakeModules.flakeModules
+        # inputs.flake-parts.flakeModules.flakeModules
         # inputs.flake-parts.flakeModules.partitions
         inputs.flake-parts.flakeModules.modules
         inputs.home-manager.flakeModules.home-manager
