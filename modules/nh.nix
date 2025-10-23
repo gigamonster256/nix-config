@@ -1,6 +1,6 @@
 { lib, config, ... }:
 {
-  flake.modules.homeManager.base = {
+  unify.home = {
     programs.nh.flake = lib.mkDefault config.meta.flake;
   };
 }
