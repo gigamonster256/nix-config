@@ -24,7 +24,7 @@
         # amd gpu
         programs.btop.package = pkgs.btop-rocm;
 
-        programs.spicetify.enable = true;
+        programs.spotify.enable = true;
         programs.ghostty.enable = true;
         programs.firefox.enable = true;
         programs.slack.enable = true;
