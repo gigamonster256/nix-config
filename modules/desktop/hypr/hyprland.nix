@@ -199,9 +199,9 @@
                         ];
                     }
                     {
-                      module = config.programs.spicetify;
+                      module = config.programs.spotify;
                       binds = m: [
-                        ",XF86AudioMedia,exec,${getExe m.spicedSpotify}"
+                        ",XF86AudioMedia,exec,${getExe m.package}"
                       ];
                     }
                   ];
