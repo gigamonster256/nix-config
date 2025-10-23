@@ -42,7 +42,7 @@
       (mkIf config.services.fprintd.enable {
         impermanence.directories = [ "/var/lib/fprint" ];
       })
-      (mkIf config.boot.lanzaboote.enable {
+      (mkIf (config.boot ? lanzaboote && config.boot.lanzaboote.enable) {
         impermanence.directories = [ config.boot.lanzaboote.pkiBundle ];
       })
     ]);
