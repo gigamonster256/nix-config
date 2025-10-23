@@ -52,7 +52,7 @@
                 };
                 sharedModules = [
                   inputs.nix-index-database.homeModules.nix-index
-                  inputs.self.modules.homeManager.base
+                  # inputs.self.modules.homeManager.base
                 ];
               };
             }
