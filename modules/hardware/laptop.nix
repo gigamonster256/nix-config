@@ -25,7 +25,7 @@
         mkIf
           (
             config.services.fprintd.enable
-            && builtins.hasAttr "hardware" config.facter.report
+            && config ? facter
             && config.facter.report.hardware.system.form_factor == "laptop"
           )
           {
