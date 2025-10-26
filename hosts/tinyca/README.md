@@ -1,0 +1,1 @@
+nixos-rebuild --flake .#tinyca --target-host root@certs.nortonweb.org switch
