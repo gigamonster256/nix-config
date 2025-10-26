@@ -187,22 +187,6 @@
         "type": "github"
       }
     },
-    "flake-schemas": {
-      "locked": {
-        "lastModified": 1740862817,
-        "narHash": "sha256-9DuYAla+6J9Yvm+TO2iilwDaa6VTg31IbuSyQ7e9IUQ=",
-        "owner": "DeterminateSystems",
-        "repo": "flake-schemas",
-        "rev": "5d856d2acf317e408cbbba3ab62dee6fbaa02ff5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "DeterminateSystems",
-        "ref": "roles",
-        "repo": "flake-schemas",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -675,7 +659,6 @@
       "inputs": {
         "disko": "disko",
         "flake-parts": "flake-parts",
-        "flake-schemas": "flake-schemas",
         "ghostty": "ghostty",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager",

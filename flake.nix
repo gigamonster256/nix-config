@@ -75,7 +75,7 @@
     stylix.inputs.nur.follows = "nur";
 
     # flake schemas - use roles branch to stay in sync with detsys/nix-src/flake-schemas
-    flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
+    # flake-schemas.url = "github:DeterminateSystems/flake-schemas/roles";
 
     # gh actions for nix
     nix-github-actions.url = "github:nix-community/nix-github-actions";
