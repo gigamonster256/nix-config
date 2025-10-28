@@ -72,12 +72,6 @@
 
       programs.zsh.enable = true;
 
-      programs.gnupg.agent = {
-        enable = true;
-        pinentryPackage = pkgs.pinentry-curses;
-        enableSSHSupport = true;
-      };
-
       # hardware
       facter.reportPath = ./facter.json;
 
