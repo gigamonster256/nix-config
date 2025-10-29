@@ -33,6 +33,13 @@
     lanzaboote.inputs.flake-parts.follows = "flake-parts";
     lanzaboote.inputs.pre-commit-hooks-nix.follows = "git-hooks";
 
+    # https://github.com/NixOS/nixpkgs/pull/455994 (1ec0227cc062251c36140ef1e7c37b1cd1b370f1) broke the lanzaboote v0.4.2 rust-overlay
+    # fixed in https://github.com/oxalica/rust-overlay/pull/241 (37f8f092415b444c3bed6eda6bcbee51cee22e5d)
+    # FIXME: remove when lanzaboote updates their rust-overlay
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    lanzaboote.inputs.rust-overlay.follows = "rust-overlay";
+
     # declarative disk partitioning
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
