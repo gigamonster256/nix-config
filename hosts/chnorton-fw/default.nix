@@ -12,14 +12,6 @@
         inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
       ];
 
-      # breaks as of https://github.com/NixOS/nixpkgs/pull/448835
-      # the kernel version is now dependent on boot.kernelPatches
-      # which this module attempts to set by reading the kernel version
-      # FIXME: remove when resolved
-      disabledModules = [
-        "${inputs.nixos-hardware}/framework/kmod.nix"
-      ];
-
       # boot config
       boot = {
         # tpm2 luks unlock
