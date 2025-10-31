@@ -1,0 +1,1 @@
+{{ fail "This provisioner method is intentionally disabled." }}

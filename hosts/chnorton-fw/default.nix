@@ -15,6 +15,7 @@
       wireless
       vpn
       laptop
+      # step-host
     ];
 
     users = {
@@ -25,6 +26,7 @@
           style
           dev
           desktop
+          step-user
         ];
       };
     };
