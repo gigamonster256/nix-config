@@ -5,7 +5,7 @@
       authority.provisioners = [
         {
           type = "ACME";
-          name = "default-acme";
+          name = "acme";
           claims = {
             # enableSSHCA = true; # acme has no ssh cert capabilities
             disableRenewal = false;

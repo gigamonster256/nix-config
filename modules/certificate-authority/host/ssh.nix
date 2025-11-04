@@ -81,7 +81,7 @@
                   ${stepCli} ca certificate "${fqdn}" \
                     "$TMPDIR/host.crt" \
                     "$TMPDIR/host.key" \
-                    --provisioner "default-acme"
+                    --provisioner "acme"
 
                   echo "Requesting SSH host certificate using X.509 cert..."
                   ${stepCli} ssh certificate \
