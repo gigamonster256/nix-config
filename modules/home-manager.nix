@@ -11,6 +11,8 @@
       inherit (lib) mkDefault optionalAttrs;
     in
     {
+      imports = [ inputs.nix-index-database.homeModules.nix-index ];
+
       fonts.fontconfig.enable = true;
 
       programs = {

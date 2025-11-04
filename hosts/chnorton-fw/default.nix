@@ -40,7 +40,7 @@
       {
         imports = [
           inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-          inputs.nix-index-database.nixosModules.nix-index
+          # inputs.nix-index-database.nixosModules.nix-index
           # home manager
           (
             { config, ... }:
@@ -51,10 +51,6 @@
                 extraSpecialArgs = {
                   systemConfig = config;
                 };
-                sharedModules = [
-                  inputs.nix-index-database.homeModules.nix-index
-                  # inputs.self.modules.homeManager.base
-                ];
               };
             }
           )

@@ -1,4 +1,4 @@
-{ inputs, config, ... }:
+{ config, ... }:
 {
   unify.hosts.nixos.littleboy = {
     modules = with config.unify.modules; [
@@ -39,9 +39,6 @@
                 extraSpecialArgs = {
                   systemConfig = config;
                 };
-                sharedModules = [
-                  inputs.nix-index-database.homeModules.nix-index
-                ];
               };
             }
           )

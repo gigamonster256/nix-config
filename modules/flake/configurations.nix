@@ -37,7 +37,6 @@ let
       config.flake =
         let
           homeManagerSharedModules = [
-            inputs.nix-index-database.homeModules.nix-index
             inputs.self.modules.homeManager.default
             inputs.self.modules.homeManager.style
           ];
