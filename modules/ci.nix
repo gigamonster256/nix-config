@@ -6,7 +6,7 @@
         let
           inherit (lib) genAttrs mapAttrs;
           mkSpec =
-            system:
+            _system:
             {
               nixos ? [ ],
               darwin ? [ ],
@@ -21,13 +21,12 @@
                 hostname: inputs.self.darwinConfigurations.${hostname}.config.system.build.toplevel
               );
               homeAttrs = genAttrs home (
-                homename:
-                inputs.self.packages.${system}.homeConfigurations.${homename}.config.home.activationPackage
+                homename: inputs.self.homeConfigurations.${homename}.config.home.activationPackage
               );
             in
             {
               inherit artifacts;
-              cachix = nixosAttrs; # // darwinAttrs;# // homeAttrs;
+              cachix = nixosAttrs // darwinAttrs // homeAttrs;
             };
           mkCaches = mapAttrs mkSpec;
         in
@@ -56,11 +55,11 @@
     in
     {
       cachixActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-        checks = builtins.mapAttrs (system: ci: ci.cachix) ci;
+        checks = builtins.mapAttrs (_system: ci: ci.cachix) ci;
         attrPrefix = "cachixActions.checks";
       };
       artifactActions = inputs.nix-github-actions.lib.mkGithubMatrix {
-        checks = builtins.mapAttrs (system: ci: ci.artifacts) ci;
+        checks = builtins.mapAttrs (_system: ci: ci.artifacts) ci;
         attrPrefix = "artifactActions.checks";
       };
     };

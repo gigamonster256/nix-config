@@ -13,7 +13,7 @@
     };
 
   unify.modules.desktop.home =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
       # gtk portal and nautilus as file picker
       config = {

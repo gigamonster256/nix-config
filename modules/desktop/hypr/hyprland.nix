@@ -18,7 +18,6 @@
     let
       inherit (lib)
         mkMerge
-        mkIf
         getExe
         optionals
         ;

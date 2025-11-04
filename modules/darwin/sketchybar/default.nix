@@ -7,7 +7,7 @@
       ...
     }:
     let
-      inherit (lib) mkDefault mkIf;
+      inherit (lib) mkIf;
       cfg = config.services.sketchybar;
     in
     {

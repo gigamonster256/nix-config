@@ -1,10 +1,9 @@
 # flake module for certificate authority defaults
 let
   module =
-    { lib, config, ... }:
+    { lib, ... }:
     let
       inherit (lib) types;
-      cfg = config.certificate-authority;
     in
     {
       options.certificate-authority = {

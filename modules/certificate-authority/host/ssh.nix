@@ -1,5 +1,4 @@
-{ config, ... }@flake:
-{
+flake: {
   unify.modules.step-host.nixos =
     {
       lib,

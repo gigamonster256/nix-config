@@ -15,11 +15,9 @@
         foldl'
         nameValuePair
         listToAttrs
-        optionals
         concatStringsSep
         sortOn
         mkIf
-        mkEnableOption
         mkOption
         types
         ;
@@ -69,7 +67,7 @@
               access = ea != null && !(lib.isBool ea && !ea);
             in
             {
-              assertion = (config.systemIdentity.pcr15 == null || access);
+              assertion = config.systemIdentity.pcr15 == null || access;
               message = ''
                 You have set systemIdentity.pcr15 but have not set boot.initrd.systemd.emergencyAccess
                 This means if the PCR 15 check fails you will be locked out of your system with no way to recover.

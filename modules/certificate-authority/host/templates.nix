@@ -1,12 +1,9 @@
 {
-  unify.modules.step-host.nixos =
-    { pkgs, ... }:
-    {
-      services.openssh.extraConfig = ''
-        Include /etc/ssh/sshd_config.d/*
-      '';
-
-    };
+  unify.modules.step-host.nixos = {
+    services.openssh.extraConfig = ''
+      Include /etc/ssh/sshd_config.d/*
+    '';
+  };
 
   unify.modules.step-ca.nixos = {
     services.step-ca.settings = {

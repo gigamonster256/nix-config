@@ -1,10 +1,9 @@
-{ config, ... }@flake:
+{ config, ... }:
 {
   unify.modules.step-user.home =
     {
       lib,
       pkgs,
-      config,
       ...
     }:
     {
@@ -31,7 +30,7 @@
           let
             stepCli = lib.getExe pkgs.step-cli;
             caUrl = "https://certs.nortonweb.org";
-            caFingerprint = flake.config.certificate-authority.rootCertFingerprint;
+            caFingerprint = config.certificate-authority.rootCertFingerprint;
             script = pkgs.writeShellApplication {
               name = "step-ca-bootstrap-user";
               text = ''

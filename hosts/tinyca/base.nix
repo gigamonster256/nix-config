@@ -4,7 +4,6 @@
     nixos =
       {
         pkgs,
-        config,
         ...
       }:
       {

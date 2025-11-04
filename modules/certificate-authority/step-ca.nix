@@ -9,7 +9,7 @@
     }:
     let
       cfg = config.services.step-ca;
-      settingsFormat = (pkgs.formats.json { });
+      settingsFormat = pkgs.formats.json { };
     in
     {
       meta.maintainers = [ ];

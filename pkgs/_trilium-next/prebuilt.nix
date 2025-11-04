@@ -9,6 +9,6 @@ let
   };
 in
 {
-  trilium-next = pkgs.callPackage ./desktop.nix { metaCommon = metaCommon; };
+  trilium-next = pkgs.callPackage ./desktop.nix { inherit metaCommon; };
   # trilium-server = callPackage ./server.nix { metaCommon = metaCommon; };
 }

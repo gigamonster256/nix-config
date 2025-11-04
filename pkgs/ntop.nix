@@ -48,12 +48,9 @@ in
       };
     };
 
-  unify.nixos = moduleWithSystem (
-    { self', ... }:
-    {
-      environment.systemPackages = [
-        # self'.packages.ntop # dont install globally
-      ];
-    }
-  );
+  unify.nixos = moduleWithSystem (_: {
+    environment.systemPackages = [
+      # self'.packages.ntop # dont install globally
+    ];
+  });
 }

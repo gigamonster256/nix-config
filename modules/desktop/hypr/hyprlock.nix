@@ -1,6 +1,6 @@
 {
   unify.modules.desktop.nixos =
-    { config, lib, ... }:
+    { config, ... }:
     {
       home-manager.sharedModules = [
         {
@@ -16,7 +16,7 @@
       ...
     }:
     let
-      inherit (lib) mkDefault mkIf;
+      inherit (lib) mkDefault;
     in
     {
       programs.hyprlock = {

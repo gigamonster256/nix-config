@@ -43,12 +43,9 @@ in
       packages.wiiu-downloader = pkgs.callPackage wiiu-downloader { };
     };
 
-  unify.nixos = moduleWithSystem (
-    { self', ... }:
-    {
-      environment.systemPackages = [
-        # self'.packages.wiiu-downloader # dont install globally
-      ];
-    }
-  );
+  unify.nixos = moduleWithSystem (_: {
+    environment.systemPackages = [
+      # self'.packages.wiiu-downloader # dont install globally
+    ];
+  });
 }

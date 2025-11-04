@@ -23,10 +23,8 @@
 
     nixos =
       {
-        modulesPath,
         pkgs,
         config,
-        lib,
         ...
       }:
       {

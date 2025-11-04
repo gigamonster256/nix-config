@@ -4,7 +4,6 @@ let
   # https://wiki.nixos.org/wiki/VR#Patching_AMDGPU_to_allow_high_priority_queues
   amdgpuPatch =
     {
-      lib,
       stdenv,
       kernel, # The kernel to patch
       patches ? [ ],
@@ -78,9 +77,9 @@ in
     {
       imports = [ self.modules.nixos.amdgpu-kmod ];
       config = lib.mkIf (config ? facter) {
-        gaming.amdgpuKmod.enable = (
-          lib.any (gpu: gpu.driver == "amdgpu") config.facter.report.hardware.graphics_card
-        );
+        gaming.amdgpuKmod.enable = lib.any (
+          gpu: gpu.driver == "amdgpu"
+        ) config.facter.report.hardware.graphics_card;
       };
     };
 }

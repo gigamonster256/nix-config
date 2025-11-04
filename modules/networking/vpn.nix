@@ -4,7 +4,6 @@
     { self', ... }:
     {
       lib,
-      pkgs,
       config,
       ...
     }:

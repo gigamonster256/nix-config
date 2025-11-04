@@ -1,10 +1,7 @@
-{ inputs, ... }:
 {
   unify.modules.desktop.home =
     {
-      lib,
       pkgs,
-      config,
       ...
     }:
     {

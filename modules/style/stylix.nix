@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 {
   unify.modules.style.nixos =
     { pkgs, ... }:

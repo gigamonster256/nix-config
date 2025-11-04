@@ -1,4 +1,4 @@
-{ self, lib, ... }:
+{ lib, ... }:
 let
   inherit (lib) mkIf mkMerge;
 in

@@ -2,7 +2,6 @@
   unify.home =
     {
       lib,
-      pkgs,
       config,
       ...
     }:

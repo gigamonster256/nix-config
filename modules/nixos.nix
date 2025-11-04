@@ -1,5 +1,4 @@
-flake@{ config, ... }:
-{
+flake: {
   unify.nixos =
     { lib, config, ... }:
     {

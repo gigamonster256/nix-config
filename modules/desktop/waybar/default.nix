@@ -5,7 +5,7 @@
       pkgs,
       config,
       ...
-    }@inputs:
+    }:
     let
       inherit (lib)
         mkIf
@@ -17,7 +17,7 @@
     mkMerge [
       {
         programs.waybar = {
-          enable = config.wayland.windowManager.hyprland.enable;
+          inherit (config.wayland.windowManager.hyprland) enable;
           # after stylix color definitions
           style = mkAfter (builtins.readFile ./style.css);
           systemd = {

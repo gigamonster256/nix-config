@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 {
   nixpkgs.overlays = [
     inputs.neovim.overlays.default
@@ -21,7 +21,7 @@
     # This one contains whatever you want to overlay
     # You can change versions, add patches, set compilation flags, anything really.
     # https://nixos.wiki/wiki/Overlays
-    modifications = final: _prev: {
+    modifications = _final: _prev: {
       # custom trilium-next-desktop package
       # trilium-desktop = (customPkgs final).trilium-next-desktop;
     };

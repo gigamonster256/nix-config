@@ -11,7 +11,7 @@
             inherit (yabaiConfig) config extraConfig;
           };
         skhd = {
-          enable = config.services.yabai.enable;
+          inherit (config.services.yabai) enable;
           skhdConfig = import ./_skhd.nix;
         };
       };

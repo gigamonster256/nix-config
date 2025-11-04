@@ -33,7 +33,6 @@
 
     nixos =
       {
-        lib,
         pkgs,
         config,
         ...
