@@ -1,12 +1,14 @@
 {
   unify.home =
     {
+      lib,
       pkgs,
       config,
       ...
     }:
     {
       programs.eza = {
+        enable = lib.mkDefault true;
         colors = "auto";
         icons = "auto";
         enableZshIntegration = config.programs.zsh.enable;

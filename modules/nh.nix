@@ -1,6 +1,9 @@
 { lib, config, ... }:
 {
   unify.home = {
-    programs.nh.flake = lib.mkDefault config.meta.flake;
+    programs.nh = {
+      enable = lib.mkDefault true;
+      flake = lib.mkDefault config.meta.flake;
+    };
   };
 }
