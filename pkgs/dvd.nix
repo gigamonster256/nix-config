@@ -7,15 +7,14 @@ let
     }:
     buildGoModule (finalAttrs: {
       pname = "dvd";
-      version = "1.0.0";
+      version = "1.1.0";
       src = fetchFromGitHub {
         owner = "integrii";
         repo = "dvd";
         tag = "v${finalAttrs.version}";
-        sha256 = "sha256-CiDBLGoFpIe/qD/PwLbrZMXe+antm0TnaZEMSY5nJts=";
+        hash = "sha256-iCoHmBF0YxRpPgIUzC+0RUcBKTJXjQzWvrDZP7aclek=";
       };
 
-      patches = [ ./version.patch ]; # https://nixpk.gs/pr-tracker.html?pr=441125
       vendorHash = "sha256-L7nK+w4CB2H3b6vL0ZoFfaRMgCmpqzQo8ThMM60C76I=";
 
       meta = {
