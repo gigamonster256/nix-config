@@ -79,7 +79,7 @@ in
   unify.nixos = moduleWithSystem (
     { self', ... }:
     {
-      environment.systemPackages = [
+      environment.defaultPackages = [
         self'.packages.extract
       ];
     }
