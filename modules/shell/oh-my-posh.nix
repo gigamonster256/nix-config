@@ -16,7 +16,6 @@
     {
       programs.oh-my-posh = {
         enable = mkDefault config.programs.zsh.enable;
-        settings = mkDefault (import ./_posh-config.nix { inherit config; });
       };
 
       programs.zsh.initContent = mkIf cfg.enable ''

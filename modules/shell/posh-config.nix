@@ -1,0 +1,115 @@
+{
+  unify.home =
+    { lib, config, ... }:
+    {
+      programs.oh-my-posh.settings = lib.mkDefault {
+        "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json";
+        blocks = [
+          {
+            alignment = "left";
+            segments = [
+              {
+                foreground = "p:base0D";
+                style = "plain";
+                template = "{{ .UserName }}@{{ replaceP `^([^.]+).*$` .HostName `$1` }}";
+                type = "session";
+              }
+              {
+                foreground = "p:base0E";
+                properties = {
+                  home_icon = "~";
+                  style = "folder";
+                };
+                style = "plain";
+                type = "path";
+              }
+              /*
+                {
+                  foreground = "p:base07";
+                  properties = {
+                    branch_icon = " ";
+                    cherry_pick_icon = " ";
+                    commit_icon = " ";
+                    fetch_status = false;
+                    fetch_upstream_icon = false;
+                    merge_icon = " ";
+                    no_commits_icon = " ";
+                    rebase_icon = " ";
+                    revert_icon = " ";
+                    tag_icon = " ";
+                  };
+                  style = "plain";
+                  template = "{{ .HEAD }} ";
+                  type = "git";
+                }
+              */
+              {
+                foreground = "p:base07";
+                properties = {
+                  fetch_status = true;
+                };
+                style = "plain";
+                type = "jujutsu";
+              }
+              {
+                foreground = "p:base05";
+                style = "plain";
+                template = "";
+                type = "text";
+              }
+            ];
+            type = "prompt";
+          }
+        ];
+        transient_prompt = {
+          background = "transparent";
+          foreground = "p:base05";
+          template = " ";
+        };
+        final_space = true;
+        palette =
+          if (config.lib ? stylix) then
+            {
+              inherit (config.lib.stylix.colors.withHashtag)
+                base00
+                base01
+                base02
+                base03
+                base04
+                base05
+                base06
+                base07
+                base08
+                base09
+                base0A
+                base0B
+                base0C
+                base0D
+                base0E
+                base0F
+                ;
+            }
+          else
+            # catppuccin-mocha defaults
+            {
+              base00 = "#1e1e2e";
+              base01 = "#181825";
+              base02 = "#313244";
+              base03 = "#45475a";
+              base04 = "#585b70";
+              base05 = "#cdd6f4";
+              base06 = "#f5e0dc";
+              base07 = "#b4befe";
+              base08 = "#f38ba8";
+              base09 = "#fab387";
+              base0A = "#f9e2af";
+              base0B = "#a6e3a1";
+              base0C = "#94e2d5";
+              base0D = "#89b4fa";
+              base0E = "#cba6f7";
+              base0F = "#f2cdcd";
+            };
+        version = 2;
+      };
+    };
+}
