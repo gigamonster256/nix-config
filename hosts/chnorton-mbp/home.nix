@@ -10,7 +10,6 @@
               vscode
               net-news-wire
               wireshark
-              slack
               element-desktop
               bitwarden-desktop
               trilium-next-desktop

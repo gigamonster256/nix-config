@@ -5,6 +5,5 @@
     "steam-unwrapped"
     "vscode"
     "spotify"
-    "slack"
   ];
 }

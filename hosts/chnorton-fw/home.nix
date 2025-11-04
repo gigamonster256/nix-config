@@ -27,7 +27,6 @@
         programs.spotify.enable = true;
         programs.ghostty.enable = true;
         programs.firefox.enable = true;
-        programs.slack.enable = true;
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
         programs.bitwarden.enable = true;
