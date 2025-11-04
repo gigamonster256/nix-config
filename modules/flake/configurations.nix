@@ -117,9 +117,13 @@ let
         };
     };
 in
+{ inputs, ... }:
 {
   # import the module to use it internally
-  imports = [ module ];
+  imports = [
+    module
+    inputs.unify.flakeModule
+  ];
   # export the module for use in other flake modules
   flake.modules.flake.configurations = module;
 }

@@ -1,4 +1,6 @@
+{ inputs, ... }:
 {
+  imports = [ inputs.home-manager.flakeModules.home-manager ];
   unify.home =
     {
       lib,

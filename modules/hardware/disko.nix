@@ -1,5 +1,6 @@
 { inputs, ... }:
 {
+  imports = [ inputs.disko.flakeModules.default ];
   unify.modules.disko.nixos =
     { lib, hostConfig, ... }:
     {

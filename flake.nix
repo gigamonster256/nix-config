@@ -104,13 +104,8 @@
         "aarch64-darwin"
       ];
       imports = [
-        inputs.unify.flakeModule
         # inputs.flake-parts.flakeModules.flakeModules
         # inputs.flake-parts.flakeModules.partitions
-        inputs.flake-parts.flakeModules.modules
-        inputs.home-manager.flakeModules.home-manager
-        inputs.treefmt-nix.flakeModule
-        inputs.disko.flakeModules.default
         (import-tree [
           ./hosts
           ./modules
@@ -123,13 +118,6 @@
         email = "n0603919@outlook.com";
       };
       meta.flake = "github:gigamonster256/nix-config";
-
-      perSystem =
-        { pkgs, ... }:
-        {
-          treefmt = import ./treefmt.nix { inherit pkgs; };
-          devShells.default = import ./shell.nix { inherit pkgs; };
-        };
     };
 
   nixConfig = {
