@@ -11,6 +11,8 @@
         getExe
         mkOption
         mkIf
+        mkMerge
+        mkDefault
         types
         ;
       cfg = config.laptop;
@@ -21,8 +23,8 @@
         default = null;
       };
 
-      config =
-        mkIf
+      config = mkMerge [
+        (mkIf
           (
             config.services.fprintd.enable
             && config ? facter
@@ -55,6 +57,11 @@
                 esac
               '';
             };
-          };
+          }
+        )
+        {
+          services.automatic-timezoned.enable = mkDefault true;
+        }
+      ];
     };
 }
