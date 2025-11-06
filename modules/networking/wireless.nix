@@ -35,6 +35,14 @@
               password=ext:tamu_psk
             '';
           };
+          "eduroam" = {
+            authProtocols = [ "WPA-EAP" ];
+            auth = ''
+              eap=PEAP
+              identity="chnorton@tamu.edu"
+              password=ext:tamu_psk
+            '';
+          };
           "Caleb's iPhone".pskRaw = "ext:hotspot_psk";
           "Reveille Ranch Resident".pskRaw = "ext:rev_ranch_psk";
         };
