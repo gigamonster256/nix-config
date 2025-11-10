@@ -29,6 +29,7 @@
           "Nortfam6".pskRaw = "ext:fam_psk";
           "TAMU_WiFi" = {
             authProtocols = [ "WPA-EAP" ];
+            priority = 10;
             auth = ''
               eap=PEAP
               identity="chnorton"
