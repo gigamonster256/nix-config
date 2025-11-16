@@ -9,7 +9,7 @@
       impermanence
       style
       gaming
-      vr
+      # vr
       dev
       desktop
       wireless
