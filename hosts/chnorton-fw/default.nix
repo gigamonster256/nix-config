@@ -27,6 +27,7 @@
           dev
           desktop
           step-user
+          emulators
         ];
       };
     };

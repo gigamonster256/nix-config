@@ -63,4 +63,16 @@
       # Nicely reload system units when changing configs
       systemd.user.startServices = "sd-switch";
     };
+
+  impermanence.programs.home = {
+    direnv = {
+      directories = [ ".local/share/direnv" ];
+    };
+    zsh = {
+      files = [ ".zsh_history" ];
+    };
+    "nix-index-database.comma" = {
+      files = [ ".local/state/comma-choices" ];
+    };
+  };
 }

@@ -99,4 +99,10 @@
         };
       };
     };
+
+  impermanence.programs.home = {
+    firefox = {
+      directories = [ ".mozilla" ];
+    };
+  };
 }

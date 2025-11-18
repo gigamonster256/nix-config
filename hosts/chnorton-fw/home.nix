@@ -26,9 +26,6 @@
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
         programs.bitwarden.enable = true;
-        programs.cemu.enable = true;
-        programs.ryujinx.enable = true;
-        programs.wiiu-downloader.enable = true;
         programs.element.enable = true;
         programs.newsflash.enable = true;
         programs.onlyoffice.enable = true;
@@ -46,5 +43,48 @@
           ];
         };
       };
+  };
+
+  home-manager.extraPrograms = [
+    {
+      name = "trilium";
+      packageName = "trilium-next-desktop";
+    }
+    {
+      name = "bitwarden";
+      packageName = "bitwarden-desktop";
+    }
+    {
+      name = "element";
+      packageName = "element-desktop";
+    }
+    "newsflash"
+    "prismlauncher"
+  ];
+
+  impermanence.programs.home = {
+    vesktop = {
+      directories = [ ".config/vesktop" ];
+    };
+    trilium = {
+      directories = [ ".local/share/trilium-data" ];
+    };
+    bitwarden = {
+      directories = [ ".config/Bitwarden" ];
+    };
+    element = {
+      directories = [ ".config/Element" ];
+    };
+    newsflash = {
+      directories = [
+        ".config/news-flash"
+        ".local/share/news-flash"
+      ];
+    };
+    prismlauncher = {
+      directories = [
+        ".local/share/PrismLauncher"
+      ];
+    };
   };
 }

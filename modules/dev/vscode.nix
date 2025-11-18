@@ -6,4 +6,15 @@
       "terminal.integrated.fontFamily" = "Monaspace Neon";
     };
   };
+
+  impermanence.programs.home = {
+    vscode = {
+      # https://github.com/nix-community/home-manager/blob/master/modules/programs/vscode.nix
+      # differs based on which vscode fork is used
+      directories = [
+        ".config/Code"
+        ".vscode"
+      ];
+    };
+  };
 }

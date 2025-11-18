@@ -6,15 +6,18 @@
       config,
       ...
     }:
-    let
-      inherit (lib) mkDefault getExe;
-    in
     {
       programs.rofi = {
-        enable = mkDefault config.wayland.windowManager.hyprland.enable;
+        enable = lib.mkDefault config.wayland.windowManager.hyprland.enable;
         # package = mkDefault pkgs.rofi-wayland; # wayland support has been upstreamed
-        plugins = mkDefault [ pkgs.rofi-emoji ];
-        terminal = mkDefault "${getExe config.programs.ghostty.package}";
+        plugins = lib.mkDefault [ pkgs.rofi-emoji ];
+        terminal = lib.mkDefault "${lib.getExe config.programs.ghostty.package}";
       };
     };
+
+  impermanence.programs.home = {
+    rofi = {
+      files = [ ".cache/rofi3.druncache" ];
+    };
+  };
 }
