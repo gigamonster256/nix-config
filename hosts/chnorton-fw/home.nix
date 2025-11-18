@@ -1,23 +1,19 @@
-{ moduleWithSystem, ... }:
 {
   unify.hosts.nixos.chnorton-fw.nixos = {
-    home-manager.users.caleb = moduleWithSystem (
-      { self', ... }:
+    home-manager.users.caleb =
       { pkgs, ... }:
       {
         home.packages = builtins.attrValues {
           inherit (pkgs)
             wpa_supplicant_gui
             chirp
+            ntop
             ;
           inherit (pkgs.kdePackages)
             okular
             ;
           inherit (pkgs.python3Packages)
             meshtastic
-            ;
-          inherit (self'.packages)
-            ntop
             ;
         };
 
@@ -49,7 +45,6 @@
             ",switch:off:Lid Switch,exec,hyprctl keyword monitor 'desc:BOE,preferred,auto,1.566667'"
           ];
         };
-      }
-    );
+      };
   };
 }

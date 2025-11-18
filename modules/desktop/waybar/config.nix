@@ -1,7 +1,5 @@
-{ moduleWithSystem, ... }:
 {
-  unify.modules.desktop.home = moduleWithSystem (
-    { self', ... }:
+  unify.modules.desktop.home =
     {
       lib,
       pkgs,
@@ -155,7 +153,7 @@
           "custom/vpn" = mkIf (vpnInterfaceNames != [ ]) {
             format = "{text}";
             exec = getExe (
-              self'.packages.waybar-vpn-status.override {
+              pkgs.waybar-vpn-status.override {
                 interfaces = vpnInterfaceNames;
               }
             );
@@ -169,6 +167,5 @@
             tooltip = false; # disable tooltip
           };
         };
-    }
-  );
+    };
 }

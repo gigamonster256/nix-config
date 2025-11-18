@@ -1,11 +1,10 @@
-let
-  librepods =
+{
+  packages.librepods =
     {
       fetchFromGitHub,
       stdenv,
       qt6,
       libpulseaudio,
-
       cmake,
       pkg-config,
     }:
@@ -34,12 +33,4 @@ let
         qt6.wrapQtAppsHook
       ];
     });
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.librepods = pkgs.callPackage librepods {
-      };
-    };
 }

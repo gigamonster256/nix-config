@@ -1,16 +1,18 @@
 {
-  perSystem =
-    { self', pkgs, ... }:
+  packages.sketchybar-plugins =
     {
-      packages.sketchybar-plugins = pkgs.linkFarm "sketchybar-plugins" [
-        {
-          name = "builtin";
-          path = self'.packages.sketchybar-default-plugins;
-        }
-        {
-          name = "aerospace.sh";
-          path = self'.packages.sketchybar-aerospace;
-        }
-      ];
-    };
+      linkFarm,
+      sketchybar-default-plugins,
+      sketchybar-aerospace,
+    }:
+    (linkFarm "sketchybar-plugins" [
+      {
+        name = "builtin";
+        path = sketchybar-default-plugins;
+      }
+      {
+        name = "aerospace.sh";
+        path = sketchybar-aerospace;
+      }
+    ]);
 }

@@ -1,9 +1,8 @@
-{ moduleWithSystem, ... }:
 {
-  unify.modules.vpn.nixos = moduleWithSystem (
-    { self', ... }:
+  unify.modules.vpn.nixos =
     {
       lib,
+      pkgs,
       config,
       ...
     }:
@@ -78,10 +77,9 @@
       users.groups.vpn = { };
 
       environment.defaultPackages = [
-        (self'.packages.vpn-scripts.override {
+        (pkgs.vpn-scripts.override {
           services = allServiceNames;
         })
       ];
-    }
-  );
+    };
 }

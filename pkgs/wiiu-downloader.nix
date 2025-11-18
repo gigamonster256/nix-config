@@ -1,5 +1,5 @@
-let
-  wiiu-downloader =
+{
+  packages.wiiu-downloader =
     {
       lib,
       appimageTools,
@@ -34,18 +34,4 @@ let
         platforms = [ "x86_64-linux" ];
       };
     };
-in
-{ moduleWithSystem, ... }:
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.wiiu-downloader = pkgs.callPackage wiiu-downloader { };
-    };
-
-  unify.nixos = moduleWithSystem (_: {
-    environment.systemPackages = [
-      # self'.packages.wiiu-downloader # dont install globally
-    ];
-  });
 }

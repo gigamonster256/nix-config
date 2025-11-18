@@ -1,5 +1,5 @@
-let
-  package =
+{
+  packages.sketchybar-aerospace =
     { writeShellScript }:
     writeShellScript "aerospace.sh" ''
       if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
@@ -8,11 +8,4 @@ let
         sketchybar --set "$NAME" background.drawing=off
       fi
     '';
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.sketchybar-aerospace = pkgs.callPackage package { };
-    };
 }

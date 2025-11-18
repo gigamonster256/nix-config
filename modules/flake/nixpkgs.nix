@@ -22,7 +22,6 @@ in
 
   config = {
     # configure the pkgs used in nixos, home-manager
-
     unify.nixos = {
       nixpkgs = {
         inherit (cfg) overlays;

@@ -1,7 +1,5 @@
-{ moduleWithSystem, ... }:
 {
-  unify.nixos = moduleWithSystem (
-    { self', ... }:
+  unify.nixos =
     {
       lib,
       pkgs,
@@ -15,7 +13,7 @@
           librepods = pkgs.writeShellApplication {
             name = "librepods";
 
-            runtimeInputs = [ self'.packages.librepods ];
+            runtimeInputs = [ pkgs.librepods ];
 
             text = ''
               unset QT_STYLE_OVERRIDE
@@ -37,6 +35,5 @@
             ];
           })
         ];
-    }
-  );
+    };
 }

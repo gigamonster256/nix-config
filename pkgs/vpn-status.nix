@@ -1,5 +1,5 @@
-let
-  vpn-status =
+{
+  packages.waybar-vpn-status =
     {
       lib,
       writeShellApplication,
@@ -30,12 +30,5 @@ let
             echo "{\"text\": \"\", \"class\": \"inactive\"}"
         fi
       '';
-    };
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.waybar-vpn-status = pkgs.callPackage vpn-status { };
     };
 }

@@ -1,5 +1,5 @@
-let
-  ntop =
+{
+  packages.ntop =
     {
       writeShellApplication,
       moreutils,
@@ -37,20 +37,4 @@ let
         "SC2016" # expand $0 only inside the sh script
       ];
     };
-in
-{ moduleWithSystem, ... }:
-{
-  perSystem =
-    { self', pkgs, ... }:
-    {
-      packages.ntop = pkgs.callPackage ntop {
-        inherit (self'.packages) recursive-cpu-usage;
-      };
-    };
-
-  unify.nixos = moduleWithSystem (_: {
-    environment.systemPackages = [
-      # self'.packages.ntop # dont install globally
-    ];
-  });
 }

@@ -1,5 +1,5 @@
-let
-  package =
+{
+  packages.sketchybar-default-plugins =
     {
       stdenvNoCC,
       sketchybar,
@@ -16,12 +16,5 @@ let
 
         runHook postInstall
       '';
-    };
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.sketchybar-default-plugins = pkgs.callPackage package { };
     };
 }

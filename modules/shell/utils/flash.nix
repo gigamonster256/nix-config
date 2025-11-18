@@ -1,5 +1,5 @@
-let
-  flash =
+{
+  packages.flash =
     {
       writeShellApplication,
       file,
@@ -35,21 +35,12 @@ let
           fi
         '';
     };
-in
-{ moduleWithSystem, ... }:
-{
-  perSystem =
+
+  unify.nixos =
     { pkgs, ... }:
     {
-      packages.flash = pkgs.callPackage flash { };
-    };
-
-  unify.nixos = moduleWithSystem (
-    { self', ... }:
-    {
       environment.defaultPackages = [
-        self'.packages.flash
+        pkgs.flash
       ];
-    }
-  );
+    };
 }

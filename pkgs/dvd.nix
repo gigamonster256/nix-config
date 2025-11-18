@@ -1,5 +1,5 @@
-let
-  dvd =
+{
+  packages.dvd =
     {
       lib,
       buildGoModule,
@@ -23,11 +23,4 @@ let
         license = lib.licenses.unlicense;
       };
     });
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.dvd = pkgs.callPackage dvd { };
-    };
 }

@@ -1,5 +1,5 @@
-let
-  fv =
+{
+  packages.fv =
     {
       buildGoModule,
       fetchFromGitHub,
@@ -17,12 +17,5 @@ let
         hash = "sha256-sOQc7+LS35fS/2oddcR3wPyasH6eC0epxg8ohtx3/hI=";
       };
       vendorHash = "sha256-Sc8ZMfGR2Z0PDFU9YBF1ErLT6t3NTILZDuofhxcSYj4=";
-    };
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.fv = pkgs.callPackage fv { };
     };
 }

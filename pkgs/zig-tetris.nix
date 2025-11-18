@@ -1,5 +1,5 @@
-let
-  tetris =
+{
+  packages.tetris =
     {
       lib,
       stdenv,
@@ -38,11 +38,4 @@ let
         ); # hmm this style seems interesting as a default
       };
     });
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.zig-tetris = pkgs.callPackage tetris { };
-    };
 }

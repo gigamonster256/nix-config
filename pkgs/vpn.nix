@@ -1,5 +1,5 @@
-let
-  vpn =
+{
+  packages.vpn-scripts =
     {
       lib,
       writeShellApplication,
@@ -150,17 +150,9 @@ let
           ];
         };
     in
-    {
-      inherit vpn-on vpn-off;
-      vpn-scripts = lib.makeOverridable mkBundle { inherit services; };
-    };
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages = {
-        inherit (pkgs.callPackage vpn { }) vpn-scripts vpn-on vpn-off;
-      };
-    };
+    # {
+    # inherit vpn-on vpn-off;
+    # vpn-scripts = lib.makeOverridable mkBundle { inherit services; };
+    lib.makeOverridable mkBundle { inherit services; };
+  # };
 }

@@ -1,5 +1,5 @@
-let
-  extract =
+{
+  packages.extract =
     {
       lib,
       writeShellApplication,
@@ -65,23 +65,15 @@ let
           fi
         '';
     };
-in
-{ moduleWithSystem, ... }:
-{
+
   nixpkgs.allowedUnfreePackages = [ "unrar" ];
 
-  perSystem =
+  # install globally
+  unify.nixos =
     { pkgs, ... }:
     {
-      packages.extract = pkgs.callPackage extract { };
-    };
-
-  unify.nixos = moduleWithSystem (
-    { self', ... }:
-    {
       environment.defaultPackages = [
-        self'.packages.extract
+        pkgs.extract
       ];
-    }
-  );
+    };
 }

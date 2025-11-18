@@ -1,5 +1,5 @@
-let
-  rcu =
+{
+  packages.recursive-cpu-usage =
     {
       lib,
       fetchgit,
@@ -22,12 +22,5 @@ let
         homepage = "https://codeberg.org/FliegendeWurst/recursive-cpu-usage";
         license = lib.licenses.unlicense;
       };
-    };
-in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      packages.recursive-cpu-usage = pkgs.callPackage rcu { };
     };
 }

@@ -1,13 +1,16 @@
-{ moduleWithSystem, ... }:
 {
-  flake.modules.darwin.base = moduleWithSystem (
-    { self', ... }:
-    { lib, config, ... }:
+  flake.modules.darwin.base =
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
     {
       services.sketchybar.config = lib.mkDefault (
         lib.concatStrings [
           ''
-            PLUGIN_DIR="${self'.packages.sketchybar-plugins}"
+            PLUGIN_DIR="${pkgs.sketchybar-plugins}"
 
             sketchybar --bar position=top height=40 blur_radius=30 color=0x40000000
 
@@ -103,6 +106,5 @@
           ''
         ]
       );
-    }
-  );
+    };
 }
