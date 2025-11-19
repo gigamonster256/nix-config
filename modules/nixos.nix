@@ -1,6 +1,6 @@
 flake: {
   unify.nixos =
-    { lib, config, ... }:
+    { lib, ... }:
     {
       boot.loader.systemd-boot.configurationLimit = lib.mkDefault 20;
       system.autoUpgrade = {
@@ -11,7 +11,7 @@ flake: {
       };
 
       home-manager.backupFileExtension = lib.mkDefault "backup";
-      services.blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
+      # services.blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
       # TODO: fix this up
       networking.useNetworkd = true; # https://github.com/nix-community/nixos-facter-modules/issues/83
     };

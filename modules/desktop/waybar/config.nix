@@ -49,6 +49,7 @@
             "battery"
             "power-profiles-daemon"
             "tray"
+            "bluetooth"
             "clock"
           ]
           ++ lib.optional config.services.fnott.enable "custom/fnott"
@@ -124,6 +125,14 @@
               activated = "";
               deactivated = "";
             };
+          };
+          bluetooth = {
+            # format = brandIcon "{icon}";
+            format-icons = {
+              connected = "";
+              disconnected = "";
+            };
+            on-click = "${getExe config.programs.ghostty.package} -e ${getExe pkgs.bluetui}";
           };
           "custom/fnott" = mkIf config.services.fnott.enable {
             format = icon "{text}";
