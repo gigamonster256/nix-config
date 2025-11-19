@@ -22,6 +22,7 @@
           };
         in
         [
+          librepods
           (pkgs.makeDesktopItem {
             name = "LibrePods";
             exec = lib.getExe librepods;
