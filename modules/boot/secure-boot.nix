@@ -14,11 +14,19 @@
       };
     };
 
-  # TODO: use impermanence.programs.nixos option somehow
-  # some sort of overriden condition to make sure lanzaboote is imported first?
+  # create the impermanence options for lanzaboote
+  impermanence.programs.nixos = {
+    lanzaboote = {
+      namespace = "boot";
+    };
+  };
+
+  # add the lanzaboote pkiBundle to the impermanence dirs
   unify.modules.impermanence.nixos =
     { lib, config, ... }:
-    lib.mkIf (config.boot ? lanzaboote && config.boot.lanzaboote.enable) {
-      impermanence.directories = [ config.boot.lanzaboote.pkiBundle ];
+    {
+      boot.lanzaboote.impermanence.directories = lib.mkIf (
+        config.boot ? lanzaboote && config.boot.lanzaboote.enable
+      ) [ config.boot.lanzaboote.pkiBundle ];
     };
 }

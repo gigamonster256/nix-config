@@ -81,6 +81,6 @@ let
     };
 in
 {
-  flake.modules.flake.impermanence.programs.nixos = module;
+  flake.modules.flake.impermanenceNixosPrograms = module;
   imports = [ module ];
 }

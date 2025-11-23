@@ -1,6 +1,5 @@
-# extends the programs.${app} home-manager options with impermanence settings
 let
-  mkHomeImpermanenceOption =
+  mkNixosHomeImpermanenceOption =
     {
       name,
       namespace,
@@ -33,15 +32,20 @@ let
       };
 
       config = lib.mkIf (impermanenceCfg.enable or false) {
-        impermanence = {
-          inherit (impermanenceCfg) directories files;
-        };
+        home-manager.sharedModules = [
+          {
+            impermanence = {
+              inherit (impermanenceCfg) directories files;
+            };
+          }
+        ];
       };
     };
+
   module =
     { lib, config, ... }:
     {
-      options.impermanence.programs.home = lib.mkOption {
+      options.impermanence.programs.nixos-home = lib.mkOption {
         type =
           with lib.types;
           attrsOf (
@@ -64,23 +68,23 @@ let
             })
           );
         default = { };
-        description = "List of home programs to set impermanence options for.";
+        description = "List of nixos programs that need home impermanence options.";
       };
 
       config = {
-        unify.home = {
+        unify.nixos = {
           imports = lib.mapAttrsToList (
             name: cfg:
-            mkHomeImpermanenceOption {
+            mkNixosHomeImpermanenceOption {
               inherit name;
               inherit (cfg) namespace directories files;
             }
-          ) config.impermanence.programs.home;
+          ) config.impermanence.programs.nixos-home;
         };
       };
     };
 in
 {
-  flake.modules.flake.impermanenceHomePrograms = module;
+  flake.modules.flake.impermanenceNixosHomePrograms = module;
   imports = [ module ];
 }
