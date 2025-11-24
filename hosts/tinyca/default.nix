@@ -47,6 +47,8 @@
           device = "/dev/disk/by-label/NIXOS_SD";
           fsType = "ext4";
         };
+        # save space by only including the rpi related dtbs (in theory)
+        hardware.deviceTree.filter = "*-rpi-*.dtb";
         boot = {
           kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
           loader = {
