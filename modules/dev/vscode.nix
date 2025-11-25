@@ -1,4 +1,8 @@
 {
+  nixpkgs.allowedUnfreePackages = [
+    "vscode"
+  ];
+
   unify.modules.dev.home = {
     programs.vscode.enable = true;
     programs.vscode.profiles.default.userSettings = {

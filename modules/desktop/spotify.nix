@@ -1,4 +1,8 @@
 {
+  nixpkgs.allowedUnfreePackages = [
+    "spotify"
+  ];
+  
   home-manager.extraPrograms = [
     "spotify"
   ];
