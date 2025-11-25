@@ -1,5 +1,9 @@
 { inputs, config, ... }:
 {
+  nixpkgs.allowedUnfreePackages = [
+    "zoom"
+  ];
+
   unify.hosts.nixos.chnorton-fw = {
     modules = with config.unify.modules; [
       facter
