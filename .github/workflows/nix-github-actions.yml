@@ -16,7 +16,7 @@ jobs:
       cachix_has_jobs: ${{ steps.set-matrix.outputs.cachix_has_jobs }}
       artifacts_has_jobs: ${{ steps.set-matrix.outputs.artifacts_has_jobs }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: DeterminateSystems/nix-installer-action@v20
@@ -44,7 +44,7 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.nix-matrix.outputs.cachix)}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Set up Nothing But Nix
@@ -68,7 +68,7 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.nix-matrix.outputs.artifacts)}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Set up Nothing But Nix
