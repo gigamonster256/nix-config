@@ -66,6 +66,12 @@
         # pi cant even eval itself without an oom killer
         system.autoUpgrade.enable = false;
 
+        # use interpreterless initialization
+        system.nixos-init.enable = true;
+        # required for nixos-init
+        system.etc.overlay.enable = true;
+        services.userborn.enable = true; # or systemd.sysusers.enable
+
         system.stateVersion = "25.11";
       };
   };
