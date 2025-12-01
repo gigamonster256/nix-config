@@ -3,45 +3,60 @@
     {
       lib,
       stdenv,
-      SDL2,
-      pkg-config,
       fetchFromGitHub,
+      xorg,
+      libGL,
+      withPenger ? true,
     }:
-    stdenv.mkDerivation (finalAttrs: {
+    stdenv.mkDerivation {
       pname = "sowon";
       version = "0.1.0";
 
       src = fetchFromGitHub {
         owner = "tsoding";
         repo = "sowon";
-        rev = "4631d354cfb4c364b2c66e61f6b09166b8055fa3";
-        hash = "sha256-moJqsYCyc+rzC2Zw4uGzE9PheHcrGU9p8d8xoG4oy1o=";
+        rev = "fc7e2996858118d9c91d2d5ef4ace1f6eda50101";
+        hash = "sha256-wrEMs2wVW6KwaQ2YZYBdS8zHAVo4FlspSSanznnXINs=";
       };
 
-      nativeBuildInputs = [
-        pkg-config
-      ];
-
       buildInputs = [
-        SDL2
+        xorg.libX11
+        xorg.libXrandr
+        xorg.libXcursor
+        xorg.libXext
+        xorg.libXi
+        libGL
       ];
 
-      # dont build or install the rgfw version
       postPatch = ''
-        sed -i 's/all: Makefile sowon sowon_rgfw man/all: Makefile sowon man/' Makefile
-        sed -i '\|\$(INSTALL) -C \./sowon_rgfw|d' Makefile
+        # allow building without penger
+        sed -i 's/-DPENGER//' Makefile
+        # only build/install sowon_rgfw
+        sed -i 's/all: Makefile sowon sowon_rgfw man/all: Makefile sowon_rgfw man/' Makefile
+        sed -i '\|\$(INSTALL) -C \./sowon |d' Makefile
+        # link required X11 and Wayland libraries
+        sed -i 's/-lX11/-lX11 -lXcursor -lXext -lXi/' Makefile
       '';
 
+      # configure penger flag and disable X11 cursor/ext dlopening
+      NIX_CFLAGS_COMPILE = [
+        "-DRGFW_NO_X11_CURSOR_PRELOAD"
+        "-DRGFW_NO_X11_EXT_PRELOAD"
+      ]
+      ++ lib.optional withPenger "-DPENGER";
+
       makeFlags = [ "PREFIX=$(out)" ];
+
+      postInstall = ''
+        mv $out/bin/sowon_rgfw $out/bin/sowon
+      '';
 
       meta = {
         description = "Starting Soon Timer for Tsoding Streams";
         homepage = "https://github.com/tsoding/sowon";
         license = lib.licenses.mit;
         mainProgram = "sowon";
-        platforms = lib.foldl' lib.intersectLists lib.platforms.all (
-          map (p: p.meta.platforms or [ ]) finalAttrs.buildInputs
-        ); # hmm this style seems interesting as a default
+        platforms = lib.platforms.linux;
       };
-    });
+    };
 }
