@@ -15,10 +15,12 @@
       src = fetchFromGitHub {
         owner = "tsoding";
         repo = "sowon";
-        rev = "fc7e2996858118d9c91d2d5ef4ace1f6eda50101";
-        hash = "sha256-wrEMs2wVW6KwaQ2YZYBdS8zHAVo4FlspSSanznnXINs=";
+        rev = "79b0f4fa3a3f3a6a702e9d25e69d9d7b1f011a06";
+        hash = "sha256-bqedCIdxYON5UEJx6jimdeC5Fh90ElQ8ZeSIfq22U1s=";
       };
 
+      # FIXME: RGFW has experimental support for Wayland with fallback to X11...
+      # try to enable it sometime?
       buildInputs = [
         xorg.libX11
         xorg.libXrandr
@@ -31,11 +33,8 @@
       postPatch = ''
         # allow building without penger
         sed -i 's/-DPENGER//' Makefile
-        # only build/install sowon_rgfw
-        sed -i 's/all: Makefile sowon sowon_rgfw man/all: Makefile sowon_rgfw man/' Makefile
-        sed -i '\|\$(INSTALL) -C \./sowon |d' Makefile
-        # link required X11 and Wayland libraries
-        sed -i 's/-lX11/-lX11 -lXcursor -lXext -lXi/' Makefile
+        # link required X11 cursor and ext libraries
+        sed -i 's/-lX11/-lX11 -lXcursor -lXext/' Makefile
       '';
 
       # configure penger flag and disable X11 cursor/ext dlopening
@@ -46,10 +45,6 @@
       ++ lib.optional withPenger "-DPENGER";
 
       makeFlags = [ "PREFIX=$(out)" ];
-
-      postInstall = ''
-        mv $out/bin/sowon_rgfw $out/bin/sowon
-      '';
 
       meta = {
         description = "Starting Soon Timer for Tsoding Streams";
