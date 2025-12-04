@@ -1,5 +1,5 @@
 {
-  impermanence.programs = {
+  persistence.programs = {
     nixos = {
       bluetooth = {
         namespace = "hardware";
@@ -25,8 +25,11 @@
           ".config/openvr"
         ];
       };
-      "gnome.gnome-keyring" = {
-        namespace = "services";
+      gnome-keyring = {
+        namespace = [
+          "services"
+          "gnome"
+        ];
         directories = [ ".local/share/keyrings" ];
       };
     };

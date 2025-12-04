@@ -1,5 +1,5 @@
 {
-  home-manager.extraPrograms = [
+  persistence.wrappers.homeManager = [
     "cemu"
     {
       name = "ryujinx";
@@ -14,7 +14,7 @@
     programs.wiiu-downloader.enable = true;
   };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     cemu = {
       directories = [
         ".config/Cemu"

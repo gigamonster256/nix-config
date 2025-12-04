@@ -28,6 +28,7 @@
         # system modules above?
         modules = with config.unify.modules; [
           style
+          impermanence
           dev
           desktop
           step-user

@@ -15,7 +15,7 @@
       };
     };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     rofi = {
       files = [ ".cache/rofi3.druncache" ];
     };

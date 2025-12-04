@@ -3,13 +3,17 @@
     "spotify"
   ];
 
-  home-manager.extraPrograms = [
+  persistence.wrappers.homeManager = [
     "spotify"
   ];
 
-  impermanence.programs.home = {
+  # FIXME: have auto-wrapping functionality?
+  # createOption = true/false flag which creates the persistence.wrappers.homeManager entry?
+  # would this need to then take the packageName and namespace options as well?
+  persistence.programs.homeManager = {
     spotify = {
       directories = [ ".config/spotify" ];
+      # createOption = true;
     };
   };
 

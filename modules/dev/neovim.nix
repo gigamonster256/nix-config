@@ -3,6 +3,6 @@
     { pkgs, ... }:
     {
       home.packages = [ pkgs.neovim ];
-      impermanence.directories = [ ".config/github-copilot" ];
+      persistence.directories = [ ".config/github-copilot" ];
     };
 }

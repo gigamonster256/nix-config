@@ -657,6 +657,32 @@
         "type": "github"
       }
     },
+    "persistence": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "impermanence": [
+          "impermanence"
+        ],
+        "import-tree": [
+          "import-tree"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764890247,
+        "narHash": "sha256-0L3PFlzVHlKxfR6rZNrd9aVh8kdHN+3Zqvc+mnFDTEk=",
+        "owner": "gigamonster256",
+        "repo": "persistence",
+        "rev": "1788f29bb121284bd1b856b4c77da1751733fb39",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "persistence",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "disko": "disko",
@@ -675,6 +701,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nur": "nur",
+        "persistence": "persistence",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",

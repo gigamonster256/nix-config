@@ -6,7 +6,7 @@
       programs.gemini-cli.enable = lib.mkDefault true;
     };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     opencode = {
       directories = [ ".local/share/opencode" ];
     };

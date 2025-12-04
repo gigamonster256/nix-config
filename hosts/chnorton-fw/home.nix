@@ -45,7 +45,7 @@
       };
   };
 
-  home-manager.extraPrograms = [
+  persistence.wrappers.homeManager = [
     {
       name = "trilium";
       packageName = "trilium-next-desktop";
@@ -62,7 +62,7 @@
     "prismlauncher"
   ];
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     vesktop = {
       directories = [ ".config/vesktop" ];
     };

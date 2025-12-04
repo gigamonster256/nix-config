@@ -10,7 +10,7 @@
     services.joycond.enable = true;
   };
 
-  impermanence.programs.nixos-home = {
+  persistence.programs.nixos-home = {
     steam = {
       directories = [
         ".local/share/Steam"

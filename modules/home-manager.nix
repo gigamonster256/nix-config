@@ -64,14 +64,18 @@
       systemd.user.startServices = "sd-switch";
     };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     direnv = {
       directories = [ ".local/share/direnv" ];
     };
     zsh = {
       files = [ ".zsh_history" ];
     };
-    "nix-index-database.comma" = {
+    comma = {
+      namespace = [
+        "programs"
+        "nix-index-database"
+      ];
       files = [ ".local/state/comma-choices" ];
     };
   };

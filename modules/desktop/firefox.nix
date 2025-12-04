@@ -100,7 +100,7 @@
       };
     };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     firefox = {
       directories = [ ".mozilla" ];
     };

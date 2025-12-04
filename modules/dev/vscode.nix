@@ -11,7 +11,7 @@
     };
   };
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     vscode = {
       # https://github.com/nix-community/home-manager/blob/master/modules/programs/vscode.nix
       # differs based on which vscode fork is used

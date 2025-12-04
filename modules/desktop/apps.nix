@@ -1,10 +1,10 @@
 {
-  home-manager.extraPrograms = [
+  persistence.wrappers.homeManager = [
     "slack"
     "sonusmix"
   ];
 
-  impermanence.programs.home = {
+  persistence.programs.homeManager = {
     slack = {
       directories = [ ".config/Slack" ];
     };

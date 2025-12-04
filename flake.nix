@@ -95,6 +95,12 @@
     unify.inputs.nixpkgs.follows = "nixpkgs";
     unify.inputs.home-manager.follows = "home-manager";
     unify.inputs.flake-parts.follows = "flake-parts";
+
+    persistence.url = "github:gigamonster256/persistence";
+    # persistence.inputs.nixpkgs.follows = "nixpkgs";
+    persistence.inputs.flake-parts.follows = "flake-parts";
+    persistence.inputs.impermanence.follows = "impermanence";
+    persistence.inputs.import-tree.follows = "import-tree";
   };
 
   outputs =
