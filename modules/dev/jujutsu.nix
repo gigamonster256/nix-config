@@ -29,6 +29,13 @@
           behavior = "keep";
           backend = "gpg";
         };
+        fix.tools.nixfmt = {
+          # do not use globally but can be enabled per-repo with
+          # `jj config set --repo fix.tools.nixfmt.enabled true`
+          enabled = false;
+          command = [ (lib.getExe pkgs.nixfmt) ];
+          patterns = [ "glob:**/*.nix" ];
+        };
       };
     };
 }
