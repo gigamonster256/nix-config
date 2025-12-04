@@ -5,7 +5,7 @@ keys:
     - &littleboy age1ftswaxmqv2f6rc8qzqnrl2sdzmanrwuf844feqq9f6m9yvunl9vs0qmszl
     - &chnorton-fw age1wjf3y6jmkrt2snudreumyywlvs5ayavn7t85h80tg84w36zn0y6s4g6479
     - &chnorton-fw-home age1rpm2py98msyhap0j3xktk4pmgjwz7kjyau85gl97rudvwvr4jvwsc3tcvf
-    - &tinyca age147a6dd63h7futzhwn3v6vxqpr22enufmssmgheekwr7pm7m0y42q2aunze
+    - &tinyca age13x8k5d09s8su7uqerzzqmzttpvnzp7yc2drdqg79zuxl9sa9x4yqsqxshj
 creation_rules:
   - path_regex: hosts/chnorton-fw/secrets.yaml$
     key_groups:
