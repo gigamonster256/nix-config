@@ -25,6 +25,14 @@ in
     };
   };
 
+  flake.modules.homeManager.standalone =
+    {
+      imports = [
+        # allow setting persistence.* options (but dont do anything with them)
+        inputs.persistence.homeManagerModules.default
+      ];
+    };
+
   unify.modules.impermanence = {
     nixos =
       { config, ... }:
