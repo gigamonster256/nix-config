@@ -3,7 +3,7 @@
     { lib, ... }:
     {
       programs.opencode.enable = lib.mkDefault true;
-      programs.gemini-cli.enable = lib.mkDefault true;
+      # programs.gemini-cli.enable = lib.mkDefault true;
     };
 
   persistence.programs.homeManager = {
