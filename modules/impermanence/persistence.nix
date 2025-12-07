@@ -15,7 +15,7 @@ in
         config.persistence.modules.nixos.wrappedPrograms
       ];
       # FIXME: nix flake check has issues when impermanence is diabled
-    #   persistence.homeManagerIntegration.enable = false;
+      #   persistence.homeManagerIntegration.enable = false;
     };
     home = {
       imports = [
@@ -23,6 +23,13 @@ in
         config.persistence.modules.homeManager.wrappedPrograms
       ];
     };
+  };
+
+  flake.modules.homeManager.standalone = {
+    imports = [
+      # allow setting persistence.* options (but dont do anything with them)
+      inputs.persistence.homeManagerModules.default
+    ];
   };
 
   unify.modules.impermanence = {
