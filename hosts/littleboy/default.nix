@@ -58,7 +58,6 @@
         environment.systemPackages = with pkgs; [
           vim
           git
-          catppuccin-sddm
         ];
 
         programs.zsh.enable = true;

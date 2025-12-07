@@ -34,7 +34,7 @@
         packages = builtins.attrValues (
           {
             inherit (pkgs)
-              devenv
+              # devenv # dont need it globally
               magic-wormhole # TODO try out the rust or go version?
               # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
               ;

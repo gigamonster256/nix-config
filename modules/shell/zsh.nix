@@ -54,8 +54,8 @@
         builtins.attrValues {
           inherit (pkgs)
             fzf
-            tmux
-            eternal-terminal
+            # tmux
+            # eternal-terminal
             ;
         }
       );

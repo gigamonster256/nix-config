@@ -8,7 +8,7 @@
       # hyprland
       programs.hyprland.enable = true;
       programs.hyprlock.enable = true;
-      programs.hyprland.withUWSM = lib.mkDefault true;
+      # programs.hyprland.withUWSM = lib.mkDefault true;
       environment.sessionVariables.NIXOS_OZONE_WL = lib.mkIf cfg.enable 1;
     };
 

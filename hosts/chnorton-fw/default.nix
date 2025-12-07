@@ -1,8 +1,8 @@
 { inputs, config, ... }:
 {
-  nixpkgs.allowedUnfreePackages = [
-    "zoom"
-  ];
+  # nixpkgs.allowedUnfreePackages = [
+  #   "zoom"
+  # ];
 
   unify.hosts.nixos.chnorton-fw = {
     modules = with config.unify.modules; [
@@ -31,8 +31,8 @@
           impermanence
           dev
           desktop
-          step-user
-          emulators
+          # step-user
+          # emulators
         ];
       };
     };
@@ -71,14 +71,12 @@
         # printing
         services.printing.enable = true;
 
-        # docker
-        virtualisation.docker.enable = true;
+        # virtualisation.docker.enable = true;
 
         programs.zsh.enable = true;
-
-        programs.zoom-us.enable = true;
-
-        programs.wireshark.enable = true;
+        # programs.zoom-us.enable = true;
+        programs.librepods.enable = false;
+        # programs.wireshark.enable = true;
 
         sops.secrets.caleb-password = {
           neededForUsers = true;

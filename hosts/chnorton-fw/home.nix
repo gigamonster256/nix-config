@@ -6,15 +6,15 @@
         home.packages = builtins.attrValues {
           inherit (pkgs)
             wpa_supplicant_gui
-            chirp
-            ntop
+            # chirp
+            # ntop
             ;
           inherit (pkgs.kdePackages)
             okular
             ;
-          inherit (pkgs.python3Packages)
-            meshtastic
-            ;
+          # inherit (pkgs.python3Packages)
+          #   meshtastic
+          #   ;
         };
 
         # amd gpu
@@ -25,11 +25,12 @@
         programs.firefox.enable = true;
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
-        programs.bitwarden.enable = true;
+        # programs.bitwarden.enable = true;
         programs.element.enable = true;
-        programs.newsflash.enable = true;
-        programs.onlyoffice.enable = true;
-        programs.prismlauncher.enable = true;
+        programs.libreoffice.enable = true;
+        # programs.newsflash.enable = true;
+        # programs.onlyoffice.enable = true;
+        # programs.prismlauncher.enable = true;
 
         # battery is set to charge to 80% max
         # sudo framework_tool --charge-limit
@@ -60,6 +61,10 @@
     }
     "newsflash"
     "prismlauncher"
+    {
+      name = "libreoffice";
+      packageName = "libreoffice-fresh";
+    }
   ];
 
   persistence.programs.homeManager = {
