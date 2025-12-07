@@ -68,9 +68,6 @@
         };
         systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
 
-        # printing
-        services.printing.enable = true;
-
         # virtualisation.docker.enable = true;
 
         programs.zsh.enable = true;

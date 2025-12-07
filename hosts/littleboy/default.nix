@@ -52,9 +52,6 @@
         # littleboy cant do WPA3
         networking.wireless.fallbackToWPA2 = true;
 
-        # printing
-        # services.printing.enable = true;
-
         environment.systemPackages = with pkgs; [
           vim
           git
