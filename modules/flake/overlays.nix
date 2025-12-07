@@ -1,7 +1,6 @@
 { inputs, ... }:
 {
   nixpkgs.overlays = [
-    inputs.neovim.overlays.default
     inputs.nur.overlays.default
   ]
   ++ (builtins.attrValues inputs.self.overlays);

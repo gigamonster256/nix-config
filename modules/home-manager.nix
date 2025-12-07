@@ -46,15 +46,11 @@
               ;
           })
         );
-        sessionVariables.EDITOR = "nvim";
         # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
         stateVersion = mkDefault "23.11";
       };
 
       home.shellAliases = {
-        # typos
-        nvom = "nvim";
-        nivm = "nvim";
         sl = "ls";
         # just open
         open = "xdg-open";
