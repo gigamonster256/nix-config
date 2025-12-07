@@ -5,15 +5,21 @@
     inputs.neovim.overlays.default
   ];
 
-  unify.modules.dev.home =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.neovim ];
-      home.sessionVariables.EDITOR = "nvim";
-      home.shellAliases = {
-        nvom = "nvim";
-        nivm = "nvim";
-      };
-      persistence.directories = [ ".config/github-copilot" ];
+  unify.modules.dev = {
+    nixos = {
+      programs.nano.enable = false;
     };
+
+    home =
+      { pkgs, ... }:
+      {
+        home.packages = [ pkgs.neovim ];
+        home.sessionVariables.EDITOR = "nvim";
+        home.shellAliases = {
+          nvom = "nvim";
+          nivm = "nvim";
+        };
+        persistence.directories = [ ".config/github-copilot" ];
+      };
+  };
 }
