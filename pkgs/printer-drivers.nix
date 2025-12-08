@@ -6,19 +6,16 @@
   packages.cups-brother-hll2315dw =
     {
       lib,
-      stdenv,
       fetchurl,
-      cups,
-      dpkg,
-      gnused,
+      pkgsi686Linux,
+      autoPatchelfHook,
       makeWrapper,
-      ghostscript,
-      file,
-      a2ps,
-      coreutils,
+      dpkg,
       perl,
+      coreutils,
       gnugrep,
-      which,
+      gnused,
+      ghostscript,
     }:
 
     let
@@ -34,16 +31,14 @@
       };
 
     in
-    stdenv.mkDerivation {
+    pkgsi686Linux.stdenv.mkDerivation {
       pname = "cups-brother-hll2315dw";
       inherit version;
 
-      nativeBuildInputs = [ makeWrapper ];
-      buildInputs = [
-        cups
-        ghostscript
+      nativeBuildInputs = [
+        autoPatchelfHook
+        makeWrapper
         dpkg
-        a2ps
       ];
 
       dontUnpack = true;
@@ -53,50 +48,47 @@
         dpkg-deb -x ${cupsdeb} $out
         dpkg-deb -x ${lprdeb} $out
 
-        substituteInPlace $out/opt/brother/Printers/HLL2315DW/lpd/filter_HLL2315DW \
-          --replace /opt "$out/opt" \
-          --replace /usr/bin/perl ${lib.getExe perl} \
-          --replace "BR_PRT_PATH =~" "BR_PRT_PATH = \"$out/opt/brother/Printers/HLL2315DW/\"; #" \
-          --replace "PRINTER =~" "PRINTER = \"HLL2315DW\"; #"
+        basedir=$out/opt/brother/Printers/HLL2315DW
 
-        patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-          $out/opt/brother/Printers/HLL2315DW/lpd/brprintconflsr3
-        patchelf --set-interpreter $(cat $NIX_CC/nix-support/dynamic-linker) \
-          $out/opt/brother/Printers/HLL2315DW/lpd/rawtobr3
+        rm -rf $out/{etc,usr,var}
+        rm -f $basedir/inf/setupPrintcap
+        rm -f $basedir/cupswrapper/paperconfigml1
 
-        for f in \
-          $out/opt/brother/Printers/HLL2315DW/cupswrapper/brother_lpdwrapper_HLL2315DW \
-          $out/opt/brother/Printers/HLL2315DW/cupswrapper/paperconfigml1 \
-        ; do
-          wrapProgram $f \
-            --prefix PATH : ${
-              lib.makeBinPath [
-                coreutils
-                ghostscript
-                gnugrep
-                gnused
-              ]
-            }
-        done
+        cupsfilter=$basedir/cupswrapper/brother_lpdwrapper_HLL2315DW
+        substituteInPlace $cupsfilter \
+          --replace-fail /usr/bin/perl ${lib.getExe perl} \
+          --replace-fail "basedir = \`readlink \$0\`" "basedir = \"$basedir\"" \
+          --replace-fail "PRINTER =~ s/\\///g" "PRINTER=\"HLL2315DW\"" \
+          --replace-fail "\$TEMPRC\`;" "\$TEMPRC\ && chmod 0600 \$TEMPRC\`;"
+        wrapProgram $cupsfilter \
+          --prefix PATH : ${
+            lib.makeBinPath [
+              coreutils
+              gnugrep
+            ]
+          }
+
+        lpdfilter=$basedir/lpd/filter_HLL2315DW
+        substituteInPlace $lpdfilter \
+          --replace-fail /usr/bin/perl ${lib.getExe perl} \
+          --replace-fail "PRINTER =~ s/\.pl$//" "PRINTER=\"HLL2315DW\"" \
+          --replace-fail "BR_PRT_PATH = Cwd::realpath (\$0)" "BR_PRT_PATH = \"$basedir\"" \
+          --replace-fail "\`which gs\`" "\"gs\""
+        wrapProgram $lpdfilter \
+          --prefix PATH : ${
+            lib.makeBinPath [
+              coreutils
+              gnugrep
+              gnused
+              ghostscript
+            ]
+          }
 
         mkdir -p $out/lib/cups/filter/
-        ln -s $out/opt/brother/Printers/HLL2315DW/lpd/filter_HLL2315DW $out/lib/cups/filter/brother_lpdwrapper_HLL2315DW
+        ln -s $out/opt/brother/Printers/HLL2315DW/cupswrapper/brother_lpdwrapper_HLL2315DW $out/lib/cups/filter/brother_lpdwrapper_HLL2315DW
 
         mkdir -p $out/share/cups/model
         ln -s $out/opt/brother/Printers/HLL2315DW/cupswrapper/brother-HLL2315DW-cups-en.ppd $out/share/cups/model/
-
-        wrapProgram $out/opt/brother/Printers/HLL2315DW/lpd/filter_HLL2315DW \
-          --prefix PATH ":" ${
-            lib.makeBinPath [
-              ghostscript
-              a2ps
-              file
-              gnused
-              gnugrep
-              coreutils
-              which
-            ]
-          }
       '';
 
       meta = {

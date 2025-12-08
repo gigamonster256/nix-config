@@ -14,7 +14,7 @@
           ensurePrinters = [
             {
               name = "home_printer";
-              deviceUri = "lpd://printer.penguin";
+              deviceUri = "lpd://printer.penguin/binary_p1";
               location = "Living Room";
               # lpinfo -m
               model = "brother-HLL2315DW-cups-en.ppd";
@@ -28,7 +28,7 @@
       };
 
     laptop.nixos =
-      { lib, pkgs, ... }:
+      { pkgs, ... }:
       {
         services.printing = {
           drivers = [
