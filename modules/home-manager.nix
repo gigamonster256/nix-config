@@ -72,7 +72,7 @@
         "programs"
         "nix-index-database"
       ];
-      files = [ ".local/state/comma-choices" ];
+      files = [ ".local/state/comma/choices" ];
     };
   };
 }
