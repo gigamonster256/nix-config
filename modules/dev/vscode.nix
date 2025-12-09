@@ -8,6 +8,8 @@
     programs.vscode.profiles.default.userSettings = {
       "files.autoSave" = "afterDelay";
       "terminal.integrated.fontFamily" = "Monaspace Neon";
+      "terminal.integrated.suggest.enabled" = false;
+      "terminal.integrated.suggest.inlineSuggestion" = "off";
     };
   };
 
