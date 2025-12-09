@@ -83,7 +83,7 @@ sudo nixos-rebuild switch --flake .
 
 verify the kernel is signed
 ```bash
-sudo nix run unstanixpkgsble#sbctl verify
+sudo nix run nixpkgs#sbctl verify
 ```
 
 enroll keys (must have cleared keys in framework bios)
