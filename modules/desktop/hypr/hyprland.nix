@@ -21,6 +21,24 @@
         getExe
         optionals
         ;
+
+      toggle-monitor-res = pkgs.writeShellApplication {
+        name = "toggle-monitor-res";
+        runtimeInputs = [ pkgs.jq ];
+        text = ''
+          # Get current resolution of GIGA-BYTE monitor
+          CURRENT_RES=$(hyprctl monitors -j | jq -r '.[] | select(.description | contains("GIGA-BYTE")) | "\(.width)x\(.height)"')
+
+          # Toggle the resolution
+          if [ "$CURRENT_RES" = "1920x1080" ]; then
+              # Switch to preferred
+              hyprctl keyword monitor "desc:GIGA-BYTE,preferred,auto-center-left,auto"
+          else
+              # Switch to 1080p
+              hyprctl keyword monitor "desc:GIGA-BYTE,1920x1080,auto-center-left,auto"
+          fi
+        '';
+      };
     in
     mkMerge [
       {
@@ -142,6 +160,8 @@
                 # Scroll through existing workspaces with mainMod + scroll
                 "$mainMod,mouse_down,workspace,e-1"
                 "$mainMod,mouse_up,workspace,e+1"
+                # Toggle external monitor resolution
+                "$mainMod,R,exec,${getExe toggle-monitor-res}"
               ]
               (
                 # screenshots using hyprshot
