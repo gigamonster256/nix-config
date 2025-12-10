@@ -28,10 +28,9 @@
     neovim.inputs.git-hooks.follows = "git-hooks";
 
     # secure boot
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.3";
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
-    lanzaboote.inputs.flake-parts.follows = "flake-parts";
-    lanzaboote.inputs.pre-commit-hooks-nix.follows = "git-hooks";
+    lanzaboote.inputs.pre-commit.follows = "";
 
     # declarative disk partitioning
     disko.url = "github:nix-community/disko";
