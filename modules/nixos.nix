@@ -15,4 +15,14 @@ flake: {
       # TODO: fix this up
       networking.useNetworkd = true; # https://github.com/nix-community/nixos-facter-modules/issues/83
     };
+
+  persistence.programs.nixos = {
+    fwupd = {
+      namespace = "services";
+      directories = [
+        "/var/cache/fwupd"
+        "/var/lib/fwupd"
+      ];
+    };
+  };
 }
