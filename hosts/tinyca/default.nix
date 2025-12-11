@@ -24,12 +24,6 @@
             interface = "enu1u1u1";
           };
           interfaces.enu1u1u1 = {
-            ipv4.addresses = [
-              {
-                address = "172.16.15.20";
-                prefixLength = 24;
-              }
-            ];
             ipv6.addresses = [
               {
                 address = "2001:470:b8c5:400::20";
