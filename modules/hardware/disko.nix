@@ -8,6 +8,8 @@
         inputs.disko.nixosModules.disko
       ];
 
-      disko = lib.mkDefault inputs.self.diskoConfigurations.${hostConfig.name}.disko;
+      config = lib.optionalAttrs (inputs.self.diskoConfigurations ? ${hostConfig.name}) {
+        disko = lib.mkDefault inputs.self.diskoConfigurations.${hostConfig.name}.disko;
+      };
     };
 }
