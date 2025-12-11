@@ -7,7 +7,7 @@
         loader = {
           systemd-boot.enable = lib.mkDefault true;
           efi.canTouchEfiVariables = true;
-          timeout = 0;
+          timeout = lib.mkOverride 750 0;
         };
         # kernel.sysctl = {
         #   "transparent_hugepage" = "always";
