@@ -18,22 +18,6 @@
           ];
         };
 
-        networking = {
-          defaultGateway = {
-            address = "172.16.15.1";
-            interface = "enu1u1u1";
-          };
-          interfaces.enu1u1u1 = {
-            ipv6.addresses = [
-              {
-                address = "2001:470:b8c5:400::20";
-                prefixLength = 64;
-              }
-            ];
-            useDHCP = false;
-          };
-        };
-
         # "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix" creates a
         # disk with this label on first boot. Therefore, we need to keep it. It is the
         # only information from the installer image that we need to keep persistent
