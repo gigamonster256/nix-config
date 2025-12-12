@@ -20,8 +20,11 @@ in
 { inputs, lib, ... }:
 let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-  nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+  # filter self to avoid trivial changes or changes to other systems
+  # triggering new toplevel derivation - useful for images and development
+  flakeInputs' = lib.filterAttrs (n: _: n != "self") flakeInputs;
+  registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs';
+  nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs';
 in
 {
   unify.nixos = {
