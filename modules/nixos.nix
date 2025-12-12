@@ -14,6 +14,12 @@ flake: {
       # services.blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
       # TODO: fix this up
       networking.useNetworkd = true; # https://github.com/nix-community/nixos-facter-modules/issues/83
+
+      # dont install documentation
+      documentation = {
+        doc.enable = false;
+        nixos.enable = false;
+      };
     };
 
   persistence.programs.nixos = {
