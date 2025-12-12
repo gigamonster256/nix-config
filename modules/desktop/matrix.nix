@@ -1,20 +1,28 @@
 {
+  nixpkgs.permittedInsecurePackages = [
+    # "olm-3.2.16" # nheko
+  ];
+
   unify.modules.desktop = {
     home = {
-      programs.element.enable = true;
+      # TODO: element-desktop is available now in upstream - use its settings
+      # also find a good non electron matrix client... 850MB is too much
+      programs.element-desktop.enable = true;
+      #   programs.nheko.enable = true;
     };
   };
 
-  persistence.wrappers.homeManager = [
-    {
-      name = "element";
-      packageName = "element-desktop";
-    }
-  ];
-
   persistence.programs.homeManager = {
-    element = {
-      directories = [ ".config/Element" ];
+    element-desktop = {
+      directories = [
+        ".config/Element"
+      ];
+    };
+    nheko = {
+      directories = [
+        ".config/nheko"
+        ".local/share/nheko"
+      ];
     };
   };
 }

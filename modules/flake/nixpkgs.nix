@@ -10,6 +10,10 @@
       type = lib.types.listOf lib.types.str;
       default = [ ];
     };
+    permittedInsecurePackages = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+    };
     overlays = lib.mkOption {
       type = with lib.types; listOf (uniq (functionTo (functionTo (lazyAttrsOf unspecified))));
       default = [ ];
@@ -24,6 +28,7 @@
         inherit (cfg) overlays;
         config = {
           inherit allowUnfreePredicate;
+          inherit (cfg) permittedInsecurePackages;
           # nice for readability but causes mass-rebuilds
           # fetchedSourceNameDefault = "versioned"; # or "full"
         };
