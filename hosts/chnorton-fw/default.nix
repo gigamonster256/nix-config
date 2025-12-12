@@ -39,6 +39,7 @@
 
     nixos =
       {
+        lib,
         pkgs,
         config,
         ...
@@ -67,6 +68,11 @@
           binfmt.emulatedSystems = [ "aarch64-linux" ];
         };
         systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
+
+        services.getty = {
+          greetingLine = ''<<< chnorton-fw - \l >>>'';
+          helpLine = lib.mkForce "";
+        };
 
         # virtualisation.docker.enable = true;
 
