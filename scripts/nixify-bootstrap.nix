@@ -2,19 +2,14 @@
   packages.nixify-bootstrap =
     {
       writeShellApplication,
-      openssh,
       nixos-anywhere,
     }:
     writeShellApplication {
       name = "nixify-bootstrap";
       runtimeInputs = [
-        openssh
         nixos-anywhere
       ];
       text = ''
-        # Script to install a host using nixos-anywhere and fetch its facter data
-        # Usage: nixify-bootstrap <host-name> [facter-output-dir]
-
         if [ $# -lt 1 ] || [ $# -gt 2 ]; then
             echo "Usage: nixify-bootstrap <host-name> [facter-output-dir]"
             echo "Example: nixify-bootstrap wyse-DX"

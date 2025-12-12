@@ -117,6 +117,7 @@
           ./hosts
           ./modules
           ./pkgs
+          ./scripts
         ])
       ];
 
