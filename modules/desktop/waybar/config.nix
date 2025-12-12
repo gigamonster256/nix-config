@@ -75,7 +75,7 @@
               ""
               ""
             ];
-            on-click = getExe pkgs.pavucontrol;
+            on-click = getExe pkgs.pwvucontrol;
           };
           network = {
             format-disconnected = textIcon "Disconnected" "⚠";
