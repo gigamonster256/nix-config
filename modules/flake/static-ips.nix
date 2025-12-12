@@ -104,7 +104,12 @@ in
         ipv4Gateway = "172.16.15.1";
         ipv6Prefix = "2001:470:b8c5:400::";
         ipv6PrefixLength = 64;
-        dns = [ "172.16.15.1" ];
+        dns = [
+          "172.16.15.50"
+          "172.16.15.51"
+          "2001:470:b8c5:400::50"
+          "2001:470:b8c5:400::51"
+        ];
       };
 
       # no extra config for servers and they share the same suffix
