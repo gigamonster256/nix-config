@@ -34,9 +34,9 @@
         programs.vesktop.enable = true;
         # programs.bitwarden.enable = true;
         programs.element.enable = true;
-        programs.libreoffice.enable = true;
+        # programs.libreoffice.enable = true;
         # programs.newsflash.enable = true;
-        # programs.onlyoffice.enable = true;
+        programs.onlyoffice.enable = true;
         # programs.prismlauncher.enable = true;
 
         # battery is set to charge to 80% max
