@@ -33,7 +33,6 @@
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
         # programs.bitwarden.enable = true;
-        programs.element.enable = true;
         # programs.libreoffice.enable = true;
         # programs.newsflash.enable = true;
         programs.onlyoffice.enable = true;
@@ -62,10 +61,6 @@
       name = "bitwarden";
       packageName = "bitwarden-desktop";
     }
-    {
-      name = "element";
-      packageName = "element-desktop";
-    }
     "newsflash"
     "prismlauncher"
     {
@@ -83,9 +78,6 @@
     };
     bitwarden = {
       directories = [ ".config/Bitwarden" ];
-    };
-    element = {
-      directories = [ ".config/Element" ];
     };
     newsflash = {
       directories = [
