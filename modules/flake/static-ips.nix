@@ -104,11 +104,12 @@ in
         ipv4Gateway = "172.16.15.1";
         ipv6Prefix = "2001:470:b8c5:400::";
         ipv6PrefixLength = 64;
+        ipv6Gateway = "fe80::aab8:e0ff:fe00:e184";
         dns = [
-          "172.16.15.50"
-          "172.16.15.51"
-          "2001:470:b8c5:400::50"
-          "2001:470:b8c5:400::51"
+          "172.16.15.50#ns1.nortonweb.org"
+          "172.16.15.51#ns2.nortonweb.org"
+          "2001:470:b8c5:400::50#ns1.nortonweb.org"
+          "2001:470:b8c5:400::51#ns2.nortonweb.org"
         ];
       };
 

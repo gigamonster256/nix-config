@@ -41,5 +41,12 @@ flake: {
 
       # Disable legacy networking DHCP
       networking.useDHCP = false;
+
+      # assume that if we're using static IPs, we are on the home network
+      # and can do DoT and DNSSEC to local resolvers
+      services.resolved = {
+        dnsovertls = "opportunistic";
+        # dnssec = "allow-downgrade";
+      };
     };
 }
