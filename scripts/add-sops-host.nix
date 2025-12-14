@@ -74,9 +74,6 @@
             exit 1
         fi
 
-        # Create a backup
-        cp "$SOPS_FILE" "$SOPS_FILE.bak"
-
         echo "Adding host '$HOSTNAME' to .sops.yaml..."
 
         # Add host to keys[1] (the hosts array) with anchor
@@ -93,8 +90,6 @@
         echo ""
         echo "Host anchor: &$HOSTNAME $AGE_KEY"
         echo "Secrets path: $SECRETS_PATH"
-        echo ""
-        echo "Backup saved to $SOPS_FILE.bak"
         echo ""
         echo "You may want to create the secrets file:"
         echo "  mkdir -p $(dirname "$SECRETS_PATH")"

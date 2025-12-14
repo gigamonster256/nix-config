@@ -6,6 +6,11 @@ keys:
     - &chnorton-fw age1wjf3y6jmkrt2snudreumyywlvs5ayavn7t85h80tg84w36zn0y6s4g6479
     - &chnorton-fw-home age1rpm2py98msyhap0j3xktk4pmgjwz7kjyau85gl97rudvwvr4jvwsc3tcvf
     - &tinyca age13x8k5d09s8su7uqerzzqmzttpvnzp7yc2drdqg79zuxl9sa9x4yqsqxshj
+    - &wyse-DX age1jv0t38jr2wg375m3pt9zac66gqfzrwq3zjhndcl24d7655zxru7sehu9wx
+    - &wyse-CW age1a4anutpxcpd86c8gzqdmq0r6efsrepz7ffaxxm7xsfkwykzztfusjdxnrw
+    - &wyse-91 age185nfx7khfudnqmr5tf0tswwrz8lvj9lzj9wk3fxx0txtza0xtcpsynna0l
+    - &wyse-F8 age10cp07v2kfvp7qh3wrhgadnjtvmeypgk0lnuutxkaejmfqp09rgts9lm0t6
+    - &wyse-F4 age1val5a9yql0kjz3zj2laedaznnl2zmhp63qllyvhxx8nx3794x9xq0zw7m8
 creation_rules:
   - path_regex: hosts/chnorton-fw/secrets.yaml$
     key_groups:
@@ -38,6 +43,36 @@ creation_rules:
           - *caleb
         age:
           - *chnorton-fw-home
+  - path_regex: hosts/wyse/DX/secrets.yaml$
+    key_groups:
+      - age:
+          - *wyse-DX
+        pgp:
+          - *caleb
+  - path_regex: hosts/wyse/CW/secrets.yaml$
+    key_groups:
+      - age:
+          - *wyse-CW
+        pgp:
+          - *caleb
+  - path_regex: hosts/wyse/91/secrets.yaml$
+    key_groups:
+      - age:
+          - *wyse-91
+        pgp:
+          - *caleb
+  - path_regex: hosts/wyse/F8/secrets.yaml$
+    key_groups:
+      - age:
+          - *wyse-F8
+        pgp:
+          - *caleb
+  - path_regex: hosts/wyse/F4/secrets.yaml$
+    key_groups:
+      - age:
+          - *wyse-F4
+        pgp:
+          - *caleb
 stores:
   yaml:
     indent: 2
