@@ -75,6 +75,10 @@
 
         # disable systemd-resolved to avoid conflicts with technitium dns server
         services.resolved.enable = false;
+
+        # disable tempAddress generation for privacy extensions
+        # ensures ips used in zone notification are stable
+        networking.tempAddresses = "disabled";
       };
   };
 }

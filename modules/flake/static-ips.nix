@@ -113,23 +113,35 @@ in
         ];
       };
 
-      # no extra config for servers and they share the same suffix
+      # servers share the same suffix
       mkServer =
         interface: suffix:
         mkServerHost interface {
           ipv4 = suffix;
           ipv6 = suffix;
-        } { };
+        };
 
       # Wyse hosts use enp1s0
       mkWyse = mkServer "enp1s0";
     in
     {
-      wyse-DX = mkWyse "50";
-      wyse-CW = mkWyse "51";
-      wyse-91 = mkWyse "52";
-      wyse-F8 = mkWyse "53";
-      wyse-F4 = mkWyse "54";
-      tinyca = mkServer "enu1u1u1" "20";
+      # dns servers should only have static (no dynamic privacy/mngtmpaddr addresses)
+      wyse-DX = mkWyse "50" {
+        networkConfig = {
+          IPv6PrivacyExtensions = false;
+          IPv6AcceptRA = false;
+        };
+      };
+      wyse-CW = mkWyse "51" {
+        networkConfig = {
+          IPv6PrivacyExtensions = false;
+          IPv6AcceptRA = false;
+        };
+      };
+
+      wyse-91 = mkWyse "52" { };
+      wyse-F8 = mkWyse "53" { };
+      wyse-F4 = mkWyse "54" { };
+      tinyca = mkServer "enu1u1u1" "20" { };
     };
 }
