@@ -35,13 +35,6 @@
 
         # ACME certificate using HTTP challenge
         security.acme = {
-          acceptTerms = true;
-          defaults = {
-            email = "admin@nortonweb.org";
-            server = "https://certs.nortonweb.org/acme/acme/directory";
-            webroot = "/var/lib/acme/acme-challenge";
-            renewInterval = "*-*-* 00/12:00:00";
-          };
           certs.${config.services.technitium-dns-server.hostName} = {
             # technitium likes to have the cert in pfx format
             # place it in the technitium dns server directory (private DynamicUser access)
