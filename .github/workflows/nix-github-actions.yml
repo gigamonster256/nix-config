@@ -80,7 +80,7 @@ jobs:
           extra-conf: accept-flake-config = true
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - run: nix build -L '.#${{ matrix.attr }}'
-      - uses: actions/upload-artifact@v5.0.0
+      - uses: actions/upload-artifact@v6.0.0
         with:
           retention-days: 7
           if-no-files-found: ignore
