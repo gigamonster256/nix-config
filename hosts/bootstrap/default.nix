@@ -20,6 +20,17 @@
 
         # smaller closure
         documentation.enable = false;
+        # use interpreterless initialization
+        system.nixos-init.enable = true;
+        # required for nixos-init
+        system.etc.overlay.enable = true;
+        services.userborn.enable = true; # or systemd.sysusers.enable
+        programs.nano.enable = false;
+        environment.defaultPackages = [ ];
+        nix = {
+          registry = lib.mkForce { };
+          nixPath = lib.mkForce [ ];
+        };
 
         # dummy value to satisfy base nixos configuration assertions
         fileSystems."/".device = "/dev/sda";

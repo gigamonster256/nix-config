@@ -28,7 +28,7 @@ let
       '';
 in
 {
-  unify.nixos =
+  unify.modules.desktop.nixos =
     { pkgs, config, ... }:
     {
       environment.defaultPackages = [

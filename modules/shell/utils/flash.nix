@@ -36,7 +36,7 @@
         '';
     };
 
-  unify.nixos =
+  unify.modules.desktop.nixos =
     { pkgs, ... }:
     {
       environment.defaultPackages = [

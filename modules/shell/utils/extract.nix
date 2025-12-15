@@ -68,8 +68,8 @@
 
   nixpkgs.allowedUnfreePackages = [ "unrar" ];
 
-  # install globally
-  unify.nixos =
+  # install to desktop environment by default
+  unify.modules.desktop.nixos =
     { pkgs, ... }:
     {
       environment.defaultPackages = [
