@@ -50,7 +50,7 @@ jobs:
         run: nix run --inputs-from . nixpkgs#nix-fast-build -- --skip-cached --no-nom --flake ".#ci.$(nix eval --raw --impure --expr builtins.currentSystem).${{ matrix.build }}"
       - name: Upload artifacts
         if: ${{ matrix.build == 'artifacts' }}
-        uses: actions/upload-artifact@v5.0.0
+        uses: actions/upload-artifact@v6.0.0
         with:
           retention-days: 7
           if-no-files-found: ignore
