@@ -25,18 +25,22 @@
         services.technitium-dns-server = {
           enable = lib.mkDefault true;
           openFirewall = true;
+          firewallUDPPorts = [
+            53 # DNS over UDP
+            853 # DNS over QUIC
+          ];
           firewallTCPPorts = [
             53 # DNS over TCP
             853 # DNS over TLS
-            5380 # Technitium web interface
-            53443 # Technitium web interface over HTTPS
+            # 5380 # Technitium web interface
+            # 53443 # Technitium web interface over HTTPS
           ];
         };
 
         # ACME certificate using HTTP challenge
         security.acme = {
           certs.${config.services.technitium-dns-server.hostName} = {
-            # technitium likes to have the cert in pfx format
+            # technitium likes to have the cert in pfx format for DoT usage
             # place it in the technitium dns server directory (private DynamicUser access)
             postRun = ''
               ${lib.getExe pkgs.openssl} pkcs12 -export -out "/var/lib/technitium-dns-server/tls.pfx" -inkey "key.pem" -in "cert.pem" -certfile "chain.pem" -keypbe NONE -certpbe NONE -passout pass:
@@ -45,26 +49,31 @@
           };
         };
 
-        # run nginx to serve ACME challenges
-        users.users.nginx.extraGroups = [ "acme" ];
+        networking.firewall.allowedTCPPorts = [
+          80
+          443
+        ];
         services.nginx = {
           enable = true;
           virtualHosts = {
             ${config.services.technitium-dns-server.hostName} = {
-              # Catchall vhost, will redirect users to HTTPS for all vhosts
-              # serverAliases = [ "*.example.com" ];
-              locations."/.well-known/acme-challenge" = {
-                root = config.security.acme.defaults.webroot;
+              enableACME = true;
+              forceSSL = true;
+              # TODO: TLS termination is a bit weird - re-think if I enable DoH
+              # 53 UDP/TCP regular DNS - no TLS
+              # 853 UDP/TCP DoT/DoQ - terminated by technitium
+              # 80/443 web interface - TLS terminated by nginx
+              # 53443 web interface - TLS terminated by technitium
+              locations."/" = {
+                proxyPass = "http://127.0.0.1:5380/";
               };
-              # locations."/" = {
-              #   return = "301 https://$host$request_uri";
+              # TODO: consider enabling DoH in the future
+              # locations."/dns-query" = {
+              #   proxyPass = "http://127.0.0.1:80/";
               # };
             };
           };
         };
-
-        # open port 80 for ACME HTTP challenge
-        networking.firewall.allowedTCPPorts = [ 80 ];
 
         # disable systemd-resolved to avoid conflicts with technitium dns server
         services.resolved.enable = false;
