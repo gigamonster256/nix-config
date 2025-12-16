@@ -81,6 +81,27 @@
         # disable tempAddress generation for privacy extensions
         # ensures ips used in zone notification are stable
         networking.tempAddresses = "disabled";
+
+        # TODO: make this better
+        # backup technitium dns server data to NFS mount
+        backup.fatman.enable = true;
+        systemd.services.backup-technitium-dns = {
+          description = "Backup Technitium DNS server data";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe pkgs.rsync} -a --delete /var/lib/technitium-dns-server/ /mnt/backup/technitium-dns/";
+          };
+          requires = [ "mnt-backup.mount" ];
+          after = [ "mnt-backup.mount" ];
+        };
+        systemd.timers.backup-technitium-dns = {
+          description = "Backup of Technitium DNS server data every 8 hours";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "*-*-* 00/8:00:00";
+            Persistent = true;
+          };
+        };
       };
   };
 }
