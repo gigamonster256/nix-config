@@ -33,7 +33,7 @@
             53 # DNS over TCP
             853 # DNS over TLS
             # 5380 # Technitium web interface
-            # 53443 # Technitium web interface over HTTPS
+            53443 # Technitium web interface over HTTPS
           ];
         };
 
