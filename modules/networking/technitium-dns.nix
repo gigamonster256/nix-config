@@ -13,8 +13,8 @@
       };
     };
 
-  unify.modules.technitium-dns = {
-    nixos =
+  unify.modules = {
+    technitium-dns.nixos =
       {
         lib,
         pkgs,
@@ -81,10 +81,18 @@
         # disable tempAddress generation for privacy extensions
         # ensures ips used in zone notification are stable
         networking.tempAddresses = "disabled";
+      };
 
+    backup.nixos =
+      {
+        lib,
+        pkgs,
+        config,
+        ...
+      }:
+      lib.mkIf config.services.technitium-dns-server.enable {
         # TODO: make this better
-        # backup technitium dns server data to NFS mount
-        backup.fatman.enable = true;
+        # possibly abstract it out to a reusable option with a list of paths to back up
         systemd.services.backup-technitium-dns = {
           description = "Backup Technitium DNS server data";
           serviceConfig = {
