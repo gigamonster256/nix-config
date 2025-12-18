@@ -25,6 +25,26 @@
             "$right"
           ];
         };
+        aliases = {
+          fresh = [
+            "new"
+            "trunk()"
+          ];
+          tug = [
+            "bookmark"
+            "move"
+            "--from"
+            "closest_bookmark(@)"
+            "--to"
+            "closest_pushable(@)"
+          ];
+        };
+        revset-aliases = {
+          "closest_bookmark(to)" = "heads(::to & bookmarks())";
+          "closest_pushable(to)" =
+            "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
+          "desc(x)" = "description(x)";
+        };
         signing = {
           behavior = "keep";
           backend = "gpg";
