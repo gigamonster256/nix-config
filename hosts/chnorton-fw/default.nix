@@ -33,6 +33,7 @@
           desktop
           # step-user
           # emulators
+          radicle
         ];
       };
     };
