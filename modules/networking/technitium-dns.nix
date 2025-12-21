@@ -97,7 +97,7 @@
           description = "Backup Technitium DNS server data";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${lib.getExe pkgs.rsync} -a --delete /var/lib/technitium-dns-server/ /mnt/backup/technitium-dns/";
+            ExecStart = "${lib.getExe pkgs.rsync} -a --no-owner --no-group --delete /var/lib/technitium-dns-server/ /mnt/backup/technitium-dns/";
           };
           requires = [ "mnt-backup.mount" ];
           after = [ "mnt-backup.mount" ];

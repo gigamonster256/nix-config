@@ -14,6 +14,7 @@
       inherit (config.networking) hostName;
     in
     {
+      # TODO: use restic instead?
       options.backup.fatman.enable = mkEnableOption "NFS backup mount to fatman.penguin";
 
       config = mkIf cfg.fatman.enable {

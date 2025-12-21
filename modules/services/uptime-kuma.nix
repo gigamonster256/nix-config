@@ -31,7 +31,7 @@
           description = "Backup Uptime Kuma data";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${lib.getExe pkgs.rsync} -a --delete /var/lib/uptime-kuma/ /mnt/backup/uptime-kuma/";
+            ExecStart = "${lib.getExe pkgs.rsync} -a --no-owner --no-group --delete /var/lib/uptime-kuma/ /mnt/backup/uptime-kuma/";
           };
           requires = [ "mnt-backup.mount" ];
           after = [ "mnt-backup.mount" ];

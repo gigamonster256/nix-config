@@ -51,7 +51,7 @@
         };
       };
     };
-    
+
     backup.nixos =
       {
         lib,
@@ -59,13 +59,14 @@
         config,
         ...
       }:
+      # FIXME: only backup config, not the repos themselves?
       lib.mkIf config.services.radicle.enable {
         # FIXME: unify the backup directories based on a nixos option
         systemd.services.backup-radicle = {
           description = "Backup Radicle data";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${lib.getExe pkgs.rsync} -a --delete /var/lib/radicle/ /mnt/backup/radicle/";
+            ExecStart = "${lib.getExe pkgs.rsync} -a --no-owner --no-group --delete /var/lib/radicle/ /mnt/backup/radicle/";
           };
           requires = [ "mnt-backup.mount" ];
           after = [ "mnt-backup.mount" ];
