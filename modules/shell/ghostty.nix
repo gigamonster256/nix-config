@@ -1,4 +1,16 @@
 {
+  # install ghostty terminfo to all hosts with ssh enabled
+  unify.nixos =
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
+    lib.mkIf config.services.openssh.enable {
+      environment.defaultPackages = [ pkgs.ghostty.terminfo ];
+    };
+
   unify.home =
     {
       lib,
