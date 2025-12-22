@@ -26,17 +26,42 @@
         name = "toggle-monitor-res";
         runtimeInputs = [ pkgs.jq ];
         text = ''
-          # Get current resolution of GIGA-BYTE monitor
-          CURRENT_RES=$(hyprctl monitors -j | jq -r '.[] | select(.description | contains("GIGA-BYTE")) | "\(.width)x\(.height)"')
+          MON_SPEC="''${1-}"
+          RES_A="''${2-}"
+          RES_B="''${3-}"
+          POSITION="''${4:-auto}"
+          SCALE_OVERRIDE="''${5-}"
 
-          # Toggle the resolution
-          if [ "$CURRENT_RES" = "1920x1080" ]; then
-              # Switch to preferred
-              hyprctl keyword monitor "desc:GIGA-BYTE,preferred,auto-center-left,auto"
-          else
-              # Switch to 1080p
-              hyprctl keyword monitor "desc:GIGA-BYTE,1920x1080,auto-center-left,auto"
+          if [ -z "$MON_SPEC" ] || [ -z "$RES_A" ] || [ -z "$RES_B" ]; then
+            echo "Usage: toggle-monitor-res <monitor> <res-a> <res-b> [position] [scale]" >&2
+            exit 1
           fi
+
+          MONITORS_JSON=$(hyprctl monitors -j)
+
+          # Pull monitor info by description (desc:XYZ) or name (e.g. eDP-1)
+          if [[ "$MON_SPEC" == desc:* ]]; then
+            DESC_QUERY="''${MON_SPEC#desc:}"
+            MONITOR_INFO=$(echo "$MONITORS_JSON" | jq --arg desc "$DESC_QUERY" 'map(select(.description | contains($desc))) | first')
+          else
+            MONITOR_INFO=$(echo "$MONITORS_JSON" | jq --arg name "$MON_SPEC" 'map(select(.name == $name)) | first')
+          fi
+
+          if [ -z "$MONITOR_INFO" ] || [ "$MONITOR_INFO" = "null" ]; then
+            echo "Monitor '$MON_SPEC' not found" >&2
+            exit 1
+          fi
+
+          CURRENT_RES=$(echo "$MONITOR_INFO" | jq -r '"\(.width)x\(.height)"')
+          CURRENT_SCALE=$(echo "$MONITOR_INFO" | jq -r '.scale // empty')
+          SCALE="''${SCALE_OVERRIDE:-''${CURRENT_SCALE:-1}}"
+
+          TARGET_RES="$RES_A"
+          if [ "$CURRENT_RES" = "$RES_A" ]; then
+            TARGET_RES="$RES_B"
+          fi
+
+          hyprctl keyword monitor "''${MON_SPEC},''${TARGET_RES},''${POSITION},''${SCALE}"
         '';
       };
     in
@@ -160,8 +185,9 @@
                 # Scroll through existing workspaces with mainMod + scroll
                 "$mainMod,mouse_down,workspace,e-1"
                 "$mainMod,mouse_up,workspace,e+1"
-                # Toggle external monitor resolution
-                "$mainMod,R,exec,${getExe toggle-monitor-res}"
+                # Toggle monitor resolutions
+                "$mainMod,R,exec,${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left"
+                "$mainMod,T,exec,${getExe toggle-monitor-res} desc:BOE 2256x1504 1920x1280"
               ]
               (
                 # screenshots using hyprshot
