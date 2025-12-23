@@ -24,7 +24,7 @@ creation_rules:
           - *littleboy
         pgp:
           - *caleb
-  - path_regex: hosts/modules/secrets.yaml$
+  - path_regex: modules/secrets/secrets.yaml$
     key_groups:
       - age:
           - *littleboy

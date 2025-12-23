@@ -46,6 +46,7 @@
           };
           "Caleb's iPhone".pskRaw = "ext:hotspot_psk";
           "Reveille Ranch Resident".pskRaw = "ext:rev_ranch_psk";
+          "SpectrumSetup-7E".pskRaw = "ext:gg_psk";
         };
       };
     };
