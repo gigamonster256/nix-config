@@ -16,11 +16,12 @@
       sops.secrets.wireless = mkIf cfg.enable {
         sopsFile = ../secrets/secrets.yaml;
         restartUnits = [ "wpa_supplicant.service" ];
+        owner = "wpa_supplicant";
       };
 
       networking.wireless = {
         enable = mkDefault true;
-        userControlled.enable = mkDefault true;
+        userControlled = mkDefault true;
         fallbackToWPA2 = mkDefault false;
         allowAuxiliaryImperativeNetworks = mkDefault false;
         secretsFile = config.sops.secrets.wireless.path;
