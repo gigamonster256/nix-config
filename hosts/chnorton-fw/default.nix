@@ -34,6 +34,7 @@
           # step-user
           # emulators
           radicle
+          trix
         ];
       };
     };
