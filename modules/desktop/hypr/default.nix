@@ -31,7 +31,7 @@
       # auto start on tty1
       programs.zsh.profileExtra = ''
         if [ "$(tty)" = "/dev/tty1" ] && [ -z "''${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
-          exec Hyprland
+          exec start-hyprland
         fi
       '';
     };

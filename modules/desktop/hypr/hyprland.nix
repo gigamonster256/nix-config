@@ -286,11 +286,54 @@
               ",XF86MonBrightnessDown,exec,brightnessctl s 10%-"
             ];
 
-            windowrulev2 = [
+            windowrule = [
               # Ignore maximize requests from apps.
-              "suppressevent maximize,class:.*"
+              {
+                name = "suppress-maximize-events";
+                match = {
+                  class = ".*";
+                };
+                suppress_event = "maximize";
+              }
               # Fix some dragging issues with XWayland
-              "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+              {
+                name = "fix-xwayland-drags";
+                match = {
+                  class = "^$";
+                  title = "^$";
+                  xwayland = true;
+                  float = true;
+                  fullscreen = false;
+                  pin = false;
+                };
+                no_focus = true;
+              }
+              # Ref https://wiki.hypr.land/Configuring/Workspace-Rules/
+              # "Smart gaps" / "No gaps when only"
+              # see associated workspace rules below
+              {
+                name = "no-gaps-wtv1";
+                match = {
+                  float = false;
+                  workspace = "w[tv1]";
+                };
+                border_size = 0;
+                # rounding = 0;
+              }
+              {
+                name = "no-gaps-f1";
+                match = {
+                  float = false;
+                  workspace = "f[1]";
+                };
+                border_size = 0;
+                # rounding = 0;
+              }
+            ];
+
+            workspace = [
+              "w[tv1], gapsout:0, gapsin:0"
+              "f[1], gapsout:0, gapsin:0"
             ];
           };
         };

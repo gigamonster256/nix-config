@@ -16,9 +16,13 @@
       services.hyprpaper = {
         enable = lib.mkDefault config.wayland.windowManager.hyprland.enable;
         settings = {
-          preload = [ "${wallpaper}" ];
-          # TODO: abstract monitors
-          wallpaper = [ "eDP-1,${wallpaper}" ];
+          wallpaper = [
+            {
+              monitor = "eDP-1";
+              path = "${wallpaper}";
+              # mode = "cover";
+            }
+          ];
         };
       };
     };
