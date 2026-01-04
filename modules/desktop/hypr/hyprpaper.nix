@@ -1,4 +1,18 @@
 {
+  nixpkgs.overlays = [
+    (final: prev: {
+      hyprpaper = prev.hyprpaper.overrideAttrs (oldAttrs: {
+        patches = oldAttrs.patches or [ ] ++ [
+          # wildcard monitor matching
+          (final.fetchpatch2 {
+            url = "https://patch-diff.githubusercontent.com/raw/hyprwm/hyprpaper/pull/315.patch?full_index=1";
+            hash = "sha256-RSwO6VUIFAVwAwY1DaIle72PP6xvmNM4TXpVmMF01ag=";
+          })
+        ];
+      });
+    })
+  ];
+
   unify.modules.desktop.home =
     {
       lib,
@@ -18,8 +32,8 @@
         settings = {
           wallpaper = [
             {
-              monitor = "eDP-1";
-              path = "${wallpaper}";
+              monitor = "*";
+              path = wallpaper.outPath;
               # mode = "cover";
             }
           ];
