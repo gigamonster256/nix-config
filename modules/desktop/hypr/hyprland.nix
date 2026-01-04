@@ -29,11 +29,10 @@
           MON_SPEC="''${1-}"
           RES_A="''${2-}"
           RES_B="''${3-}"
-          POSITION="''${4:-auto}"
-          SCALE_OVERRIDE="''${5-}"
+          POSITIONING="''${4:-auto}"
 
           if [ -z "$MON_SPEC" ] || [ -z "$RES_A" ] || [ -z "$RES_B" ]; then
-            echo "Usage: toggle-monitor-res <monitor> <res-a> <res-b> [position] [scale]" >&2
+            echo "Usage: toggle-monitor-res <monitor> <res-a,scale-a> <res-b,scale-b> [positioning]" >&2
             exit 1
           fi
 
@@ -53,15 +52,32 @@
           fi
 
           CURRENT_RES=$(echo "$MONITOR_INFO" | jq -r '"\(.width)x\(.height)"')
-          CURRENT_SCALE=$(echo "$MONITOR_INFO" | jq -r '.scale // empty')
-          SCALE="''${SCALE_OVERRIDE:-''${CURRENT_SCALE:-1}}"
+          CURRENT_SCALE=$(echo "$MONITOR_INFO" | jq -r '.scale')
 
-          TARGET_RES="$RES_A"
-          if [ "$CURRENT_RES" = "$RES_A" ]; then
-            TARGET_RES="$RES_B"
+          # Extract resolution and scale from arguments, using current scale if not provided
+          RES_A_RES="''${RES_A%,*}"
+          RES_A_SCALE="''${CURRENT_SCALE}"
+          if [[ "$RES_A" == *,* ]]; then
+            RES_A_SCALE="''${RES_A#*,}"
           fi
 
-          hyprctl keyword monitor "''${MON_SPEC},''${TARGET_RES},''${POSITION},''${SCALE}"
+          RES_B_RES="''${RES_B%,*}"
+          RES_B_SCALE="''${CURRENT_SCALE}"
+          if [[ "$RES_B" == *,* ]]; then
+            RES_B_SCALE="''${RES_B#*,}"
+          fi
+
+          # Compare current resolution with resolution B (without refresh rate)
+          RES_B_BASE="''${RES_B_RES%@*}"
+
+          TARGET_RES="$RES_A_RES"
+          TARGET_SCALE="$RES_A_SCALE"
+          if [ "$CURRENT_RES" != "$RES_B_BASE" ]; then
+            TARGET_RES="$RES_B_RES"
+            TARGET_SCALE="$RES_B_SCALE"
+          fi
+
+          hyprctl keyword monitor "''${MON_SPEC}, ''${TARGET_RES}, ''${POSITIONING}, ''${TARGET_SCALE}"
         '';
       };
     in
@@ -187,7 +203,7 @@
                 "$mainMod,mouse_up,workspace,e+1"
                 # Toggle monitor resolutions
                 "$mainMod,R,exec,${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left"
-                "$mainMod,T,exec,${getExe toggle-monitor-res} desc:BOE 2256x1504 1920x1280"
+                "$mainMod,T,exec,${getExe toggle-monitor-res} desc:BOE preferred 1920x1280"
               ]
               (
                 # screenshots using hyprshot
