@@ -6,6 +6,7 @@
       imports = [
         config.unify.modules.facter.nixos
         config.unify.modules.disko.nixos
+        config.unify.modules.node_exporter.nixos
       ];
       services.openssh.enable = true;
       users.users.root.openssh.authorizedKeys.keys = [
