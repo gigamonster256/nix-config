@@ -166,6 +166,31 @@
                 interfaces = vpnInterfaceNames;
               }
             );
+            tooltip = false;
+            menu = "on-click";
+            menu-file =
+              let
+                menu =
+                  builtins.toFile "waybar-vpn-menu.xml"
+                    # xml
+                    ''
+                      <?xml version="1.0" encoding="UTF-8"?>
+                      <interface>
+                        <object class="GtkMenu" id="menu">
+                          <child>
+                            <object class="GtkMenuItem" id="disable">
+                              <property name="label">Disable</property>
+                            </object>
+                          </child>
+                        </object>
+                      </interface>
+                    '';
+              in
+              menu;
+            menu-actions = {
+              # TODO: better method of setting
+              disable = "vpn-off";
+            };
             interval = 5;
             return-type = "json";
           };
