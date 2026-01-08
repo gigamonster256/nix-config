@@ -17,11 +17,9 @@
           user = lib.mkDefault "caleb";
         };
         sddm = {
-          # enable = true;
-          wayland.enable = lib.mkDefault false;
-          theme = lib.mkDefault "catppuccin-mocha";
-          # issue with missing sddm-greeter-qt6
-          package = lib.mkDefault pkgs.kdePackages.sddm;
+          enable = true;
+          wayland.enable = true;
+          theme = lib.mkDefault "catppuccin-mocha-mauve";
           autoLogin.relogin = lib.mkDefault config.services.displayManager.autoLogin.enable;
         };
       };
