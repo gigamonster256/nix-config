@@ -20,6 +20,7 @@
       vpn
       laptop
       # step-host
+      no-vts
     ];
 
     users = {
