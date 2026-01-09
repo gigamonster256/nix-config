@@ -104,6 +104,7 @@
                 "docker"
                 "wireshark"
                 "dialout"
+                "audio"
               ];
               shell = pkgs.zsh;
             };
