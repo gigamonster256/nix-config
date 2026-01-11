@@ -125,8 +125,8 @@
                   KeyringMode = "shared";
                   OOMScoreAdjust = 500;
                   ImportCredential = "cryptsetup.*";
-                  ExecStart = ''${cfg.package}/bin/systemd-cryptsetup attach '${attrs.name}' '${attrs.value.device}' '-' '${concatStringsSep "," extraOpts}' '';
-                  ExecStop = ''${cfg.package}/bin/systemd-cryptsetup detach '${attrs.name}' '';
+                  ExecStart = "${cfg.package}/bin/systemd-cryptsetup attach '${attrs.name}' '${attrs.value.device}' '-' '${concatStringsSep "," extraOpts}' ";
+                  ExecStop = "${cfg.package}/bin/systemd-cryptsetup detach '${attrs.name}' ";
                 };
                 after = [
                   "cryptsetup-pre.target"
