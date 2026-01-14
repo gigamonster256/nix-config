@@ -46,16 +46,7 @@
         if final.stdenv.hostPlatform.isDarwin then
           prev.ghostty-bin
         else
-          # https://github.com/NixOS/nixpkgs/commit/1dfa28594068cde0031ac471c48da20a18c67cd1
-          # until upstream ghostty updates their releasefast/default overlays
-          (inputs.ghostty.overlays.default final prev).ghostty.overrideAttrs (old: {
-            # default flags ("-Dcpu=baseline" "-Doptimize=ReleaseSafe") are now not overrideable
-            dontSetZigDefaultFlags = true;
-            zigBuildFlags = (old.zigBuildFlags or [ ]) ++ [
-              "-Dcpu=baseline"
-              "-Doptimize=ReleaseFast"
-            ];
-          });
+          (inputs.ghostty.overlays.default final prev).ghostty;
     };
 
     # flake-schemas = final: prev: {
