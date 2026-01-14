@@ -8,17 +8,20 @@
   };
 
   unify.modules.secrets.nixos =
-    { lib, ... }:
+    { lib, hostConfig, ... }:
     {
       imports = [
         inputs.sops-nix.nixosModules.sops
       ];
 
-      sops.age = {
-        sshKeyPaths = lib.mkDefault [
-          "/etc/ssh/ssh_host_ed25519_key"
-        ];
-        generateKey = lib.mkDefault false;
+      sops = {
+        defaultSopsFile = lib.mkDefault ../../hosts/${hostConfig.name}/secrets.yaml;
+        age = {
+          sshKeyPaths = lib.mkDefault [
+            "/etc/ssh/ssh_host_ed25519_key"
+          ];
+          generateKey = lib.mkDefault false;
+        };
       };
     };
 
