@@ -1,7 +1,17 @@
 { inputs, ... }:
 {
   nixpkgs.overlays = [
-    inputs.bussy.overlays.default
+    (final: prev: {
+      bussy = (inputs.bussy.overlays.default final prev).bussy.override {
+        # wyse hosts dont have avx support so use baseline build
+        bun = prev.bun.overrideAttrs (old: {
+          src = final.fetchurl {
+            url = "https://github.com/oven-sh/bun/releases/download/bun-v${old.version}/bun-linux-x64-baseline.zip";
+            hash = "sha256-a92s1qZYVWmLmBby10hx7aTdC3+pIRQMZEUkj5SnQv0=";
+          };
+        });
+      };
+    })
   ];
 
   unify.nixos =
