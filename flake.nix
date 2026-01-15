@@ -109,6 +109,10 @@
     # bus notifications service
     bussy.url = "github:gigamonster256/bussy";
     bussy.inputs.nixpkgs.follows = "nixpkgs";
+
+    # latest opencode dev desktop and cli
+    opencode.url = "github:gigamonster256/opencode/push-osnrnvnwzxsz";
+    opencode.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
