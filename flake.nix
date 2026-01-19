@@ -111,7 +111,7 @@
     bussy.inputs.nixpkgs.follows = "nixpkgs";
 
     # latest opencode dev desktop and cli
-    opencode.url = "github:gigamonster256/opencode/push-osnrnvnwzxsz";
+    opencode.url = "github:anomalyco/opencode";
     opencode.inputs.nixpkgs.follows = "nixpkgs";
   };
 
