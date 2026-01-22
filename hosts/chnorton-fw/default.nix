@@ -79,6 +79,11 @@
           sopsFile = ./secrets.yaml;
         };
 
+        sops.secrets.syncthing_key = {
+          owner = config.users.users.caleb.name;
+          inherit (config.users.users.caleb) group;
+        };
+
         laptop.lidDevice = "LID0";
 
         users = {
