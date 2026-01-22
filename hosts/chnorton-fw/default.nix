@@ -50,19 +50,13 @@
         imports = [
           inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
           # inputs.nix-index-database.nixosModules.nix-index
-          # home manager
-          (
-            { config, ... }:
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                # TODO: get rid of this
-                extraSpecialArgs = {
-                  systemConfig = config;
-                };
-              };
-            }
-          )
+          # is this even needed?
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+            };
+          }
+
         ];
 
         boot = {

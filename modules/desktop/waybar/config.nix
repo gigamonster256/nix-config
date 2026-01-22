@@ -4,7 +4,7 @@
       lib,
       pkgs,
       config,
-      systemConfig,
+      osConfig,
       ...
     }:
     {
@@ -18,11 +18,11 @@
           textIcon = text: i: "${text} ${icon i}";
           # TODO: refactor
           vpnInterfaceNames =
-            if systemConfig == null then
+            if osConfig == null then
               [ ]
             else
               builtins.concatMap builtins.attrNames (
-                with systemConfig.networking;
+                with osConfig.networking;
                 [
                   openconnect.interfaces
                   wg-quick.interfaces

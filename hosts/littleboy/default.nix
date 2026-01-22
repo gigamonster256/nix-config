@@ -29,19 +29,12 @@
       }:
       {
         imports = [
-          # home manager: TODO: remove this
-          (
-            { config, ... }:
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                # TODO: get rid of this
-                extraSpecialArgs = {
-                  systemConfig = config;
-                };
-              };
-            }
-          )
+          # not sure this is needed on littleboy
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+            };
+          }
         ];
         boot = {
           initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";

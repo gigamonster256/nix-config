@@ -56,19 +56,12 @@ let
                 inputs.self.modules.darwin.base
                 inputs.self.modules.darwin.style
                 # home manager
-                (
-                  { config, ... }:
-                  {
-                    home-manager = {
-                      useGlobalPkgs = true;
-                      # TODO: get rid of this
-                      extraSpecialArgs = {
-                        systemConfig = config;
-                      };
-                      sharedModules = homeManagerSharedModules;
-                    };
-                  }
-                )
+                {
+                  home-manager = {
+                    useGlobalPkgs = true;
+                    sharedModules = homeManagerSharedModules;
+                  };
+                }
               ];
             }
           );
@@ -94,10 +87,6 @@ let
                     inputs.self.modules.homeManager.standalone
                   ]
                   ++ homeManagerSharedModules;
-                  # pass the system configuration to home-manager modules that need it
-                  extraSpecialArgs = {
-                    systemConfig = null;
-                  };
                 }
               )
             )
