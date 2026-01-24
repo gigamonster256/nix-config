@@ -45,8 +45,10 @@ flake: {
       # assume that if we're using static IPs, we are on the home network
       # and can do DoT and DNSSEC to local resolvers
       services.resolved = {
-        dnsovertls = "opportunistic";
-        # dnssec = "allow-downgrade";
+        settings.Resolve = {
+          DNSOverTLS = "opportunistic";
+          # DNSSEC = "allow-downgrade";
+        };
       };
     };
 }
