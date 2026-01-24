@@ -5,7 +5,12 @@
       wyse
     ];
     nixos =
-      { config, ... }:
+      {
+        lib,
+        pkgs,
+        config,
+        ...
+      }:
       {
         networking.firewall.allowedTCPPorts = [
           80
@@ -80,6 +85,32 @@
             # datasources.settings.deleteDatasources = [ { name = "foo"; orgId = 1; } { name = "bar"; orgId = 1; } ];
           };
         };
+
+        # FIXME: lock down opnsense user privileges
+        sops.secrets = {
+          opnsense_api_key = { };
+          opnsense_api_secret = { };
+        };
+
+        # run the prometheus-opnsense-exporter to monitor the opnsense firewall beyond just node metrics
+        # FIXME: harden this service
+        # TODO: create a module for this - see pve exporter for example
+        systemd.services.prometheus-opnsense-exporter = {
+          enable = true;
+          wants = [ "network-online.target" ];
+          after = [ "network-online.target" ];
+          description = "Prometheus OPNsense Exporter";
+          environment = {
+            # OPNSENSE_EXPORTER_OPS_API_KEY = "";
+            # OPNSENSE_EXPORTER_OPS_API_SECRET = "";
+            OPS_API_KEY_FILE = config.sops.secrets.opnsense_api_key.path;
+            OPS_API_SECRET_FILE = config.sops.secrets.opnsense_api_secret.path;
+          };
+          serviceConfig = {
+            ExecStart = "${lib.getExe pkgs.prometheus-opnsense-exporter} --opnsense.protocol=https --opnsense.address=opnsense.penguin --exporter.instance-label=opnsense --web.listen-address=:8080";
+          };
+        };
+
         # TODO: setup tls/basic auth to scrape hosts and expose frontend through nginx?
         services.prometheus = {
           enable = true;
@@ -107,10 +138,38 @@
                 }
               ];
             }
+            {
+              job_name = "opnsense";
+              static_configs = [
+                {
+                  targets = [
+                    # TODO: pull port from the local prometheus-opnsense-exporter module
+                    "localhost:8080"
+                  ];
+                }
+              ];
+            }
           ];
         };
         # dont need node exporter on the prometheus server itself
         services.prometheus.exporters.node.openFirewall = false;
       };
   };
+
+  # TODO: remove when #483459 merged
+  nixpkgs.overlays = [
+    (final: prev: {
+      prometheus-opnsense-exporter = prev.prometheus-opnsense-exporter.overrideAttrs (
+        finalAttrs: _prevAttrs: {
+          version = "0.0.12";
+          src = final.fetchFromGitHub {
+            owner = "AthennaMind";
+            repo = "opnsense-exporter";
+            tag = "v${finalAttrs.version}";
+            hash = "sha256-k+o7zvCJypzbBdZQWlTosauvdk1E207H75+fjtE/Ckk=";
+          };
+        }
+      );
+    })
+  ];
 }
