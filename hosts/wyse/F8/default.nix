@@ -102,6 +102,7 @@
                       "wyse-DX.penguin:${port}"
                       "wyse-F4.penguin:${port}"
                       "opnsense.penguin:9100"
+                      "semaphore.penguin:9100"
                     ];
                 }
               ];
