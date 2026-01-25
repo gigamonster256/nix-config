@@ -1,0 +1,88 @@
+diff --git a/src/libdecor.c b/src/libdecor.c
+index fbe5f2d..3d0add6 100644
+--- a/src/libdecor.c
++++ b/src/libdecor.c
+@@ -112,6 +112,7 @@ struct libdecor_frame_private {
+ 	} state;
+ 
+ 	struct libdecor_configuration *pending_configuration;
++	bool is_configured;
+ 
+ 	int content_width;
+ 	int content_height;
+@@ -178,13 +179,24 @@ constrain_content_size(const struct libdecor_frame *frame,
+ static bool
+ frame_has_visible_client_side_decoration(struct libdecor_frame *frame)
+ {
++	struct libdecor_frame_private *frame_priv = frame->priv;
++
+ 	/* visibility by client configuration */
+-	const bool vis_client = frame->priv->visible;
+-	/* visibility by compositor configuration */
+-	const bool vis_server = (frame->priv->decoration_mode ==
+-				 ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE);
++	if (!frame_priv->visible)
++		return false;
+ 
+-	return vis_client && vis_server;
++	if (frame_priv->context->decoration_manager) {
++		/* We don't know the configuration before being configured, so
++		 * naively assume the intention from the compositor when
++		 * calculating that depends on whether the client side
++		 * decorations are visible or not.
++		 */
++		return (frame_priv->is_configured &&
++			(frame_priv->decoration_mode ==
++			 ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE));
++	} else {
++		return true;
++	}
+ }
+ 
+ LIBDECOR_EXPORT int
+@@ -357,6 +369,8 @@ xdg_surface_configure(void *user_data,
+ 	configuration = frame_priv->pending_configuration;
+ 	frame_priv->pending_configuration = NULL;
+ 
++	frame_priv->is_configured = true;
++
+ 	if (!configuration)
+ 		configuration = libdecor_configuration_new();
+ 
+@@ -1155,15 +1169,23 @@ libdecor_frame_apply_limits(struct libdecor_frame *frame,
+ 	 * configure event is received, we have to manually set the min/max
+ 	 * limits with the configured content size afterwards. */
+ 	if (!libdecor_frame_has_capability(frame, LIBDECOR_ACTION_RESIZE)) {
+-		frame_priv->state.content_limits.min_width =
++		if (frame_priv->state.content_limits.min_width == 0) {
++			frame_priv->state.content_limits.min_width =
+ 				frame_priv->content_width;
+-		frame_priv->state.content_limits.max_width =
++		}
++		if (frame_priv->state.content_limits.max_width == 0) {
++			frame_priv->state.content_limits.max_width =
+ 				frame_priv->content_width;
++		}
+ 
+-		frame_priv->state.content_limits.min_height =
++		if (frame_priv->state.content_limits.min_height == 0) {
++			frame_priv->state.content_limits.min_height =
+ 				frame_priv->content_height;
+-		frame_priv->state.content_limits.max_height =
++		}
++		if (frame_priv->state.content_limits.max_height == 0) {
++			frame_priv->state.content_limits.max_height =
+ 				frame_priv->content_height;
++		}
+ 	}
+ 
+ 	if (frame_priv->state.content_limits.min_width > 0 &&
+@@ -1262,6 +1284,8 @@ do_map(struct libdecor_frame *frame)
+ {
+ 	struct libdecor_frame_private *frame_priv = frame->priv;
+ 
++	libdecor_frame_apply_limits(frame, frame_priv->window_state);
++
+ 	frame_priv->pending_map = false;
+ 	wl_surface_commit(frame_priv->wl_surface);
+ }
