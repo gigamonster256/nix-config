@@ -87,10 +87,8 @@
         };
 
         # FIXME: lock down opnsense user privileges
-        sops.secrets = {
-          opnsense_api_key = { };
-          opnsense_api_secret = { };
-        };
+        sops.secrets.opnsense_api_key = { };
+        sops.secrets.opnsense_api_secret = { };
 
         # run the prometheus-opnsense-exporter to monitor the opnsense firewall beyond just node metrics
         # FIXME: harden this service
@@ -100,6 +98,7 @@
           wants = [ "network-online.target" ];
           after = [ "network-online.target" ];
           description = "Prometheus OPNsense Exporter";
+          # TODO: use environmentFile and sops secret like pve exporter?
           environment = {
             # OPNSENSE_EXPORTER_OPS_API_KEY = "";
             # OPNSENSE_EXPORTER_OPS_API_SECRET = "";
@@ -109,6 +108,23 @@
           serviceConfig = {
             ExecStart = "${lib.getExe pkgs.prometheus-opnsense-exporter} --opnsense.protocol=https --opnsense.address=opnsense.penguin --exporter.instance-label=opnsense --web.listen-address=:8080";
           };
+        };
+
+        # FIXME: lock down credentials access
+        # TODO: use templated secrets with a config file?
+        sops.secrets.proxmox_env_file = {
+          restartUnits = [ config.systemd.services.prometheus-pve-exporter.name ];
+        };
+
+        # run the pve exporter to monitor proxmox hosts
+        services.prometheus.exporters.pve = {
+          enable = true;
+          environmentFile = config.sops.secrets.proxmox_env_file.path;
+        };
+
+        # make the python requests library use the system certs
+        systemd.services.prometheus-pve-exporter.environment = {
+          REQUESTS_CA_BUNDLE = config.security.pki.caBundle;
         };
 
         # TODO: setup tls/basic auth to scrape hosts and expose frontend through nginx?
@@ -146,6 +162,37 @@
                     # TODO: pull port from the local prometheus-opnsense-exporter module
                     "localhost:8080"
                   ];
+                }
+              ];
+            }
+            {
+              job_name = "pve";
+              static_configs = [
+                {
+                  targets = [
+                    "semaphore.penguin:8006"
+                  ];
+                }
+              ];
+              # scrape local pve exporter by relabelling
+              metrics_path = "/pve";
+              params = {
+                module = [ "default" ];
+                # cluster = [ "1" ];
+                # node = [ "1" ];
+              };
+              relabel_configs = [
+                {
+                  source_labels = [ "__address__" ];
+                  target_label = "__param_target";
+                }
+                {
+                  source_labels = [ "__param_target" ];
+                  target_label = "instance";
+                }
+                {
+                  target_label = "__address__";
+                  replacement = "localhost:${toString config.services.prometheus.exporters.pve.port}"; # the pve exporter's real hostname:port
                 }
               ];
             }
