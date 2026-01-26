@@ -10,10 +10,6 @@
     {
       programs.waybar.settings.mainBar =
         let
-          inherit (lib)
-            getExe
-            mkIf
-            ;
           icon = symbol: "<span font_desc='Font Awesome 7 Free'>${symbol}</span>";
           textIcon = text: i: "${text} ${icon i}";
           # TODO: refactor
@@ -75,12 +71,13 @@
               ""
               ""
             ];
-            on-click = getExe pkgs.pwvucontrol;
+            on-click = lib.getExe pkgs.pwvucontrol;
           };
           network = {
             format-disconnected = textIcon "Disconnected" "⚠";
             format-ethernet = textIcon "{ipaddr}" "";
             format-wifi = textIcon "{essid}" "";
+            on-click = "${lib.getExe' pkgs.util-linux "rfkill"} toggle wifi";
           };
           cpu = {
             format = textIcon "{usage}%" "";
@@ -132,9 +129,9 @@
               connected = "";
               disconnected = "";
             };
-            on-click = "${getExe config.programs.ghostty.package} -e ${getExe pkgs.bluetui}";
+            on-click = "${lib.getExe config.programs.ghostty.package} -e ${lib.getExe pkgs.bluetui}";
           };
-          "custom/fnott" = mkIf config.services.fnott.enable {
+          "custom/fnott" = lib.mkIf config.services.fnott.enable {
             format = icon "{text}";
             tooltip = false;
             interval = 5;
@@ -159,9 +156,9 @@
               fi
             '';
           };
-          "custom/vpn" = mkIf (vpnInterfaceNames != [ ]) {
+          "custom/vpn" = lib.mkIf (vpnInterfaceNames != [ ]) {
             format = "{text}";
-            exec = getExe (
+            exec = lib.getExe (
               pkgs.waybar-vpn-status.override {
                 interfaces = vpnInterfaceNames;
               }
@@ -197,7 +194,7 @@
           "custom/wlogout" = {
             format = icon "";
             interval = "once";
-            on-click = getExe config.programs.wlogout.package;
+            on-click = lib.getExe config.programs.wlogout.package;
             tooltip = false; # disable tooltip
           };
         };
