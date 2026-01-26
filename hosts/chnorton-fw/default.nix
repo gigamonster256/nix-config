@@ -21,6 +21,7 @@
       laptop
       # step-host
       no-vts
+      crypto
     ];
 
     users = {

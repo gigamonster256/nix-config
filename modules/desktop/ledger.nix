@@ -15,9 +15,10 @@
       KERNEL=="hidraw*", ATTRS{idVendor}=="2c97", MODE="0666"
     '';
 
-  unify.modules.desktop.nixos =
+  unify.modules.crypto.nixos =
     { pkgs, ... }:
     {
       services.udev.packages = [ pkgs.ledger-udev-rules ];
+      environment.systemPackages = [ pkgs.ledger-live-desktop ];
     };
 }
