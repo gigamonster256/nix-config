@@ -37,6 +37,7 @@
           # emulators
           radicle
           trix
+          crypto
         ];
       };
     };
