@@ -48,7 +48,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up Nothing But Nix
-        uses: wimpysworld/nothing-but-nix@v6
+        uses: wimpysworld/nothing-but-nix@v9
         with:
           hatchet-protocol: 'cleave' # Options: holster, carve, cleave (default), rampage
       - uses: DeterminateSystems/nix-installer-action@v20
@@ -72,7 +72,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up Nothing But Nix
-        uses: wimpysworld/nothing-but-nix@v6
+        uses: wimpysworld/nothing-but-nix@v9
         with:
           hatchet-protocol: 'cleave' # Options: holster, carve, cleave (default), rampage
       - uses: DeterminateSystems/nix-installer-action@v20
