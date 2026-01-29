@@ -106,6 +106,7 @@
                 "wireshark"
                 "dialout"
                 "audio"
+                "wpa_supplicant"
               ];
               shell = pkgs.zsh;
             };
