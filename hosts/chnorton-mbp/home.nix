@@ -7,7 +7,7 @@
           packages = builtins.attrValues {
             inherit (pkgs)
               pinentry_mac
-              vscode
+              # vscode
               net-news-wire
               wireshark
               # element-desktop # failed to check atool version. Is Xcode 26 or higher installed?
