@@ -106,7 +106,7 @@
             OPS_API_SECRET_FILE = config.sops.secrets.opnsense_api_secret.path;
           };
           serviceConfig = {
-            ExecStart = "${lib.getExe pkgs.prometheus-opnsense-exporter} --opnsense.protocol=https --opnsense.address=opnsense.penguin --exporter.instance-label=opnsense --web.listen-address=:8080";
+            ExecStart = "${lib.getExe pkgs.prometheus-opnsense-exporter} --opnsense.protocol=https --opnsense.address=opnsense.penguin --exporter.instance-label=opnsense --web.listen-address=[::1]:8080";
           };
         };
 
