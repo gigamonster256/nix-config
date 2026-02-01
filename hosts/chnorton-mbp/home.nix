@@ -10,7 +10,7 @@
               vscode
               net-news-wire
               wireshark
-              element-desktop
+              # element-desktop # failed to check atool version. Is Xcode 26 or higher installed?
               bitwarden-desktop
               trilium-next-desktop
               # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933
