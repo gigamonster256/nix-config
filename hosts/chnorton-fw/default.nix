@@ -117,6 +117,17 @@
 
         # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
         system.stateVersion = "25.11";
+
+        # try out niri
+        programs.niri.enable = true;
+        # services.displayManager.defaultSession = "niri";
+        services.displayManager.autoLogin.enable = false;
       };
+  };
+
+  persistence.programs.nixos-home = {
+    niri = {
+      directories = [ ".config/niri" ];
+    };
   };
 }

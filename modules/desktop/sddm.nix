@@ -11,9 +11,10 @@
         # defaultSession = "hyprland-uwsm"; # default is first installed desktop (fine if only 1 installed)
         # FIXME: dont hardcode this
         autoLogin = {
-          enable =
+          enable = lib.mkDefault (
             config.services.displayManager.sessionData ? sessionNames
-            && config.services.displayManager.sessionData.sessionNames != [ ]; # some window manager is enabled
+            && config.services.displayManager.sessionData.sessionNames != [ ]
+          ); # some window manager is enabled
           user = lib.mkDefault "caleb";
         };
         sddm = {
