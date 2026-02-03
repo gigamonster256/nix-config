@@ -101,11 +101,6 @@
     persistence.inputs.flake-parts.follows = "flake-parts";
     persistence.inputs.impermanence.follows = "impermanence";
     persistence.inputs.import-tree.follows = "import-tree";
-
-    # interesting experiment
-    trix.url = "github:aanderse/trix";
-    trix.inputs.nixpkgs.follows = "nixpkgs";
-
     # bus notifications service
     bussy.url = "github:gigamonster256/bussy";
     bussy.inputs.nixpkgs.follows = "nixpkgs";

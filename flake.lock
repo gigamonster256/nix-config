@@ -993,7 +993,6 @@
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix_2",
-        "trix": "trix",
         "unify": "unify"
       }
     },
@@ -1346,26 +1345,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "trix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1767401921,
-        "narHash": "sha256-kpYv1uA0j87T397TS8xZe+FLN5GMuTF3rkzsZJ1ofAI=",
-        "owner": "aanderse",
-        "repo": "trix",
-        "rev": "10ef25c2370b69b51158629dfe79d9306ad60dc9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aanderse",
-        "repo": "trix",
         "type": "github"
       }
     },

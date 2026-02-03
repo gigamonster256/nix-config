@@ -36,7 +36,6 @@
           # step-user
           # emulators
           radicle
-          trix
           crypto
         ];
       };
