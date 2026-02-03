@@ -129,7 +129,7 @@
               connected = "";
               disconnected = "";
             };
-            on-click = "${lib.getExe config.programs.ghostty.package} -e ${lib.getExe pkgs.bluetui}";
+            on-click = "${lib.getExe config.programs.ghostty.package} --keybind=clear -e ${lib.getExe pkgs.bluetui}";
           };
           "custom/fnott" = lib.mkIf config.services.fnott.enable {
             format = icon "{text}";
