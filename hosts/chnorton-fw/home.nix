@@ -1,7 +1,12 @@
 {
   unify.hosts.nixos.chnorton-fw.nixos = {
     home-manager.users.caleb =
-      { lib, pkgs, osConfig, ... }:
+      {
+        lib,
+        pkgs,
+        osConfig,
+        ...
+      }:
       {
         home.packages = builtins.attrValues {
           inherit (pkgs)
