@@ -4,24 +4,25 @@
       lib,
       fetchFromGitHub,
       rustPlatform,
+      git,
       jujutsu,
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "jj-ryu";
-      version = "0.0.1-alpha.8";
+      version = "0.0.1-alpha.11";
 
       src = fetchFromGitHub {
         owner = "dmmulroy";
         repo = "jj-ryu";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-Bu36QhHKawZiDN8+0hnltjm4m+ulQmvHUYjqodRHsE8=";
+        hash = "sha256-gE4lvqyC2LRAWNDUGePklORWjyEofs/dHLHVBAub424=";
       };
 
-      cargoHash = "sha256-uKAQ3yuPIO4nXKUCuMSjqQCQ0WEWKlBWJtuaA60jGvA=";
+      cargoHash = "sha256-OD1DpV4s6tgOnDEAfJWScdSKqtYArbqIJVClOtUCYa4=";
 
-      nativeCheckInputs = [ jujutsu ];
+      nativeCheckInputs = [ git jujutsu ];
 
-      meta = with lib; {
+      meta = {
         description = "Stacked PRs for Jujutsu";
         homepage = "https://github.com/dmmulroy/jj-ryu";
         # license =
