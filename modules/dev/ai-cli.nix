@@ -2,9 +2,7 @@
 {
   nixpkgs.overlays = [
     # bring in opencode dev
-    (final: _prev: {
-      inherit (inputs.opencode.packages.${final.stdenv.hostPlatform.system}) opencode;
-    })
+    inputs.opencode.overlays.default
   ];
 
   unify.modules.dev.home =
