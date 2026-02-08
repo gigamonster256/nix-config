@@ -77,7 +77,6 @@
       packageName = "bitwarden-desktop";
     }
     "newsflash"
-    "prismlauncher"
     {
       name = "libreoffice";
       packageName = "libreoffice-fresh";
