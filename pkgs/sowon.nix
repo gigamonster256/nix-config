@@ -4,7 +4,11 @@
       lib,
       stdenv,
       fetchFromGitHub,
-      xorg,
+      libx11,
+      libxrandr,
+      libxcursor,
+      libxi,
+      libxext,
       libGL,
       withPenger ? true,
     }:
@@ -22,11 +26,11 @@
       # FIXME: RGFW has experimental support for Wayland with fallback to X11...
       # try to enable it sometime?
       buildInputs = [
-        xorg.libX11
-        xorg.libXrandr
-        xorg.libXcursor
-        xorg.libXext
-        xorg.libXi
+        libx11
+        libxrandr
+        libxcursor
+        libxext
+        libxi
         libGL
       ];
 
@@ -41,8 +45,7 @@
       NIX_CFLAGS_COMPILE = [
         "-DRGFW_NO_X11_CURSOR_PRELOAD"
         "-DRGFW_NO_X11_EXT_PRELOAD"
-      ]
-      ++ lib.optional withPenger "-DPENGER";
+      ] ++ lib.optional withPenger "-DPENGER";
 
       makeFlags = [ "PREFIX=$(out)" ];
 
