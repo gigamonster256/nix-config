@@ -46,7 +46,7 @@
         if final.stdenv.hostPlatform.isDarwin then
           prev.ghostty-bin
         else
-          (inputs.ghostty.overlays.default final prev).ghostty;
+          (inputs.ghostty.overlays.default final prev).ghostty.override { enableX11 = false; };
     };
 
     # flake-schemas = final: prev: {
