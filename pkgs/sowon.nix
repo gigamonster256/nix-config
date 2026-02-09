@@ -45,7 +45,8 @@
       NIX_CFLAGS_COMPILE = [
         "-DRGFW_NO_X11_CURSOR_PRELOAD"
         "-DRGFW_NO_X11_EXT_PRELOAD"
-      ] ++ lib.optional withPenger "-DPENGER";
+      ]
+      ++ lib.optional withPenger "-DPENGER";
 
       makeFlags = [ "PREFIX=$(out)" ];
 

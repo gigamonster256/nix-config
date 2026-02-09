@@ -1,7 +1,6 @@
 {
   packages.jj-ryu =
     {
-      lib,
       fetchFromGitHub,
       rustPlatform,
       git,
@@ -20,7 +19,10 @@
 
       cargoHash = "sha256-OD1DpV4s6tgOnDEAfJWScdSKqtYArbqIJVClOtUCYa4=";
 
-      nativeCheckInputs = [ git jujutsu ];
+      nativeCheckInputs = [
+        git
+        jujutsu
+      ];
 
       meta = {
         description = "Stacked PRs for Jujutsu";
