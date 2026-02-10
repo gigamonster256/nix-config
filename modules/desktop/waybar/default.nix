@@ -7,19 +7,14 @@
       ...
     }:
     let
-      inherit (lib)
-        mkIf
-        mkMerge
-        mkAfter
-        ;
       cfg = config.programs.waybar;
     in
-    mkMerge [
+    lib.mkMerge [
       {
         programs.waybar = {
-          inherit (config.wayland.windowManager.hyprland) enable;
+          enable = config.wayland.windowManager.hyprland.enable && !config.programs.noctalia-shell.enable;
           # after stylix color definitions
-          style = mkAfter (builtins.readFile ./style.css);
+          style = lib.mkAfter (builtins.readFile ./style.css);
           systemd = {
             enable = true;
             # enableInspect = true;
@@ -31,7 +26,7 @@
           font = "sansSerif";
         };
       }
-      (mkIf cfg.enable {
+      (lib.mkIf cfg.enable {
         fonts.fontconfig.enable = true;
         home.packages = [
           pkgs.font-awesome

@@ -1,12 +1,14 @@
 {
   unify.modules.desktop.home =
-    { lib, config, ... }:
-    let
-      inherit (lib) mkIf;
-    in
-    mkIf config.wayland.windowManager.hyprland.enable {
+    {
+      lib,
+      config,
+      ...
+    }:
+    # FIXME: decouple from hyprland
+    lib.mkIf config.wayland.windowManager.hyprland.enable {
       services.fnott = {
-        enable = true;
+        enable = lib.mkDefault (!config.programs.noctalia-shell.enable);
         settings = {
           main = {
             default-timeout = 10;
