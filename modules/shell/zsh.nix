@@ -7,21 +7,16 @@
       ...
     }:
     let
-      inherit (lib)
-        mkDefault
-        getExe
-        mkOrder
-        ;
       cfg = config.programs.zsh;
     in
     {
 
       programs.zsh = {
-        syntaxHighlighting.enable = mkDefault true;
-        autosuggestion.enable = mkDefault true;
+        syntaxHighlighting.enable = lib.mkDefault true;
+        autosuggestion.enable = lib.mkDefault true;
         # historySubstringSearch.enable = true;
         initContent =
-          mkOrder 550
+          lib.mkOrder 550
             # bash
             ''
               # Plugins
@@ -41,7 +36,7 @@
 
               # Shell integrations
               # fzf
-              eval "$(${getExe pkgs.fzf} --zsh)"
+              eval "$(${lib.getExe pkgs.fzf} --zsh)"
               # catppuccin mocha theme
               export FZF_DEFAULT_OPTS=" \
                 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
@@ -61,8 +56,10 @@
       );
 
       home.shellAliases = {
-        l = mkDefault "ls";
-        gr = mkDefault "cd $(git rev-parse --show-toplevel)";
+        l = "ls";
+        gr = "cd $(git rev-parse --show-toplevel)";
+        sc = "systemctl";
+        scu = "systemctl --user";
       };
     };
 }

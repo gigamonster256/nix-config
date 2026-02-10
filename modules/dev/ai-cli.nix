@@ -16,6 +16,9 @@
     }:
     {
       programs.opencode.enable = lib.mkDefault true;
+      home.shellAliases = lib.mkIf config.programs.opencode.enable {
+        oc = lib.getExe config.programs.opencode.package;
+      };
       # programs.gemini-cli.enable = lib.mkDefault true;
 
       systemd.user.services.opencode = {
