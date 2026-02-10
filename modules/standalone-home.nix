@@ -16,6 +16,8 @@ flake: {
               EnvironmentFile = "/home/chnorton/.config/opencode/env";
             };
           };
+          # use school email
+          programs.git.settings.user.email = "chnorton@tamu.edu";
         };
     };
   };
