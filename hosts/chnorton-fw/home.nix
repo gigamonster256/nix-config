@@ -64,8 +64,14 @@
           cert = "${./syncthing-cert.pem}";
           key = osConfig.sops.secrets.syncthing_key.path;
         };
+
+        programs.google-chrome.enable = true;
       };
   };
+
+  nixpkgs.allowedUnfreePackages = [
+    "google-chrome"
+  ];
 
   persistence.wrappers.homeManager = [
     {
@@ -108,6 +114,11 @@
       directories = [
         ".config/libreoffice"
         # ".local/share/libreoffice"
+      ];
+    };
+    google-chrome = {
+      directories = [
+        ".config/google-chrome"
       ];
     };
   };
