@@ -64,14 +64,8 @@
           cert = "${./syncthing-cert.pem}";
           key = osConfig.sops.secrets.syncthing_key.path;
         };
-
-        programs.google-chrome.enable = true;
       };
   };
-
-  nixpkgs.allowedUnfreePackages = [
-    "google-chrome"
-  ];
 
   persistence.wrappers.homeManager = [
     {
