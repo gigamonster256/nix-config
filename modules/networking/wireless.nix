@@ -6,24 +6,20 @@
       ...
     }:
     let
-      inherit (lib)
-        mkDefault
-        mkIf
-        ;
       cfg = config.networking.wireless;
     in
     {
-      sops.secrets.wireless = mkIf cfg.enable {
+      sops.secrets.wireless = lib.mkIf cfg.enable {
         sopsFile = ../secrets/secrets.yaml;
         restartUnits = [ "wpa_supplicant.service" ];
         owner = "wpa_supplicant";
       };
 
       networking.wireless = {
-        enable = mkDefault true;
-        userControlled = mkDefault true;
-        fallbackToWPA2 = mkDefault false;
-        allowAuxiliaryImperativeNetworks = mkDefault false;
+        enable = lib.mkDefault true;
+        userControlled = lib.mkDefault true;
+        fallbackToWPA2 = lib.mkDefault false;
+        allowAuxiliaryImperativeNetworks = lib.mkDefault false;
         secretsFile = config.sops.secrets.wireless.path;
         networks = {
           "Penguin Plaza".pskRaw = "ext:home_psk";

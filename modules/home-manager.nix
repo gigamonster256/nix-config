@@ -7,9 +7,6 @@
       pkgs,
       ...
     }:
-    let
-      inherit (lib) mkDefault optionalAttrs;
-    in
     {
       imports = [ inputs.nix-index-database.homeModules.nix-index ];
 
@@ -39,7 +36,7 @@
               # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
               ;
           }
-          // (optionalAttrs pkgs.stdenv.isLinux {
+          // (lib.optionalAttrs pkgs.stdenv.isLinux {
             inherit (pkgs)
               file
               usbutils
@@ -47,7 +44,7 @@
           })
         );
         # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-        stateVersion = mkDefault "23.11";
+        stateVersion = lib.mkDefault "23.11";
       };
 
       home.shellAliases = {

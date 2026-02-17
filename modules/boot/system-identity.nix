@@ -9,23 +9,12 @@
       ...
     }:
     let
-      inherit (lib)
-        head
-        optional
-        foldl'
-        nameValuePair
-        listToAttrs
-        concatStringsSep
-        sortOn
-        mkIf
-        mkOption
-        types
-        ;
+      inherit (lib) types;
     in
     {
       options = {
         systemIdentity = {
-          pcr15 = mkOption {
+          pcr15 = lib.mkOption {
             type = types.nullOr types.str;
             default = null;
             description = ''
@@ -43,14 +32,14 @@
           };
         };
         boot.initrd.luks.devices = lib.mkOption {
-          type =
-            with lib.types;
-            attrsOf (submodule {
+          type = lib.types.attrsOf (
+            lib.types.submodule {
               config.crypttabExtraOpts = [
                 "tpm2-device=auto"
                 "tpm2-measure-pcr=yes"
               ];
-            });
+            }
+          );
         };
       };
       config = {
@@ -82,7 +71,7 @@
           jq = lib.getExe pkgs.jq;
         };
         boot.initrd.systemd.services = {
-          check-pcrs = mkIf (config.systemIdentity.pcr15 != null) {
+          check-pcrs = lib.mkIf (config.systemIdentity.pcr15 != null) {
             script = ''
               echo "Checking PCR 15 value"
               if [[ $(systemd-analyze pcrs 15 --json=short | jq -r ".[0].sha256") != "${config.systemIdentity.pcr15}" ]] ; then
@@ -102,15 +91,15 @@
             requiredBy = [ "sysroot.mount" ];
           };
         }
-        // (listToAttrs (
-          foldl' (
+        // (lib.listToAttrs (
+          lib.foldl' (
             acc: attrs:
             let
-              extraOpts = attrs.value.crypttabExtraOpts ++ (optional attrs.value.allowDiscards "discard");
+              extraOpts = attrs.value.crypttabExtraOpts ++ lib.optional attrs.value.allowDiscards "discard";
               cfg = config.boot.initrd.systemd;
             in
             [
-              (nameValuePair "cryptsetup-${attrs.name}" {
+              (lib.nameValuePair "cryptsetup-${attrs.name}" {
                 unitConfig = {
                   Description = "Cryptography setup for ${attrs.name}";
                   DefaultDependencies = "no";
@@ -125,7 +114,7 @@
                   KeyringMode = "shared";
                   OOMScoreAdjust = 500;
                   ImportCredential = "cryptsetup.*";
-                  ExecStart = "${cfg.package}/bin/systemd-cryptsetup attach '${attrs.name}' '${attrs.value.device}' '-' '${concatStringsSep "," extraOpts}' ";
+                  ExecStart = "${cfg.package}/bin/systemd-cryptsetup attach '${attrs.name}' '${attrs.value.device}' '-' '${lib.concatStringsSep "," extraOpts}' ";
                   ExecStop = "${cfg.package}/bin/systemd-cryptsetup detach '${attrs.name}' ";
                 };
                 after = [
@@ -133,8 +122,8 @@
                   "systemd-udevd-kernel.socket"
                   "${utils.escapeSystemdPath attrs.value.device}.device"
                 ]
-                ++ (optional cfg.tpm2.enable "systemd-tpm2-setup-early.service")
-                ++ optional (acc != [ ]) "${(head acc).name}.service";
+                ++ lib.optional cfg.tpm2.enable "systemd-tpm2-setup-early.service"
+                ++ lib.optional (acc != [ ]) "${(lib.head acc).name}.service";
                 before = [
                   "blockdev@dev-mapper-${attrs.name}.target"
                   "cryptsetup.target"
@@ -145,7 +134,7 @@
               })
             ]
             ++ acc
-          ) [ ] (sortOn (x: x.name) (lib.attrsets.attrsToList config.boot.initrd.luks.devices))
+          ) [ ] (lib.sortOn (x: x.name) (lib.attrsets.attrsToList config.boot.initrd.luks.devices))
         ));
       };
     };

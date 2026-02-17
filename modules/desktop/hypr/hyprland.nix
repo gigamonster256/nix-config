@@ -16,11 +16,7 @@
       ...
     }:
     let
-      inherit (lib)
-        mkMerge
-        getExe
-        optionals
-        ;
+      inherit (lib) getExe;
 
       toggle-monitor-res = pkgs.writeShellApplication {
         name = "toggle-monitor-res";
@@ -81,7 +77,7 @@
         '';
       };
     in
-    mkMerge [
+    lib.mkMerge [
       {
         wayland.windowManager.hyprland = {
           settings = {
@@ -239,7 +235,7 @@
               (
                 # keybinds if other modules are enabled
                 let
-                  moduleBinds = { module, binds }: optionals module.enable (binds module);
+                  moduleBinds = { module, binds }: lib.optionals module.enable (binds module);
                   moduleKeybinds = [
                     {
                       module = config.programs.hyprlock;

@@ -7,25 +7,19 @@
       ...
     }:
     let
-      inherit (lib)
-        mkIf
-        getExe
-        toLower
-        lists
-        listToAttrs
-        ;
+      inherit (lib) lists;
       inherit (config.services) sketchybar;
     in
     {
       services.aerospace.settings = {
-        gaps.outer = mkIf sketchybar.enable {
+        gaps.outer = lib.mkIf sketchybar.enable {
           top = 40; # sketchybar height
         };
         # Notify Sketchybar about workspace change
-        exec-on-workspace-change = mkIf sketchybar.enable [
-          "${getExe pkgs.bash}"
+        exec-on-workspace-change = lib.mkIf sketchybar.enable [
+          "${lib.getExe pkgs.bash}"
           "-c"
-          "${getExe sketchybar.package} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+          "${lib.getExe sketchybar.package} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
         ];
 
         mode.main.binding =
@@ -39,8 +33,8 @@
                   value = actionfn ws;
                 }) workspaces
               );
-            focusWorkspaces = forAllWorkspaces (ws: "alt-${toLower ws}") (ws: "workspace ${ws}");
-            moveToWorkspace = forAllWorkspaces (ws: "alt-shift-${toLower ws}") (
+            focusWorkspaces = forAllWorkspaces (ws: "alt-${lib.toLower ws}") (ws: "workspace ${ws}");
+            moveToWorkspace = forAllWorkspaces (ws: "alt-shift-${lib.toLower ws}") (
               ws: "move-node-to-workspace ${ws}"
             );
           in
@@ -59,7 +53,7 @@
                   "main"
                 ];
           in
-          listToAttrs (
+          lib.listToAttrs (
             lists.map (ws: {
               name = builtins.toString ws;
               value = assignment ws;

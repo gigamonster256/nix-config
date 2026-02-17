@@ -7,24 +7,16 @@
       ...
     }:
     let
-      inherit (lib)
-        getExe
-        mkOption
-        mkIf
-        mkMerge
-        mkDefault
-        types
-        ;
       cfg = config.laptop;
     in
     {
-      options.laptop.lidDevice = mkOption {
-        type = with types; nullOr str;
+      options.laptop.lidDevice = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
         default = null;
       };
 
-      config = mkMerge [
-        (mkIf
+      config = lib.mkMerge [
+        (lib.mkIf
           (
             config.services.fprintd.enable
             && config ? facter
@@ -39,7 +31,7 @@
             ];
             # do not start fprintd if lid is closed
             systemd.services.fprintd.serviceConfig.ExecStartPre =
-              "${getExe pkgs.gnugrep} -q open /proc/acpi/button/lid/${cfg.lidDevice}/state";
+              "${lib.getExe pkgs.gnugrep} -q open /proc/acpi/button/lid/${cfg.lidDevice}/state";
 
             # start/stop fprintd when lid is opened/closed
             services.acpid = {
@@ -60,7 +52,7 @@
           }
         )
         {
-          services.automatic-timezoned.enable = mkDefault true;
+          services.automatic-timezoned.enable = lib.mkDefault true;
         }
       ];
     };

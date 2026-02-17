@@ -2,21 +2,17 @@ flake: {
   unify.nixos =
     { lib, config, ... }:
     let
-      inherit (lib)
-        mkIf
-        optional
-        ;
       hostname = config.networking.hostName;
       hasStaticIp = flake.config.static-ips ? ${hostname};
       ip = flake.config.static-ips.${hostname};
 
       # Build address list in CIDR notation
-      mkAddress = cfg: optional (cfg != null) "${cfg.address}/${toString cfg.prefixLength}";
+      mkAddress = cfg: lib.optional (cfg != null) "${cfg.address}/${toString cfg.prefixLength}";
 
       # Build route for gateway
-      mkGatewayRoute = cfg: optional (cfg != null && cfg.gateway != null) { Gateway = cfg.gateway; };
+      mkGatewayRoute = cfg: lib.optional (cfg != null && cfg.gateway != null) { Gateway = cfg.gateway; };
     in
-    mkIf hasStaticIp {
+    lib.mkIf hasStaticIp {
       # Use systemd-networkd
       systemd.network = {
         enable = true;

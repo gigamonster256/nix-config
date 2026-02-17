@@ -15,12 +15,9 @@
       config,
       ...
     }:
-    let
-      inherit (lib) mkDefault;
-    in
     {
       programs.hyprlock = {
-        enable = mkDefault config.wayland.windowManager.hyprland.enable;
+        enable = lib.mkDefault config.wayland.windowManager.hyprland.enable;
         settings = {
           general = {
             hide_cursor = true;

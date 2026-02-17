@@ -2,19 +2,14 @@
   unify.modules.router.nixos =
     { lib, config, ... }:
     let
-      inherit (lib)
-        mkIf
-        mkEnableOption
-        mkOption
-        types
-        ;
+      inherit (lib) types;
       cfg = config.router;
     in
     {
       options = {
         router = {
-          enable = mkEnableOption "Set up this machine as a router/firewall.";
-          wanInterface = mkOption {
+          enable = lib.mkEnableOption "Set up this machine as a router/firewall.";
+          wanInterface = lib.mkOption {
             type = types.str;
             description = "The interface connected to the internet.";
           };
@@ -25,7 +20,7 @@
         };
       };
 
-      config = mkIf cfg.enable {
+      config = lib.mkIf cfg.enable {
         # dont do anything if the lid closes
         services.logind.settings.Login = {
           HandleLidSwitch = "ignore";

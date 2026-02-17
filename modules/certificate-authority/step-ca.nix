@@ -41,7 +41,7 @@
             '';
           };
           settings = lib.mkOption {
-            type = with lib.types; attrsOf anything;
+            type = lib.types.attrsOf lib.types.anything;
             description = ''
               Settings that go into {file}`ca.json`. See
               [the step-ca manual](https://smallstep.com/docs/step-ca/configuration)

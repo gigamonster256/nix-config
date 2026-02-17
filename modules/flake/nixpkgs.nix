@@ -4,18 +4,23 @@
   config,
   ...
 }:
+let
+  inherit (lib) types;
+in
 {
   options.nixpkgs = {
     allowedUnfreePackages = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = types.listOf types.str;
       default = [ ];
     };
     permittedInsecurePackages = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = types.listOf types.str;
       default = [ ];
     };
     overlays = lib.mkOption {
-      type = with lib.types; listOf (uniq (functionTo (functionTo (lazyAttrsOf unspecified))));
+      type = types.listOf (
+        types.uniq (types.functionTo (types.functionTo (types.lazyAttrsOf types.unspecified)))
+      );
       default = [ ];
     };
   };
