@@ -58,4 +58,12 @@
         };
       };
     };
+
+  persistence.programs.homeManager = {
+    jujutsu = {
+      directories = [
+        ".config/jj/repos"
+      ];
+    };
+  };
 }
