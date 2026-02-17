@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
   unify.hosts.nixos.tinyca = {
     nixos =
@@ -13,9 +13,7 @@
 
         users = {
           mutableUsers = false;
-          users.root.openssh.authorizedKeys.keys = [
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3tGxUsgEJN/dwJ+QovVJd0yNg+YkJercIjGVJD+rvt caleb@chnorton-fw"
-          ];
+          users.root.openssh.authorizedKeys.keys = config.meta.owner.sshKeys;
         };
 
         # "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix" creates a
