@@ -41,8 +41,7 @@
         };
         revset-aliases = {
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
-          "closest_pushable(to)" =
-            "heads(::to & mutable() & ~description(exact:\"\") & (~empty() | merges()))";
+          "closest_pushable(to)" = "heads(::to & ~description(exact:\"\") & (~empty() | merges()))";
           "desc(x)" = "description(x)";
         };
         signing = {
