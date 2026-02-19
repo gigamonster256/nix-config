@@ -22,7 +22,7 @@
       # step-host
       no-vts
       crypto
-      niri
+      # niri
     ];
 
     users = {
@@ -38,7 +38,7 @@
           # emulators
           radicle
           crypto
-          niri
+          # niri
         ];
       };
     };
