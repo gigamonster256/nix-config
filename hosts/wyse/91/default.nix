@@ -6,6 +6,7 @@
       uptime-kuma
       backup
       n7m-t8r
+      agari
     ];
     nixos = { };
   };
