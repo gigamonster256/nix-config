@@ -21,8 +21,18 @@
       nativeBuildInputs = [ imagemagick ];
 
       installPhase = ''
-        mkdir -p $out/
-        cp -r dist/* $out/
+        mkdir -p $out/share/n7m-t8r
+        cp -r dist/* $out/share/n7m-t8r/
       '';
     });
+
+  perSystem =
+    { pkgs, ... }:
+    {
+      apps.n7m-t8r.program = pkgs.writeShellApplication {
+        name = "n7m-t8r";
+        runtimeInputs = [ pkgs.python3 ];
+        text = "python3 -m http.server --directory ${pkgs.n7m-t8r}/share/n7m-t8r --bind 127.0.0.1 8081";
+      };
+    };
 }

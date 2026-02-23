@@ -12,7 +12,7 @@
           enableACME = true;
           forceSSL = true;
           locations."/" = {
-            root = pkgs.agari-web;
+            root = "${pkgs.agari-web}/share/agari-web";
           };
         };
       };

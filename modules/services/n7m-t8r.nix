@@ -13,7 +13,7 @@
           enableACME = true;
           forceSSL = true;
           locations."/" = {
-            root = pkgs.n7m-t8r;
+            root = "${pkgs.n7m-t8r}/share/n7m-t8r";
           };
         };
       };

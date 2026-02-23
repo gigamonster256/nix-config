@@ -51,8 +51,8 @@
       '';
 
       installPhase = ''
-        mkdir -p $out/
-        cp -r crates/agari-wasm/pkg/* $out/
+        mkdir -p $out/lib/agari-wasm
+        cp -r crates/agari-wasm/pkg/* $out/lib/agari-wasm/
       '';
     });
 
@@ -72,12 +72,12 @@
       npmDepsHash = "sha256-VT1DND2+CK8uuDedcJGKtbeBieAKfK6oedADbqrJF/A=";
 
       preBuild = ''
-        cp -r ${agari-wasm}/* src/lib/wasm/
+        cp -r ${agari-wasm}/lib/agari-wasm/* src/lib/wasm/
       '';
 
       installPhase = ''
-        mkdir -p $out/
-        cp -r dist/* $out/
+        mkdir -p $out/share/agari-web
+        cp -r dist/* $out/share/agari-web/
       '';
     };
 
@@ -87,7 +87,7 @@
       apps.agari-web.program = pkgs.writeShellApplication {
         name = "agari-web";
         runtimeInputs = [ pkgs.python3 ];
-        text = "python3 -m http.server --directory ${pkgs.agari-web} -b 127.0.0.1 8080";
+        text = "python3 -m http.server --directory ${pkgs.agari-web}/share/agari-web --bind 127.0.0.1 8080";
       };
     };
 }
