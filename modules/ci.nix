@@ -41,12 +41,12 @@
               "chnorton"
             ];
           };
-          # aarch64-linux = {
-          #   nixos = [ "tinyca" ];
-          #   artifacts = {
-          #     # tinyca-image = self.images.tinyca;
-          #   };
-          # };
+          aarch64-linux = {
+            nixos = [ "tinyca" ];
+            artifacts = {
+              # tinyca-image = self.images.tinyca;
+            };
+          };
           # aarch64-darwin = {
           #   darwin = [ "chnorton-mbp" ];
           #   home = [ "caleb@chnorton-mbp" ];
