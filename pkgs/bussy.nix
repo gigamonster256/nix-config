@@ -4,12 +4,13 @@
     (final: prev: {
       bussy = (inputs.bussy.overlays.default final prev).bussy.override {
         # wyse hosts dont have avx support so use baseline build
-        bun = prev.bun.overrideAttrs (old: {
+        bun = prev.bun.overrideAttrs rec {
+          version = "1.3.9";
           src = final.fetchurl {
-            url = "https://github.com/oven-sh/bun/releases/download/bun-v${old.version}/bun-linux-x64-baseline.zip";
-            hash = "sha256-a92s1qZYVWmLmBby10hx7aTdC3+pIRQMZEUkj5SnQv0=";
+            url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-x64-baseline.zip";
+            hash = "sha256-EE1NA39LNeECFcBQfhd5aR85xXvZHd7v4RyteB4/xLk=";
           };
-        });
+        };
       };
     })
   ];
