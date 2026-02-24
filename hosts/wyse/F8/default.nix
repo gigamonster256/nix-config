@@ -32,6 +32,12 @@
               };
             };
           };
+
+        sops.secrets.grafana_secret_key = {
+          owner = config.users.users.grafana.name;
+          inherit (config.users.users.grafana) group;
+        };
+
         services.grafana = {
           enable = true;
           settings = {
@@ -42,6 +48,7 @@
               enable_gzip = true;
               domain = "grafana.nortonweb.org";
             };
+            security.secret_key = "$__file{${config.sops.secrets.grafana_secret_key.path}}";
 
             # Prevents Grafana from phoning home
             analytics.reporting_enabled = false;
