@@ -8,6 +8,13 @@
         config.unify.modules.disko.nixos
         config.unify.modules.node_exporter.nixos
       ];
+
+      # less nixos configuration versions to keep around vs default 20
+      boot.loader.systemd-boot.configurationLimit = 7;
+
+      # lets try some auto gc
+      nix.gc.automatic = true;
+
       services.openssh.enable = true;
       users.users.root.openssh.authorizedKeys.keys = config.meta.owner.sshKeys;
       facter.reportPath = lib.mkOverride 750 ./${lib.removePrefix "wyse-" hostConfig.name}/facter.json;
