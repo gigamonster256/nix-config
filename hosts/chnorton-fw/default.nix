@@ -66,7 +66,7 @@
           initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
           binfmt.emulatedSystems = [ "aarch64-linux" ];
         };
-        systemIdentity.pcr15 = "f3bdd88e59ccc592f5db3fa3650a60a8a4697b810a6189299b80f14a91695fd3";
+        systemIdentity.pcr15 = "00526b01f11a33a1193efc7d8b59d860b7a919dbbfca2f3fe450cc2cff2a80b5";
 
         services.getty.greetingLine = ''<<< chnorton-fw - \l >>>'';
 
