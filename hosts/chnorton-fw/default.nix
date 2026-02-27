@@ -36,7 +36,7 @@
           desktop
           # step-user
           # emulators
-          radicle
+          # radicle
           crypto
           # niri
         ];
