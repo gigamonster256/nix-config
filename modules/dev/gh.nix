@@ -6,6 +6,9 @@
       ghcfg = config.programs.gh;
     in
     {
+      # before inital "gh auth login", create a "login" keychain
+      # (using something like seahorse) otherwise gh will attempt to put
+      # oauth tokens in the hosts file and fail due to it being read-only
       programs.gh = {
         enable = lib.mkDefault gitcfg.enable;
         settings = {
