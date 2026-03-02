@@ -7,6 +7,9 @@
       ...
     }:
     {
+      home.packages = [
+        pkgs.jj-fetch # recursive fetch for jujutsu repos
+      ];
       programs.jujutsu.enable = lib.mkDefault true;
       programs.jujutsu.settings = {
         user = {
