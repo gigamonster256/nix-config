@@ -35,6 +35,12 @@
             nixos = [
               "chnorton-fw"
               "littleboy"
+              # wyse hosts
+              "wyse-91"
+              "wyse-CW"
+              "wyse-DX"
+              "wyse-F4"
+              "wyse-F8"
             ];
             home = [
               # "caleb@littleboy"
