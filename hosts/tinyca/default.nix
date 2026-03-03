@@ -2,7 +2,7 @@
 {
   # build this host in CI
   ci.aarch64-linux.nixos = [ "tinyca" ];
-  
+
   unify.hosts.nixos.tinyca = {
     nixos =
       { lib, pkgs, ... }:

@@ -1,7 +1,13 @@
 { self, config, ... }:
 {
   # build all hosts in CI
-  ci.x86_64-linux.nixos = [ "wyse-91" "wyse-CW" "wyse-DX" "wyse-F4" "wyse-F8" ];
+  ci.x86_64-linux.nixos = [
+    "wyse-91"
+    "wyse-CW"
+    "wyse-DX"
+    "wyse-F4"
+    "wyse-F8"
+  ];
 
   unify.modules.wyse.nixos =
     { lib, hostConfig, ... }:
