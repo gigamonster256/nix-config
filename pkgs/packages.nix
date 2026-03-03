@@ -12,30 +12,44 @@ let
             of this flake.
           '';
         };
-        # TODO: add aditional args for the callPackage functions?
+        # not sure how useful this is since the args can't pull in any of nixpkgs
+        packageArgs = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.attrsOf lib.types.anything);
+          default = { };
+          example = {
+            sowon.withPenger = false;
+          };
+          description = ''
+            This option allows modules to define custom arguments
+            that will be passed to the callPackage functions when
+            building the packages defined in the 'packages' option.
+          '';
+        };
       };
     };
 in
 { config, ... }:
-let
-  # TODO: use actual callPackagesWith function from nixpkgs
-  callPackagesWith = pkgs: builtins.mapAttrs (_name: fn: pkgs.callPackage fn { }) config.packages;
-in
 {
   # import the module to use it internally
   imports = [ module ];
   # export the module for use in other flake modules
   flake.modules.flake.packages = module;
 
-  # render the packages defined in config.packages to my flake outputs
+  # render the packages defined in config.packages
   perSystem =
     { pkgs, ... }:
     {
-      packages = callPackagesWith pkgs;
+      # instead of re-evaluating the packages here, we can just grab them from the
+      # flake overlaid packages
+      packages = builtins.intersectAttrs config.packages pkgs;
     };
 
   flake.overlays = {
     # Overlay to add the packages defined in config.packages
-    additions = final: _prev: callPackagesWith final;
+    additions =
+      final: _prev:
+      builtins.mapAttrs (
+        name: pkg: final.callPackage pkg config.packageArgs.${name} or { }
+      ) config.packages;
   };
 }
