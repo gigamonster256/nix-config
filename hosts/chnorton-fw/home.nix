@@ -64,6 +64,11 @@
           cert = "${./syncthing-cert.pem}";
           key = osConfig.sops.secrets.syncthing_key.path;
         };
+
+        programs.radicle = {
+          publicKey = ./radicle.pub;
+          privateKeyFile = osConfig.sops.secrets.radicle_key.path;
+        };
       };
   };
 

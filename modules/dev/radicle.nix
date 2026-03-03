@@ -43,26 +43,58 @@
           ];
         };
 
-      home = {
-        programs.radicle = {
-          enable = true;
-          settings = {
-            cli.hints = true;
-            node.alias = "gigamonster256";
-            preferredSeeds = [
-              "z6Mkr2TA8yvN1Z5JahQbdm2iC4ge2vvEEsN1PjwVJV97vYrZ@rad1.nortonweb.org:8776"
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
-              # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
-              # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
-            ];
+      home =
+        let
+          # extra options for declarative keys
+          extraOptions =
+            { lib, config, ... }:
+            let
+              cfg = config.programs.radicle;
+            in
+            {
+              options = {
+                programs.radicle = {
+                  publicKey = lib.mkOption {
+                    type = lib.types.either lib.types.str lib.types.path;
+                    description = "The public key of the radicle node to use for this user.";
+                  };
+                  privateKeyFile = lib.mkOption {
+                    type = lib.types.str;
+                    description = "The runtime location of the private key for the radicle node.";
+                  };
+                };
+              };
+
+              config = lib.mkIf cfg.enable {
+                home.file.".radicle/keys/radicle.pub" =
+                  if lib.isPath cfg.publicKey then { source = cfg.publicKey; } else { text = cfg.publicKey; };
+                # TODO: make this better
+                home.file.".radicle/keys/radicle".source = config.lib.file.mkOutOfStoreSymlink cfg.privateKeyFile;
+              };
+            };
+        in
+        { lib, ... }:
+        {
+          imports = [ extraOptions ];
+          programs.radicle = {
+            enable = true;
+            settings = {
+              cli.hints = true;
+              node.alias = lib.mkDefault "gigamonster256";
+              preferredSeeds = [
+                "z6Mkr2TA8yvN1Z5JahQbdm2iC4ge2vvEEsN1PjwVJV97vYrZ@rad1.nortonweb.org:8776"
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
+                # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
+                # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
+              ];
+            };
           };
         };
-      };
     };
 
     backup.nixos =

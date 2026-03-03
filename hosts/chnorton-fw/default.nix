@@ -39,7 +39,7 @@
           desktop
           # step-user
           # emulators
-          # radicle
+          radicle
           crypto
           # niri
         ];
@@ -122,6 +122,11 @@
 
         # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
         system.stateVersion = "25.11";
+
+        sops.secrets.radicle_key = {
+          owner = config.users.users.caleb.name;
+          inherit (config.users.users.caleb) group;
+        };
       };
   };
 }
