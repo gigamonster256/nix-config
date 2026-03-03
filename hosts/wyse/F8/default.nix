@@ -209,21 +209,4 @@
         services.prometheus.exporters.node.openFirewall = false;
       };
   };
-
-  # TODO: remove when #483459 merged
-  nixpkgs.overlays = [
-    (final: prev: {
-      prometheus-opnsense-exporter = prev.prometheus-opnsense-exporter.overrideAttrs (
-        finalAttrs: _prevAttrs: {
-          version = "0.0.12";
-          src = final.fetchFromGitHub {
-            owner = "AthennaMind";
-            repo = "opnsense-exporter";
-            tag = "v${finalAttrs.version}";
-            hash = "sha256-k+o7zvCJypzbBdZQWlTosauvdk1E207H75+fjtE/Ckk=";
-          };
-        }
-      );
-    })
-  ];
 }
