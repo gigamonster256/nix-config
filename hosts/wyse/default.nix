@@ -15,6 +15,7 @@
       imports = [
         config.unify.modules.facter.nixos
         config.unify.modules.disko.nixos
+        config.unify.modules.minimal.nixos
         config.unify.modules.node_exporter.nixos
       ];
 

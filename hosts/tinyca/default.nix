@@ -4,6 +4,10 @@
   ci.aarch64-linux.nixos = [ "tinyca" ];
 
   unify.hosts.nixos.tinyca = {
+    modules = with config.unify.modules; [
+      minimal
+    ];
+
     nixos =
       { lib, pkgs, ... }:
       {
@@ -26,6 +30,10 @@
           device = "/dev/disk/by-label/NIXOS_SD";
           fsType = "ext4";
         };
+
+        # minimal module removes some needed kernel modules, so we need to add them back in
+        boot.initrd.availableKernelModules = [ "mmc_block" ];
+
         # save space by only including the rpi related dtbs (in theory)
         hardware.deviceTree.filter = "*-rpi-*.dtb";
         boot = {
