@@ -42,6 +42,7 @@
           radicle
           crypto
           # niri
+          # openclaw
         ];
       };
     };
