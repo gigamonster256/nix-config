@@ -104,6 +104,8 @@ now that the boot chain is signed, we can enroll the luks partition in tpm2 unlo
 sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --wipe-slot=tpm2 <luks-partition>
 ```
 
+# TODO: bind to pcr 11 as well if https://github.com/nix-community/lanzaboote/pull/551 is merged
+
 also fill in the pcr 15 value to protect against identity attacks
 ```bash
 systemd-analyze pcrs 15 --json=short
