@@ -27,7 +27,18 @@ let
   nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs';
 in
 {
+  # overlay replace nix rather than just using determinate modules
+  # https://github.com/nixos/nixpkgs/issues/496466
+  nixpkgs.overlays = [
+    (final: _prev: {
+      nix = inputs.determinate.inputs.nix.packages."${final.stdenv.system}".default;
+    })
+  ];
+
   unify.nixos = {
+    imports = [
+      inputs.determinate.nixosModules.default
+    ];
     nix = {
       settings = {
         inherit

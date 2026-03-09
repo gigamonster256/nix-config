@@ -63,7 +63,6 @@
               useGlobalPkgs = true;
             };
           }
-
         ];
 
         boot = {

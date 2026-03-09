@@ -111,6 +111,9 @@
 
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
+
+    determinate.url = "github:DeterminateSystems/determinate";
+    determinate.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
