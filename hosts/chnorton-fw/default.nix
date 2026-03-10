@@ -26,7 +26,7 @@
       # no-vts
       crypto
       # niri
-      jj-gpc
+      # jj-gpc
     ];
 
     users = {
@@ -44,7 +44,7 @@
           crypto
           # niri
           # openclaw
-          jj-gpc
+          # jj-gpc
         ];
       };
     };
