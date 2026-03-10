@@ -58,6 +58,9 @@
           command = [ (lib.getExe pkgs.nixfmt) ];
           patterns = [ "glob:**/*.nix" ];
         };
+        templates = {
+          git_push_bookmark = "'gigamonster256/push-' ++ change_id.short()";
+        };
       };
     };
 
