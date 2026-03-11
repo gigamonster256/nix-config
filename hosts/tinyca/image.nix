@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   # build this image in CI
-  ci.aarch64-linux.artifacts.tinyca-image = inputs.self.images.tinyca;
+  flake.ci.aarch64-linux.artifacts.tinyca-image = inputs.self.images.tinyca;
 
   flake.images.tinyca =
     (inputs.self.nixosConfigurations.tinyca.extendModules {

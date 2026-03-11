@@ -1,6 +1,6 @@
 flake: {
   # build this home-manager configuration in CI
-  ci.x86_64-linux.home = [ "chnorton" ];
+  flake.ci.x86_64-linux.home = [ "chnorton" ];
 
   configurations.home = {
     # just my global config plus dev for linux

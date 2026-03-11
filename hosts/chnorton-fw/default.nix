@@ -5,7 +5,7 @@
   # ];
 
   # build this host in CI
-  ci.x86_64-linux.nixos = [ "chnorton-fw" ];
+  flake.ci.x86_64-linux.nixos = [ "chnorton-fw" ];
 
   unify.hosts.nixos.chnorton-fw = {
     modules = with config.unify.modules; [

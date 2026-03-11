@@ -1,7 +1,7 @@
 { inputs, config, ... }:
 {
   # build this host in CI
-  ci.aarch64-linux.nixos = [ "tinyca" ];
+  flake.ci.aarch64-linux.nixos = [ "tinyca" ];
 
   unify.hosts.nixos.tinyca = {
     modules = with config.unify.modules; [

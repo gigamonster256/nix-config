@@ -1,7 +1,7 @@
 { config, ... }:
 {
   # build this host in CI
-  ci.x86_64-linux.nixos = [ "littleboy" ];
+  flake.ci.x86_64-linux.nixos = [ "littleboy" ];
 
   unify.hosts.nixos.littleboy = {
     modules = with config.unify.modules; [

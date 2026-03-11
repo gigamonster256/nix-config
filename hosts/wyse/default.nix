@@ -1,7 +1,7 @@
 { self, config, ... }:
 {
   # build all hosts in CI
-  ci.x86_64-linux.nixos = [
+  flake.ci.x86_64-linux.nixos = [
     "wyse-91"
     "wyse-CW"
     "wyse-DX"

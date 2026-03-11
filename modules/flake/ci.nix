@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  flake-parts-lib,
   config,
   ...
 }:
@@ -11,6 +12,7 @@ let
       nixos ? [ ],
       darwin ? [ ],
       home ? [ ],
+      packages ? { },
       artifacts ? { },
     }:
     let
@@ -26,7 +28,7 @@ let
     in
     {
       inherit artifacts;
-      cachix = nixosAttrs // darwinAttrs // homeAttrs;
+      cachix = nixosAttrs // darwinAttrs // homeAttrs // packages;
     };
   systemSubmodule = lib.types.submodule {
     options = {
@@ -45,6 +47,12 @@ let
         default = [ ];
         description = "Hostnames of home configurations to build for this system.";
       };
+      # TODO: coerce strings into self packages to simplify flake.ci.arch.name = self.packages.arch.name usage?
+      packages = lib.mkOption {
+        type = lib.types.attrsOf lib.types.package;
+        default = { };
+        description = "Packages to build for this system.";
+      };
       artifacts = lib.mkOption {
         type = lib.types.attrsOf lib.types.package;
         default = { };
@@ -53,21 +61,21 @@ let
     };
   };
 in
-{
-  options = {
-    # TODO: introspect the nixosConfigurations, darwinConfigurations, and homeConfigurations
-    # to automatically generate these lists instead of maintaining them manually?
-    # or have opt in as a nixos/darwin/home configuration option which is read by the flake?
-    ci = lib.mkOption {
-      type = lib.types.attrsOf systemSubmodule;
+# FIXME: use mkTransposedPerSystemModule but don't expose the ci options as rendered into flake outputs?
+lib.recursiveUpdate
+  (flake-parts-lib.mkTransposedPerSystemModule {
+    name = "ci";
+    option = lib.mkOption {
+      type = systemSubmodule;
       default = { };
       description = "CI configuration for nix-github-actions.";
     };
-  };
-  config = {
-    flake =
+    file = ./ci.nix;
+  })
+  {
+    config.flake =
       let
-        ciChecks = builtins.mapAttrs mkSpec config.ci;
+        ciChecks = builtins.mapAttrs mkSpec config.flake.ci;
       in
       {
         cachixActions = inputs.nix-github-actions.lib.mkGithubMatrix {
@@ -79,5 +87,4 @@ in
           attrPrefix = "artifactActions.checks";
         };
       };
-  };
-}
+  }
