@@ -20,6 +20,14 @@ flake: {
         doc.enable = false;
         nixos.enable = false;
       };
+
+      # only ed25519 ssh host keys
+      services.openssh.hostKeys = [
+        {
+          path = "/etc/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+      ];
     };
 
   persistence.programs.nixos = {
