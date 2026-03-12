@@ -2,7 +2,6 @@ flake: {
   unify.nixos =
     { lib, ... }:
     {
-      boot.loader.systemd-boot.configurationLimit = lib.mkDefault 20;
       system.autoUpgrade = {
         enable = lib.mkDefault true;
         flake = lib.mkDefault flake.config.meta.flake;

@@ -5,7 +5,10 @@
       boot = {
         initrd.systemd.enable = lib.mkDefault true;
         loader = {
-          systemd-boot.enable = lib.mkDefault true;
+          systemd-boot = {
+            enable = lib.mkDefault true;
+            configurationLimit = lib.mkDefault 20;
+          };
           efi.canTouchEfiVariables = true;
           timeout = lib.mkOverride 750 0;
         };
