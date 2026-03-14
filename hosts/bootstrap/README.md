@@ -66,7 +66,7 @@ Add the module to any NixOS host that should serve as a netboot server:
 
 ```nix
 {
-  imports = [ config.unify.modules.netbootstrapper.nixos ];
+  imports = [ config.flake.modules.nixos.netbootstrapper ];
 }
 ```
 

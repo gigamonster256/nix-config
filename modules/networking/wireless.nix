@@ -1,5 +1,5 @@
 {
-  unify.modules.wireless.nixos =
+  flake.modules.nixos.wireless =
     {
       lib,
       config,

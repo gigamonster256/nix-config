@@ -13,7 +13,7 @@
     })
   ];
 
-  unify.modules.openclaw.home = {
+  flake.modules.homeManager.openclaw = {
     # TODO: harden? daemon? declarative openclaw.json as settings?
     programs.openclaw.enable = true;
   };

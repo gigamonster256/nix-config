@@ -1,5 +1,5 @@
 {
-  unify.modules.dev.home =
+  flake.modules.homeManager.dev =
     { lib, config, ... }:
     let
       gitcfg = config.programs.git;

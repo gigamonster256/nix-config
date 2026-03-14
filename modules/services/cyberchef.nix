@@ -1,5 +1,5 @@
 {
-  unify.modules.cyberchef.nixos =
+  flake.modules.nixos.cyberchef =
     { pkgs, ... }:
     {
       networking.firewall.allowedTCPPorts = [

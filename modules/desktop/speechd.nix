@@ -27,7 +27,7 @@
   #   })
   # ];
 
-  unify.nixos =
+  flake.modules.nixos.default =
     { lib, ... }:
     {
       # see <nixpkgs>/nixos/modules/services/misc/graphical-desktop.nix

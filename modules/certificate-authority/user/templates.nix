@@ -1,5 +1,5 @@
 {
-  unify.modules.step-ca.nixos = {
+  flake.modules.nixos.step-ca = {
     services.step-ca.settings = {
       templates.ssh.user = [
         {

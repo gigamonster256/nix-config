@@ -1,6 +1,6 @@
 {
-  unify.modules = {
-    uptime-kuma.nixos = {
+  flake.modules = {
+    nixos.uptime-kuma = {
       services.uptime-kuma.enable = true;
       networking.firewall.allowedTCPPorts = [
         80
@@ -18,7 +18,7 @@
       };
     };
 
-    backup.nixos =
+    nixos.backup =
       {
         lib,
         pkgs,

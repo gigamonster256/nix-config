@@ -1,13 +1,12 @@
-{ config, ... }:
+{ self, ... }:
 {
-  unify.hosts.nixos.wyse-91 = {
-    modules = with config.unify.modules; [
+  configurations.nixos.wyse-91 = {
+    imports = with self.modules.nixos; [
       wyse
       uptime-kuma
       backup
       n7m-t8r
       agari
     ];
-    nixos = { };
   };
 }

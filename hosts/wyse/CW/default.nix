@@ -1,13 +1,11 @@
-{ config, ... }:
+{ self, ... }:
 {
-  unify.hosts.nixos.wyse-CW = {
-    modules = with config.unify.modules; [
+  configurations.nixos.wyse-CW = {
+    imports = with self.modules.nixos; [
       wyse
       technitium-dns
       backup
     ];
-    nixos = {
-      services.technitium-dns-server.hostName = "ns2.nortonweb.org";
-    };
+    services.technitium-dns-server.hostName = "ns2.nortonweb.org";
   };
 }

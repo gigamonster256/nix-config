@@ -1,5 +1,5 @@
 {
-  unify.modules.laptop.nixos =
+  flake.modules.nixos.laptop =
     { pkgs, ... }:
     {
       environment.systemPackages = [

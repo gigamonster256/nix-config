@@ -1,6 +1,6 @@
 {
   # install ghostty terminfo to all hosts with ssh enabled
-  unify.nixos =
+  flake.modules.nixos.default =
     {
       lib,
       pkgs,
@@ -11,7 +11,7 @@
       environment.defaultPackages = [ pkgs.ghostty.terminfo ];
     };
 
-  unify.home =
+  flake.modules.homeManager.default =
     {
       lib,
       pkgs,

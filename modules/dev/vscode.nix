@@ -3,7 +3,7 @@
     "vscode"
   ];
 
-  unify.modules.dev.home =
+  flake.modules.homeManager.dev =
     { lib, osConfig, ... }:
     {
       programs.vscode = {

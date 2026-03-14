@@ -1,5 +1,5 @@
 {
-  unify.modules.agari.nixos =
+  flake.modules.nixos.agari =
     { pkgs, ... }:
     {
       networking.firewall.allowedTCPPorts = [

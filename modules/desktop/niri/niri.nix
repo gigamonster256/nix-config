@@ -1,5 +1,5 @@
 {
-  unify.modules.niri.nixos = {
+  flake.modules.nixos.niri = {
     programs.niri.enable = true;
     # services.displayManager.defaultSession = "niri";
     # disable autologin to choose niri vs hyprland

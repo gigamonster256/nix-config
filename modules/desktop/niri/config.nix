@@ -1,5 +1,5 @@
 {
-  unify.modules.niri.home = {
+  flake.modules.homeManager.niri = {
     xdg.configFile."niri/config.kdl".text = /* kdl */ ''
       // This config is in the KDL format: https://kdl.dev
       // "/-" comments out the following node.

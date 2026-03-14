@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   # making minimal installs
-  unify.modules.minimal.nixos = {
+  flake.modules.nixos.minimal = {
     imports = [
       "${inputs.nixpkgs}/nixos/modules/profiles/headless.nix"
       "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"

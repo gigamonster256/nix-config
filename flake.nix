@@ -88,14 +88,6 @@
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs.follows = "nixpkgs";
 
-    # unify system config framework
-    # FIXME: switch back to quasigod's repo when PRs are merged
-    # unify.url = "git+https://codeberg.org/quasigod/unify";
-    unify.url = "git+https://codeberg.org/gigamonster256/unify";
-    unify.inputs.nixpkgs.follows = "nixpkgs";
-    unify.inputs.home-manager.follows = "home-manager";
-    unify.inputs.flake-parts.follows = "flake-parts";
-
     persistence.url = "github:gigamonster256/persistence";
     # persistence.inputs.nixpkgs.follows = "nixpkgs";
     persistence.inputs.flake-parts.follows = "flake-parts";

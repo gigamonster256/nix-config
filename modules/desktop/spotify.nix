@@ -17,7 +17,7 @@
     };
   };
 
-  unify.home =
+  flake.modules.homeManager.default =
     {
       lib,
       pkgs,

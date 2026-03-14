@@ -1,5 +1,5 @@
 {
-  unify.nixos =
+  flake.modules.nixos.default =
     { lib, config, ... }:
     {
       options = {
@@ -13,8 +13,8 @@
       };
     };
 
-  unify.modules = {
-    technitium-dns.nixos =
+  flake.modules = {
+    nixos.technitium-dns =
       {
         lib,
         pkgs,
@@ -83,7 +83,7 @@
         networking.tempAddresses = "disabled";
       };
 
-    backup.nixos =
+    nixos.backup =
       {
         lib,
         pkgs,

@@ -1,6 +1,6 @@
 {
-  unify.modules = {
-    desktop.nixos =
+  flake.modules = {
+    nixos.desktop =
       { lib, pkgs, ... }:
       {
         services.printing = {
@@ -27,7 +27,7 @@
         };
       };
 
-    laptop.nixos =
+    nixos.laptop =
       { pkgs, ... }:
       {
         services.printing = {

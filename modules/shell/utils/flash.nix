@@ -36,7 +36,7 @@
         '';
     };
 
-  unify.modules.desktop.nixos =
+  flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
       environment.defaultPackages = [

@@ -1,5 +1,5 @@
 flake: {
-  unify.nixos =
+  flake.modules.nixos.default =
     { lib, ... }:
     {
       system.autoUpgrade = {

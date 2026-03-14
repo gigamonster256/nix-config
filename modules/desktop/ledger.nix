@@ -1,11 +1,11 @@
 {
-  unify.modules.crypto = {
-    nixos =
+  flake.modules = {
+    nixos.crypto =
       { pkgs, ... }:
       {
         services.udev.packages = [ pkgs.ledger-udev-rules ];
       };
-    home = {
+    homeManager.crypto = {
       programs.ledger-live.enable = true;
     };
   };

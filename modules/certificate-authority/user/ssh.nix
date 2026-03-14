@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  unify.modules.step-user.home =
+  flake.modules.homeManager.step-user =
     {
       lib,
       pkgs,

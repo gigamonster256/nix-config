@@ -15,7 +15,7 @@
     })
   ];
 
-  unify.nixos =
+  flake.modules.nixos.default =
     {
       lib,
       pkgs,
@@ -213,7 +213,7 @@
           };
       };
     };
-  unify.modules.bussy.nixos =
+  flake.modules.nixos.bussy =
     { lib, ... }:
     {
       services.bussy.enable = lib.mkDefault true;

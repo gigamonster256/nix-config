@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  unify.nixos =
+  flake.modules.nixos.default =
     {
       config,
       lib,

@@ -69,7 +69,7 @@
   nixpkgs.allowedUnfreePackages = [ "unrar" ];
 
   # install to desktop environment by default
-  unify.modules.desktop.nixos =
+  flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
       environment.defaultPackages = [

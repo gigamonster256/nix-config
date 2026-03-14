@@ -1,21 +1,21 @@
 { inputs, config, ... }:
 {
   # globally import sops nixos module
-  unify.nixos = {
+  flake.modules.nixos.default = {
     imports = [
-      config.unify.modules.secrets.nixos
+      config.flake.modules.nixos.secrets
     ];
   };
 
-  unify.modules.secrets.nixos =
-    { lib, hostConfig, ... }:
+  flake.modules.nixos.secrets =
+    { lib, config, ... }:
     {
       imports = [
         inputs.sops-nix.nixosModules.sops
       ];
 
       sops = {
-        defaultSopsFile = lib.mkDefault ../../hosts/${hostConfig.name}/secrets.yaml;
+        defaultSopsFile = lib.mkDefault ../../hosts/${config.networking.hostName}/secrets.yaml;
         age = {
           sshKeyPaths = lib.mkDefault [
             "/etc/ssh/ssh_host_ed25519_key"
@@ -25,7 +25,7 @@
       };
     };
 
-  unify.modules.secrets.home =
+  flake.modules.homeManager.secrets =
     { config, ... }:
     {
       imports = [ inputs.sops-nix.homeModules.sops ];

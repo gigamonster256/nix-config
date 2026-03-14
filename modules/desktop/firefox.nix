@@ -1,5 +1,5 @@
 {
-  unify.modules.desktop.home =
+  flake.modules.homeManager.desktop =
     {
       pkgs,
       ...
