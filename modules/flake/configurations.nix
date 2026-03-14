@@ -12,22 +12,26 @@ let
     in
     {
       options.configurations = {
-        # nix-darwin configurations
+        nixos = lib.mkOption {
+          type = lib.types.lazyAttrsOf lib.types.deferredModule;
+          default = { };
+        };
         darwin = lib.mkOption {
           type = lib.types.lazyAttrsOf lib.types.deferredModule;
           default = { };
         };
-        # standalone home-manager configurations
         home = lib.mkOption {
           type = lib.types.lazyAttrsOf (
             lib.types.submodule {
-              options.system = lib.mkOption {
-                type = lib.types.str;
-                description = "The system type for this home-manager configuration.";
-              };
-              options.module = lib.mkOption {
-                type = lib.types.deferredModule;
-                default = { };
+              options = {
+                system = lib.mkOption {
+                  type = lib.types.str;
+                  description = "The system type for this home-manager configuration.";
+                };
+                module = lib.mkOption {
+                  type = lib.types.deferredModule;
+                  default = { };
+                };
               };
             }
           );
@@ -42,6 +46,19 @@ let
           ];
         in
         {
+          nixosConfigurations = lib.flip lib.mapAttrs cfg.nixos (
+            name: module:
+            inputs.nixpkgs.lib.nixosSystem {
+              modules = [
+                # the host configuration
+                module
+                {
+                  networking.hostName = lib.mkDefault name;
+                }
+              ];
+            }
+          );
+
           darwinConfigurations = lib.flip lib.mapAttrs cfg.darwin (
             name: module:
             inputs.nix-darwin.lib.darwinSystem {
