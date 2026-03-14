@@ -40,7 +40,6 @@ in
       };
     in
     {
-      # configure the pkgs used in nixos, home-manager
       flake.modules.nixos.default = {
         inherit nixpkgs;
       };
@@ -49,11 +48,10 @@ in
         inherit nixpkgs;
       };
 
-      # only standalone home-manager needs nixpkgs since used under nixos
-      # or nix-darwin uses useGlobalPkgs = true
-      flake.modules.homeManager.standalone = {
-        inherit nixpkgs;
-      };
+      # standalone homeManager inherits pkgs from the flake context (see below)
+      # flake.modules.homeManager.standalone = {
+      #   inherit nixpkgs;
+      # };
 
       # allow unfree packages in overlays/flake packages
       perSystem =
