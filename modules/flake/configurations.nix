@@ -107,6 +107,7 @@ let
                     # standalone specific
                     inputs.stylix.homeModules.stylix
                     inputs.self.modules.homeManager.standalone
+                    inputs.self.modules.homeManager.style
                   ]
                   ++ lib.singleton inputs.self.modules.homeManager.default;
                 }
