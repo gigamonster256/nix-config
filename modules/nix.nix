@@ -35,7 +35,7 @@ in
     })
   ];
 
-  unify.nixos = {
+  flake.modules.nixos.default = {
     imports = [
       inputs.determinate.nixosModules.default
     ];
@@ -58,7 +58,7 @@ in
     };
   };
 
-  unify.home =
+  flake.modules.homeManager.default =
     { pkgs, ... }:
     {
       nix = {

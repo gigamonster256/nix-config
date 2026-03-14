@@ -8,7 +8,7 @@
     "wiiu-downloader"
   ];
 
-  unify.modules.emulators.home = {
+  flake.modules.homeManager.emulators = {
     programs.cemu.enable = true;
     programs.ryujinx.enable = true;
     programs.wiiu-downloader.enable = true;

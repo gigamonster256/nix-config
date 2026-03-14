@@ -1,6 +1,6 @@
 {
   # millisecond app is helpful for diagnosis of common audio issues
-  unify.modules.desktop.nixos =
+  flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
       # https://wiki.linuxaudio.org/wiki/system_configuration#quality_of_service_interface

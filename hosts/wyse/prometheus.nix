@@ -1,5 +1,5 @@
 {
-  unify.modules.node_exporter.nixos =
+  flake.modules.nixos.node_exporter =
     { lib, ... }:
     {
       # TODO: tls or basic auth security to only allow my prometheus server to scrape this host

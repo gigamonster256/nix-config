@@ -1,5 +1,5 @@
 {
-  unify.modules.plymouth.nixos = {
+  flake.modules.nixos.plymouth = {
     boot = {
       plymouth.enable = true;
       consoleLogLevel = 3;

@@ -1,5 +1,5 @@
 {
-  unify.hosts.nixos.chnorton-fw.nixos = {
+  configurations.nixos.chnorton-fw = {
     home-manager.users.caleb =
       {
         lib,

@@ -39,21 +39,26 @@ let
       };
 
       config.flake =
-        let
-          homeManagerSharedModules = [
-            inputs.self.modules.homeManager.default
-            inputs.self.modules.homeManager.style
-          ];
-        in
         {
           nixosConfigurations = lib.flip lib.mapAttrs cfg.nixos (
             name: module:
             inputs.nixpkgs.lib.nixosSystem {
+              specialArgs = { inherit name; }; # kinda hacky but makes disko module not infinitely recurse
               modules = [
                 # the host configuration
                 module
                 {
                   networking.hostName = lib.mkDefault name;
+                }
+                inputs.home-manager.nixosModules.home-manager
+                # internal modules
+                inputs.self.modules.nixos.default
+                # home manager
+                {
+                  home-manager = {
+                    useGlobalPkgs = true;
+                    sharedModules = lib.singleton inputs.self.modules.homeManager.default;
+                  };
                 }
               ];
             }
@@ -76,7 +81,7 @@ let
                 {
                   home-manager = {
                     useGlobalPkgs = true;
-                    sharedModules = homeManagerSharedModules;
+                    sharedModules = lib.singleton inputs.self.modules.homeManager.default;
                   };
                 }
               ];
@@ -103,7 +108,7 @@ let
                     inputs.stylix.homeModules.stylix
                     inputs.self.modules.homeManager.standalone
                   ]
-                  ++ homeManagerSharedModules;
+                  ++ lib.singleton inputs.self.modules.homeManager.default;
                 }
               )
             )
@@ -122,12 +127,10 @@ let
         };
     };
 in
-{ inputs, ... }:
 {
   # import the module to use it internally
   imports = [
     module
-    inputs.unify.flakeModule
   ];
   # export the module for use in other flake modules
   flake.modules.flake.configurations = module;

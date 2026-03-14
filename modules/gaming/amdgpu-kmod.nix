@@ -48,7 +48,7 @@ let
 in
 { self, lib, ... }:
 {
-  unify.modules.amdgpu-kmod.nixos =
+  flake.modules.nixos.amdgpu-kmod =
     { pkgs, config, ... }:
     {
       options.gaming.amdgpuKmod.enable = lib.mkEnableOption "AMD GPU kernel module with high priority queues support";
@@ -72,7 +72,7 @@ in
     };
 
   # add the module to vr hosts with amdgpu
-  unify.modules.vr.nixos =
+  flake.modules.nixos.vr =
     { config, ... }:
     {
       imports = [ self.modules.nixos.amdgpu-kmod ];

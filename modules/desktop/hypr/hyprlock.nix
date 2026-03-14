@@ -1,5 +1,5 @@
 {
-  unify.modules.desktop.nixos =
+  flake.modules.nixos.desktop =
     { config, ... }:
     {
       home-manager.sharedModules = [
@@ -9,7 +9,7 @@
       ];
     };
 
-  unify.modules.desktop.home =
+  flake.modules.homeManager.desktop =
     {
       lib,
       config,

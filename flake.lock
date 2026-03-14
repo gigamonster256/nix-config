@@ -1227,8 +1227,7 @@
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
-        "treefmt-nix": "treefmt-nix_2",
-        "unify": "unify"
+        "treefmt-nix": "treefmt-nix_2"
       }
     },
     "rust-overlay": {
@@ -1596,32 +1595,6 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "type": "github"
-      }
-    },
-    "unify": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1764871009,
-        "narHash": "sha256-/mW2XWaMkezuXzKOH8E5VJUApNSphWRRZlxFh7Zgy94=",
-        "ref": "refs/heads/main",
-        "rev": "2c0e5d49bea9c52654126503b4ac05e54c89320c",
-        "revCount": 42,
-        "type": "git",
-        "url": "https://codeberg.org/gigamonster256/unify"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/gigamonster256/unify"
       }
     },
     "zig": {

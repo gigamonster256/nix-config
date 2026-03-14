@@ -1,5 +1,5 @@
 {
-  unify.nixos =
+  flake.modules.nixos.default =
     {
       lib,
       config,
@@ -26,7 +26,7 @@
       };
     };
 
-  unify.modules.backup.nixos =
+  flake.modules.nixos.backup =
     { lib, ... }:
     {
       backup.fatman.enable = lib.mkDefault true;

@@ -1,5 +1,5 @@
 {
-  unify.modules =
+  flake.modules =
     let
       # dont have access to pkgs at flake scope :(
       wallpaper =
@@ -10,7 +10,7 @@
         };
     in
     {
-      desktop.home =
+      homeManager.desktop =
         {
           lib,
           config,
@@ -35,7 +35,7 @@
 
         };
 
-      noctalia.home =
+      homeManager.noctalia =
         { pkgs, ... }:
         {
           xdg.cacheFile."noctalia/wallpapers.json" = {

@@ -1,11 +1,11 @@
 {
-  unify.modules.step-host.nixos = {
+  flake.modules.nixos.step-host = {
     services.openssh.extraConfig = ''
       Include /etc/ssh/sshd_config.d/*
     '';
   };
 
-  unify.modules.step-ca.nixos = {
+  flake.modules.nixos.step-ca = {
     services.step-ca.settings = {
       templates.ssh.host = [
         {

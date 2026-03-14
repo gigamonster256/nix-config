@@ -1,5 +1,5 @@
 {
-  unify.home =
+  flake.modules.homeManager.default =
     { lib, config, ... }:
     {
       programs.oh-my-posh.settings = lib.mkDefault {

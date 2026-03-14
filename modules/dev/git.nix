@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  unify.modules.dev.home =
+  flake.modules.homeManager.dev =
     { lib, pkgs, ... }:
     {
       programs.git = {

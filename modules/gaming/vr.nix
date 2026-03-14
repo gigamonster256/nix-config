@@ -1,5 +1,5 @@
 {
-  unify.modules.vr.nixos = {
+  flake.modules.nixos.vr = {
     programs.alvr.enable = true;
     programs.alvr.openFirewall = true;
   };

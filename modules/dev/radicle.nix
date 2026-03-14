@@ -1,103 +1,101 @@
 {
-  unify.modules = {
-    radicle = {
-      nixos =
-        { lib, config, ... }:
-        {
-          services.nginx.enable = true;
-          services.radicle = {
-            enable = true;
-            node.openFirewall = true;
-            settings = {
-              node = {
-                seedingPolicy = {
-                  # imperatively follow my nodes
-                  default = "block";
-                };
-              };
-              preferredSeeds = [
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
-                # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
-                # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
-              ];
-            };
-            httpd = {
-              enable = true;
-              nginx = {
-                serverName = lib.mkDefault config.services.radicle.settings.node.alias;
-                # mkMerge isnt working for some reason
-                # https://github.com/NixOS/nixpkgs/blob/c6245e83d836d0433170a16eb185cefe0572f8b8/nixos/modules/services/misc/radicle.nix#L388
-                enableACME = true;
-                forceSSL = true;
+  flake.modules = {
+    nixos.radicle =
+      { lib, config, ... }:
+      {
+        services.nginx.enable = true;
+        services.radicle = {
+          enable = true;
+          node.openFirewall = true;
+          settings = {
+            node = {
+              seedingPolicy = {
+                # imperatively follow my nodes
+                default = "block";
               };
             };
+            preferredSeeds = [
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
+              # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
+              # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
+            ];
           };
-          networking.firewall.allowedTCPPorts = [
-            80
-            443
-          ];
-        };
-
-      home =
-        let
-          # extra options for declarative keys
-          extraOptions =
-            { lib, config, ... }:
-            let
-              cfg = config.programs.radicle;
-            in
-            {
-              options = {
-                programs.radicle = {
-                  publicKey = lib.mkOption {
-                    type = lib.types.either lib.types.str lib.types.path;
-                    description = "The public key of the radicle node to use for this user.";
-                  };
-                  privateKeyFile = lib.mkOption {
-                    type = lib.types.str;
-                    description = "The runtime location of the private key for the radicle node.";
-                  };
-                };
-              };
-
-              config = lib.mkIf cfg.enable {
-                home.file.".radicle/keys/radicle.pub" =
-                  if lib.isPath cfg.publicKey then { source = cfg.publicKey; } else { text = cfg.publicKey; };
-                # TODO: make this better
-                home.file.".radicle/keys/radicle".source = config.lib.file.mkOutOfStoreSymlink cfg.privateKeyFile;
-              };
-            };
-        in
-        { lib, ... }:
-        {
-          imports = [ extraOptions ];
-          programs.radicle = {
+          httpd = {
             enable = true;
-            settings = {
-              cli.hints = true;
-              node.alias = lib.mkDefault "gigamonster256";
-              preferredSeeds = [
-                "z6Mkr2TA8yvN1Z5JahQbdm2iC4ge2vvEEsN1PjwVJV97vYrZ@rad1.nortonweb.org:8776"
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
-                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
-                # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
-                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
-                # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
-              ];
+            nginx = {
+              serverName = lib.mkDefault config.services.radicle.settings.node.alias;
+              # mkMerge isnt working for some reason
+              # https://github.com/NixOS/nixpkgs/blob/c6245e83d836d0433170a16eb185cefe0572f8b8/nixos/modules/services/misc/radicle.nix#L388
+              enableACME = true;
+              forceSSL = true;
             };
           };
         };
-    };
+        networking.firewall.allowedTCPPorts = [
+          80
+          443
+        ];
+      };
 
-    backup.nixos =
+    homeManager.radicle =
+      let
+        # extra options for declarative keys
+        extraOptions =
+          { lib, config, ... }:
+          let
+            cfg = config.programs.radicle;
+          in
+          {
+            options = {
+              programs.radicle = {
+                publicKey = lib.mkOption {
+                  type = lib.types.either lib.types.str lib.types.path;
+                  description = "The public key of the radicle node to use for this user.";
+                };
+                privateKeyFile = lib.mkOption {
+                  type = lib.types.str;
+                  description = "The runtime location of the private key for the radicle node.";
+                };
+              };
+            };
+
+            config = lib.mkIf cfg.enable {
+              home.file.".radicle/keys/radicle.pub" =
+                if lib.isPath cfg.publicKey then { source = cfg.publicKey; } else { text = cfg.publicKey; };
+              # TODO: make this better
+              home.file.".radicle/keys/radicle".source = config.lib.file.mkOutOfStoreSymlink cfg.privateKeyFile;
+            };
+          };
+      in
+      { lib, ... }:
+      {
+        imports = [ extraOptions ];
+        programs.radicle = {
+          enable = true;
+          settings = {
+            cli.hints = true;
+            node.alias = lib.mkDefault "gigamonster256";
+            preferredSeeds = [
+              "z6Mkr2TA8yvN1Z5JahQbdm2iC4ge2vvEEsN1PjwVJV97vYrZ@rad1.nortonweb.org:8776"
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.xyz:8776"
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@2a01:4f9:c010:dfaa::1:8776"
+              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
+              # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.xyz:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@2a01:4ff:f0:abd3::1:8776"
+              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
+              # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
+            ];
+          };
+        };
+      };
+
+    nixos.backup =
       {
         lib,
         pkgs,

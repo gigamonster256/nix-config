@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  unify.modules.step-ca.nixos = {
+  flake.modules.nixos.step-ca = {
     services.step-ca.settings = {
       authority.provisioners = [
         {
@@ -20,9 +20,9 @@
       ]
       # see TODO in the file for why the module is imported this way
       ++ (import ./ssh/_provisioners.nix { inherit config; })
-        .unify.modules.step-ca.nixos.services.step-ca.settings.authority.provisioners
+        .flake.modules.nixos.step-ca.services.step-ca.settings.authority.provisioners
       ++ (import ./oidc/_provisioners.nix)
-        .unify.modules.step-ca.nixos.services.step-ca.settings.authority.provisioners;
+        .flake.modules.nixos.step-ca.services.step-ca.settings.authority.provisioners;
     };
   };
 }

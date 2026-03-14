@@ -1,5 +1,5 @@
 {
-  unify.modules.vpn.nixos =
+  flake.modules.nixos.vpn =
     {
       lib,
       pkgs,

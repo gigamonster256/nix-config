@@ -1,6 +1,6 @@
 { inputs, moduleWithSystem, ... }:
 {
-  unify.modules.style.home = moduleWithSystem (
+  flake.modules.homeManager.style = moduleWithSystem (
     { system, ... }:
     { lib, config, ... }:
     let

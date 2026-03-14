@@ -1,5 +1,5 @@
 flake: {
-  unify.modules.step-host.nixos =
+  flake.modules.nixos.step-host =
     {
       lib,
       pkgs,

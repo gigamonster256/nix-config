@@ -1,7 +1,7 @@
 {
   # experimenting with jj-gpc
-  unify.modules.jj-gpc = {
-    nixos = {
+  flake.modules = {
+    nixos.jj-gpc = {
       services.ollama = {
         enable = true;
         loadModels = [
@@ -10,7 +10,7 @@
       };
     };
 
-    home =
+    homeManager.jj-gpc =
       { pkgs, ... }:
       {
         home.packages = [

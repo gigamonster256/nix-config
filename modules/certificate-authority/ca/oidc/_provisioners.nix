@@ -1,6 +1,6 @@
 # TODO: see comments in ssh/_provisioners.nix about why this is done this way
 {
-  unify.modules.step-ca.nixos = {
+  flake.modules.nixos.step-ca = {
     services.step-ca.settings = {
       authority.provisioners = [
         {

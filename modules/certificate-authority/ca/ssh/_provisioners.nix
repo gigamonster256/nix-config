@@ -3,7 +3,7 @@
 # TODO: fix this up somehow - will I need to define the entire settings type properly in nixpkgs?
 { config, ... }:
 {
-  unify.modules.step-ca.nixos = {
+  flake.modules.nixos.step-ca = {
     services.step-ca.settings = {
       authority.provisioners = [
         # Allow SSH cert renewal via proof-of-possession

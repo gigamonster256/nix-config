@@ -41,7 +41,7 @@ in
     in
     {
       # configure the pkgs used in nixos, home-manager
-      unify.nixos = {
+      flake.modules.nixos.default = {
         inherit nixpkgs;
       };
 

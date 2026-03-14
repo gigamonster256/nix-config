@@ -8,21 +8,19 @@ in
     inputs.persistence.flakeModules.programModules
   ];
 
-  unify = {
-    nixos = {
-      imports = [
-        inputs.persistence.nixosModules.default
-        config.persistence.modules.nixos.wrappedPrograms
-      ];
-      # FIXME: nix flake check has issues when impermanence is diabled
-      #   persistence.homeManagerIntegration.enable = false;
-    };
-    home = {
-      imports = [
-        # inputs.persistence.homeManagerModules.default # automatically included by integration
-        config.persistence.modules.homeManager.wrappedPrograms
-      ];
-    };
+  flake.modules.nixos.default = {
+    imports = [
+      inputs.persistence.nixosModules.default
+      config.persistence.modules.nixos.wrappedPrograms
+    ];
+    # FIXME: nix flake check has issues when impermanence is diabled
+    #   persistence.homeManagerIntegration.enable = false;
+  };
+  flake.modules.homeManager.default = {
+    imports = [
+      # inputs.persistence.homeManagerModules.default # automatically included by integration
+      config.persistence.modules.homeManager.wrappedPrograms
+    ];
   };
 
   flake.modules.homeManager.standalone = {
@@ -32,8 +30,8 @@ in
     ];
   };
 
-  unify.modules.impermanence = {
-    nixos =
+  flake.modules = {
+    nixos.impermanence =
       { config, ... }:
       {
         imports = [
@@ -59,7 +57,7 @@ in
 
       };
 
-    home = {
+    homeManager.impermanence = {
       imports = [
         config.persistence.modules.homeManager.default
       ];

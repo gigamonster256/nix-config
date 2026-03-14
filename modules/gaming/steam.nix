@@ -4,7 +4,7 @@
     "steam-unwrapped"
   ];
 
-  unify.modules.gaming.nixos = {
+  flake.modules.nixos.gaming = {
     programs.steam.enable = true;
     hardware.steam-hardware.enable = true;
     services.joycond.enable = true;

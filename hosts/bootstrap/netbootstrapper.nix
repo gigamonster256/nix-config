@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  unify.modules.netbootstrapper.nixos = {
+  flake.modules.nixos.netbootstrapper = {
     services.pixiecore =
       let
         bootstrap =

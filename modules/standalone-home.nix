@@ -1,4 +1,5 @@
-flake: {
+{ self, ... }:
+{
   # build this home-manager configuration in CI
   flake.ci.x86_64-linux.home = [ "chnorton" ];
 
@@ -9,7 +10,7 @@ flake: {
       module =
         { lib, config, ... }:
         {
-          imports = [ flake.config.unify.modules.dev.home ];
+          imports = [ self.modules.homeManager.dev ];
           systemd.user.services.opencode = {
             # TODO: secure further - this is basic-auth over http... bad
             Service = {

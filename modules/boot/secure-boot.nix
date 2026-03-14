@@ -9,7 +9,7 @@
   #   };
   # };
 
-  unify.modules.secure-boot.nixos =
+  flake.modules.nixos.secure-boot =
     { lib, config, ... }:
     {
       imports = [
@@ -32,7 +32,7 @@
     };
 
   # add the lanzaboote pkiBundle to the impermanence dirs
-  unify.modules.impermanence.nixos =
+  flake.modules.nixos.impermanence =
     { lib, config, ... }:
     lib.mkIf (config.boot ? lanzaboote) {
       boot.lanzaboote.persistence.directories = [

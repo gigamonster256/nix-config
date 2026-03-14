@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  unify.modules.no-vts.nixos =
+  flake.modules.nixos.no-vts =
     { lib, pkgs, ... }:
     {
       # disable gettys on VTs

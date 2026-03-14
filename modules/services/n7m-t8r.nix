@@ -1,5 +1,5 @@
 {
-  unify.modules.n7m-t8r.nixos =
+  flake.modules.nixos.n7m-t8r =
     { pkgs, ... }:
     {
       networking.firewall.allowedTCPPorts = [

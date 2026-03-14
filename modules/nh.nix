@@ -13,7 +13,7 @@
     })
   ];
 
-  unify.home = {
+  flake.modules.homeManager.default = {
     programs.nh = {
       enable = lib.mkDefault true;
       flake = lib.mkDefault config.meta.flake;

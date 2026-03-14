@@ -1,5 +1,5 @@
 {
-  unify.nixos =
+  flake.modules.nixos.default =
     { config, lib, ... }:
     let
       # derive acme-renew-* names from defined ACME certs

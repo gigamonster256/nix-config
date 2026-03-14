@@ -1,11 +1,11 @@
 { inputs, ... }:
 {
-  unify.home = {
+  flake.modules.homeManager.default = {
     imports = [
       inputs.noctalia.homeModules.default
     ];
   };
-  unify.modules.noctalia.home =
+  flake.modules.homeManager.noctalia =
     { lib, config, ... }:
     {
       programs.noctalia-shell = {

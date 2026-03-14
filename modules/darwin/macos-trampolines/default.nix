@@ -1,5 +1,5 @@
 {
-  unify.home =
+  flake.modules.homeManager.default =
     { lib, pkgs, ... }:
     {
       home.activation.makeTrampolineApps = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (

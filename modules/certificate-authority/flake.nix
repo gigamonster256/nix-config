@@ -51,7 +51,7 @@ in
   };
 
   # configure step-ca to use the certs from above
-  unify.modules.step-ca.nixos =
+  flake.modules.nixos.step-ca =
     { lib, ... }:
     {
       services.step-ca.settings = {
@@ -61,7 +61,7 @@ in
     };
 
   # import my CA root certificate to all NixOS hosts
-  unify.nixos = {
+  flake.modules.nixos.default = {
     security.pki.certificateFiles = [
       config.certificate-authority.rootCertPath
     ];

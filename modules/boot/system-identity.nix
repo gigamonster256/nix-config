@@ -1,6 +1,6 @@
 # https://forge.lel.lol/patrick/nix-config/src/branch/master/modules/ensure-pcr.nix
 {
-  unify.modules.secure-boot.nixos =
+  flake.modules.nixos.secure-boot =
     {
       lib,
       utils,

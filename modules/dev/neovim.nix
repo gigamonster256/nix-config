@@ -7,12 +7,12 @@
     # inputs.neovim.overlays.default
   ];
 
-  unify.modules.dev = {
-    nixos = {
+  flake.modules = {
+    nixos.dev = {
       programs.nano.enable = false;
     };
 
-    home = moduleWithSystem (
+    homeManager.dev = moduleWithSystem (
       { inputs', ... }:
       # { pkgs, ... }:
       {
