@@ -74,7 +74,7 @@
       '';
 
       meta = {
-        homepage = "https://gem5.org/";
+        homepage = "https://gem5.org";
         mainProgram = "gem5";
       };
     });

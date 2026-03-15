@@ -65,11 +65,11 @@
               # 80/443 web interface - TLS terminated by nginx
               # 53443 web interface - TLS terminated by technitium
               locations."/" = {
-                proxyPass = "http://127.0.0.1:5380/";
+                proxyPass = "http://127.0.0.1:5380";
               };
               # TODO: consider enabling DoH in the future
               # locations."/dns-query" = {
-              #   proxyPass = "http://127.0.0.1:80/";
+              #   proxyPass = "http://127.0.0.1:80";
               # };
             };
           };

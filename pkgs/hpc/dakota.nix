@@ -54,7 +54,7 @@
 
       meta = {
         description = "Multilevel Parallel Object-Oriented Framework for Design Optimization, Parameter Estimation, Uncertainty Quantification, and Sensitivity Analysis";
-        homepage = "https://dakota.sandia.gov/";
+        homepage = "https://dakota.sandia.gov";
         license = lib.licenses.lgpl21Only;
         mainProgram = "dakota";
         platforms = lib.platforms.linux;
