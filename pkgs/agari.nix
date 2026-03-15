@@ -30,9 +30,12 @@
       agari,
       rustc,
       wasm-pack,
-      wasm-bindgen-cli,
+      wasm-bindgen-cli_0_2_108,
       writableTmpDirAsHomeHook,
     }:
+    let
+      wasm-bindgen-cli = wasm-bindgen-cli_0_2_108;
+    in
     rustPlatform.buildRustPackage (_finalAttrs: {
       pname = "agari-wasm";
       inherit (agari) version;
