@@ -20,7 +20,13 @@
 
       users = {
         mutableUsers = false;
-        users.root.openssh.authorizedKeys.keys = config.meta.owner.sshKeys;
+        users.root.openssh.authorizedKeys.keys =
+          config.meta.owner.sshKeys
+          ++
+          # wyse-CW runs auto updates
+          [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGf3hLLXwQYW0tyipZR3gfzg71i/VNe4jnK9WKr7VaMc wyse-cw.penguin"
+          ];
       };
 
       # "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix" creates a

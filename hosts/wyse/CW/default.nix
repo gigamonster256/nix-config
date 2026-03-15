@@ -5,6 +5,7 @@
       wyse
       technitium-dns
       backup
+      tinyca-updater
     ];
     services.technitium-dns-server.hostName = "ns2.nortonweb.org";
   };
