@@ -1,4 +1,16 @@
+{ inputs, ... }:
 {
+  # ghostty bin on darwin, source build with x11 disabled on linux
+  nixpkgs.overlays = [
+    (final: prev: {
+      ghostty =
+        if final.stdenv.hostPlatform.isDarwin then
+          prev.ghostty-bin
+        else
+          (inputs.ghostty.overlays.default final prev).ghostty.override { enableX11 = false; };
+    })
+  ];
+
   # install ghostty terminfo to all hosts with ssh enabled
   flake.modules.nixos.default =
     {
