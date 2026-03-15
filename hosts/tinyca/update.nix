@@ -29,12 +29,12 @@
       };
 
       systemd.timers.tinyca-update = {
-          description = "Update tinyca every day";
-          wantedBy = [ "timers.target" ];
-          timerConfig = {
-            OnCalendar = "*-*-* 8:26:00";
-            Persistent = true;
-          };
+        description = "Update tinyca every day";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "*-*-* 8:26:00";
+          Persistent = true;
         };
+      };
     };
 }
