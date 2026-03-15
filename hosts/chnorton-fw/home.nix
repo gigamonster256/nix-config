@@ -69,6 +69,35 @@
           publicKey = ./radicle.pub;
           privateKeyFile = osConfig.sops.secrets.radicle_key.path;
         };
+
+        # TODO: mode the shared module?
+        programs.ssh = {
+          enable = true;
+          enableDefaultConfig = false;
+          includes = [ "config.custom" ];
+          matchBlocks = {
+            "*" = {
+              forwardAgent = false;
+              addKeysToAgent = "no";
+              compression = false;
+              serverAliveInterval = 0;
+              serverAliveCountMax = 3;
+              hashKnownHosts = false;
+              userKnownHostsFile = "~/.ssh/known_hosts";
+              controlMaster = "auto";
+              controlPath = "~/.ssh/master-%r@%n:%p";
+              controlPersist = "no";
+            };
+            "kvs" = {
+              hostname = "ecewkgsw05201.engr.tamu.edu";
+              user = "chnorton";
+              forwardAgent = true;
+            };
+            "wyse-*.penguin" = {
+              user = "root";
+            };
+          };
+        };
       };
   };
 
