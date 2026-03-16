@@ -9,6 +9,9 @@
       makeWrapper,
       prefix ? null, # override at higher level?
     }:
+    let
+      hasPrefix = prefix != null;
+    in
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "jj-gpc";
       version = "0.7.3";
@@ -24,14 +27,14 @@
 
       nativeBuildInputs = [
         pkg-config
-        makeWrapper
-      ];
+      ]
+      ++ lib.optional hasPrefix makeWrapper;
 
       buildInputs = [
         openssl
       ];
 
-      postInstall = lib.optionalString (prefix != null) ''
+      postInstall = lib.optionalString hasPrefix ''
         wrapProgram $out/bin/jj-gpc \
           --add-flag --prefix=${prefix}
       '';
