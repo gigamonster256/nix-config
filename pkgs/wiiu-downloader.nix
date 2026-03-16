@@ -6,12 +6,12 @@
       fetchurl,
     }:
     let
-      version = "2.65";
+      version = "2.82";
       pname = "WiiUDownloader";
 
       src = fetchurl {
         url = "https://github.com/Xpl0itU/WiiUDownloader/releases/download/v${version}/WiiUDownloader-Linux-x86_64.AppImage";
-        hash = "sha256-iMs+SrHKUaaeWJT+P42N/F8Yt4HtATswV9mUlidjhl8=";
+        hash = "sha256-PDXxws6JGRHD3PXSmeU0DTVVDNc0XnIOEY+ZvTAoc38=";
       };
       appimageContents = appimageTools.extract {
         inherit pname version src;
