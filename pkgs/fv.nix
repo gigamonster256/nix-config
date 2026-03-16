@@ -4,18 +4,15 @@
       buildGoModule,
       fetchFromGitHub,
     }:
-    let
-      version = "0.5.6";
-    in
-    buildGoModule {
+    buildGoModule (finalAttrs: {
       pname = "fv";
-      inherit version;
+      version = "0.5.8";
       src = fetchFromGitHub {
         owner = "kenshaw";
         repo = "fv";
-        rev = "v${version}";
-        hash = "sha256-sOQc7+LS35fS/2oddcR3wPyasH6eC0epxg8ohtx3/hI=";
+        tag = "v${finalAttrs.version}";
+        hash = "sha256-cHddB2qHAw1/iKCQ0gWfEGWKcdwC6pby8UlaHCcpZJo=";
       };
-      vendorHash = "sha256-Sc8ZMfGR2Z0PDFU9YBF1ErLT6t3NTILZDuofhxcSYj4=";
-    };
+      vendorHash = "sha256-LSg8bz+ZrOHqvRBcQLcuUy7EKNoztLy5ELcud8YUtIk=";
+    });
 }
