@@ -77,7 +77,12 @@
             format-disconnected = textIcon "Disconnected" "⚠";
             format-ethernet = textIcon "{ipaddr}" "";
             format-wifi = textIcon "{essid}" "";
-            on-click = "${lib.getExe' pkgs.util-linux "rfkill"} toggle wifi";
+            menu = "on-click";
+            menu-file = ./disable-menu.xml;
+            menu-actions = {
+              # TODO: make easier to turn back on?
+              disable = "${lib.getExe' pkgs.util-linux "rfkill"} toggle wifi";
+            };
           };
           cpu = {
             format = textIcon "{usage}%" "";
@@ -165,25 +170,7 @@
             );
             tooltip = false;
             menu = "on-click";
-            menu-file =
-              let
-                menu =
-                  builtins.toFile "waybar-vpn-menu.xml"
-                    # xml
-                    ''
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <interface>
-                        <object class="GtkMenu" id="menu">
-                          <child>
-                            <object class="GtkMenuItem" id="disable">
-                              <property name="label">Disable</property>
-                            </object>
-                          </child>
-                        </object>
-                      </interface>
-                    '';
-              in
-              menu;
+            menu-file = ./disable-menu.xml;
             menu-actions = {
               # TODO: better method of setting
               disable = "vpn-off";
