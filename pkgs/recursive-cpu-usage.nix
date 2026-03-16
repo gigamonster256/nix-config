@@ -20,7 +20,7 @@
       meta = {
         description = "Simple utility to get the CPU used by a process and all of its children / grand-children / ...";
         homepage = "https://codeberg.org/FliegendeWurst/recursive-cpu-usage";
-        license = lib.licenses.unlicense;
+        license = lib.licenses.mit;
       };
     };
 }
