@@ -56,7 +56,7 @@
           radicle
           crypto
           # niri
-          # openclaw
+          openclaw
           # jj-gpc
         ];
       };
