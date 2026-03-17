@@ -48,7 +48,7 @@
       };
 
       home.shellAliases = {
-        sl = "ls";
+        sl = "ls"; # sorry steam locomotive
         # just open
         open = "xdg-open";
       };
