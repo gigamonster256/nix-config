@@ -17,7 +17,7 @@
     # # induced by https://github.com/NixOS/nixpkgs/pull/385341 and backports to 24.11
     # # using the --unpack hash
     # electron_shananagains = final: prev: {
-    #   electron_35 = prev.electron_35.overrideAttrs (oldAttrs: {
+    #   electron_35 = prev.electron_35.overrideAttrs (prevAttrs: {
     #     passthru.headers =
     #       let
     #         headersFetcher =
@@ -28,7 +28,7 @@
     #           };
     #       in
     #       # nix-prefetch-url url (not using --unpack)
-    #       headersFetcher oldAttrs.version "19b6amp8cqhgmif5rmgi7vayyr8m7mh8b179s3f4azxyzfis192z";
+    #       headersFetcher prevAttrs.version "19b6amp8cqhgmif5rmgi7vayyr8m7mh8b179s3f4azxyzfis192z";
     #   });
     # };
 
@@ -44,7 +44,7 @@
     # flake-schemas = final: prev: {
     #   # 2.27 is used in the flake-schema as the base
     #   # but has been removed from nixpkgs so use 2.28 derivation
-    #   nix = prev.nixVersions.nix_2_28.overrideAttrs (_oldAttrs: {
+    #   nix = prev.nixVersions.nix_2_28.overrideAttrs (_prevAttrs: {
     #     version = "2.27-flake-schemas";
     #     src = final.fetchFromGitHub {
     #       owner = "DeterminateSystems";

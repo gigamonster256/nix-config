@@ -4,9 +4,9 @@
   # instead of needing to bump the version every time the project updates
   nixpkgs.overlays = [
     (final: prev: {
-      openclaw = prev.openclaw.overrideAttrs (oldAttrs: {
+      openclaw = prev.openclaw.overrideAttrs (prevAttrs: {
 
-        nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ final.installShellFiles ];
+        nativeBuildInputs = (prevAttrs.nativeBuildInputs or [ ]) ++ [ final.installShellFiles ];
 
         # build and install completions (zsh bash fish powershell available)
         postInstall =

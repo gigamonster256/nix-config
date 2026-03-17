@@ -17,8 +17,8 @@
       bundledTrilinos ? false,
     }:
     let
-      trilinosWithROL = (trilinos.override { inherit withMPI; }).overrideAttrs (oldAttrs: {
-        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
+      trilinosWithROL = (trilinos.override { inherit withMPI; }).overrideAttrs (prevAttrs: {
+        cmakeFlags = (prevAttrs.cmakeFlags or [ ]) ++ [
           "-DTrilinos_ENABLE_ROL=ON"
         ];
       });

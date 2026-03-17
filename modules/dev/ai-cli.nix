@@ -3,11 +3,11 @@
   nixpkgs.overlays = [
     # bring in opencode dev
     (final: prev: {
-      opencode = (inputs.opencode.overlays.default final prev).opencode.overrideAttrs (oldAttrs: {
+      opencode = (inputs.opencode.overlays.default final prev).opencode.overrideAttrs (prevAttrs: {
         # waiting for https://github.com/anomalyco/opencode/pull/11915
-        version = final.lib.replaceString "-" "+" oldAttrs.version;
+        version = final.lib.replaceString "-" "+" prevAttrs.version;
         __intentionallyOverridingVersion = true;
-        patches = (oldAttrs.patches or [ ]) ++ [
+        patches = (prevAttrs.patches or [ ]) ++ [
           (final.fetchpatch2 {
             url = "https://github.com/anomalyco/opencode/commit/b546b174cc2c7065559cd33eea3b48673d569f7f.patch?full_index=1";
             hash = "sha256-vfRrSXlDXhsLNyTPwTDYJjCB1P0Xrwx7nNxjy9NYAig=";

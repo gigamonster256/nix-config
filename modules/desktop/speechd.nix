@@ -8,17 +8,17 @@
   #     };
   #     kdePackages = prev.kdePackages.overrideScope (
   #       _kfinal: kprev: {
-  #         okular = kprev.okular.overrideAttrs (oldAttrs: {
+  #         okular = kprev.okular.overrideAttrs (prevAttrs: {
   #           # remove qtspeech from buildInputs and tell CMake to not require it
-  #           buildInputs = lib.filter (dep: dep.pname != "qtspeech") oldAttrs.buildInputs;
-  #           cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
+  #           buildInputs = lib.filter (dep: dep.pname != "qtspeech") prevAttrs.buildInputs;
+  #           cmakeFlags = (prevAttrs.cmakeFlags or [ ]) ++ [
   #             "-DFORCE_NOT_REQUIRED_DEPENDENCIES=Qt6TextToSpeech"
   #           ];
   #         });
-  #         ktextwidgets = kprev.ktextwidgets.overrideAttrs (oldAttrs: {
+  #         ktextwidgets = kprev.ktextwidgets.overrideAttrs (prevAttrs: {
   #           # remove qtspeech from buildInputs and disable text to speech
-  #           buildInputs = lib.filter (dep: dep.pname != "qtspeech") oldAttrs.buildInputs;
-  #           cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
+  #           buildInputs = lib.filter (dep: dep.pname != "qtspeech") prevAttrs.buildInputs;
+  #           cmakeFlags = (prevAttrs.cmakeFlags or [ ]) ++ [
   #             "-DWITH_TEXT_TO_SPEECH=OFF"
   #           ];
   #         });
