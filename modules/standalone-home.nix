@@ -22,6 +22,30 @@
           };
           # use school email
           programs.git.settings.user.email = "chnorton@tamu.edu";
+
+          # keep system shell bash but switch into zsh if its available
+          programs.bash = {
+            enable = true;
+            package = null; # only declarative config
+            # if hm-managed zsh is available, exec into it
+            profileExtra = lib.optionalString config.programs.zsh.enable ''
+              # Check if zsh exists and we're not already running it
+              if [ -x "$(command -v zsh)" ] && [ "$SHELL" != "$(command -v zsh)" ] && [[ $- == *i* ]]
+              then
+                export SHELL="$(command -v zsh)"
+                exec zsh -l
+              fi
+            '';
+          };
+
+          programs.zsh = {
+            # source imperative config if it exists
+            initContent = lib.mkAfter ''
+              if [ -f ~/.zshrc.extra ]; then
+                source ~/.zshrc.extra
+              fi
+            '';
+          };
         };
     };
   };
