@@ -32,11 +32,19 @@
     };
 
   # add the lanzaboote pkiBundle to the impermanence dirs
+  # kinda hacky but avoids mkIf not being lazy
   flake.modules.nixos.impermanence =
-    { lib, config, ... }:
-    lib.mkIf (config.boot ? lanzaboote) {
-      boot.lanzaboote.persistence.directories = [
-        config.boot.lanzaboote.pkiBundle
-      ];
+    {
+      lib,
+      options,
+      config,
+      ...
+    }:
+    {
+      config = lib.optionalAttrs (options.boot ? lanzaboote) {
+        boot.lanzaboote.persistence.directories = [
+          config.boot.lanzaboote.pkiBundle
+        ];
+      };
     };
 }

@@ -13,7 +13,7 @@
     in
     {
       options = {
-        systemIdentity = {
+        boot.systemIdentity = {
           pcr15 = lib.mkOption {
             type = types.nullOr types.str;
             default = null;
@@ -43,7 +43,7 @@
         };
       };
       config = {
-        warnings = lib.optional (config.systemIdentity.pcr15 == null) ''
+        warnings = lib.optional (config.boot.systemIdentity.pcr15 == null) ''
           You have enabled the secure-boot module but have not set systemIdentity.pcr15
           This means the PCR 15 value will not be checked at boot time.
           See https://oddlama.org/blog/bypassing-disk-encryption-with-tpm2-unlock for why this could be bad.
@@ -56,7 +56,7 @@
               access = ea != null && !(lib.isBool ea && !ea);
             in
             {
-              assertion = config.systemIdentity.pcr15 == null || access;
+              assertion = config.boot.systemIdentity.pcr15 == null || access;
               message = ''
                 You have set systemIdentity.pcr15 but have not set boot.initrd.systemd.emergencyAccess
                 This means if the PCR 15 check fails you will be locked out of your system with no way to recover.
@@ -71,10 +71,10 @@
           jq = lib.getExe pkgs.jq;
         };
         boot.initrd.systemd.services = {
-          check-pcrs = lib.mkIf (config.systemIdentity.pcr15 != null) {
+          check-pcrs = lib.mkIf (config.boot.systemIdentity.pcr15 != null) {
             script = ''
               echo "Checking PCR 15 value"
-              if [[ $(systemd-analyze pcrs 15 --json=short | jq -r ".[0].sha256") != "${config.systemIdentity.pcr15}" ]] ; then
+              if [[ $(systemd-analyze pcrs 15 --json=short | jq -r ".[0].sha256") != "${config.boot.systemIdentity.pcr15}" ]] ; then
                 echo "PCR 15 check failed"
                 exit 1
               else
