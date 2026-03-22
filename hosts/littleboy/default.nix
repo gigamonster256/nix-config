@@ -29,8 +29,9 @@
       boot = {
         initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
         # binfmt.emulatedSystems = ["aarch64-linux"];
+        systemIdentity.pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
       };
-      systemIdentity.pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
+      
 
       # littleboy cant do WPA3
       networking.wireless.fallbackToWPA2 = true;
