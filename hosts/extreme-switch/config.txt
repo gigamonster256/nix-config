@@ -1,0 +1,294 @@
+#
+# Module devmgr configuration.
+#
+configure snmp sysContact "https://www.extremenetworks.com/support/"
+configure diagnostics privilege admin
+configure sys-recovery-level switch reset
+
+#
+# Module vlan configuration.
+#
+configure vlan default delete ports all
+configure vr VR-Default delete ports 1-48
+configure vr VR-Default add ports 1-48
+configure vlan default delete ports 1-28,30-44,48
+configure vlan Default tag 12
+create vlan "Network"
+configure vlan Network tag 100
+create vlan "PenguinVPN"
+configure vlan PenguinVPN tag 13
+create vlan "PPIoT"
+configure vlan PPIoT tag 17
+create vlan "Servers"
+configure vlan Servers tag 15
+disable port 4
+disable port 5
+disable port 6
+disable port 7
+disable port 8
+disable port 9
+disable port 10
+disable port 11
+disable port 12
+disable port 13
+disable port 14
+disable port 15
+disable port 16
+disable port 17
+disable port 18
+disable port 19
+disable port 20
+disable port 21
+disable port 22
+disable port 23
+disable port 24
+disable port 25
+disable port 26
+disable port 28
+disable port 30
+disable port 31
+disable port 32
+disable port 33
+disable port 34
+disable port 35
+disable port 36
+disable port 38
+disable port 39
+disable port 40
+disable port 41
+disable port 42
+disable port 48
+configure vlan Default add ports 1-2,37 tagged
+configure vlan Default add ports 29,45-47 untagged
+configure vlan Network add ports 29 tagged
+configure vlan Network add ports 1-2,37 untagged
+configure vlan PenguinVPN add ports 1-2,27,29,37,44 tagged
+configure vlan PPIoT add ports 1-2,27,29,37 tagged
+configure vlan Servers add ports 29 tagged
+configure vlan Servers add ports 3,27,43-44 untagged
+configure vlan Mgmt ipaddress 192.168.1.1 255.255.255.0
+configure vlan Network ipaddress 172.16.100.2 255.255.255.0
+configure Default ipaddress eui64 fe80::/64
+configure Default ipaddress 2001:470:b8c5::2/64
+configure Network ipaddress eui64 fe80::/64
+configure Network ipaddress 2001:470:b8c5:402::2/64
+
+#
+# Module fdb configuration.
+#
+
+#
+# Module rtmgr configuration.
+#
+configure iproute add default 172.16.100.1
+
+#
+# Module mcmgr configuration.
+#
+
+#
+# Module policy configuration.
+#
+
+#
+# Module aaa configuration.
+#
+create account admin caleb encrypted "$5$W7aW34$w/.9qBsspF2UAvtgmk1rB8p4LKVklo1anhX4vQiWIZ9"
+configure account all password-policy min-length 8
+configure account all password-policy lockout-on-login-failures on
+configure account all password-policy lockout-time-period 5
+configure account caleb password-policy min-length 8
+configure account caleb password-policy lockout-on-login-failures on
+configure account caleb password-policy lockout-time-period 5
+
+#
+# Module acl configuration.
+#
+
+
+
+
+#
+# Module bfd configuration.
+#
+
+#
+# Module ces configuration.
+#
+
+#
+# Module cfgmgr configuration.
+#
+configure cli password prompting-only on
+
+#
+# Module dosprotect configuration.
+#
+
+#
+# Module dot1ag configuration.
+#
+
+#
+# Module eaps configuration.
+#
+
+#
+# Module edp configuration.
+#
+
+#
+# Module elrp configuration.
+#
+
+#
+# Module ems configuration.
+#
+configure log messages privilege admin
+configure log target memory-buffer alert percent-full 90
+configure syslog add 172.16.15.11:5140 vr VR-Default local0
+enable log target syslog 172.16.15.11:5140 vr VR-Default local0
+configure log target syslog 172.16.15.11:5140 vr VR-Default local0 from 172.16.100.2
+configure log target syslog 172.16.15.11:5140 vr VR-Default local0 filter DefaultFilter severity Info
+configure log target syslog 172.16.15.11:5140 vr VR-Default local0 match Any
+configure log target syslog 172.16.15.11:5140 vr VR-Default local0 format timestamp hundredths date mm/dd/yyyy event-name condition severity priority host-name tag-id tag-name
+
+#
+# Module epm configuration.
+#
+
+#
+# Module erps configuration.
+#
+
+#
+# Module esrp configuration.
+#
+
+#
+# Module ethoam configuration.
+#
+
+#
+# Module etmon configuration.
+#
+
+#
+# Module exsshd configuration.
+#
+enable ssh2
+
+
+#
+# Module hal configuration.
+#
+
+#
+# Module idMgr configuration.
+#
+
+#
+# Module ipSecurity configuration.
+#
+
+#
+# Module ipfix configuration.
+#
+
+#
+# Module lldp configuration.
+#
+
+#
+# Module mrp configuration.
+#
+
+#
+# Module msdp configuration.
+#
+
+#
+# Module netLogin configuration.
+#
+
+#
+# Module netTools configuration.
+#
+configure dns-client add name-server 172.16.15.50 vr VR-Default
+configure dns-client add name-server 172.16.15.51 vr VR-Default
+
+#
+# Module ntp configuration.
+#
+
+#
+# Module poe configuration.
+#
+
+#
+# Module rip configuration.
+#
+
+#
+# Module ripng configuration.
+#
+
+#
+# Module snmpMaster configuration.
+#
+configure snmpv3 delete user "admin" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete user "initial" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete user "initialmd5" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete user "initialsha" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete user "initialmd5Priv" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete user "initialshaPriv" engine-id 80:00:07:7c:03:00:04:96:98:8e:f2
+configure snmpv3 delete community "private"
+configure snmpv3 delete community "public"
+disable snmp access
+disable snmp access vr "VR-Default"
+disable snmp access vr "VR-Mgmt"
+
+#
+# Module stp configuration.
+#
+configure stpd s0 mode dot1w
+configure stpd s0 add vlan Default ports 29 dot1d
+configure stpd s0 add vlan Default ports 45 dot1d
+configure stpd s0 add vlan Default ports 46 dot1d
+configure stpd s0 add vlan Default ports 47 dot1d
+enable stpd s0
+
+#
+# Module synce configuration.
+#
+
+#
+# Module techSupport configuration.
+#
+
+#
+# Module telnetd configuration.
+#
+disable telnet
+
+#
+# Module tftpd configuration.
+#
+
+#
+# Module thttpd configuration.
+#
+enable web http
+configure ssl certificate hash-algorithm sha512
+
+#
+# Module twamp configuration.
+#
+
+#
+# Module vmt configuration.
+#
+
+#
+# Module vsm configuration.
+#
