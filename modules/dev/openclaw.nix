@@ -6,6 +6,14 @@
     (final: prev: {
       openclaw = prev.openclaw.overrideAttrs (prevAttrs: {
 
+        patches = (prevAttrs.patches or [ ]) ++ [
+          # upstream patch to fix completion
+          (final.fetchpatch2 {
+            url = "https://github.com/openclaw/openclaw/commit/a0b8870d48e80c238db58b930fd399a5e8267115.patch?full_index=1";
+            hash = "sha256-jtxxXTmbtMy8Eam5hsWB/JQhWe9Hmfoz+Pt9kXeXRsE=";
+          })
+        ];
+
         nativeBuildInputs = (prevAttrs.nativeBuildInputs or [ ]) ++ [ final.installShellFiles ];
 
         # build and install completions (zsh bash fish powershell available)
