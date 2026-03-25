@@ -31,7 +31,6 @@
         # binfmt.emulatedSystems = ["aarch64-linux"];
         systemIdentity.pcr15 = "f3c1ccf9ce465c88851005656454218cccbf4288338a398e6dec035548ceada8";
       };
-      
 
       # littleboy cant do WPA3
       networking.wireless.fallbackToWPA2 = true;

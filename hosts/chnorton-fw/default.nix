@@ -130,7 +130,6 @@
         inherit (config.users.users.caleb) group;
       };
 
-
       # predicted PCRs only match when installed uki is exactly the same as the one used to compute them
       # this is not the case when lzbt signs the uki - pcr 7 is different from predicted
       # also pcr4 never seems to exactly match, even when using the same uki - strange
@@ -162,11 +161,11 @@
       };
     };
 
-    # issue - ollama does not seem to create its ssh keys on first run if the .ollama directory already exists
-    persistence.programs.homeManager = {
-      ollama = {
-        namespace = "services";
-        directories = [ ".ollama" ];
-      };
+  # issue - ollama does not seem to create its ssh keys on first run if the .ollama directory already exists
+  persistence.programs.homeManager = {
+    ollama = {
+      namespace = "services";
+      directories = [ ".ollama" ];
     };
+  };
 }
