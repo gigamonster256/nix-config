@@ -5,12 +5,17 @@
     {
       lib,
       pkgs,
+      config,
       ...
     }:
     {
       imports = [ inputs.nix-index-database.homeModules.nix-index ];
 
       fonts.fontconfig.enable = true;
+
+      # hacky and unofficial
+      # see definition for explaination https://github.com/nix-community/home-manager/blob/master/modules/misc/gtk/gtk4.nix
+      gtk.gtk4.theme = config.gtk.theme;
 
       programs = {
         direnv = {

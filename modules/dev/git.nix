@@ -5,6 +5,7 @@
     {
       programs.git = {
         enable = lib.mkDefault true;
+        signing.format = lib.mkDefault "openpgp";
         settings = {
           user = {
             name = lib.mkDefault config.meta.owner.name;
