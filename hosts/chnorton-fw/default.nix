@@ -45,6 +45,7 @@
         crypto
         # niri
         # jj-gpc
+        flux-keyboard
       ]);
 
       home-manager.users.caleb = {
@@ -60,6 +61,7 @@
           # niri
           openclaw
           # jj-gpc
+          flux-keyboard
         ];
       };
 
