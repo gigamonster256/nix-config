@@ -132,6 +132,20 @@
         inherit (config.users.users.caleb) group;
       };
 
+      # FIXME: if renaming an interface, nixos-facter needs to be re-run to update the report with the new name
+      # otherwise facter-modules will only generate config for the old name
+      systemd.network.links = {
+        "10-wlan0" = {
+          matchConfig.MACAddress = "d8:b3:2f:bd:bf:c7";
+          linkConfig.Name = "wlan0";
+        };
+        # multi gig ethernet
+        "10-enmg0" = {
+          matchConfig.MACAddress = "9c:bf:0d:00:b0:2b";
+          linkConfig.Name = "enmg0";
+        };
+      };
+
       # predicted PCRs only match when installed uki is exactly the same as the one used to compute them
       # this is not the case when lzbt signs the uki - pcr 7 is different from predicted
       # also pcr4 never seems to exactly match, even when using the same uki - strange
