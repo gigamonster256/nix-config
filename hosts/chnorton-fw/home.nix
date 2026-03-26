@@ -98,6 +98,11 @@
             };
           };
         };
+
+        services.ollama = {
+          enable = true;
+          package = pkgs.ollama-vulkan;
+        };
       };
   };
 
@@ -148,6 +153,11 @@
       directories = [
         ".config/google-chrome"
       ];
+    };
+    # issue - ollama does not seem to create its ssh keys on first run if the .ollama directory already exists
+    ollama = {
+      namespace = "services";
+      directories = [ ".ollama" ];
     };
   };
 }
