@@ -96,6 +96,11 @@
             "wyse-*.penguin" = {
               user = "root";
             };
+            "olympus" = {
+              hostname = "olympus.ece.tamu.edu";
+              user = "chnorton";
+              forwardAgent = true;
+            };
           };
         };
 
