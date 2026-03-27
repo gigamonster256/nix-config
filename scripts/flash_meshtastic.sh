@@ -18,11 +18,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 MOUNT_POINT="/mnt/meshtastic"
-DEVICE="/dev/sdb"
+DEVICE="/dev/sda"
 REPO="meshtastic/firmware"
 
-mkdir -p "$MOUNT_POINT"
-mount "$DEVICE" "$MOUNT_POINT" 2>/dev/null || sudo mount "$DEVICE" "$MOUNT_POINT"
+mount --mkdir "$DEVICE" "$MOUNT_POINT" 2>/dev/null || sudo mount --mkdir "$DEVICE" "$MOUNT_POINT"
 
 BOARD_ID=$(grep -i "Board-ID:" "$MOUNT_POINT/INFO_UF2.TXT" | sed 's/.*Board-ID: *//' | tr -d '\r\n')
 echo "Detected board ID: $BOARD_ID"
