@@ -6,16 +6,18 @@
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "agari";
-      version = "0.19.1";
+      version = "0.21.0";
 
       src = fetchFromGitHub {
         owner = "rysb-dev";
         repo = "agari";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-lSf/H41ySM8ndE2s6TxcLEEyOZ2HuZvgxoR/9PTWNaU=";
+        hash = "sha256-0OE5XrqfBhpwwXqzSzmv5HaLZbascmpsJxhXLbUk0So=";
       };
 
-      cargoHash = "sha256-lUvFcafAXykZfiUAy/w8s6tX0X7tQocG8IJ+skvlRF4=";
+      cargoHash = "sha256-VJ11erz8UvQ2c3kM66jqs5IO+kYYSv//4UGLzez6Tdw=";
+
+      buildAndTestSubdir = "crates/agari-core";
 
       meta = {
         description = "Riichi Score Calculator";
@@ -41,6 +43,8 @@
       inherit (agari) version;
 
       inherit (agari) src cargoHash;
+
+      buildAndTestSubdir = "crates/agari-wasm";
 
       nativeBuildInputs = [
         writableTmpDirAsHomeHook
