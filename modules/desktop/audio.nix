@@ -25,4 +25,17 @@
         }
       ];
     };
+
+  # store user volume settings and such
+  persistence.programs.nixos-home = {
+    wireplumber = {
+      namespace = [
+        "services"
+        "pipewire"
+      ];
+      directories = [
+        ".local/state/wireplumber"
+      ];
+    };
+  };
 }
