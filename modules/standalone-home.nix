@@ -10,10 +10,13 @@
       module =
         { lib, config, ... }:
         {
-          imports = [ self.modules.homeManager.dev ];
+          imports = [
+            self.modules.homeManager.dev
+            self.modules.homeManager.opencode
+          ];
           # overrride the opencode-web from home-manager settings
           programs.opencode.web.extraArgs = [
-            "--hostname" "0.0.0.0" # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
+            "--hostname=0.0.0.0" # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
           ];
           systemd.user.services.opencode-web = {
             # TODO: secure further - this is basic-auth over http... bad
