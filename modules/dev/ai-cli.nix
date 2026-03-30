@@ -13,28 +13,19 @@
       ...
     }:
     {
-      programs.opencode.enable = lib.mkDefault true;
+      programs.opencode = {
+        enable = lib.mkDefault true;
+        web.enable = lib.mkDefault config.programs.opencode.enable;
+        # TODO: port option so other modules can reference it?
+        web.extraArgs = [
+          "--port" "40123"
+        ];
+      };
+
       home.shellAliases = lib.mkIf config.programs.opencode.enable {
         oc = lib.getExe config.programs.opencode.package;
       };
       # programs.gemini-cli.enable = lib.mkDefault true;
-
-      systemd.user.services.opencode = {
-        Unit = {
-          Description = "Opencode AI CLI";
-          After = [ "graphical-session.target" ];
-          PartOf = [ "graphical-session.target" ];
-        };
-
-        Service = {
-          ExecStart = "${lib.getExe config.programs.opencode.package} serve --port 40123";
-          Restart = "on-failure";
-        };
-
-        Install = {
-          WantedBy = [ "graphical-session.target" ];
-        };
-      };
 
       programs.waybar.settings.mainBar = {
         "custom/opencode" =

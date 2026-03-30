@@ -11,12 +11,15 @@
         { lib, config, ... }:
         {
           imports = [ self.modules.homeManager.dev ];
-          systemd.user.services.opencode = {
+          # overrride the opencode-web from home-manager settings
+          programs.opencode.web.extraArgs = [
+            "--hostname" "0.0.0.0" # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
+          ];
+          systemd.user.services.opencode-web = {
             # TODO: secure further - this is basic-auth over http... bad
             Service = {
-              # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
-              ExecStart = lib.mkForce "${lib.getExe config.programs.opencode.package} serve --port 40123 --hostname 0.0.0.0";
               # FIXME: sops?
+              # upstream PR: https://github.com/nix-community/home-manager/pull/8939
               EnvironmentFile = "/home/chnorton/.config/opencode/env";
             };
           };
