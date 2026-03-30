@@ -139,10 +139,15 @@
           matchConfig.MACAddress = "d8:b3:2f:bd:bf:c7";
           linkConfig.Name = "wlan0";
         };
-        # multi gig ethernet
+        # multi gig ethernet module
         "10-enmg0" = {
           matchConfig.MACAddress = "9c:bf:0d:00:b0:2b";
           linkConfig.Name = "enmg0";
+        };
+        # home dock
+        "10-eng0" = {
+          matchConfig.MACAddress = "90:50:c0:80:d3:15";
+          linkConfig.Name = "eng0";
         };
       };
 
