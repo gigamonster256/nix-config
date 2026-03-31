@@ -77,8 +77,9 @@
           includes = [ "config.custom" ];
           matchBlocks = {
             "*" = {
+              # add keys to agent but only forward to trusted servers
               forwardAgent = false;
-              addKeysToAgent = "no";
+              addKeysToAgent = "yes";
               compression = false;
               serverAliveInterval = 0;
               serverAliveCountMax = 3;
