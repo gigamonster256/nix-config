@@ -1145,16 +1145,32 @@
         ]
       },
       "locked": {
-        "lastModified": 1774755780,
-        "narHash": "sha256-+yJ50ccwg+KbSz/M0BuG1BRUkDQTkGDnvmOPwA05hlo=",
+        "lastModified": 1774974001,
+        "narHash": "sha256-vBGcxORrZ/FRzs1dAq8Ib3/BUp6qncdAFRoxB0r2S9k=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "a5b1dc081d589598168c0e0d9346a35aeb58548b",
+        "rev": "434d82bbe2b855650b7e82fcc3539b6e64e44ddf",
         "type": "github"
       },
       "original": {
         "owner": "anomalyco",
         "repo": "opencode",
+        "type": "github"
+      }
+    },
+    "opencode-tamu-finish-fix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774977460,
+        "narHash": "sha256-uXbCAsHxOLYdgbUwAYVYEa1pS3Lx9Pp9m1K0SUltIWc=",
+        "owner": "gigamonster256",
+        "repo": "opencode-tamu-finish-fix",
+        "rev": "43c545565804444017141b74765f1be23c19e7eb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "opencode-tamu-finish-fix",
         "type": "github"
       }
     },
@@ -1206,6 +1222,7 @@
         "noctalia": "noctalia",
         "nur": "nur",
         "opencode": "opencode",
+        "opencode-tamu-finish-fix": "opencode-tamu-finish-fix",
         "persistence": "persistence",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",

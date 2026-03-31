@@ -101,6 +101,9 @@
     opencode.url = "github:anomalyco/opencode";
     opencode.inputs.nixpkgs.follows = "nixpkgs";
 
+    opencode-tamu-finish-fix.url = "github:gigamonster256/opencode-tamu-finish-fix";
+    opencode-tamu-finish-fix.flake = false;
+
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
 

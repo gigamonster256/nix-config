@@ -47,39 +47,56 @@
       }
       # tamu providers if this is a nixos config with sops available
       (lib.mkIf (osConfig != null && osConfig ? sops) {
-        programs.opencode.settings = {
-          provider = {
-            tamu-ai-pro = {
-              npm = "@ai-sdk/openai-compatible";
-              name = "TAMU Pro Chat";
-              options = {
-                baseURL = "https://pro-chat-api.tamu.ai/api/v1";
-                apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
-              };
-              models = {
-                "protected.Claude Opus 4.5" = {
-                  name = "Claude Opus 4.5";
+        # patch with tamu finish fix, and settings for both regular and pro tamu ai
+        programs.opencode = {
+          package = pkgs.opencode.overrideAttrs (
+            _finalAttrs: prevAttrs: {
+              patches = (prevAttrs.patches or [ ]) ++ [
+                (inputs.opencode-tamu-finish-fix + /opencode-chat-finish-hook.patch)
+              ];
+            }
+          );
+          settings = {
+            provider = {
+              tamu-ai-pro = {
+                npm = "@ai-sdk/openai-compatible";
+                name = "TAMU Pro Chat";
+                options = {
+                  baseURL = "https://pro-chat-api.tamu.ai/api/v1";
+                  apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
+                };
+                models = {
+                  "protected.Claude Opus 4.5" = {
+                    name = "Claude Opus 4.5";
+                  };
                 };
               };
-            };
-            tamu-ai = {
-              npm = "@ai-sdk/openai-compatible";
-              name = "TAMU Chat";
-              options = {
-                baseURL = "https://chat-api.tamu.ai/api/v1";
-                apiKey = osConfig.sops.placeholder.tamu_ai_key;
-              };
-              models = {
-                "protected.Claude Opus 4.5" = {
-                  name = "Claude Opus 4.5";
+              tamu-ai = {
+                npm = "@ai-sdk/openai-compatible";
+                name = "TAMU Chat";
+                options = {
+                  baseURL = "https://chat-api.tamu.ai/api/v1";
+                  apiKey = osConfig.sops.placeholder.tamu_ai_key;
+                };
+                models = {
+                  "protected.Claude Opus 4.5" = {
+                    name = "Claude Opus 4.5";
+                  };
                 };
               };
             };
           };
         };
-        # override regular generated config file with sops-encrypted template
-        xdg.configFile."opencode/opencode.json" = lib.mkForce {
-          source = config.lib.file.mkOutOfStoreSymlink osConfig.sops.templates."opencode.json".path;
+
+        xdg.configFile = {
+          # override regular generated config file with sops-encrypted template
+          "opencode/opencode.json" = lib.mkForce {
+            source = config.lib.file.mkOutOfStoreSymlink osConfig.sops.templates."opencode.json".path;
+          };
+          # install tamu finish hook plugin
+          "opencode/plugins/opencode-chat-finish-hook.ts" = {
+            source = inputs.opencode-tamu-finish-fix + /src/index.ts;
+          };
         };
       })
     ];
