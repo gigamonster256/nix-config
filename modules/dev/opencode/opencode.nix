@@ -57,34 +57,31 @@
             }
           );
           settings = {
-            provider = {
-              tamu-ai-pro = {
-                npm = "@ai-sdk/openai-compatible";
-                name = "TAMU Pro Chat";
-                options = {
-                  baseURL = "https://pro-chat-api.tamu.ai/api/v1";
-                  apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
-                };
-                models = {
-                  "protected.Claude Opus 4.5" = {
-                    name = "Claude Opus 4.5";
+            provider =
+              let
+                # see scripts/update-tamu-models.sh
+                models = lib.importJSON ./tamu-models.json;
+              in
+              {
+                tamu-ai-pro = {
+                  npm = "@ai-sdk/openai-compatible";
+                  name = "TAMU Pro Chat";
+                  options = {
+                    baseURL = "https://pro-chat-api.tamu.ai/api/v1";
+                    apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
                   };
+                  inherit models;
+                };
+                tamu-ai = {
+                  npm = "@ai-sdk/openai-compatible";
+                  name = "TAMU Chat";
+                  options = {
+                    baseURL = "https://chat-api.tamu.ai/api/v1";
+                    apiKey = osConfig.sops.placeholder.tamu_ai_key;
+                  };
+                  inherit models;
                 };
               };
-              tamu-ai = {
-                npm = "@ai-sdk/openai-compatible";
-                name = "TAMU Chat";
-                options = {
-                  baseURL = "https://chat-api.tamu.ai/api/v1";
-                  apiKey = osConfig.sops.placeholder.tamu_ai_key;
-                };
-                models = {
-                  "protected.Claude Opus 4.5" = {
-                    name = "Claude Opus 4.5";
-                  };
-                };
-              };
-            };
           };
         };
 
@@ -103,7 +100,11 @@
 
   persistence.programs.homeManager = {
     opencode = {
-      directories = [ ".local/share/opencode" ];
+      directories = [ 
+        ".local/share/opencode"
+        ".local/state/opencode"
+        ".cache/opencode"
+         ];
     };
     gemini-cli = {
       directories = [ ".gemini" ];
