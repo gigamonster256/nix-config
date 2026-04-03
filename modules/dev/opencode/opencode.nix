@@ -52,7 +52,10 @@
           package = pkgs.opencode.overrideAttrs (
             _finalAttrs: prevAttrs: {
               patches = (prevAttrs.patches or [ ]) ++ [
-                (inputs.opencode-tamu-finish-fix + /opencode-chat-finish-hook.patch)
+                (pkgs.fetchpatch2 {
+                  url = "https://github.com/gigamonster256/opencode/pull/1.patch?full_index=1";
+                  hash = "sha256-gHSJHZNHv6YHDSFVvG8qrXU/GgGDVN6xcYg+RGR4KBw=";
+                })
               ];
             }
           );
@@ -100,11 +103,11 @@
 
   persistence.programs.homeManager = {
     opencode = {
-      directories = [ 
+      directories = [
         ".local/share/opencode"
         ".local/state/opencode"
         ".cache/opencode"
-         ];
+      ];
     };
     gemini-cli = {
       directories = [ ".gemini" ];
