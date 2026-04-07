@@ -51,6 +51,7 @@
         libayatana-appindicator
       ];
 
+      # FIXME: polymath puts files in $HOME/flux which is quite annoying - ask for it to honor XDG_CONFIG_HOME or similar
       installPhase = ''
         runHook preInstall
 
