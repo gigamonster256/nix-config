@@ -95,8 +95,6 @@
         inherit (config.users.users.caleb) group;
       };
 
-      laptop.lidDevice = "LID0";
-
       users = {
         mutableUsers = false;
         users = {
