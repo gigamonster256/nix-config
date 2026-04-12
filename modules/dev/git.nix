@@ -11,6 +11,8 @@
           ".direnv/"
           "result"
           "result-*"
+          # .vscode settings
+          ".vscode/"
         ];
         settings = {
           user = {
