@@ -87,6 +87,7 @@
     # master ghostty
     ghostty.url = "github:ghostty-org/ghostty";
     ghostty.inputs.nixpkgs.follows = "nixpkgs";
+    ghostty.inputs.zon2nix.follows = ""; # dev only
 
     persistence.url = "github:gigamonster256/persistence";
     # persistence.inputs.nixpkgs.follows = "nixpkgs";
@@ -96,6 +97,7 @@
     # bus notifications service
     bussy.url = "github:gigamonster256/bussy";
     bussy.inputs.nixpkgs.follows = "nixpkgs";
+    bussy.inputs.devenv.follows = ""; # don't need devenv for deployment
 
     # latest opencode dev desktop and cli
     opencode.url = "github:anomalyco/opencode";
@@ -106,9 +108,12 @@
 
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
+    noctalia.inputs.noctalia-qs.inputs.treefmt-nix.follows = "treefmt-nix";
 
     determinate.url = "github:DeterminateSystems/determinate";
     determinate.inputs.nixpkgs.follows = "nixpkgs";
+    determinate.inputs.nix.inputs.flake-parts.follows = "flake-parts";
+    determinate.inputs.nix.inputs.git-hooks-nix.follows = "git-hooks";
   };
 
   outputs =
