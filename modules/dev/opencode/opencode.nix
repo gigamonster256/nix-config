@@ -54,7 +54,7 @@
               patches = (prevAttrs.patches or [ ]) ++ [
                 (pkgs.fetchpatch2 {
                   url = "https://github.com/gigamonster256/opencode/pull/1.patch?full_index=1";
-                  hash = "sha256-gHSJHZNHv6YHDSFVvG8qrXU/GgGDVN6xcYg+RGR4KBw=";
+                  hash = "sha256-jawxuhb+tb8UPV4j0n2PzffyuYlTFbPqtKOnBNMeLTc=";
                 })
               ];
             }
