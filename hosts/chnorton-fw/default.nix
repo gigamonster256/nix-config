@@ -210,6 +210,9 @@
           # };
 
           boot.zswap.enable = true;
+
+          # TODO: btrbk?
+          services.btrfs.autoScrub.enable = true;
         }
       ];
     };
