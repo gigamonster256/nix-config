@@ -347,6 +347,11 @@
               "w[tv1], gapsout:0, gapsin:0"
               "f[1], gapsout:0, gapsin:0"
             ];
+
+            layerrule = [
+              # no border on pickers (hyprshot or picker)
+              "match:namespace selection, no_anim on"
+            ];
           };
         };
       }
