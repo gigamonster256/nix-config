@@ -89,6 +89,10 @@
               controlPath = "~/.ssh/master-%r@%n:%p";
               controlPersist = "no";
             };
+            "github.com" = {
+              controlMaster = "no";
+              controlPath = "none";
+            };
             "kvs" = {
               hostname = "ecewkgsw05201.engr.tamu.edu";
               user = "chnorton";
