@@ -1,15 +1,72 @@
 {
-  "protected.o3": {
-    "name": "o3"
-  },
   "protected.Claude Opus 4.1": {
     "name": "Claude Opus 4.1"
+  },
+  "protected.Claude 3.5 Haiku": {
+    "name": "Claude 3.5 Haiku"
   },
   "protected.Claude-Haiku-4.5": {
     "name": "Claude-Haiku-4.5"
   },
+  "protected.o4-mini": {
+    "name": "o4-mini"
+  },
+  "protected.o3": {
+    "name": "o3"
+  },
+  "protected.llama3.2": {
+    "name": "llama3.2"
+  },
+  "protected.gemini-2.0-flash-lite": {
+    "name": "gemini-2.0-flash-lite"
+  },
+  "protected.gpt-5": {
+    "name": "gpt-5"
+  },
+  "protected.Claude Opus 4.6": {
+    "name": "Claude Opus 4.6"
+  },
+  "protected.Claude Sonnet 4.6": {
+    "name": "Claude Sonnet 4.6"
+  },
+  "protected.gemini-2.5-pro": {
+    "name": "gemini-2.5-pro"
+  },
+  "protected.text-embedding-3-small": {
+    "name": "text-embedding-3-small"
+  },
+  "protected.gpt-5-nano": {
+    "name": "gpt-5-nano"
+  },
+  "protected.Claude Opus 4.5": {
+    "name": "Claude Opus 4.5"
+  },
+  "protected.o3-mini": {
+    "name": "o3-mini"
+  },
+  "protected.gpt-5-mini": {
+    "name": "gpt-5-mini"
+  },
+  "protected.Claude Sonnet 4": {
+    "name": "Claude Sonnet 4"
+  },
   "protected.Claude 3.5 Sonnet": {
     "name": "Claude 3.5 Sonnet"
+  },
+  "protected.gpt-5.4-nano": {
+    "name": "gpt-5.4-nano"
+  },
+  "protected.gpt-4.1": {
+    "name": "gpt-4.1"
+  },
+  "protected.gemini-2.5-flash": {
+    "name": "gemini-2.5-flash"
+  },
+  "protected.gpt-5.4-mini": {
+    "name": "gpt-5.4-mini"
+  },
+  "protected.gpt-5.1": {
+    "name": "gpt-5.1"
   },
   "protected.gemini-2.0-flash": {
     "name": "gemini-2.0-flash"
@@ -17,55 +74,25 @@
   "protected.Claude Sonnet 4.5": {
     "name": "Claude Sonnet 4.5"
   },
-  "protected.Claude 3.5 Haiku": {
-    "name": "Claude 3.5 Haiku"
-  },
-  "protected.o4-mini": {
-    "name": "o4-mini"
-  },
   "protected.gemini-2.5-flash-lite": {
     "name": "gemini-2.5-flash-lite"
   },
-  "protected.Claude Opus 4.5": {
-    "name": "Claude Opus 4.5"
-  },
-  "protected.gemini-2.5-pro": {
-    "name": "gemini-2.5-pro"
-  },
-  "protected.gemini-2.0-flash-lite": {
-    "name": "gemini-2.0-flash-lite"
-  },
-  "protected.Claude Sonnet 4": {
-    "name": "Claude Sonnet 4"
-  },
-  "protected.gpt-4.1": {
-    "name": "gpt-4.1"
-  },
   "protected.gpt-4o": {
     "name": "gpt-4o"
-  },
-  "protected.text-embedding-3-small": {
-    "name": "text-embedding-3-small"
-  },
-  "protected.o3-mini": {
-    "name": "o3-mini"
-  },
-  "protected.gpt-5.1": {
-    "name": "gpt-5.1"
-  },
-  "protected.gemini-2.5-flash": {
-    "name": "gemini-2.5-flash"
-  },
-  "protected.gpt-5": {
-    "name": "gpt-5"
-  },
-  "protected.llama3.2": {
-    "name": "llama3.2"
   },
   "protected.Claude 3.7 Sonnet": {
     "name": "Claude 3.7 Sonnet"
   },
   "protected.gpt-5.2": {
     "name": "gpt-5.2"
+  },
+  "protected.gpt-4.1-mini": {
+    "name": "gpt-4.1-mini"
+  },
+  "protected.gpt-4.1-nano": {
+    "name": "gpt-4.1-nano"
+  },
+  "protected.gpt-5.4": {
+    "name": "gpt-5.4"
   }
 }
