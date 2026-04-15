@@ -51,6 +51,11 @@ in
     "myinstant-sound-disconnect"
     "myinstant-sound-mark-z-windows"
     "myinstant-sound-no-windows"
+    "myinstant-sound-halo-shield-recharge-sound"
+    "myinstant-sound-alert_shield"
+    "myinstant-sound-applepay"
+    "myinstant-sound-halo-shield-recharge-sound"
+    "myinstant-sound-alert_shield"
   ];
 
   packages = {
@@ -70,5 +75,39 @@ in
       name = "no-windows";
       hash = "sha256-QRCzRrKPKfIDlVpl/MvnrkW9DWEi+6H30dIdXR8xlqo=";
     };
+    usb-halo-charge-sound = myinstant-sound {
+      name = "halo-shield-recharge-sound";
+      hash = "sha256-0uhR/oZAiCbq/HRPk6G9qGSBCdsHK8Ab5efDId2ZE2k=";
+    };
+    usb-halo-deplete-sound = myinstant-sound {
+      name = "alert_shield";
+      hash = "sha256-XowjT39Xr4moE5xLQcY1uThkI/pqJJj9Sv54dAScsig=";
+    };
+    applepay-sound = myinstant-sound {
+      name = "applepay";
+      hash = "sha256-REJexgyWlPeILz11yhZkY8fuRhkoTTK/yHiTaHj5C9s=";
+    };
   };
+
+  perSystem =
+    { lib, pkgs, ... }:
+    let
+      allPredicates = preds: x: lib.all (p: p x) preds;
+      soundPredicates = [
+        # (lib.hasPrefix "usb")
+        (lib.hasSuffix "sound")
+      ];
+      isSoundPackage = name: allPredicates soundPredicates name;
+      soundPackages = lib.filterAttrs (name: _: isSoundPackage name) pkgs;
+      soundApp =
+        soundPkg:
+        pkgs.writeShellApplication {
+          name = "play-sound";
+          runtimeInputs = [ pkgs.mpv ];
+          text = "mpv --no-video --volume=100 ${soundPkg.wav}";
+        };
+    in
+    {
+      apps = lib.mapAttrs (_name: sound: { program = lib.getExe (soundApp sound); }) soundPackages;
+    };
 }
