@@ -31,8 +31,8 @@
             fi
           '';
         };
-      connectSound = playWavAsUser "connect" pkgs.usb-connect-sound.wav;
-      disconnectSound = playWavAsUser "disconnect" pkgs.usb-disconnect-sound.wav;
+      connectSound = playWavAsUser "connect" pkgs.usb-mark-sound.wav;
+      disconnectSound = playWavAsUser "disconnect" pkgs.usb-no-sound.wav;
     in
     {
       services.udev.packages = [

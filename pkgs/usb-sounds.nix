@@ -49,6 +49,8 @@ in
   nixpkgs.allowedUnfreePackages = [
     "myinstant-sound-connect"
     "myinstant-sound-disconnect"
+    "myinstant-sound-mark-z-windows"
+    "myinstant-sound-no-windows"
   ];
 
   packages = {
@@ -59,6 +61,14 @@ in
     usb-disconnect-sound = myinstant-sound {
       name = "disconnect";
       hash = "sha256-OComJ5WBJIEgx8oqERsJ5bkYTqQR3GY/SllSCiOmI1M=";
+    };
+    usb-mark-sound = myinstant-sound {
+      name = "mark-z-windows";
+      hash = "sha256-i+7RbpUFKywrzr3fdTGooS9Xeovz3FkC2BSbNyMbAFs=";
+    };
+    usb-no-sound = myinstant-sound {
+      name = "no-windows";
+      hash = "sha256-QRCzRrKPKfIDlVpl/MvnrkW9DWEi+6H30dIdXR8xlqo=";
     };
   };
 }
