@@ -117,6 +117,7 @@
                   "dialout"
                   "audio"
                   "wpa_supplicant"
+                  "librepods"
                 ];
                 shell = pkgs.zsh;
               };
