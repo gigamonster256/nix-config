@@ -24,20 +24,20 @@ let
 
       outputs = [
         "out"
-      ]
-      ++ lib.optional withWav "wav";
+      ] ++ lib.optional withWav "wav";
 
-      installPhase = ''
-        runHook preInstall
+      installPhase =
+        ''
+          runHook preInstall
 
-        cp $src $out
-      ''
-      + lib.optionalString withWav ''
-        ffmpeg -i $src -f wav $wav
-      ''
-      + ''
-        runHook postInstall
-      '';
+          cp $src $out
+        ''
+        + lib.optionalString withWav ''
+          ffmpeg -i $src -f wav $wav
+        ''
+        + ''
+          runHook postInstall
+        '';
 
       meta = {
         license = lib.licenses.unfree;
@@ -83,7 +83,7 @@ in
       name = "alert_shield";
       hash = "sha256-XowjT39Xr4moE5xLQcY1uThkI/pqJJj9Sv54dAScsig=";
     };
-    applepay-sound = myinstant-sound {
+    usb-applepay-sound = myinstant-sound {
       name = "applepay";
       hash = "sha256-REJexgyWlPeILz11yhZkY8fuRhkoTTK/yHiTaHj5C9s=";
     };
@@ -94,7 +94,7 @@ in
     let
       allPredicates = preds: x: lib.all (p: p x) preds;
       soundPredicates = [
-        # (lib.hasPrefix "usb")
+        (lib.hasPrefix "usb")
         (lib.hasSuffix "sound")
       ];
       isSoundPackage = name: allPredicates soundPredicates name;
