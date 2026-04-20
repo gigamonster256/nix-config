@@ -103,8 +103,8 @@ in
         soundPkg:
         pkgs.writeShellApplication {
           name = "play-sound";
-          runtimeInputs = [ pkgs.mpv ];
-          text = "mpv --no-video --volume=100 ${soundPkg.wav}";
+          runtimeInputs = [ pkgs.pipewire ];
+          text = "pw-cat --volume=1 --playback ${soundPkg.wav}";
         };
     in
     {
