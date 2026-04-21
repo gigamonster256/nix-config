@@ -106,6 +106,14 @@
               user = "chnorton";
               forwardAgent = true;
             };
+            "ieee-tamu" = {
+              hostname = "ieee-tamu.engr.tamu.edu";
+              user = "root";
+            };
+            "ieee-tamu-*" = {
+              user = "root";
+              proxyJump = "ieee-tamu";
+            };
           };
         };
 
