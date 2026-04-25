@@ -2,10 +2,12 @@
   flake.modules.homeManager.desktop =
     {
       pkgs,
+      config,
       ...
     }:
     {
       programs.firefox = {
+        configPath = "${config.xdg.configHome}/mozilla/firefox";
         profiles.default = {
           search = {
             engines =
@@ -102,7 +104,10 @@
 
   persistence.programs.homeManager = {
     firefox = {
-      directories = [ ".mozilla" ];
+      directories = [
+        ".config/mozilla/firefox"
+        ".mozilla" # native-messaging-hosts
+      ];
     };
   };
 }
