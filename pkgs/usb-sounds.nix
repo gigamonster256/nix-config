@@ -24,20 +24,20 @@ let
 
       outputs = [
         "out"
-      ] ++ lib.optional withWav "wav";
+      ]
+      ++ lib.optional withWav "wav";
 
-      installPhase =
-        ''
-          runHook preInstall
+      installPhase = ''
+        runHook preInstall
 
-          cp $src $out
-        ''
-        + lib.optionalString withWav ''
-          ffmpeg -i $src -f wav $wav
-        ''
-        + ''
-          runHook postInstall
-        '';
+        cp $src $out
+      ''
+      + lib.optionalString withWav ''
+        ffmpeg -i $src -f wav $wav
+      ''
+      + ''
+        runHook postInstall
+      '';
 
       meta = {
         license = lib.licenses.unfree;
