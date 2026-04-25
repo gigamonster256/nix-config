@@ -109,6 +109,9 @@
             "ieee-tamu" = {
               hostname = "ieee-tamu.engr.tamu.edu";
               user = "root";
+              setEnv = {
+                TERM = "xterm-256color";
+              };
             };
             "ieee-tamu-*" = {
               user = "root";
