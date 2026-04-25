@@ -2,7 +2,11 @@
 {
   nixpkgs.overlays = [
     # bring in opencode dev
-    inputs.opencode.overlays.default
+    # inputs.opencode.overlays.default
+    # our nixpkgs bun is too old
+    (final: _prev: {
+      inherit (inputs.opencode.packages.${final.stdenv.hostPlatform.system}) opencode;
+    })
   ];
 
   flake.modules.homeManager.opencode =
@@ -54,7 +58,7 @@
               patches = (prevAttrs.patches or [ ]) ++ [
                 (pkgs.fetchpatch2 {
                   url = "https://github.com/gigamonster256/opencode/pull/1.patch?full_index=1";
-                  hash = "sha256-jawxuhb+tb8UPV4j0n2PzffyuYlTFbPqtKOnBNMeLTc=";
+                  hash = "sha256-1idH0VtONIZE3QQK1+UvbQ8tqPKr+mPFrpJO4ZIrfcw=";
                 })
               ];
             }
