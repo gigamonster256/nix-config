@@ -37,6 +37,19 @@
           {
             programs.opencode.web.extraArgs = [ "--port=${toString cfg.web.port}" ];
           }
+          # project specific tool loading using direnv plugin
+          (lib.mkIf config.programs.direnv.enable {
+            xdg.configFile."opencode/plugins/opencode-direnv.ts" = {
+              source = inputs.opencode-direnv + /src/index.ts;
+            };
+            # path hack sets PATH to OPENCODE_DIRENV_PATH so we need to add that to the shell PATH if it exists
+            programs.zsh.envExtra = ''
+              # opencode direnv plugin path hack
+              if [ -n "$OPENCODE_DIRENV_PATH" ]; then
+                export PATH="$OPENCODE_DIRENV_PATH:$PATH"
+              fi
+            '';
+          })
           {
             programs.opencode = {
               enable = lib.mkDefault true;

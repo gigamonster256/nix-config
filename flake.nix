@@ -106,6 +106,8 @@
 
     opencode-tamu-finish-fix.url = "github:gigamonster256/opencode-tamu-finish-fix";
     opencode-tamu-finish-fix.flake = false;
+    opencode-direnv.url = "github:gigamonster256/opencode-direnv/path-hack";
+    opencode-direnv.flake = false;
 
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     noctalia.inputs.nixpkgs.follows = "nixpkgs";

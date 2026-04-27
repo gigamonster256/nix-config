@@ -870,6 +870,23 @@
         "type": "github"
       }
     },
+    "opencode-direnv": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777330883,
+        "narHash": "sha256-LagV9db9FaGPQfsc1O1BC36ogguHbL9rnp53eJ09qAw=",
+        "owner": "gigamonster256",
+        "repo": "opencode-direnv",
+        "rev": "037b5caf3537d21ec41eea3635340191fad8ca14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "ref": "path-hack",
+        "repo": "opencode-direnv",
+        "type": "github"
+      }
+    },
     "opencode-tamu-finish-fix": {
       "flake": false,
       "locked": {
@@ -934,6 +951,7 @@
         "noctalia": "noctalia",
         "nur": "nur",
         "opencode": "opencode",
+        "opencode-direnv": "opencode-direnv",
         "opencode-tamu-finish-fix": "opencode-tamu-finish-fix",
         "persistence": "persistence",
         "sops-nix": "sops-nix",
