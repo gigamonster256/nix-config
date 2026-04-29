@@ -25,13 +25,6 @@
           ".config/openvr"
         ];
       };
-      gnome-keyring = {
-        namespace = [
-          "services"
-          "gnome"
-        ];
-        directories = [ ".local/share/keyrings" ];
-      };
     };
   };
 }
