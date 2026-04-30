@@ -5,9 +5,23 @@
     (final: prev: {
       ghostty =
         if final.stdenv.hostPlatform.isDarwin then
-          prev.ghostty-bin
+          final.ghostty-bin
         else
-          (inputs.ghostty.overlays.default final prev).ghostty.override { enableX11 = false; };
+          (
+            # disable x11
+            (inputs.ghostty.overlays.default final prev).ghostty.override { enableX11 = false; }
+          ).overrideAttrs
+            # move progress bar to bottom for gtk
+            (
+              prevAttrs: {
+                patches = (prevAttrs.patches or [ ]) ++ [
+                  (final.fetchpatch2 {
+                    url = "https://github.com/gigamonster256/ghostty/pull/1.patch?full_index=1";
+                    hash = "sha256-1gGLg9FSHdvViweoaQh/+aqlOKBwXcc1xavqCFH7POs=";
+                  })
+                ];
+              }
+            );
     })
   ];
 
