@@ -1,6 +1,7 @@
 {
   flake.modules.homeManager.desktop =
     {
+      lib,
       pkgs,
       config,
       ...
@@ -13,38 +14,58 @@
             engines =
               let
                 nix-icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                paramGen = lib.map (param: lib.foldl' lib.id lib.nameValuePair (lib.splitString "=" param));
               in
               {
                 "Nix Packages" = {
                   urls = [
                     {
                       template = "https://search.nixos.org/packages";
-                      params = [
-                        {
-                          name = "type";
-                          value = "packages";
-                        }
-                        {
-                          name = "query";
-                          value = "{searchTerms}";
-                        }
+                      params = paramGen [
+                        "channel=unstable"
+                        "query={searchTerms}"
                       ];
                     }
                   ];
-
                   icon = nix-icon;
                   definedAliases = [ "@np" ];
+                };
+
+                "NixOS Modules" = {
+                  urls = [
+                    {
+                      template = "https://search.nixos.org/options";
+                      params = paramGen [
+                        "channel=unstable"
+                        "query={searchTerms}"
+                      ];
+                    }
+                  ];
+                  icon = nix-icon;
+                  definedAliases = [ "@nm" ];
+                };
+
+                "HomeManager Modules" = {
+                  urls = [
+                    {
+                      template = "https://search.nixos.org/options";
+                      params = paramGen [
+                        "channel=unstable"
+                        "query={searchTerms}"
+                        "source=home_manager"
+                      ];
+                    }
+                  ];
+                  icon = nix-icon;
+                  definedAliases = [ "@hm" ];
                 };
 
                 "NixOS Wiki" = {
                   urls = [
                     {
                       template = "https://wiki.nixos.org/index.php";
-                      params = [
-                        {
-                          name = "search";
-                          value = "{searchTerms}";
-                        }
+                      params = paramGen [
+                        "search={searchTerms}"
                       ];
                     }
                   ];
@@ -52,30 +73,25 @@
                   definedAliases = [ "@nw" ];
                 };
 
-                "Home Manager" = {
+                "Noogle" = {
                   urls = [
                     {
-                      template = "https://home-manager-options.extranix.com";
-                      params = [
-                        {
-                          name = "query";
-                          value = "{searchTerms}";
-                        }
+                      template = "https://noogle.dev/q";
+                      params = paramGen [
+                        "term={searchTerms}"
                       ];
                     }
                   ];
-                  definedAliases = [ "@hm" ];
+                  icon = nix-icon;
+                  definedAliases = [ "@no" ];
                 };
 
                 "Sourcegraph" = {
                   urls = [
                     {
                       template = "https://sourcegraph.com/search";
-                      params = [
-                        {
-                          name = "q";
-                          value = "context:global+{searchTerms}";
-                        }
+                      params = paramGen [
+                        "q=context:global+{searchTerms}"
                       ];
                     }
                   ];
