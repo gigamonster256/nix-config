@@ -4,7 +4,6 @@
       lib,
       buildGoModule,
       fetchFromGitHub,
-      fetchpatch2,
       makeWrapper,
       tayga,
       provideTayga ? true,
@@ -16,17 +15,9 @@
       src = fetchFromGitHub {
         owner = "apalrd";
         repo = "styx46";
-        rev = "3702e45a0eaccba875ad3503d9e92ba080b864e5";
-        hash = "sha256-Gsbk657zbZEbcZtXJu8m0eQAfuNEGF3kkym5Bz4Fbrs=";
+        rev = "f7df5cdd532fe3ab29fb2f0d27de8b69a72c49d0";
+        hash = "sha256-QJvL0XrMu7V9oF6keRc4uZBV2Ytxfjv5TbVVs1VgcRA=";
       };
-
-      patches = [
-        # default tayga path
-        (fetchpatch2 {
-          url = "https://github.com/apalrd/styx46/pull/2.patch?full_index=1";
-          hash = "sha256-u5KUBetXZITedWptSZnAvfO91ITdIoOxfrMYPlMeXT0=";
-        })
-      ];
 
       vendorHash = "sha256-Z3Wyo2vsGoJMdmuoB82uYKsAqlPqxOSyGEXm4tIizlY=";
 
