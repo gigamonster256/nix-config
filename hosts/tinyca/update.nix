@@ -22,7 +22,7 @@
         ];
         # use ssh host keys
         environment.NIX_SSHOPTS = "-i /etc/ssh/ssh_host_ed25519_key";
-        script = "nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --target-host root@certs.nortonweb.org switch";
+        script = "nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --no-reexec --target-host root@certs.nortonweb.org switch";
         serviceConfig = {
           Type = "oneshot";
         };
