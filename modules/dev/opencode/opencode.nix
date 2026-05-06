@@ -49,6 +49,8 @@
                 export PATH="$OPENCODE_DIRENV_PATH:$PATH"
               fi
             '';
+            # make sure direnv is on opencode's PATH
+            programs.opencode.extraPackages = [ config.programs.direnv.package ];
           })
           {
             programs.opencode = {
