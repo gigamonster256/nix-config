@@ -44,7 +44,7 @@
       # save space by only including the rpi related dtbs (in theory)
       hardware.deviceTree.filter = "*-rpi-*.dtb";
       boot = {
-        kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+        # kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
         loader = {
           generic-extlinux-compatible.enable = true;
           generic-extlinux-compatible.configurationLimit = 3;
