@@ -76,6 +76,10 @@
           hyprctl keyword monitor "''${MON_SPEC}, ''${TARGET_RES}, ''${POSITIONING}, ''${TARGET_SCALE}"
         '';
       };
+      bsod = pkgs.fetchurl {
+        url = "https://upload.wikimedia.org/wikipedia/commons/5/56/Bsodwindows10.png";
+        hash = "sha256-Sl3fpXygz/YiABjb9VG+FVEaF+nFV1EWdfoXwwQFJjU=";
+      };
     in
     lib.mkMerge [
       {
@@ -200,6 +204,8 @@
                 # Toggle monitor resolutions
                 "$mainMod,R,exec,${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left"
                 "$mainMod,T,exec,${getExe toggle-monitor-res} desc:BOE preferred 1920x1280"
+                # hehe funny
+                "CTRL ALT,Delete,exec,${lib.getExe pkgs.imv} -f ${bsod}"
               ]
               (
                 # screenshots using hyprshot
