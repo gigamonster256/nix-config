@@ -116,6 +116,21 @@
           enable = true;
           package = pkgs.ollama-vulkan;
         };
+
+        # try out hunk: https://github.com/modem-dev/hunk
+        programs.jujutsu.settings.ui = {
+          pager = [
+            (lib.getExe pkgs.hunk)
+            "pager"
+          ];
+          diff-formatter = ":git";
+        };
+        # TODO: use tomlFormat
+        xdg.configFile."hunk/config.toml" = {
+          text = ''
+            vcs = "jj"
+          '';
+        };
       };
   };
 

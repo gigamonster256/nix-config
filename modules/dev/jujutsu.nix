@@ -18,7 +18,7 @@
           default-command = lib.mkDefault [ "log" ];
           pager = lib.mkDefault ":builtin";
           diff-editor = lib.mkDefault ":builtin";
-          diff-formatter = [
+          diff-formatter = lib.mkDefault [
             (lib.getExe pkgs.difftastic)
             "--color=always"
             "$left"
