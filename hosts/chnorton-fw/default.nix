@@ -66,6 +66,7 @@
               # jj-gpc
               flux-keyboard
               opencode
+              gaming
             ];
           };
 
