@@ -60,7 +60,7 @@
 
             home.shellAliases = lib.mkIf cfg.enable {
               oc = "opencode";
-              opencode = lib.mkIf cfg.web.enable "${lib.getExe cfg.package} attach ${url} --dir .";
+              opencode = lib.mkIf cfg.web.enable "opencode attach ${url} --dir .";
             };
 
             programs.waybar.settings.mainBar = {
