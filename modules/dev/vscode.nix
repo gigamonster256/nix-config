@@ -26,6 +26,7 @@
             "terminal.integrated.fontFamily" = "Monaspace Neon";
             "terminal.integrated.suggest.enabled" = false;
             "terminal.integrated.suggest.inlineSuggestion" = "off";
+            "terminal.integrated.stickyScroll.enabled" = false;
           };
         };
       };
