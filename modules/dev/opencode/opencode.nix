@@ -24,13 +24,23 @@
       options = {
         programs.opencode.web.port = lib.mkOption {
           type = lib.types.port;
-          default = 40123;
+          default =
+            if osConfig != null && osConfig ? programs.opencode.port then
+              osConfig.programs.opencode.port
+            else
+              40123;
         };
       };
 
       config =
         let
-          url = "http://localhost:${toString cfg.web.port}";
+          proxyDevEnabled =
+            osConfig != null && osConfig ? services.proxy-dev.enable && osConfig.services.proxy-dev.enable;
+          url =
+            if proxyDevEnabled then
+              "http://opencode.localhost"
+            else
+              "http://localhost:${toString cfg.web.port}";
         in
         lib.mkMerge [
           # actually use custom option
@@ -135,6 +145,18 @@
             };
           })
         ];
+    };
+
+  flake.modules.nixos.opencode =
+    { lib, config, ... }:
+    {
+      options.programs.opencode.port = lib.mkOption {
+        type = lib.types.port;
+        default = 40123;
+        description = "Port for the opencode web server.";
+      };
+
+      config.services.proxy-dev.hosts.opencode = config.programs.opencode.port;
     };
 
   persistence.programs.homeManager = {

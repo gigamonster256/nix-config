@@ -46,6 +46,7 @@
         # niri
         # jj-gpc
         flux-keyboard
+        opencode
       ]);
       config = lib.mkMerge [
         # main config
@@ -79,6 +80,8 @@
           // lib.optionalAttrs (options.boot ? lanzaboote) {
             systemIdentity.pcr15 = "00526b01f11a33a1193efc7d8b59d860b7a919dbbfca2f3fe450cc2cff2a80b5";
           };
+
+          services.proxy-dev.enable = true;
 
           services.getty.greetingLine = ''<<< chnorton-fw - \l >>>'';
 

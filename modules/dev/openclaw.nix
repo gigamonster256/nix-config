@@ -42,6 +42,9 @@
     })
   ];
 
+  # TODO: better module place? - pull port from option?
+  flake.modules.nixos.default.services.proxy-dev.hosts.openclaw = 18789;
+
   flake.modules.homeManager.openclaw =
     { lib, config, ... }:
     {
