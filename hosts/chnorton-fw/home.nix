@@ -47,14 +47,6 @@
         # sudo framework_tool --charge-limit
         programs.waybar.settings.mainBar.battery.full-at = 80;
 
-        # disable main screen when lid closed
-        wayland.windowManager.hyprland.settings = {
-          bindl = [
-            ",switch:on:Lid Switch,exec,hyprctl keyword monitor 'desc:BOE,disabled'"
-            ",switch:off:Lid Switch,exec,hyprctl keyword monitor 'desc:BOE,preferred,auto,1.566667'"
-          ];
-        };
-
         # TODO: move to separate module
         services.syncthing = {
           enable = true;

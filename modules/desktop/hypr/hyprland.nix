@@ -2,9 +2,14 @@
   flake.modules.nixos.desktop =
     { config, lib, ... }:
     {
-      # immediately log out if autoLogin is enabled - basically use the lock screen as a login screen
+      # If autoLogin is enabled, start hyprlock immediately on Hyprland startup
       home-manager.sharedModules = lib.optional config.services.displayManager.autoLogin.enable {
-        wayland.windowManager.hyprland.settings.exec-once = [ "hyprlock" ];
+        wayland.windowManager.hyprland.settings.on = {
+          _args = [
+            "hyprland.start"
+            (lib.generators.mkLuaInline "function()\n  hl.exec_cmd(\"hyprlock\")\nend")
+          ];
+        };
       };
     };
 
@@ -17,6 +22,9 @@
     }:
     let
       inherit (lib) getExe;
+
+      terminal = "ghostty";
+      mainMod = "SUPER";
 
       toggle-monitor-res = pkgs.writeShellApplication {
         name = "toggle-monitor-res";
@@ -76,236 +84,459 @@
           hyprctl keyword monitor "''${MON_SPEC}, ''${TARGET_RES}, ''${POSITIONING}, ''${TARGET_SCALE}"
         '';
       };
+
       bsod = pkgs.fetchurl {
         url = "https://upload.wikimedia.org/wikipedia/commons/5/56/Bsodwindows10.png";
         hash = "sha256-Sl3fpXygz/YiABjb9VG+FVEaF+nFV1EWdfoXwwQFJjU=";
       };
+
+      hyprshot = getExe pkgs.hyprshot;
+      hyprclip = "${hyprshot} --clipboard-only";
+
+      # Lua config helpers
+      mkLua = expr: lib.generators.mkLuaInline expr;
+      mkBind = args: { _args = args; };
+      mkBezierCurve = name: p1: p2: {
+        _args = [
+          name
+          {
+            type = "bezier";
+            points = [
+              p1
+              p2
+            ];
+          }
+        ];
+      };
+      mkAnim = leaf: speed: bezier: style: {
+        _args = [
+          (
+            {
+              inherit leaf;
+              enabled = true;
+              inherit speed bezier;
+            }
+            // lib.optionalAttrs (style != null) { inherit style; }
+          )
+        ];
+      };
     in
     lib.mkMerge [
       {
+        # TODO: re-enable when stylix updates
+        stylix.targets.hyprland.enable = false;
         wayland.windowManager.hyprland = {
+          configType = "lua";
           settings = {
-            "$terminal" = "ghostty";
-            "$mainMod" = "SUPER";
-            ecosystem.no_update_news = true;
+            config = {
+              ecosystem.no_update_news = true;
+
+              general = {
+                gaps_in = 2;
+                gaps_out = 5;
+                border_size = 2;
+                resize_on_border = false;
+                allow_tearing = false;
+                layout = "dwindle";
+                col = {
+                  active_border = "rgb(89b4fa)";
+                  inactive_border = "rgb(6c7086)";
+                };
+              };
+
+              decoration = {
+                rounding = 10;
+                active_opacity = 1.0;
+                inactive_opacity = 1.0;
+                blur = {
+                  enabled = true;
+                  size = 3;
+                  passes = 1;
+                  vibrancy = 0.1696;
+                };
+                shadow = {
+                  enabled = true;
+                  range = 4;
+                  render_power = 3;
+                  color = "rgba(1e1e2e99)";
+                };
+              };
+
+              animations = {
+                enabled = true;
+              };
+
+              dwindle = {
+                preserve_split = true;
+              };
+
+              master = {
+                new_status = "master";
+              };
+
+              group = {
+                col = {
+                  border_active = "rgb(89b4fa)";
+                  border_inactive = "rgb(6c7086)";
+                  border_locked_active = "rgb(94e2d5)";
+                };
+                groupbar = {
+                  col = {
+                    active = "rgb(89b4fa)";
+                    inactive = "rgb(6c7086)";
+                  };
+                  text_color = "rgb(cdd6f4)";
+                };
+              };
+
+              misc = {
+                force_default_wallpaper = 0;
+                disable_hyprland_logo = false;
+                focus_on_activate = true;
+                anr_missed_pings = 5;
+                background_color = "rgb(1e1e2e)";
+              };
+
+              input = {
+                kb_layout = "us";
+                follow_mouse = 1;
+                touchpad = {
+                  natural_scroll = true;
+                };
+              };
+
+              xwayland = {
+                force_zero_scaling = true;
+                create_abstract_socket = true;
+              };
+            };
+
             monitor = [
-              "desc:BOE,preferred,auto,1.566667" # framework monitor
-              "desc:GIGA-BYTE,preferred,auto-center-left,auto" # no hdr on dockcase ",bitdepth,10" # home monitor
-              "desc:Dell Inc. DELL E2416H,preferred,auto-center-up,auto" # work monitor
-              ",preferred,auto,auto"
+              {
+                output = "desc:BOE";
+                mode = "preferred";
+                position = "auto";
+                scale = 1.566667;
+              }
+              {
+                output = "desc:GIGA-BYTE";
+                mode = "preferred";
+                position = "auto-center-left";
+                scale = "auto";
+              }
+              {
+                output = "desc:Dell Inc. DELL E2416H";
+                mode = "preferred";
+                position = "auto-center-up";
+                scale = "auto";
+              }
+              {
+                output = "";
+                mode = "preferred";
+                position = "auto";
+                scale = "auto";
+              }
             ];
-            exec-once = [ ];
-            xwayland = {
-              force_zero_scaling = true;
-              create_abstract_socket = true; # chirp (wxPython) hangs trying to connect to /tmp/.X11-unix/X0 without this
-            };
-            env = [ ];
-            general = {
-              gaps_in = 2;
-              gaps_out = 5;
-              border_size = 2;
-              resize_on_border = false;
-              allow_tearing = false;
-              layout = "dwindle";
-            };
-            decoration = {
-              rounding = 10;
-              active_opacity = 1.0;
-              inactive_opacity = 1.0;
-              blur = {
-                enabled = true;
-                size = 3;
-                passes = 1;
-                vibrancy = 0.1696;
-              };
-              shadow = {
-                enabled = true;
-                range = 4;
-                render_power = 3;
-              };
-            };
 
-            animations = {
-              enabled = true;
-              bezier = [
-                "easeOutQuint,0.23,1,0.32,1"
-                "easeInOutCubic,0.65,0.05,0.36,1"
-                "linear,0,0,1,1"
-                "almostLinear,0.5,0.5,0.75,1.0"
-                "quick,0.15,0,0.1,1"
-              ];
-              animation = [
-                "global,1,10,default"
-                "border,1,5.39,easeOutQuint"
-                "windows,1,4.79,easeOutQuint"
-                "windowsIn,1,4.1,easeOutQuint,popin 87%"
-                "windowsOut,1,1.49,linear,popin 87%"
-                "fadeIn,1,1.73,almostLinear"
-                "fadeOut,1,1.46,almostLinear"
-                "fade,1,3.03,quick"
-                "layers,1,3.81,easeOutQuint"
-                "layersIn,1,4,easeOutQuint,fade"
-                "layersOut,1,1.5,linear,fade"
-                "fadeLayersIn,1,1.79,almostLinear"
-                "fadeLayersOut,1,1.39,almostLinear"
-                "workspaces,1,1.94,almostLinear,fade"
-                "workspacesIn,1,1.21,almostLinear,fade"
-                "workspacesOut,1,1.94,almostLinear,fade"
-              ];
-            };
+            curve = [
+              (mkBezierCurve "easeOutQuint" [ 0.23 1 ] [ 0.32 1 ])
+              (mkBezierCurve "easeInOutCubic" [ 0.65 0.05 ] [ 0.36 1 ])
+              (mkBezierCurve "linear" [ 0 0 ] [ 1 1 ])
+              (mkBezierCurve "almostLinear" [ 0.5 0.5 ] [ 0.75 1 ])
+              (mkBezierCurve "quick" [ 0.15 0 ] [ 0.1 1 ])
+            ];
 
-            dwindle = {
-              pseudotile = true;
-              preserve_split = true;
-            };
+            animation = [
+              (mkAnim "global" 10 "default" null)
+              (mkAnim "border" 5.39 "easeOutQuint" null)
+              (mkAnim "windows" 4.79 "easeOutQuint" null)
+              (mkAnim "windowsIn" 4.1 "easeOutQuint" "popin 87%")
+              (mkAnim "windowsOut" 1.49 "linear" "popin 87%")
+              (mkAnim "fadeIn" 1.73 "almostLinear" null)
+              (mkAnim "fadeOut" 1.46 "almostLinear" null)
+              (mkAnim "fade" 3.03 "quick" null)
+              (mkAnim "layers" 3.81 "easeOutQuint" null)
+              (mkAnim "layersIn" 4 "easeOutQuint" "fade")
+              (mkAnim "layersOut" 1.5 "linear" "fade")
+              (mkAnim "fadeLayersIn" 1.79 "almostLinear" null)
+              (mkAnim "fadeLayersOut" 1.39 "almostLinear" null)
+              (mkAnim "workspaces" 1.94 "almostLinear" "fade")
+              (mkAnim "workspacesIn" 1.21 "almostLinear" "fade")
+              (mkAnim "workspacesOut" 1.94 "almostLinear" "fade")
+            ];
 
-            master.new_status = "master";
-
-            misc = {
-              force_default_wallpaper = 0;
-              disable_hyprland_logo = false;
-              # switch to an app when it is activated (things like clicking a notification or tray icon)
-              focus_on_activate = true;
-              # how many pings an app has to miss before the "app not responding" dialog pops up
-              anr_missed_pings = 5;
-            };
-
-            input = {
-              kb_layout = "us";
-              follow_mouse = 1;
-              touchpad.natural_scroll = true;
-            };
-
-            # https://wiki.hypr.land/Configuring/Gestures
-            # gestures = [];
-
-            # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
             bind = builtins.concatLists [
+              # Core window management
               [
-                "$mainMod,Return,exec,$terminal"
-                "$mainMod,C,killactive"
-                "$mainMod,F,fullscreen"
-                "$mainMod,M,exit,"
-                # "$mainMod,E,exec,$fileManager"
-                "$mainMod,V,togglefloating,"
-                "$mainMod,P,pseudo,"
-                "$mainMod,J,togglesplit,"
-                # move focus with mainMod + arrow keys
-                "$mainMod,left,movefocus,l"
-                "$mainMod,right,movefocus,r"
-                "$mainMod,up,movefocus,u"
-                "$mainMod,down,movefocus,d"
-                # scratchpad workspace
-                "$mainMod,S,togglespecialworkspace,magic"
-                "$mainMod SHIFT,S,movetoworkspace,special:magic"
-                # Scroll through existing workspaces with mainMod + scroll
-                "$mainMod,mouse_down,workspace,e-1"
-                "$mainMod,mouse_up,workspace,e+1"
-                # Toggle monitor resolutions
-                "$mainMod,R,exec,${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left"
-                "$mainMod,T,exec,${getExe toggle-monitor-res} desc:BOE preferred 1920x1280"
-                # hehe funny
-                "CTRL ALT,Delete,exec,${lib.getExe pkgs.imv} -f ${bsod}"
+                (mkBind [
+                  "${mainMod} + RETURN"
+                  (mkLua ''hl.dsp.exec_cmd("${terminal}")'')
+                ])
+                (mkBind [
+                  "${mainMod} + C"
+                  (mkLua "hl.dsp.window.close()")
+                ])
+                (mkBind [
+                  "${mainMod} + F"
+                  (mkLua "hl.dsp.window.fullscreen()")
+                ])
+                (mkBind [
+                  "${mainMod} + M"
+                  (mkLua "hl.dsp.exit()")
+                ])
+                (mkBind [
+                  "${mainMod} + V"
+                  (mkLua ''hl.dsp.window.float({ action = "toggle" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + P"
+                  (mkLua "hl.dsp.window.pseudo()")
+                ])
+                (mkBind [
+                  "${mainMod} + J"
+                  (mkLua ''hl.dsp.layout("togglesplit")'')
+                ])
               ]
+              # Move focus
+              [
+                (mkBind [
+                  "${mainMod} + left"
+                  (mkLua ''hl.dsp.focus({ direction = "left" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + right"
+                  (mkLua ''hl.dsp.focus({ direction = "right" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + up"
+                  (mkLua ''hl.dsp.focus({ direction = "up" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + down"
+                  (mkLua ''hl.dsp.focus({ direction = "down" })'')
+                ])
+              ]
+              # Workspace & scratchpad navigation
+              [
+                (mkBind [
+                  "${mainMod} + S"
+                  (mkLua ''hl.dsp.workspace.toggle_special("magic")'')
+                ])
+                (mkBind [
+                  "${mainMod} + SHIFT + S"
+                  (mkLua ''hl.dsp.window.move({ workspace = "special:magic" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + mouse_down"
+                  (mkLua ''hl.dsp.focus({ workspace = "e-1" })'')
+                ])
+                (mkBind [
+                  "${mainMod} + mouse_up"
+                  (mkLua ''hl.dsp.focus({ workspace = "e+1" })'')
+                ])
+              ]
+              # Monitor resolution toggles & misc
+              [
+                # TODO: luafy
+                (mkBind [
+                  "${mainMod} + R"
+                  (mkLua ''hl.dsp.exec_cmd("${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left")'')
+                ])
+                (mkBind [
+                  "${mainMod} + T"
+                  (mkLua ''hl.dsp.exec_cmd("${getExe toggle-monitor-res} desc:BOE preferred 1920x1280")'')
+                ])
+                (mkBind [
+                  "CTRL + ALT + Delete"
+                  (mkLua ''hl.dsp.exec_cmd("${getExe pkgs.imv} -f ${bsod}")'')
+                ])
+              ]
+              # Screenshots
+              [
+                (mkBind [
+                  "${mainMod} + ALT + F3"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m output")'')
+                ])
+                (mkBind [
+                  "${mainMod} + ALT + F4"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m window")'')
+                ])
+                (mkBind [
+                  "${mainMod} + ALT + F5"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m region")'')
+                ])
+                (mkBind [
+                  "PRINT"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m output")'')
+                ])
+                (mkBind [
+                  "${mainMod} + PRINT"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m window")'')
+                ])
+                (mkBind [
+                  "${mainMod} + SHIFT + PRINT"
+                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m region")'')
+                ])
+              ]
+              # Numeric workspaces (1-9)
               (
-                # screenshots using hyprshot
                 let
-                  hyprshot = getExe pkgs.hyprshot;
-                  hyprclip = "${hyprshot} --clipboard-only";
-                in
-                [
-                  # macOS shortcut inspired
-                  "$mainMod ALT,F3,exec,${hyprclip} -m output"
-                  "$mainMod ALT,F4,exec,${hyprclip} -m window"
-                  "$mainMod ALT,F5,exec,${hyprclip} -m region"
-                  # printscreen style
-                  ",PRINT,exec,${hyprclip} -m output"
-                  "$mainMod,PRINT,exec,${hyprclip} -m window"
-                  "$mainMod SHIFT,PRINT,exec,${hyprclip} -m region"
-                ]
-              )
-              (
-                # Switch workspaces with mainMod + [1-9]
-                # $mainMod,1,workspace,1
-                # Move active window to a workspace with mainMod + SHIFT + [1-9]
-                # $mainMod SHIFT,1,movetoworkspace,1
-                let
-                  workspaces = map toString (lib.lists.range 1 9);
-                  switchModifier = "$mainMod";
-                  moveModifier = "$mainMod SHIFT";
-                  switchBindings = map (ws: "${switchModifier},${ws},workspace,${ws}") workspaces;
-                  moveBindings = map (ws: "${moveModifier},${ws},movetoworkspace,${ws}") workspaces;
+                  workspaces = lib.lists.range 1 9;
+                  switchBindings = map (
+                    ws:
+                    mkBind [
+                      "${mainMod} + ${toString ws}"
+                      (mkLua ''hl.dsp.focus({ workspace = ${toString ws} })'')
+                    ]
+                  ) workspaces;
+                  moveBindings = map (
+                    ws:
+                    mkBind [
+                      "${mainMod} + SHIFT + ${toString ws}"
+                      (mkLua ''hl.dsp.window.move({ workspace = ${toString ws} })'')
+                    ]
+                  ) workspaces;
                 in
                 switchBindings ++ moveBindings
               )
+              # Optional binds based on enabled programs
               (
-                # keybinds if other modules are enabled
                 let
                   moduleBinds = { module, binds }: lib.optionals module.enable (binds module);
                   moduleKeybinds = [
                     {
                       module = config.programs.hyprlock;
                       binds = m: [
-                        "$mainMod,L,exec,${getExe m.package}"
+                        (mkBind [
+                          "${mainMod} + L"
+                          (mkLua ''hl.dsp.exec_cmd("${getExe m.package}")'')
+                        ])
                       ];
                     }
                     {
                       module = config.programs.rofi;
-                      binds =
-                        m:
-                        let
-                          rofi = getExe m.finalPackage;
-                        in
-                        [
-                          "$mainMod,space,exec,${rofi} -show drun"
-                          # other rofi modes? (emoji picker etc...)
-                        ];
+                      binds = m: [
+                        (mkBind [
+                          "${mainMod} + space"
+                          (mkLua ''hl.dsp.exec_cmd("${getExe m.finalPackage} -show drun")'')
+                        ])
+                      ];
                     }
                     {
                       module = config.programs.spotify;
                       binds = m: [
-                        ",XF86AudioMedia,exec,${getExe m.package}"
+                        (mkBind [
+                          "XF86AudioMedia"
+                          (mkLua ''hl.dsp.exec_cmd("${getExe m.package}")'')
+                        ])
                       ];
                     }
                   ];
                 in
                 builtins.concatMap moduleBinds moduleKeybinds
               )
+              # Mouse binds
+              [
+                (mkBind [
+                  "${mainMod} + mouse:272"
+                  (mkLua "hl.dsp.window.drag()")
+                  { mouse = true; }
+                ])
+                (mkBind [
+                  "${mainMod} + mouse:273"
+                  (mkLua "hl.dsp.window.resize()")
+                  { mouse = true; }
+                ])
+                (mkBind [
+                  "mouse:274"
+                  (mkLua "hl.dsp.window.drag()")
+                  { mouse = true; }
+                ])
+              ]
+              # Locked binds (active when screen is locked)
+              [
+                (mkBind [
+                  "XF86AudioMute"
+                  (mkLua ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "XF86AudioNext"
+                  (mkLua ''hl.dsp.exec_cmd("playerctl next")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "XF86AudioPlay"
+                  (mkLua ''hl.dsp.exec_cmd("playerctl play-pause")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "XF86AudioPause"
+                  (mkLua ''hl.dsp.exec_cmd("playerctl play-pause")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "XF86AudioPrev"
+                  (mkLua ''hl.dsp.exec_cmd("playerctl previous")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "switch:on:Lid Switch"
+                  (mkLua ''hl.dsp.exec_cmd("hyprctl keyword monitor 'desc:BOE,disabled'")'')
+                  { locked = true; }
+                ])
+                (mkBind [
+                  "switch:off:Lid Switch"
+                  (mkLua ''hl.dsp.exec_cmd("hyprctl keyword monitor 'desc:BOE,preferred,auto,1.566667'")'')
+                  { locked = true; }
+                ])
+              ]
+              # Repeating locked binds
+              [
+                (mkBind [
+                  "XF86AudioRaiseVolume"
+                  (mkLua ''hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1")'')
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ])
+                (mkBind [
+                  "XF86AudioLowerVolume"
+                  (mkLua ''hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")'')
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ])
+                (mkBind [
+                  "XF86AudioMicMute"
+                  (mkLua ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")'')
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ])
+                (mkBind [
+                  "XF86MonBrightnessUp"
+                  (mkLua ''hl.dsp.exec_cmd("brightnessctl s 10%+")'')
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ])
+                (mkBind [
+                  "XF86MonBrightnessDown"
+                  (mkLua ''hl.dsp.exec_cmd("brightnessctl s 10%-")'')
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ])
+              ]
             ];
 
-            # mouse binds
-            bindm = [
-              # Move/resize windows with mainMod + LMB/RMB and dragging
-              "$mainMod,mouse:272,movewindow"
-              "$mainMod,mouse:273,resizewindow"
-
-              # middle mouse move
-              ",mouse:274,movewindow"
-            ];
-
-            # binds that work when screen is locked
-            bindl = [
-              # mute key
-              ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-              # Playerctl media keys
-              ",XF86AudioNext,exec,playerctl next"
-              ",XF86AudioPlay,exec,playerctl play-pause"
-              ",XF86AudioPause,exec,playerctl play-pause"
-              ",XF86AudioPrev,exec,playerctl previous"
-            ];
-
-            # binds that repeat (and active when screen locked)
-            bindel = [
-              # Laptop multimedia keys for volume and LCD brightness
-              ",XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1"
-              ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-              ",XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-              ",XF86MonBrightnessUp,exec,brightnessctl s 10%+"
-              ",XF86MonBrightnessDown,exec,brightnessctl s 10%-"
-            ];
-
-            windowrule = [
-              # Ignore maximize requests from apps.
+            window_rule = [
               {
                 name = "suppress-maximize-events";
                 match = {
@@ -313,7 +544,6 @@
                 };
                 suppress_event = "maximize";
               }
-              # Fix some dragging issues with XWayland
               {
                 name = "fix-xwayland-drags";
                 match = {
@@ -326,9 +556,6 @@
                 };
                 no_focus = true;
               }
-              # Ref https://wiki.hypr.land/Configuring/Workspace-Rules/
-              # "Smart gaps" / "No gaps when only"
-              # see associated workspace rules below
               {
                 name = "no-gaps-wtv1";
                 match = {
@@ -336,7 +563,6 @@
                   workspace = "w[tv1]";
                 };
                 border_size = 0;
-                # rounding = 0;
               }
               {
                 name = "no-gaps-f1";
@@ -345,18 +571,29 @@
                   workspace = "f[1]";
                 };
                 border_size = 0;
-                # rounding = 0;
               }
             ];
 
-            workspace = [
-              "w[tv1], gapsout:0, gapsin:0"
-              "f[1], gapsout:0, gapsin:0"
+            workspace_rule = [
+              {
+                workspace = "w[tv1]";
+                gaps_out = 0;
+                gaps_in = 0;
+              }
+              {
+                workspace = "f[1]";
+                gaps_out = 0;
+                gaps_in = 0;
+              }
             ];
 
-            layerrule = [
-              # no border on pickers (hyprshot or picker)
-              "match:namespace selection, no_anim on"
+            layer_rule = [
+              {
+                match = {
+                  namespace = "selection";
+                };
+                no_anim = true;
+              }
             ];
           };
         };
