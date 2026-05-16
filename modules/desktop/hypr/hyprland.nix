@@ -84,6 +84,8 @@
     lib.mkMerge [
       {
         wayland.windowManager.hyprland = {
+          # TODO: update to lua
+          configType = "hyprlang";
           settings = {
             "$terminal" = "ghostty";
             "$mainMod" = "SUPER";
