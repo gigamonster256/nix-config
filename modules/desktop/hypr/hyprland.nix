@@ -386,14 +386,14 @@
                     ws:
                     mkBind [
                       "${mainMod} + ${toString ws}"
-                      (mkLua ''hl.dsp.focus({ workspace = ${toString ws} })'')
+                      (mkLua "hl.dsp.focus({ workspace = ${toString ws} })")
                     ]
                   ) workspaces;
                   moveBindings = map (
                     ws:
                     mkBind [
                       "${mainMod} + SHIFT + ${toString ws}"
-                      (mkLua ''hl.dsp.window.move({ workspace = ${toString ws} })'')
+                      (mkLua "hl.dsp.window.move({ workspace = ${toString ws} })")
                     ]
                   ) workspaces;
                 in
