@@ -75,6 +75,16 @@
             kernelPackages = pkgs.linuxPackages_latest;
             initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
             binfmt.emulatedSystems = [ "aarch64-linux" ];
+            # broken mediatek bluetooth :(
+            kernelPatches = [
+              {
+                name = "fix_mediatek_bluetooth";
+                patch = pkgs.fetchpatch {
+                  url = "https://lore.kernel.org/linux-mediatek/20260514-bluetooh-fix-mt7922-v1-1-499c878af1e5@zohomail.in/raw";
+                  hash = "sha256-JHUGOYK4Wk3VIIl3nM73YYe+odrTOf5tcLg7ZjGRYGs=";
+                };
+              }
+            ];
           }
           # TODO: cleaner detection of secure boot - make lanzaboote always imported and add an enable option?
           // lib.optionalAttrs (options.boot ? lanzaboote) {
