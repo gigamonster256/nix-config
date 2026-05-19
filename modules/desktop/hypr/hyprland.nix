@@ -21,81 +21,27 @@
       ...
     }:
     let
-      inherit (lib) getExe;
-
       terminal = "ghostty";
       mainMod = "SUPER";
-
-      toggle-monitor-res = pkgs.writeShellApplication {
-        name = "toggle-monitor-res";
-        runtimeInputs = [ pkgs.jq ];
-        text = ''
-          MON_SPEC="''${1-}"
-          RES_A="''${2-}"
-          RES_B="''${3-}"
-          POSITIONING="''${4:-auto}"
-
-          if [ -z "$MON_SPEC" ] || [ -z "$RES_A" ] || [ -z "$RES_B" ]; then
-            echo "Usage: toggle-monitor-res <monitor> <res-a,scale-a> <res-b,scale-b> [positioning]" >&2
-            exit 1
-          fi
-
-          MONITORS_JSON=$(hyprctl monitors -j)
-
-          # Pull monitor info by description (desc:XYZ) or name (e.g. eDP-1)
-          if [[ "$MON_SPEC" == desc:* ]]; then
-            DESC_QUERY="''${MON_SPEC#desc:}"
-            MONITOR_INFO=$(echo "$MONITORS_JSON" | jq --arg desc "$DESC_QUERY" 'map(select(.description | contains($desc))) | first')
-          else
-            MONITOR_INFO=$(echo "$MONITORS_JSON" | jq --arg name "$MON_SPEC" 'map(select(.name == $name)) | first')
-          fi
-
-          if [ -z "$MONITOR_INFO" ] || [ "$MONITOR_INFO" = "null" ]; then
-            echo "Monitor '$MON_SPEC' not found" >&2
-            exit 1
-          fi
-
-          CURRENT_RES=$(echo "$MONITOR_INFO" | jq -r '"\(.width)x\(.height)"')
-          CURRENT_SCALE=$(echo "$MONITOR_INFO" | jq -r '.scale')
-
-          # Extract resolution and scale from arguments, using current scale if not provided
-          RES_A_RES="''${RES_A%,*}"
-          RES_A_SCALE="''${CURRENT_SCALE}"
-          if [[ "$RES_A" == *,* ]]; then
-            RES_A_SCALE="''${RES_A#*,}"
-          fi
-
-          RES_B_RES="''${RES_B%,*}"
-          RES_B_SCALE="''${CURRENT_SCALE}"
-          if [[ "$RES_B" == *,* ]]; then
-            RES_B_SCALE="''${RES_B#*,}"
-          fi
-
-          # Compare current resolution with resolution B (without refresh rate)
-          RES_B_BASE="''${RES_B_RES%@*}"
-
-          TARGET_RES="$RES_A_RES"
-          TARGET_SCALE="$RES_A_SCALE"
-          if [ "$CURRENT_RES" != "$RES_B_BASE" ]; then
-            TARGET_RES="$RES_B_RES"
-            TARGET_SCALE="$RES_B_SCALE"
-          fi
-
-          hyprctl keyword monitor "''${MON_SPEC}, ''${TARGET_RES}, ''${POSITIONING}, ''${TARGET_SCALE}"
-        '';
-      };
 
       bsod = pkgs.fetchurl {
         url = "https://upload.wikimedia.org/wikipedia/commons/5/56/Bsodwindows10.png";
         hash = "sha256-Sl3fpXygz/YiABjb9VG+FVEaF+nFV1EWdfoXwwQFJjU=";
       };
 
-      hyprshot = getExe pkgs.hyprshot;
-      hyprclip = "${hyprshot} --clipboard-only";
-
       # Lua config helpers
       mkLua = expr: lib.generators.mkLuaInline expr;
       mkBind = args: { _args = args; };
+      mkExec =
+        bind: cmd: args: rules: extra:
+        mkBind (
+          [
+            bind
+            # TODO: escapeShellArgs doesnt seem right and I don't like the inline Lua generator for the attrset
+            (mkLua ''hl.dsp.exec_cmd("${cmd} ${lib.escapeShellArgs args}", ${lib.generators.toLua { } rules})'')
+          ]
+          ++ extra
+        );
       mkBezierCurve = name: p1: p2: {
         _args = [
           name
@@ -120,6 +66,36 @@
           )
         ];
       };
+      mkToggleMonitor =
+        mon_spec: res_a: res_b: positioning:
+        let
+          res_a_res = lib.head (lib.splitString "," res_a);
+          res_b_res = lib.head (lib.splitString "," res_b);
+          res_b_base = lib.head (lib.splitString "@" res_b_res);
+        in
+        mkLua ''
+          function()
+            local mon = hl.get_monitor("${mon_spec}")
+            if not mon then return end
+
+            local current_res = mon.width .. "x" .. mon.height
+            local current_scale = mon.scale or 1.0
+            local target_res
+
+            if current_res == "${res_b_base}" then
+              target_res = "${res_a_res}"
+            else
+              target_res = "${res_b_res}"
+            end
+
+            hl.monitor({
+              output = mon.name,
+              mode = target_res,
+              position = "${positioning}",
+              scale = current_scale,
+            })
+          end
+        '';
     in
     lib.mkMerge [
       {
@@ -268,10 +244,7 @@
             bind = builtins.concatLists [
               # Core window management
               [
-                (mkBind [
-                  "${mainMod} + RETURN"
-                  (mkLua ''hl.dsp.exec_cmd("${terminal}")'')
-                ])
+                (mkExec "${mainMod} + RETURN" terminal [ ] { } [ ])
                 (mkBind [
                   "${mainMod} + C"
                   (mkLua "hl.dsp.window.close()")
@@ -298,24 +271,22 @@
                 ])
               ]
               # Move focus
-              [
-                (mkBind [
-                  "${mainMod} + left"
-                  (mkLua ''hl.dsp.focus({ direction = "left" })'')
-                ])
-                (mkBind [
-                  "${mainMod} + right"
-                  (mkLua ''hl.dsp.focus({ direction = "right" })'')
-                ])
-                (mkBind [
-                  "${mainMod} + up"
-                  (mkLua ''hl.dsp.focus({ direction = "up" })'')
-                ])
-                (mkBind [
-                  "${mainMod} + down"
-                  (mkLua ''hl.dsp.focus({ direction = "down" })'')
-                ])
-              ]
+              (
+                let
+                  mkFocus =
+                    key: direction:
+                    mkBind [
+                      "${mainMod} + ${key}"
+                      (mkLua ''hl.dsp.focus({ direction = "${direction}" })'')
+                    ];
+                in
+                [
+                  (mkFocus "left" "left")
+                  (mkFocus "right" "right")
+                  (mkFocus "up" "up")
+                  (mkFocus "down" "down")
+                ]
+              )
               # Workspace & scratchpad navigation
               [
                 (mkBind [
@@ -337,47 +308,33 @@
               ]
               # Monitor resolution toggles & misc
               [
-                # TODO: luafy
                 (mkBind [
                   "${mainMod} + R"
-                  (mkLua ''hl.dsp.exec_cmd("${getExe toggle-monitor-res} desc:GIGA-BYTE preferred 1920x1080 auto-center-left")'')
+                  (mkToggleMonitor "desc:GIGA-BYTE" "preferred" "1920x1080" "auto-center-left")
                 ])
                 (mkBind [
                   "${mainMod} + T"
-                  (mkLua ''hl.dsp.exec_cmd("${getExe toggle-monitor-res} desc:BOE preferred 1920x1280")'')
+                  (mkToggleMonitor "desc:BOE" "preferred" "1920x1280" "auto")
                 ])
-                (mkBind [
-                  "CTRL + ALT + Delete"
-                  (mkLua ''hl.dsp.exec_cmd("${getExe pkgs.imv} -f ${bsod}")'')
-                ])
+                (mkExec "CTRL + ALT + Delete" (lib.getExe pkgs.imv) [ bsod ] {
+                  fullscreen = true;
+                } [ ])
               ]
               # Screenshots
-              [
-                (mkBind [
-                  "${mainMod} + ALT + F3"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m output")'')
-                ])
-                (mkBind [
-                  "${mainMod} + ALT + F4"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m window")'')
-                ])
-                (mkBind [
-                  "${mainMod} + ALT + F5"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m region")'')
-                ])
-                (mkBind [
-                  "PRINT"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m output")'')
-                ])
-                (mkBind [
-                  "${mainMod} + PRINT"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m window")'')
-                ])
-                (mkBind [
-                  "${mainMod} + SHIFT + PRINT"
-                  (mkLua ''hl.dsp.exec_cmd("${hyprclip} -m region")'')
-                ])
-              ]
+              (
+                let
+                  mkScreenshot =
+                    bind: mode: mkExec bind (lib.getExe pkgs.hyprshot) [ "--clipboard-only" "--mode" mode ] { } [ ];
+                in
+                [
+                  (mkScreenshot "${mainMod} + ALT + F3" "output")
+                  (mkScreenshot "${mainMod} + ALT + F4" "window")
+                  (mkScreenshot "${mainMod} + ALT + F5" "region")
+                  (mkScreenshot "PRINT" "output")
+                  (mkScreenshot "${mainMod} + PRINT" "window")
+                  (mkScreenshot "${mainMod} + SHIFT + PRINT" "region")
+                ]
+              )
               # Numeric workspaces (1-9)
               (
                 let
@@ -407,28 +364,19 @@
                     {
                       module = config.programs.hyprlock;
                       binds = m: [
-                        (mkBind [
-                          "${mainMod} + L"
-                          (mkLua ''hl.dsp.exec_cmd("${getExe m.package}")'')
-                        ])
+                        (mkExec "${mainMod} + L" (lib.getExe m.package) [ ] { } [ ])
                       ];
                     }
                     {
                       module = config.programs.rofi;
                       binds = m: [
-                        (mkBind [
-                          "${mainMod} + space"
-                          (mkLua ''hl.dsp.exec_cmd("${getExe m.finalPackage} -show drun")'')
-                        ])
+                        (mkExec "${mainMod} + space" (lib.getExe m.finalPackage) [ "-show" "drun" ] { } [ ])
                       ];
                     }
                     {
                       module = config.programs.spotify;
                       binds = m: [
-                        (mkBind [
-                          "XF86AudioMedia"
-                          (mkLua ''hl.dsp.exec_cmd("${getExe m.package}")'')
-                        ])
+                        (mkExec "XF86AudioMedia" (lib.getExe m.package) [ ] { } [ ])
                       ];
                     }
                   ];
@@ -436,104 +384,93 @@
                 builtins.concatMap moduleBinds moduleKeybinds
               )
               # Mouse binds
-              [
-                (mkBind [
-                  "${mainMod} + mouse:272"
-                  (mkLua "hl.dsp.window.drag()")
-                  { mouse = true; }
-                ])
-                (mkBind [
-                  "${mainMod} + mouse:273"
-                  (mkLua "hl.dsp.window.resize()")
-                  { mouse = true; }
-                ])
-                (mkBind [
-                  "mouse:274"
-                  (mkLua "hl.dsp.window.drag()")
-                  { mouse = true; }
-                ])
-              ]
+              (
+                let
+                  mkMouse =
+                    bind: cmd:
+                    mkBind [
+                      bind
+                      cmd
+                      { mouse = true; }
+                    ];
+                in
+                [
+                  (mkMouse "${mainMod} + mouse:272" (mkLua "hl.dsp.window.drag()"))
+                  (mkMouse "${mainMod} + mouse:273" (mkLua "hl.dsp.window.resize()"))
+                  (mkMouse "mouse:274" (mkLua "hl.dsp.window.drag()"))
+                ]
+              )
               # Locked binds (active when screen is locked)
-              [
-                (mkBind [
-                  "XF86AudioMute"
-                  (mkLua ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "XF86AudioNext"
-                  (mkLua ''hl.dsp.exec_cmd("playerctl next")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "XF86AudioPlay"
-                  (mkLua ''hl.dsp.exec_cmd("playerctl play-pause")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "XF86AudioPause"
-                  (mkLua ''hl.dsp.exec_cmd("playerctl play-pause")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "XF86AudioPrev"
-                  (mkLua ''hl.dsp.exec_cmd("playerctl previous")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "switch:on:Lid Switch"
-                  (mkLua ''hl.dsp.exec_cmd("hyprctl keyword monitor 'desc:BOE,disabled'")'')
-                  { locked = true; }
-                ])
-                (mkBind [
-                  "switch:off:Lid Switch"
-                  (mkLua ''hl.dsp.exec_cmd("hyprctl keyword monitor 'desc:BOE,preferred,auto,1.566667'")'')
-                  { locked = true; }
-                ])
-              ]
+              (
+                let
+                  locked = {
+                    locked = true;
+                  };
+                  mkLocked =
+                    bind: cmd: args:
+                    mkExec bind cmd args { } (lib.singleton locked);
+                in
+                [
+                  (mkLocked "XF86AudioMute" "wpctl" [
+                    "set-mute"
+                    "@DEFAULT_AUDIO_SINK@"
+                    "toggle"
+                  ])
+                  (mkLocked "XF86AudioNext" "playerctl" [ "next" ])
+                  (mkLocked "XF86AudioPlay" "playerctl" [ "play-pause" ])
+                  (mkLocked "XF86AudioPause" "playerctl" [ "play-pause" ])
+                  (mkLocked "XF86AudioPrev" "playerctl" [ "previous" ])
+                  (mkBind [
+                    "switch:on:Lid Switch"
+                    (mkLua "function()\nhl.monitor({ output = 'desc:BOE', disabled = true })\nend")
+                    locked
+                  ])
+                  (mkBind [
+                    "switch:off:Lid Switch"
+                    (mkLua "function()\nhl.monitor({ output = 'desc:BOE', disabled = false })\nend")
+                    locked
+                  ])
+                ]
+              )
               # Repeating locked binds
-              [
-                (mkBind [
-                  "XF86AudioRaiseVolume"
-                  (mkLua ''hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1")'')
-                  {
+              (
+                let
+                  lockedRepeating = lib.singleton {
                     locked = true;
                     repeating = true;
-                  }
-                ])
-                (mkBind [
-                  "XF86AudioLowerVolume"
-                  (mkLua ''hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")'')
-                  {
-                    locked = true;
-                    repeating = true;
-                  }
-                ])
-                (mkBind [
-                  "XF86AudioMicMute"
-                  (mkLua ''hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")'')
-                  {
-                    locked = true;
-                    repeating = true;
-                  }
-                ])
-                (mkBind [
-                  "XF86MonBrightnessUp"
-                  (mkLua ''hl.dsp.exec_cmd("brightnessctl s 10%+")'')
-                  {
-                    locked = true;
-                    repeating = true;
-                  }
-                ])
-                (mkBind [
-                  "XF86MonBrightnessDown"
-                  (mkLua ''hl.dsp.exec_cmd("brightnessctl s 10%-")'')
-                  {
-                    locked = true;
-                    repeating = true;
-                  }
-                ])
-              ]
+                  };
+                  mkLockedRepeat =
+                    bind: cmd: args:
+                    mkExec bind cmd args { } lockedRepeating;
+                in
+                [
+                  (mkLockedRepeat "XF86AudioRaiseVolume" "wpctl" [
+                    "set-volume"
+                    "@DEFAULT_AUDIO_SINK@"
+                    "5%+"
+                    "--limit"
+                    "1"
+                  ])
+                  (mkLockedRepeat "XF86AudioLowerVolume" "wpctl" [
+                    "set-volume"
+                    "@DEFAULT_AUDIO_SINK@"
+                    "5%-"
+                  ])
+                  (mkLockedRepeat "XF86AudioMicMute" "wpctl" [
+                    "set-mute"
+                    "@DEFAULT_AUDIO_SOURCE@"
+                    "toggle"
+                  ])
+                  (mkLockedRepeat "XF86MonBrightnessUp" "brightnessctl" [
+                    "set"
+                    "10%+"
+                  ])
+                  (mkLockedRepeat "XF86MonBrightnessDown" "brightnessctl" [
+                    "set"
+                    "10%-"
+                  ])
+                ]
+              )
             ];
 
             window_rule = [
