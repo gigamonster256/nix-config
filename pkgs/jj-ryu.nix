@@ -1,6 +1,7 @@
 {
   packages.jj-ryu =
     {
+      lib,
       fetchFromGitHub,
       rustPlatform,
       git,
@@ -28,7 +29,7 @@
         description = "Stacked PRs for Jujutsu";
         homepage = "https://github.com/dmmulroy/jj-ryu";
         # license =
-        # maintainers = with maintainers; [ ];
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "ryu";
       };
     });

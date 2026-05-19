@@ -1,6 +1,7 @@
 {
   packages.agari =
     {
+      lib,
       fetchFromGitHub,
       rustPlatform,
     }:
@@ -22,6 +23,7 @@
       meta = {
         description = "Riichi Score Calculator";
         homepage = "https://github.com/rysb-dev/agari";
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "agari";
       };
     });

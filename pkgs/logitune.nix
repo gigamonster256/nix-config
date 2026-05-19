@@ -50,7 +50,7 @@
         description = "Configure Logitech devices on Linux (Options+ clone)";
         homepage = "https://github.com/mmaher88/logitune";
         license = lib.licenses.gpl3Only;
-        maintainers = with lib.maintainers; [ ];
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "logitune";
         platforms = lib.platforms.all;
       };

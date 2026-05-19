@@ -86,6 +86,7 @@
         description = "Allows to download encrypted wiiu files from nintendo's official servers";
         homepage = "https://github.com/Xpl0itU/WiiUDownloader";
         downloadPage = "https://github.com/Xpl0itU/WiiUDownloader/releases";
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "WiiUDownloader";
         license = lib.licenses.gpl3Only;
       };

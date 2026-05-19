@@ -110,6 +110,7 @@
         description = "Simple tetris clone written in zig programming language";
         homepage = "https://github.com/andrewrk/tetris";
         license = lib.licenses.mit;
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "tetris";
         platforms = lib.foldl' lib.intersectLists lib.platforms.all (
           map (p: p.meta.platforms or [ ]) finalAttrs.buildInputs

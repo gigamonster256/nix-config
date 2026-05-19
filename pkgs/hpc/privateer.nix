@@ -29,6 +29,7 @@
         description = "Multi-versioned memory-mapped data stores for high-performance data science";
         homepage = "https://github.com/llnl/Privateer";
         license = lib.licenses.mit;
+        maintainers = [ lib.maintainers.gigamonster256 ];
       };
     });
 }

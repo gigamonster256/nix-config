@@ -34,6 +34,7 @@
         description = "Review-first terminal diff viewer for agentic coders";
         homepage = "https://github.com/modem-dev/hunk";
         license = lib.licenses.mit;
+        maintainers = [ lib.maintainers.gigamonster256 ];
         sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
         mainProgram = "hunk";
         platforms = [ "x86_64-linux" ];

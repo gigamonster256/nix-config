@@ -32,6 +32,9 @@
       # tests have not been updated
       doCheck = false;
 
-      meta.mainProgram = "styx46";
+      meta = {
+        maintainers = [ lib.maintainers.gigamonster256 ];
+        mainProgram = "styx46";
+      };
     });
 }

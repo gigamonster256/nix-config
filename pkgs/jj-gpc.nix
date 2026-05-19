@@ -43,7 +43,7 @@
         description = "LLM-based bookmark name creation for Jujutsu";
         homepage = "https://github.com/chriskrycho/jj-gpc";
         license = lib.licenses.blueOak100;
-        # maintainers = with maintainers; [ ];
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "jj-gpc";
       };
     });

@@ -52,7 +52,7 @@
         '';
         homepage = "https://github.com/apalrd/tayga";
         license = lib.licenses.gpl2Plus;
-        # maintainers = with lib.maintainers; [ _0x4A6F ];
+        maintainers = [ lib.maintainers.gigamonster256 ];
         platforms = lib.platforms.linux;
         mainProgram = "tayga";
       };

@@ -96,6 +96,7 @@
         description = "Brother hl-l2315dw printer driver";
         sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
         license = lib.licenses.unfree;
+        maintainers = [ lib.maintainers.gigamonster256 ];
         platforms = lib.platforms.linux;
         downloadPage = "https://support.brother.com/g/b/downloadlist.aspx?c=us&lang=en&prod=hll2315dw_us&os=128";
       };

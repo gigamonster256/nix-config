@@ -86,6 +86,7 @@
         description = "Flux Keyboard Configuration";
         sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
         license = lib.licenses.unfree;
+        maintainers = [ lib.maintainers.gigamonster256 ];
         platforms = lib.platforms.linux;
         mainProgram = "polymath";
         downloadPage = "https://fluxkeyboard.com/updates";

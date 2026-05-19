@@ -39,9 +39,7 @@ let
         runHook postInstall
       '';
 
-      meta = {
-        license = lib.licenses.unfree;
-      };
+      meta.license = lib.licenses.unfree;
     };
 in
 {

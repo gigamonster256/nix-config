@@ -34,6 +34,7 @@
         description = "User-space Page Management";
         homepage = "https://github.com/llnl/umap";
         license = lib.licenses.lgpl21Only;
+        maintainers = [ lib.maintainers.gigamonster256 ];
       };
     });
 }

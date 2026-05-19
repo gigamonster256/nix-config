@@ -75,6 +75,7 @@
 
       meta = {
         homepage = "https://gem5.org";
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "gem5";
       };
     });

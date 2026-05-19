@@ -1,6 +1,7 @@
 {
   packages.n7m-t8r =
     {
+      lib,
       buildNpmPackage,
       fetchFromGitHub,
       imagemagick,
@@ -24,6 +25,12 @@
         mkdir -p $out/share/n7m-t8r
         cp -r dist/* $out/share/n7m-t8r/
       '';
+
+      meta = {
+        description = "Numeronym Translator";
+        homepage = "https://github.com/gigamonster256/n7m-t8r";
+        maintainers = [ lib.maintainers.gigamonster256 ];
+      };
     });
 
   perSystem =

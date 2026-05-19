@@ -21,6 +21,7 @@
         description = "Bouncing DVD screen saver for your terminal";
         homepage = "https://github.com/integrii/dvd";
         license = lib.licenses.unlicense;
+        maintainers = [ lib.maintainers.gigamonster256 ];
       };
     });
 }

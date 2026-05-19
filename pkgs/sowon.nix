@@ -54,6 +54,7 @@
         description = "Starting Soon Timer for Tsoding Streams";
         homepage = "https://github.com/tsoding/sowon";
         license = lib.licenses.mit;
+        maintainers = [ lib.maintainers.gigamonster256 ];
         mainProgram = "sowon";
         platforms = lib.platforms.linux;
       };
