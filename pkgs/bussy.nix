@@ -213,9 +213,4 @@
           };
       };
     };
-  flake.modules.nixos.bussy =
-    { lib, ... }:
-    {
-      services.bussy.enable = lib.mkDefault true;
-    };
 }

@@ -10,8 +10,9 @@
         wyse
         radicle
         backup
-        bussy
       ];
+
+      services.bussy.enable = true;
 
       sops.secrets.radicle_ssh_key = { };
       services.radicle = {
