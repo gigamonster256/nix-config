@@ -11,6 +11,7 @@
           ".direnv/"
           "result"
           "result-*"
+          ".envrc"
           # .vscode settings
           ".vscode/"
         ];

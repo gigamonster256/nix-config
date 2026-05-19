@@ -3,6 +3,7 @@
 .direnv
 result
 result-*
+.envrc
 
 # trilium source
 trilium*.zip
