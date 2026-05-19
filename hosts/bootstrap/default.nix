@@ -29,7 +29,9 @@ flake: {
       };
 
       # dummy value to satisfy base nixos configuration assertions
+      # this is designed to be run as a live usb or netboot image and doesnt need a real root device
       fileSystems."/".device = "/dev/sda";
+      fileSystems."/".fsType = "nodev";
 
       nixpkgs.hostPlatform = "x86_64-linux";
       system.stateVersion = "26.05";
