@@ -38,23 +38,6 @@
       meta.license = lib.licenses.unfree;
     };
 
-  # # has date in contents - so non-reproducible
-  # packages.wiiu-title-keys =
-  #   {
-  #     lib,
-  #     fetchurl,
-  #   }:
-  #   fetchurl {
-  #     name = "wiiu-title-keys";
-  #     url = "https://napi.v10lator.de/db?t=go";
-  #     hash = "sha256-zlUuLox1qGPjQ22BCHYG3euLm+tBl9W7alej1seHIxA=";
-  #     curlOptsList = [
-  #       "--user-agent"
-  #       "NUSspliBuilder/2.1"
-  #     ];
-  #     meta.license = lib.licenses.unfree;
-  #   };
-
   packages.wiiu-downloader =
     {
       lib,
