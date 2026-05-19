@@ -39,6 +39,8 @@
       directories = [
         ".config/Code"
         ".vscode"
+        # sharedDataFolder https://github.com/microsoft/vscode/pull/311317
+        ".vscode-shared"
       ];
     };
   };
