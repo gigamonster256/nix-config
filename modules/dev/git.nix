@@ -12,6 +12,7 @@
           "result"
           "result-*"
           ".envrc"
+          ".devenv/"
           # .vscode settings
           ".vscode/"
         ];
