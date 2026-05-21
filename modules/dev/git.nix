@@ -22,6 +22,18 @@ flake: {
           ".vscode/"
           # secrets
           ".env"
+          # black holes
+          "node_modules/"
+          "target/"
+          "dist/"
+          "zig-out/"
+          # cache artifacts
+          "__pycache__/"
+          # filesystem/tmp stuff
+          ".DS_Store"
+          "*.swp"
+          "*~"
+          "~$*"
         ];
         settings = {
           user = {
