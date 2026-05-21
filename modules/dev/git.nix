@@ -20,6 +20,8 @@ flake: {
           ".devenv/"
           # .vscode settings
           ".vscode/"
+          # secrets
+          ".env"
         ];
         settings = {
           user = {
