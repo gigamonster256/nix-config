@@ -1,6 +1,6 @@
-.vscode
+.vscode/
 
-.direnv
+.direnv/
 result
 result-*
 .envrc
@@ -13,3 +13,4 @@ trilium*.zip
 
 .DS_Store
 *.DS_Store
+.devenv/
