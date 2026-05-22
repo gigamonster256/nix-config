@@ -25,11 +25,11 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "polymath";
-      version = "1.4.0.7";
+      version = "1.4.1.11";
 
       src = fetchurl {
         url = "https://fluxkeyboard.com/updates/polymath/linux/deb/polymath_${finalAttrs.version}_amd64.deb";
-        hash = "sha256-EYLBTd9r0s3Bxm4Gy8wbCNS0dyuXLI1jt6raSzrP/00=";
+        hash = "sha256-el6oryrRYx/0wl0XGGuExDeRceS2gQSZhZOXT5BEwFg=";
       };
 
       nativeBuildInputs = [
@@ -64,9 +64,9 @@
         cp -r usr/share/* $out/share/
 
         # patch the desktop file to point to correct entries
-        substituteInPlace $out/share/applications/polymath.desktop \
-          --replace "Exec=/opt/polymath/polymath" "Exec=$out/bin/polymath" \
-          --replace "Icon=/usr/share/pixmaps/polymath.png" "Icon=$out/share/pixmaps/polymath.png"
+        substituteInPlace $out/share/applications/com.fluxkeyboard.polymath.desktop \
+          --replace-fail "Exec=/opt/polymath/polymath" "Exec=$out/bin/polymath" \
+          --replace-fail "Icon=/usr/share/pixmaps/polymath.png" "Icon=$out/share/pixmaps/polymath.png"
 
         # Keep the Flutter bundle structure intact
         mkdir -p $out/opt/polymath
