@@ -9,6 +9,7 @@
     {
       home.packages = [
         pkgs.jj-fetch # recursive fetch for jujutsu repos
+        pkgs.cut-release
       ];
       programs.jujutsu.enable = lib.mkDefault true;
       programs.jujutsu.settings = {
@@ -29,6 +30,9 @@
           ];
         };
         aliases = {
+          fetch = [
+            (lib.getExe pkgs.jj-fetch)
+          ];
           fresh = [
             "new"
             "trunk()"
@@ -71,4 +75,31 @@
       ];
     };
   };
+
+  packages.cut-release =
+    {
+      writeShellApplication,
+      jujutsu,
+    }:
+    writeShellApplication {
+      name = "cut-release";
+      runtimeInputs = [ jujutsu ];
+      text = ''
+        # make sure 1 arg was passed
+        if [ "$#" -ne 1 ]; then
+          echo "Usage: cut-release <tag>";
+          exit 1;
+        fi
+
+        # add v prefix if not present
+        if [[ "$1" != v* ]]; then
+          tag="v$1";
+        else
+          tag="$1";
+        fi
+
+        jj desc -m "release: $tag"
+        jj tag set "$tag"
+      '';
+    };
 }
