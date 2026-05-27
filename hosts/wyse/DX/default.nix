@@ -1,7 +1,7 @@
 { self, ... }:
 {
   configurations.nixos.wyse-DX =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
       imports = with self.modules.nixos; [
         wyse

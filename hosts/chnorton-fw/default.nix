@@ -16,39 +16,38 @@
       ...
     }:
     {
-      imports =
-        [
-          inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-          # inputs.nix-index-database.nixosModules.nix-index
-          # is this even needed?
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-            };
-          }
-        ]
-        ++ (with inputs.self.modules.nixos; [
-          facter
-          disko
-          plymouth
-          secure-boot
-          impermanence
-          style
-          gaming
-          # vr
-          dev
-          desktop
-          wireless
-          vpn
-          laptop
-          # step-host
-          # no-vts
-          crypto
-          # niri
-          # jj-gpc
-          flux-keyboard
-          opencode
-        ]);
+      imports = [
+        inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
+        # inputs.nix-index-database.nixosModules.nix-index
+        # is this even needed?
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+          };
+        }
+      ]
+      ++ (with inputs.self.modules.nixos; [
+        facter
+        disko
+        plymouth
+        secure-boot
+        impermanence
+        style
+        gaming
+        # vr
+        dev
+        desktop
+        wireless
+        vpn
+        laptop
+        # step-host
+        # no-vts
+        crypto
+        # niri
+        # jj-gpc
+        flux-keyboard
+        opencode
+      ]);
       config = lib.mkMerge [
         # main config
         {
@@ -72,16 +71,15 @@
             ];
           };
 
-          boot =
-            {
-              kernelPackages = pkgs.linuxPackages_latest;
-              initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
-              binfmt.emulatedSystems = [ "aarch64-linux" ];
-            }
-            # TODO: cleaner detection of secure boot - make lanzaboote always imported and add an enable option?
-            // lib.optionalAttrs (options.boot ? lanzaboote) {
-              systemIdentity.pcr15 = "00526b01f11a33a1193efc7d8b59d860b7a919dbbfca2f3fe450cc2cff2a80b5";
-            };
+          boot = {
+            kernelPackages = pkgs.linuxPackages_latest;
+            initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
+            binfmt.emulatedSystems = [ "aarch64-linux" ];
+          }
+          # TODO: cleaner detection of secure boot - make lanzaboote always imported and add an enable option?
+          // lib.optionalAttrs (options.boot ? lanzaboote) {
+            systemIdentity.pcr15 = "00526b01f11a33a1193efc7d8b59d860b7a919dbbfca2f3fe450cc2cff2a80b5";
+          };
 
           services.proxy-dev.enable = true;
 
