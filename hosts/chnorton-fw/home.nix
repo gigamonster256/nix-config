@@ -67,47 +67,48 @@
           enable = true;
           enableDefaultConfig = false;
           includes = [ "config.custom" ];
-          matchBlocks = {
+          settings = {
             "*" = {
               # add keys to agent but only forward to trusted servers
-              forwardAgent = false;
-              addKeysToAgent = "yes";
-              compression = false;
-              serverAliveInterval = 0;
-              serverAliveCountMax = 3;
-              hashKnownHosts = false;
-              userKnownHostsFile = "~/.ssh/known_hosts";
-              controlMaster = "auto";
-              controlPath = "~/.ssh/master-%r@%n:%p";
-              controlPersist = "no";
+              ForwardAgent = false;
+              AddKeysToAgent = "yes";
+              Compression = false;
+              ServerAliveInterval = 0;
+              ServerAliveCountMax = 3;
+              HashKnownHosts = false;
+              UserKnownHostsFile = "~/.ssh/known_hosts";
+              ControlMaster = "auto";
+              ControlPath = "~/.ssh/master-%r@%n:%p";
+              ControlPersist = "no";
             };
             "github.com" = {
-              controlMaster = "no";
-              controlPath = "none";
+              User = "git";
+              ControlMaster = "no";
+              ControlPath = "none";
             };
             "kvs" = {
-              hostname = "ecewkgsw05201.engr.tamu.edu";
-              user = "chnorton";
-              forwardAgent = true;
+              HostName = "ecewkgsw05201.engr.tamu.edu";
+              User = "chnorton";
+              ForwardAgent = true;
             };
             "wyse-*.penguin" = {
-              user = "root";
+              User = "root";
             };
             "olympus" = {
-              hostname = "olympus.ece.tamu.edu";
-              user = "chnorton";
-              forwardAgent = true;
+              HostName = "olympus.ece.tamu.edu";
+              User = "chnorton";
+              ForwardAgent = true;
             };
             "ieee-tamu" = {
-              hostname = "ieee-tamu.engr.tamu.edu";
-              user = "root";
-              setEnv = {
+              HostName = "ieee-tamu.engr.tamu.edu";
+              User = "root";
+              SetEnv = {
                 TERM = "xterm-256color";
               };
             };
             "ieee-tamu-*" = {
-              user = "root";
-              proxyJump = "ieee-tamu";
+              User = "root";
+              ProxyJump = "ieee-tamu";
             };
           };
         };
