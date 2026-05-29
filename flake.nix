@@ -47,6 +47,7 @@
 
     # hardware quirks/optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
     # gpg and age based secret management
     sops-nix.url = "github:Mic92/sops-nix";
