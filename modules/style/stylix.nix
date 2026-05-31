@@ -68,7 +68,6 @@
             dark = name;
             package = pkgs.papirus-icon-theme;
           };
-        targets.firefox.profileNames = [ "default" ];
       };
 
       # TODO: upstream this to stylix?

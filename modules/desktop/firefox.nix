@@ -106,16 +106,9 @@
             force = true; # overwrite config on hm switch
           };
         };
-        policies = {
-          Preferences = {
-            # actually use the userContent.css
-            "toolkit.legacyUserProfileCustomizations.stylesheets" = {
-              Status = "user";
-              Value = true;
-            };
-          };
-        };
       };
+
+      stylix.targets.firefox.profileNames = [ "default" ];
     };
 
   persistence.programs.homeManager = {
