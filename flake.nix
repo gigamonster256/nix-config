@@ -110,10 +110,6 @@
     opencode-direnv.url = "github:gigamonster256/opencode-direnv";
     opencode-direnv.flake = false;
 
-    noctalia.url = "github:noctalia-dev/noctalia-shell";
-    noctalia.inputs.nixpkgs.follows = "nixpkgs";
-    noctalia.inputs.noctalia-qs.inputs.treefmt-nix.follows = "treefmt-nix";
-
     determinate.url = "github:DeterminateSystems/determinate";
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     determinate.inputs.nix.inputs.flake-parts.follows = "flake-parts";

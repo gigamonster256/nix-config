@@ -19,9 +19,7 @@
         }:
         {
           services.hyprpaper = {
-            enable = lib.mkDefault (
-              config.wayland.windowManager.hyprland.enable && !config.programs.noctalia-shell.enable
-            );
+            enable = lib.mkDefault config.wayland.windowManager.hyprland.enable;
             settings = {
               wallpaper = [
                 {
@@ -33,19 +31,6 @@
             };
           };
 
-        };
-
-      homeManager.noctalia =
-        { pkgs, ... }:
-        {
-          xdg.cacheFile."noctalia/wallpapers.json" = {
-            text = builtins.toJSON {
-              defaultWallpaper = wallpaper pkgs;
-              # wallpapers = {
-              # "DP-1" = "/path/to/monitor/wallpaper.png";
-              # };
-            };
-          };
         };
     };
 }

@@ -12,7 +12,7 @@
     lib.mkMerge [
       {
         programs.waybar = {
-          enable = config.wayland.windowManager.hyprland.enable && !config.programs.noctalia-shell.enable;
+          enable = config.wayland.windowManager.hyprland.enable;
           # after stylix color definitions
           style = lib.mkAfter (builtins.readFile ./style.css);
           systemd = {

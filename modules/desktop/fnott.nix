@@ -8,7 +8,7 @@
     # FIXME: decouple from hyprland
     lib.mkIf config.wayland.windowManager.hyprland.enable {
       services.fnott = {
-        enable = lib.mkDefault (!config.programs.noctalia-shell.enable);
+        enable = lib.mkDefault true;
         settings = {
           main = {
             default-timeout = 10;
