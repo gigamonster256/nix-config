@@ -676,29 +676,6 @@
         "type": "github"
       }
     },
-    "nur": {
-      "inputs": {
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1780224978,
-        "narHash": "sha256-FaQMuJ4Jl4EUWuFPpNMRSjKIuWJEwPCJVmVsw8Qpubs=",
-        "owner": "nix-community",
-        "repo": "NUR",
-        "rev": "5ecef8b69963f5973c93a2ac50945370d8a50d5d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "NUR",
-        "type": "github"
-      }
-    },
     "nvf": {
       "inputs": {
         "flake-parts": [
@@ -823,7 +800,6 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
-        "nur": "nur",
         "opencode": "opencode",
         "opencode-direnv": "opencode-direnv",
         "opencode-tamu-finish-fix": "opencode-tamu-finish-fix",
@@ -933,9 +909,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nur": [
-          "nur"
-        ],
+        "nur": [],
         "systems": "systems_7",
         "tinted-kitty": [],
         "tinted-schemes": [],

@@ -1,7 +1,6 @@
 { inputs, ... }:
 {
   nixpkgs.overlays = [
-    inputs.nur.overlays.default
   ]
   ++ (builtins.attrValues inputs.self.overlays);
 

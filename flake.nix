@@ -16,11 +16,6 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # nix user repository
-    nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
-    nur.inputs.flake-parts.follows = "flake-parts";
-
     # custom neovim config using nvf
     neovim.url = "github:gigamonster256/neovim-config/nvf";
     # until treesitter issues are resolved
@@ -73,7 +68,7 @@
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     stylix.inputs.flake-parts.follows = "flake-parts";
-    stylix.inputs.nur.follows = "nur";
+    stylix.inputs.nur.follows = "";
     # things i don't use
     stylix.inputs.base16-fish.follows = "";
     stylix.inputs.base16-helix.follows = "";
