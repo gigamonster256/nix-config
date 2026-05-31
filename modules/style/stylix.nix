@@ -69,6 +69,8 @@
             package = pkgs.papirus-icon-theme;
           };
         targets.firefox.profileNames = [ "default" ];
+        # don't use gnome-shell
+        targets.gnome.enable = false;
       };
 
       # TODO: upstream this to stylix?
