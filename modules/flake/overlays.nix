@@ -1,9 +1,6 @@
 { inputs, ... }:
 {
-  nixpkgs.overlays = [
-    inputs.nur.overlays.default
-  ]
-  ++ (builtins.attrValues inputs.self.overlays);
+  nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
 
   flake.overlays = {
     # This one contains whatever you want to overlay
