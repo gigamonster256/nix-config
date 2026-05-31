@@ -74,6 +74,15 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     stylix.inputs.flake-parts.follows = "flake-parts";
     stylix.inputs.nur.follows = "nur";
+    # things i don't use
+    stylix.inputs.base16-fish.follows = "";
+    stylix.inputs.base16-helix.follows = "";
+    stylix.inputs.base16-vim.follows = "";
+    stylix.inputs.firefox-gnome-theme.follows = "";
+    stylix.inputs.tinted-kitty.follows = "";
+    stylix.inputs.tinted-schemes.follows = "";
+    stylix.inputs.tinted-tmux.follows = "";
+    stylix.inputs.tinted-zed.follows = "";
 
     # gh actions for nix
     nix-github-actions.url = "github:nix-community/nix-github-actions";
