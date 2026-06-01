@@ -218,7 +218,19 @@
 
           # TODO: btrbk?
           services.btrfs.autoScrub.enable = true;
+
+          services.hardware.openrgb.enable = true;
         }
       ];
     };
+
+  persistence.programs.nixos-home = {
+    openrgb = {
+      namespace = [
+        "services"
+        "hardware"
+      ];
+      directories = [ ".config/OpenRGB" ];
+    };
+  };
 }
