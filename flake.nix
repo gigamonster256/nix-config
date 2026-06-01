@@ -69,6 +69,7 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
     stylix.inputs.flake-parts.follows = "flake-parts";
     # things i don't use
+    stylix.inputs.nur.follows = "";
     stylix.inputs.base16-fish.follows = "";
     stylix.inputs.base16-helix.follows = "";
     stylix.inputs.base16-vim.follows = "";
