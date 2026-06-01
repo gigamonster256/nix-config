@@ -38,7 +38,7 @@ MODELS_JSON=$(curl -s -X 'GET' \
   'https://chat-api.tamu.ai/openai/models' \
   -H 'accept: application/json' \
   -H "Authorization: Bearer $API_KEY" \
-  | jq '.data | map({key: .id, value: {name: .name}}) | from_entries')
+  | jq '.data | sort_by(.id) | map({key: .id, value: {name: .name}}) | from_entries')
 
 if [ -z "$MODELS_JSON" ] || [ "$MODELS_JSON" = "null" ]; then
   echo "Error: Failed to fetch models or received empty response."
