@@ -2,12 +2,6 @@
   "protected.Claude 3.5 Haiku": {
     "name": "Claude 3.5 Haiku"
   },
-  "protected.Claude 3.5 Sonnet": {
-    "name": "Claude 3.5 Sonnet"
-  },
-  "protected.Claude 3.7 Sonnet": {
-    "name": "Claude 3.7 Sonnet"
-  },
   "protected.Claude Opus 4.1": {
     "name": "Claude Opus 4.1"
   },
@@ -16,6 +10,9 @@
   },
   "protected.Claude Opus 4.6": {
     "name": "Claude Opus 4.6"
+  },
+  "protected.Claude Opus 4.7": {
+    "name": "Claude Opus 4.7"
   },
   "protected.Claude Sonnet 4": {
     "name": "Claude Sonnet 4"
@@ -79,6 +76,9 @@
   },
   "protected.gpt-5.4-nano": {
     "name": "gpt-5.4-nano"
+  },
+  "protected.gpt-5.5": {
+    "name": "gpt-5.5"
   },
   "protected.llama3.2": {
     "name": "llama3.2"
