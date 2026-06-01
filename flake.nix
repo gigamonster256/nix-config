@@ -102,8 +102,7 @@
 
     # latest opencode dev desktop and cli
     opencode.url = "github:anomalyco/opencode";
-    # need newer nixpkgs for newer bun
-    # opencode.inputs.nixpkgs.follows = "nixpkgs";
+    opencode.inputs.nixpkgs.follows = "nixpkgs";
 
     opencode-tamu-finish-fix.url = "github:gigamonster256/opencode-tamu-finish-fix";
     opencode-tamu-finish-fix.flake = false;
