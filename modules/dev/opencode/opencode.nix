@@ -6,13 +6,11 @@
     # our nixpkgs bun is too old
     (final: prev: {
       opencode = (inputs.opencode.overlays.default final prev).opencode.overrideAttrs (prevAttrs: {
-        postPatch =
-          (prevAttrs.postPatch or "")
-          + ''
-            substituteInPlace packages/script/src/index.ts \
-              --replace-fail 'throw new Error(`This script requires bun@''${expectedBunVersionRange}' \
-                             'console.warn(`Warning: This script requires bun@''${expectedBunVersionRange}'
-          '';
+        postPatch = (prevAttrs.postPatch or "") + ''
+          substituteInPlace packages/script/src/index.ts \
+            --replace-fail 'throw new Error(`This script requires bun@''${expectedBunVersionRange}' \
+                           'console.warn(`Warning: This script requires bun@''${expectedBunVersionRange}'
+        '';
       });
     })
   ];
