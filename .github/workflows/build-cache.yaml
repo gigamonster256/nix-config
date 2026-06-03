@@ -23,7 +23,7 @@ jobs:
         with:
           extra_nix_config: "experimental-features = nix-command flakes\naccess-tokens = github.com=${{ secrets.GITHUB_TOKEN }}\n# fix for https://github.com/nix-community/nix-eval-jobs/issues/140\n# nix-eval-jobs does not respect flake's nixConfig when checking to see if a \n# derivation is already cached (see next step)\n# accept-flake-config = true\n# extra-substituters = https://gigamonster256.cachix.org\n# extra-trusted-public-keys = gigamonster256.cachix.org-1:ySCUrOkKSOPm+UTipqGtGH63zybcjxr/Wx0UabASvRc=\n"
       - name: nix actions cache
-        uses: DeterminateSystems/magic-nix-cache-action@v13
+        uses: DeterminateSystems/magic-nix-cache-action@v14
       - name: Set NIX_CONFIG from flake.nix
         run: |
           nix_config_json=$(nix eval --impure --json --expr "((import ''$PWD/flake.nix'').nixConfig or {})")
