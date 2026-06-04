@@ -29,46 +29,57 @@
         };
         aliases =
           let
-            mkExec = exe: [
-              "util"
-              "exec"
-              "--"
-              exe
-            ];
+            mkExec = exe: doc: {
+              definition = [
+                "util"
+                "exec"
+                "--"
+                exe
+              ];
+              inherit doc;
+            };
+            rebase-all-script = pkgs.writeShellScript "rebase-all" ''
+              if [ "$#" -ne 1 ]; then
+                echo "Usage: rebase-all <old-trunk>";
+                exit 1;
+              fi
+
+              old_trunk="$1"
+
+              jj rebase -b "$old_trunk+ ~ $old_trunk..trunk()" -o "trunk()"
+            '';
           in
           {
-            fetch = mkExec (lib.getExe pkgs.jj-fetch);
-            cut = mkExec (lib.getExe pkgs.cut-release);
-            rebase-all = mkExec (
-              pkgs.writeShellScript "rebase-all" ''
-                if [ "$#" -ne 1 ]; then
-                  echo "Usage: rebase-all <old-trunk>";
-                  exit 1;
-                fi
-
-                old_trunk="$1"
-
-                jj rebase -b "$old_trunk+ ~ $old_trunk..trunk()" -o "trunk()"
-              ''
-            );
-            fresh = [
-              "new"
-              "trunk()"
-            ];
-            tug = [
-              "bookmark"
-              "move"
-              "--from"
-              "closest_bookmark(@)"
-              "--to"
-              "closest_pushable(@)"
-            ];
-            log-file = [
-              "log"
-              "-r=::"
-              "--no-graph"
-              "--"
-            ];
+            fetch = mkExec (lib.getExe pkgs.jj-fetch) "Fetch updated for all jj repos in the current directory (recursively)";
+            cut = mkExec (lib.getExe pkgs.cut-release) "Create a new release tag";
+            rebase-all = mkExec rebase-all-script "Move all changes from old trunk to new trunk (i.e. rebase old PRs)";
+            fresh = {
+              definition = [
+                "new"
+                "trunk()"
+              ];
+              doc = "Create a new branch from the trunk";
+            };
+            tug = {
+              definition = [
+                "bookmark"
+                "move"
+                "--from"
+                "closest_bookmark(@)"
+                "--to"
+                "closest_pushable(@)"
+              ];
+              doc = "Move closest bookmark to closest pushable (i.e. the tip of the remote-tracking branch)";
+            };
+            log-file = {
+              definition = [
+                "log"
+                "-r=::"
+                "--no-graph"
+                "--"
+              ];
+              doc = "Show log for a specific file";
+            };
           };
         revset-aliases = {
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
