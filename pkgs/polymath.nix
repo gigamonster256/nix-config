@@ -25,11 +25,11 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "polymath";
-      version = "1.4.1.11";
+      version = "1.4.2.0";
 
       src = fetchurl {
         url = "https://fluxkeyboard.com/updates/polymath/linux/deb/polymath_${finalAttrs.version}_amd64.deb";
-        hash = "sha256-el6oryrRYx/0wl0XGGuExDeRceS2gQSZhZOXT5BEwFg=";
+        hash = "sha256-rXsY2IWiRnaP4OaCLWOMzess2dha1Lh2WD0ivwoTdME=";
       };
 
       nativeBuildInputs = [
