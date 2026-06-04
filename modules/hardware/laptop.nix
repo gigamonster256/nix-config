@@ -29,26 +29,31 @@
                 message = "laptop.lidDevice must be set when fprintd is enabled on a laptop.";
               }
             ];
-            # do not start fprintd if lid is closed
-            systemd.services.fprintd.serviceConfig.ExecStartPre =
-              "${lib.getExe pkgs.gnugrep} -q open /proc/acpi/button/lid/${cfg.lidDevice}/state";
 
-            # start/stop fprintd when lid is opened/closed
-            services.acpid = {
-              enable = true;
-              lidEventCommands = ''
-                state=$(echo "$1" | cut -d " " -f 3)
-                case "$state" in
-                    open)
-                        systemctl start fprintd.service
-                        ;;
-                    close)
-                        systemctl stop fprintd.service
-                        ;;
-                    *)
-                esac
-              '';
-            };
+            # add other services as needed
+            # alternative would be to integrate into the pamOpts defaults as a new auth rule
+            # to automatically apply to all pam services that don't opt out with useDefaultRules = false
+            # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/pam.nix
+            security.pam.services = lib.genAttrs [ "sudo" ] (
+              service:
+              let
+                fprintRule = config.security.pam.services.${service}.rules.auth.fprintd;
+              in
+              {
+                rules.auth.laptop-lid-closed = {
+                  inherit (fprintRule) enable;
+                  order = fprintRule.order - 1; # must be right before the fprintd rule
+                  control = "[success=1 default=ignore]";
+                  modulePath = "${config.security.pam.package}/lib/security/pam_exec.so";
+                  args = [
+                    "quiet"
+                    "${pkgs.writeShellScript "laptop-lid-closed" ''
+                      ${lib.getExe pkgs.gnugrep} -q closed /proc/acpi/button/lid/${cfg.lidDevice}/state
+                    ''}"
+                  ];
+                };
+              }
+            );
           }
         )
         {
