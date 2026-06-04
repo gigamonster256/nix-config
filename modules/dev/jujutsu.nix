@@ -37,6 +37,18 @@
           {
             fetch = mkExec (lib.getExe pkgs.jj-fetch);
             cut = mkExec (lib.getExe pkgs.cut-release);
+            rebase-all = mkExec (
+              pkgs.writeShellScript "rebase-all" ''
+                if [ "$#" -ne 1 ]; then
+                  echo "Usage: rebase-all <old-trunk>";
+                  exit 1;
+                fi
+
+                old_trunk="$1"
+
+                jj rebase -b "$old_trunk+ ~ $old_trunk..trunk()" -o "trunk()"
+              ''
+            );
             fresh = [
               "new"
               "trunk()"
