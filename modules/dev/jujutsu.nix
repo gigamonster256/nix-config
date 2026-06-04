@@ -61,6 +61,12 @@
               "--to"
               "closest_pushable(@)"
             ];
+            log-file = [
+              "log"
+              "-r=::"
+              "--no-graph"
+              "--"
+            ];
           };
         revset-aliases = {
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
