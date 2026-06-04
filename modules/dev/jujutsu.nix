@@ -24,6 +24,8 @@
             "$left"
             "$right"
           ];
+          show-authors = lib.mkDefault false;
+          show-timestamps = lib.mkDefault false;
         };
         aliases =
           let
@@ -72,6 +74,20 @@
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
           "closest_pushable(to)" = "heads(::to & ~description(exact:\"\") & (~empty() | merges()))";
           "desc(x)" = "description(x)";
+        };
+        # https://github.com/jj-vcs/jj/blob/main/cli/src/config/templates.toml
+        template-aliases = {
+          # makes more log parts toggleable with config
+          "format_short_signature(signature)" = ''
+            if(config("ui.show-authors").as_boolean(),
+              coalesce(signature.email(), email_placeholder)
+            )
+          '';
+          "format_timestamp(timestamp)" = ''
+            if(config("ui.show-timestamps").as_boolean(),
+              timestamp.local().format("%Y-%m-%d %H:%M:%S")
+            )
+          '';
         };
         signing = {
           behavior = "keep";
