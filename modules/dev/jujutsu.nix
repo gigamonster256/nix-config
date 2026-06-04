@@ -7,10 +7,6 @@
       ...
     }:
     {
-      home.packages = [
-        pkgs.jj-fetch # recursive fetch for jujutsu repos
-        pkgs.cut-release
-      ];
       programs.jujutsu.enable = lib.mkDefault true;
       programs.jujutsu.settings = {
         user = {
@@ -29,23 +25,31 @@
             "$right"
           ];
         };
-        aliases = {
-          fetch = [
-            (lib.getExe pkgs.jj-fetch)
-          ];
-          fresh = [
-            "new"
-            "trunk()"
-          ];
-          tug = [
-            "bookmark"
-            "move"
-            "--from"
-            "closest_bookmark(@)"
-            "--to"
-            "closest_pushable(@)"
-          ];
-        };
+        aliases =
+          let
+            mkExec = exe: [
+              "util"
+              "exec"
+              "--"
+              exe
+            ];
+          in
+          {
+            fetch = mkExec (lib.getExe pkgs.jj-fetch);
+            cut = mkExec (lib.getExe pkgs.cut-release);
+            fresh = [
+              "new"
+              "trunk()"
+            ];
+            tug = [
+              "bookmark"
+              "move"
+              "--from"
+              "closest_bookmark(@)"
+              "--to"
+              "closest_pushable(@)"
+            ];
+          };
         revset-aliases = {
           "closest_bookmark(to)" = "heads(::to & bookmarks())";
           "closest_pushable(to)" = "heads(::to & ~description(exact:\"\") & (~empty() | merges()))";
