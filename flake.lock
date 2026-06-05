@@ -409,6 +409,22 @@
         "type": "github"
       }
     },
+    "manga-dl": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780629563,
+        "narHash": "sha256-ToUzNo4UY1kNc2jKMeM1lgM8LlZzNywQoUl9C3HWMKk=",
+        "owner": "gigamonster256",
+        "repo": "manga-dl",
+        "rev": "e0fab39f0c5988099657da7e4f02be09016d9580",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "manga-dl",
+        "type": "github"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1744592022,
@@ -796,6 +812,7 @@
         "impermanence": "impermanence",
         "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
+        "manga-dl": "manga-dl",
         "neovim": "neovim",
         "nix-darwin": "nix-darwin",
         "nix-github-actions": "nix-github-actions",

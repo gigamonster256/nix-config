@@ -11,8 +11,7 @@
         home.packages = builtins.attrValues {
           inherit (pkgs)
             wpa_supplicant_gui
-            # chirp
-            # ntop
+            manga-dl
             ;
           inherit (pkgs.kdePackages)
             okular
