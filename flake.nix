@@ -114,6 +114,9 @@
     determinate.inputs.nixpkgs.follows = "nixpkgs";
     determinate.inputs.nix.inputs.flake-parts.follows = "flake-parts";
     determinate.inputs.nix.inputs.git-hooks-nix.follows = "git-hooks";
+
+    manga-dl.url = "github:gigamonster256/manga-dl";
+    manga-dl.flake = false;
   };
 
   outputs =
