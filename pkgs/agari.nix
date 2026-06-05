@@ -7,16 +7,16 @@
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "agari";
-      version = "0.21.0";
+      version = "0.23.0";
 
       src = fetchFromGitHub {
-        owner = "rysb-dev";
+        owner = "agari-industries";
         repo = "agari";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-0OE5XrqfBhpwwXqzSzmv5HaLZbascmpsJxhXLbUk0So=";
+        hash = "sha256-/2MVHLW87IEFuejEuPLGFHU/eiTFUCCYdZEE8Q7FRzg=";
       };
 
-      cargoHash = "sha256-VJ11erz8UvQ2c3kM66jqs5IO+kYYSv//4UGLzez6Tdw=";
+      cargoHash = "sha256-HyMLA8bHNQxZaDSh2YeaetqcXA/Zb8RYHXnS5oGOVPw=";
 
       buildAndTestSubdir = "crates/agari-core";
 
@@ -40,7 +40,7 @@
     let
       wasm-bindgen-cli = wasm-bindgen-cli_0_2_108;
     in
-    rustPlatform.buildRustPackage (_finalAttrs: {
+    rustPlatform.buildRustPackage {
       pname = "agari-wasm";
       inherit (agari) version;
 
@@ -63,7 +63,7 @@
         mkdir -p $out/lib/agari-wasm
         cp -r crates/agari-wasm/pkg/* $out/lib/agari-wasm/
       '';
-    });
+    };
 
   packages.agari-web =
     {
@@ -81,7 +81,7 @@
       npmDepsHash = "sha256-VT1DND2+CK8uuDedcJGKtbeBieAKfK6oedADbqrJF/A=";
 
       preBuild = ''
-        cp -r ${agari-wasm}/lib/agari-wasm/* src/lib/wasm/
+        ln -sf ${agari-wasm}/lib/agari-wasm/* src/lib/wasm/
       '';
 
       installPhase = ''
