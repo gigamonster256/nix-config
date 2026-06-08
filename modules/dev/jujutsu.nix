@@ -104,6 +104,11 @@
           git_push_bookmark = "'gigamonster256/push-' ++ change_id.short()";
         };
       };
+      home.shellAliases = {
+        jja = "jj --config ui.show-authors=true";
+        jjt = "jj --config ui.show-timestamps=true";
+        jjat = "jj --config ui.show-authors=true --config ui.show-timestamps=true";
+      };
     };
 
   persistence.programs.homeManager = {
