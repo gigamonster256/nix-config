@@ -175,8 +175,5 @@
         ".cache/opencode"
       ];
     };
-    gemini-cli = {
-      directories = [ ".gemini" ];
-    };
   };
 }
