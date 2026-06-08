@@ -18,10 +18,8 @@
 
     # custom neovim config using nvf
     neovim.url = "github:gigamonster256/neovim-config/nvf";
-    # until treesitter issues are resolved
-    # neovim.inputs.nixpkgs.follows = "nixpkgs";
-    neovim.inputs.flake-parts.follows = "flake-parts";
-    neovim.inputs.git-hooks.follows = "git-hooks";
+    neovim.inputs.nixpkgs.follows = "nixpkgs";
+    neovim.inputs.nvf.inputs.flake-parts.follows = "flake-parts";
 
     # secure boot
     lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
