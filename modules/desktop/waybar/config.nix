@@ -86,6 +86,7 @@
           };
           cpu = {
             format = textIcon "{usage}%" "";
+            on-click = "${lib.getExe config.programs.ghostty.package} --keybind=clear --confirm-close-surface=false -e ${lib.getExe pkgs.btop}";
           };
           memory = {
             format = textIcon "{}%" "";
