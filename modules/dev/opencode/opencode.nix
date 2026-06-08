@@ -6,11 +6,13 @@
     # our nixpkgs bun is too old
     (final: prev: {
       opencode = (inputs.opencode.overlays.default final prev).opencode.overrideAttrs (prevAttrs: {
-        postPatch = (prevAttrs.postPatch or "") + ''
-          substituteInPlace packages/script/src/index.ts \
-            --replace-fail 'throw new Error(`This script requires bun@''${expectedBunVersionRange}' \
-                           'console.warn(`Warning: This script requires bun@''${expectedBunVersionRange}'
-        '';
+        postPatch =
+          (prevAttrs.postPatch or "")
+          + ''
+            substituteInPlace packages/script/src/index.ts \
+              --replace-fail 'throw new Error(`This script requires bun@''${expectedBunVersionRange}' \
+                             'console.warn(`Warning: This script requires bun@''${expectedBunVersionRange}'
+          '';
       });
     })
   ];
@@ -105,7 +107,7 @@
                   patches = (prevAttrs.patches or [ ]) ++ [
                     (pkgs.fetchpatch2 {
                       url = "https://github.com/gigamonster256/opencode/pull/1.patch?full_index=1";
-                      hash = "sha256-t8NyTV51tFHb3cu0zK5IXaDz7RWhlZElkYnZKIE6dKM=";
+                      hash = "sha256-Gk7d8PkTtMKtLY2EHkDXH9eG+F9p+6Om48vvtKKECso=";
                     })
                   ];
                 }
