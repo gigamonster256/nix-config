@@ -22,7 +22,7 @@
     neovim.inputs.nvf.inputs.flake-parts.follows = "flake-parts";
 
     # secure boot
-    lanzaboote.url = "github:nix-community/lanzaboote/v1.0.0";
+    lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.inputs.pre-commit.follows = "";
 
