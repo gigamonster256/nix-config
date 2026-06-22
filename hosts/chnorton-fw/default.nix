@@ -47,6 +47,7 @@
         # jj-gpc
         flux-keyboard
         opencode
+        fpga
       ]);
       config = lib.mkMerge [
         # main config
@@ -222,6 +223,13 @@
           services.btrfs.autoScrub.enable = true;
 
           services.hardware.openrgb.enable = true;
+
+          # somewhere in fpga nixos module - but easy override installLocation
+          environment.shellAliases = {
+            vivado = "${
+              lib.getExe (pkgs.xilinx-env.override { installLocation = "/persist/home/caleb/.xilinx"; })
+            } -c vivado";
+          };
         }
       ];
     };

@@ -757,11 +757,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773182543,
-        "narHash": "sha256-kcE8JanVX5cFt2vZ6u7lV5XjvVRR6sCUrFMP1UDppMo=",
+        "lastModified": 1782171559,
+        "narHash": "sha256-0xW3f2ArAC2GR6cMRgO6YG08/iMT5ADmoa9LfDvMvj8=",
         "owner": "gigamonster256",
         "repo": "persistence",
-        "rev": "5989681b0be768a131f14dbef0d97af5600f1d72",
+        "rev": "79a1fb6bdf0960acddc13e999bb10e8fc2e23224",
         "type": "github"
       },
       "original": {
