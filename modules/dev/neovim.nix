@@ -10,7 +10,7 @@
       programs.nano.enable = false;
     };
 
-    homeManager.dev = 
+    homeManager.dev =
       { pkgs, ... }:
       {
         home.packages = [ pkgs.neovim ];
