@@ -22,7 +22,12 @@
         ];
         # use ssh host keys
         environment.NIX_SSHOPTS = "-i /etc/ssh/ssh_host_ed25519_key";
-        script = "nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --no-reexec --target-host root@certs.nortonweb.org switch";
+        # upgrade then reboot (to apply kernel updates and help gc)
+        # could integrate with system.autoUpgrade.allowReboot somehow?
+        script = ''
+          nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --no-reexec --target-host root@certs.nortonweb.org boot
+          ssh root@certs.nortonweb.org "shutdown -r +1"
+        '';
         serviceConfig = {
           Type = "oneshot";
         };

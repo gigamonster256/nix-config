@@ -38,6 +38,7 @@
       };
 
       # minimal module removes some needed kernel modules, so we need to add them back in
+      # (updtream to nixos-hardware?)
       boot.initrd.availableKernelModules = [ "mmc_block" ];
 
       # save space by only including the rpi related dtbs (in theory)
@@ -60,6 +61,9 @@
 
       # pi cant even eval itself without an oom killer
       system.autoUpgrade.enable = false;
+
+      # SD card ext4 running out of inodes
+      nix.gc.automatic = true;
 
       # use interpreterless initialization
       system.nixos-init.enable = true;
