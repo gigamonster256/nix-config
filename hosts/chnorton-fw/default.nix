@@ -34,17 +34,12 @@
         impermanence
         style
         gaming
-        # vr
         dev
         desktop
         wireless
         vpn
         laptop
-        # step-host
-        # no-vts
         crypto
-        # niri
-        # jj-gpc
         flux-keyboard
         opencode
         fpga
@@ -59,13 +54,8 @@
               impermanence
               dev
               desktop
-              # step-user
-              # emulators
               radicle
               crypto
-              # niri
-              openclaw
-              # jj-gpc
               flux-keyboard
               opencode
               gaming
