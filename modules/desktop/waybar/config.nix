@@ -7,6 +7,10 @@
       osConfig,
       ...
     }:
+    let
+      # run ghostty for tuis that close when done
+      ghostty = "${config.programs.ghostty.openCommand} --keybind=clear --confirm-close-surface=false";
+    in
     {
       programs.waybar.settings.mainBar =
         let
@@ -86,7 +90,7 @@
           };
           cpu = {
             format = textIcon "{usage}%" "";
-            on-click = "${lib.getExe config.programs.ghostty.package} --keybind=clear --confirm-close-surface=false -e ${lib.getExe pkgs.btop}";
+            on-click = "${ghostty} -e ${lib.getExe pkgs.btop}";
           };
           memory = {
             format = textIcon "{}%" "";
@@ -135,7 +139,7 @@
               connected = "";
               disconnected = "";
             };
-            on-click = "${lib.getExe config.programs.ghostty.package} --keybind=clear --confirm-close-surface=false -e ${lib.getExe pkgs.bluetui}";
+            on-click = "${ghostty} -e ${lib.getExe pkgs.bluetui}";
           };
           "custom/fnott" = lib.mkIf config.services.fnott.enable {
             format = icon "{text}";

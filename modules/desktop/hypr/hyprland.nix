@@ -21,7 +21,7 @@
       ...
     }:
     let
-      terminal = "ghostty";
+      terminal = config.programs.ghostty.openCommand;
       mainMod = "SUPER";
 
       bsod = pkgs.fetchurl {
