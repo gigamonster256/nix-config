@@ -52,25 +52,31 @@
     }:
     buildGoModule (finalAttrs: {
       pname = "wiiu-downloader";
-      version = "2.82";
+      version = "2.94";
 
       src = fetchFromGitHub {
         owner = "Xpl0itU";
         repo = "WiiUDownloader";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-OXPS0elDIDBiUdoc4BForyggNgTi/RHwrhLCgmO8FhA=";
+        hash = "sha256-piHia3yqSk270vSujSmspZKP/3h9q3v5GSaSxV34+UY=";
       };
 
       sourceRoot = "${finalAttrs.src.name}/cmd/WiiUDownloader";
 
+      # Mirrors upstream CI: https://github.com/Xpl0itU/WiiUDownloader/blob/v2.94/.github/workflows/linux.yml
       postUnpack = ''
         chmod +w ${finalAttrs.src.name}
-        cp -f ${wiiu-title-keys} ${finalAttrs.src.name}/db.go
+        {
+          sed -e '/^type TitleEntry struct/,/^}/d' \
+              -e 's/^var titleEntry =/func init() { TitleDatabase =/' \
+              ${wiiu-title-keys}
+          echo '}'
+        } > ${finalAttrs.src.name}/db.go
       '';
 
       # uses: replace github.com/Xpl0itU/WiiUDownloader => ../..
       proxyVendor = true;
-      vendorHash = "sha256-U7zfy6dxUOiV1sTMQT0lkioEv1HJ93loQpcoDNa0k2U=";
+      vendorHash = "sha256-6EYJ5haSs5NEWPKBEbvKCImairX9uoU9MH29qFidR/s=";
 
       nativeBuildInputs = [
         pkg-config
