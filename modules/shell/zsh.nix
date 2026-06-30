@@ -15,6 +15,18 @@
         syntaxHighlighting.enable = lib.mkDefault true;
         autosuggestion.enable = lib.mkDefault true;
         # historySubstringSearch.enable = true;
+
+        # -C skips compaudit + bypasses dump rebuild (dump is fresh after activation)
+        completionInit = ''
+          autoload -Uz compinit
+          compinit -C -d "$HOME/.zcompdump"
+
+          # Byte-compile the dump for faster loading on subsequent shells
+          if [[ -s "$HOME/.zcompdump" && (! -s "$HOME/.zcompdump.zwc" || "$HOME/.zcompdump" -nt "$HOME/.zcompdump.zwc") ]]; then
+            zcompile "$HOME/.zcompdump"
+          fi
+        '';
+
         initContent =
           lib.mkOrder 550
             # bash
@@ -44,6 +56,13 @@
                 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
             '';
       };
+
+      # force rebuild of zcompdump on activation to avoid issues with stale completion data
+      home.activation.invalidateZcompdump = lib.mkIf cfg.enable (
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          $DRY_RUN_CMD rm -f "$HOME/.zcompdump" "$HOME/.zcompdump.zwc"
+        ''
+      );
 
       home.packages = lib.mkIf cfg.enable (
         builtins.attrValues {

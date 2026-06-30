@@ -40,11 +40,10 @@
         lib.mkMerge [
           # actually use custom option
           {
-            programs.opencode.web.extraArgs =
-              [
-                "--port=${toString cfg.web.port}"
-              ]
-              ++ lib.optionals proxyDevEnabled [ "--cors=http://opencode.localhost" ];
+            programs.opencode.web.extraArgs = [
+              "--port=${toString cfg.web.port}"
+            ]
+            ++ lib.optionals proxyDevEnabled [ "--cors=http://opencode.localhost" ];
           }
           # project specific tool loading using direnv plugin
           (lib.mkIf config.programs.direnv.enable {
