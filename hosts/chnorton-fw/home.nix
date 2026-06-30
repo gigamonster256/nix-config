@@ -85,10 +85,11 @@
               ControlMaster = "no";
               ControlPath = "none";
             };
-            "kvs" = {
+            "kvs ecewkgsw05201.engr.tamu.edu" = {
               HostName = "ecewkgsw05201.engr.tamu.edu";
               User = "chnorton";
               ForwardAgent = true;
+              ControlPath = "~/.ssh/master-%r@%h:%p"; # use resolved hostname - make global?
             };
             "wyse-*.penguin" = {
               User = "root";
