@@ -11,9 +11,30 @@
         findutils
         jujutsu
       ];
-      # recurse and find ".jj" directories, then for each one, run "jj git fetch --all-remotes" in the parent directory
       text = ''
-        find . -type d -name ".jj" -prune -print0 | xargs -0 -r -P "''${JJ_FETCH_PARALLELISM:-4}" -I {} jj -R {}/.. git fetch --all-remotes
+        usage() {
+          echo "Usage: jj-fetch [--depth N]" >&2
+          exit 1
+        }
+
+        depth=""
+        while [[ $# -gt 0 ]]; do
+          case "$1" in
+            --depth)
+              depth="$2"
+              shift 2
+              ;;
+            *)
+              usage
+              ;;
+          esac
+        done
+
+        if [ -n "$depth" ]; then
+          find . -maxdepth "$depth" -type d -name ".jj" -prune -print0
+        else
+          find . -type d -name ".jj" -prune -print0
+        fi | xargs -0 -r -P "''${JJ_FETCH_PARALLELISM:-4}" -I {} jj -R {}/.. git fetch --all-remotes
       '';
     };
 }
