@@ -1,11 +1,10 @@
 { self, ... }:
 {
   # build this home-manager configuration in CI
-  flake.ci.x86_64-linux.home = [ "chnorton" ];
+  flake.ci.x86_64-linux.home = [ "chnorton@ecewkgsw05201.engr.tamu.edu" ];
 
   configurations.home = {
-    # just my global config plus dev for linux
-    chnorton = {
+    "chnorton@ecewkgsw05201.engr.tamu.edu" = {
       system = "x86_64-linux";
       module =
         { lib, config, ... }:
@@ -15,18 +14,15 @@
             self.modules.homeManager.opencode
           ];
           # overrride the opencode-web from home-manager settings
-          programs.opencode.web.extraArgs = [
-            "--hostname=0.0.0.0" # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
-            "--cors=http://opencode.localhost" # allow remote connections from my machine
-          ];
-          systemd.user.services.opencode-web = {
+          programs.opencode.web = {
             # TODO: secure further - this is basic-auth over http... bad
-            Service = {
-              # FIXME: sops?
-              # upstream PR: https://github.com/nix-community/home-manager/pull/8939
-              EnvironmentFile = "/home/chnorton/.config/opencode/env";
-            };
+            environmentFile = "/home/chnorton/.config/opencode/env";
+            extraArgs = [
+              "--hostname=0.0.0.0" # listen on all interfaces for opencode, password is set by OPENCODE_SERVER_PASSWORD
+              "--cors=http://opencode.localhost" # allow remote connections from my machine
+            ];
           };
+
           # use school email
           programs.git.settings.user.email = "chnorton@tamu.edu";
 

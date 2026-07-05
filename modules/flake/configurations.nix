@@ -97,12 +97,16 @@ let
                 inherit pkgs;
                 modules = [
                   module
-                  {
-                    # TODO: get rid of @ in nane - ex. caleb@littleboy becomes caleb
-                    home.username = lib.mkDefault name;
-                    # TODO: - adapt for non-linux?
-                    home.homeDirectory = lib.mkDefault ("/home/" + name);
-                  }
+                  (
+                    let
+                      username = builtins.head (builtins.split "@" name);
+                    in
+                    {
+                      home.username = lib.mkDefault username;
+                      # TODO: - adapt for non-linux?
+                      home.homeDirectory = lib.mkDefault ("/home/" + username);
+                    }
+                  )
                   # standalone specific
                   inputs.stylix.homeModules.stylix
                   inputs.self.modules.homeManager.standalone
