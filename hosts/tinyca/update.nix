@@ -25,8 +25,9 @@
         # upgrade then reboot (to apply kernel updates and help gc)
         # could integrate with system.autoUpgrade.allowReboot somehow?
         script = ''
-          nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --no-reexec --target-host root@certs.nortonweb.org boot
-          ssh root@certs.nortonweb.org "shutdown -r +1"
+          HOST=certs.nortonweb.org
+          nixos-rebuild --flake ${config.meta.flake}#tinyca --refresh --accept-flake-config --no-reexec --target-host root@$HOST boot
+          ssh $NIX_SSHOPTS root@$HOST "shutdown -r +1"
         '';
         serviceConfig = {
           Type = "oneshot";
