@@ -22,7 +22,7 @@
         in
         {
           enable = true;
-          virtualHosts."${gcfg.domain}" = {
+          virtualHosts.${gcfg.domain} = {
             enableACME = true;
             forceSSL = true;
             locations."/" = {
