@@ -31,7 +31,7 @@ in
   # https://github.com/nixos/nixpkgs/issues/496466
   nixpkgs.overlays = [
     (final: _prev: {
-      nix = inputs.determinate.inputs.nix.packages."${final.stdenv.system}".default;
+      nix = inputs.determinate.inputs.nix.packages.${final.stdenv.system}.default;
     })
   ];
 
@@ -49,9 +49,7 @@ in
           flake-registry
           ;
         trusted-users = [
-          "root"
           "@wheel"
-          "caleb"
         ];
       };
       inherit registry nixPath;

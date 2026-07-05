@@ -46,17 +46,10 @@
       boot = {
         kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
         loader = {
-          generic-extlinux-compatible.enable = lib.mkDefault true;
-          grub.enable = lib.mkDefault false;
-          systemd-boot.enable = lib.mkForce false;
+          generic-extlinux-compatible.enable = true;
+          generic-extlinux-compatible.configurationLimit = 3;
+          systemd-boot.enable = false;
         };
-      };
-      nix.settings = {
-        experimental-features = lib.mkDefault "nix-command flakes";
-        trusted-users = [
-          "root"
-          "@wheel"
-        ];
       };
 
       # pi cant even eval itself without an oom killer
