@@ -26,12 +26,6 @@
   "protected.Claude-Haiku-4.5": {
     "name": "Claude-Haiku-4.5"
   },
-  "protected.gemini-2.0-flash": {
-    "name": "gemini-2.0-flash"
-  },
-  "protected.gemini-2.0-flash-lite": {
-    "name": "gemini-2.0-flash-lite"
-  },
   "protected.gemini-2.5-flash": {
     "name": "gemini-2.5-flash"
   },
