@@ -115,6 +115,7 @@
                   "audio"
                   "wpa_supplicant"
                   "librepods"
+                  "input"
                 ];
                 shell = pkgs.zsh;
               };
