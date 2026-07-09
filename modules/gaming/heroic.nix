@@ -11,8 +11,8 @@
         ];
       };
     };
-    homeManager.gaming = {
-      programs.heroic.enable = true;
+    homeManager.gaming = { lib, ... }: {
+      programs.heroic.enable = lib.mkDefault true;
     };
   };
 

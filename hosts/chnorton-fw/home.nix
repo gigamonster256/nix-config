@@ -36,11 +36,8 @@
         programs.firefox.enable = true;
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
-        # programs.bitwarden.enable = true;
-        # programs.libreoffice.enable = true;
-        # programs.newsflash.enable = true;
         programs.onlyoffice.enable = true;
-        # programs.prismlauncher.enable = true;
+        programs.heroic.enable = false;
 
         # battery is set to charge to 80% max
         # sudo framework_tool --charge-limit
