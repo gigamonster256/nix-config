@@ -2,45 +2,53 @@
   flake.modules = {
     nixos.radicle =
       { lib, config, ... }:
-      {
-        services.nginx.enable = true;
-        services.radicle = {
-          enable = true;
-          node.openFirewall = true;
-          settings = {
-            node = {
-              seedingPolicy = {
-                # imperatively follow my nodes
-                default = "block";
+      let
+        cfg = config.services.radicle;
+      in
+      lib.mkMerge [
+        (lib.mkIf cfg.enable {
+          services.nginx.enable = true;
+          networking.firewall.allowedTCPPorts = [
+            80
+            443
+          ];
+        })
+        {
+          services.radicle = {
+            enable = lib.mkDefault true;
+            node.openFirewall = true;
+            settings = {
+              node = {
+                seedingPolicy = {
+                  # imperatively follow my nodes
+                  default = "block";
+                };
+              };
+              preferredSeeds = [
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.network:8776"
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@[2a01:4f9:c010:dfaa::1]:8776"
+                "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
+                # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.network:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@[2a01:4ff:f0:abd3::1]:8776"
+                "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
+                # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
+              ];
+            };
+            httpd = {
+              enable = true;
+              nginx = {
+                serverName = lib.mkDefault config.services.radicle.settings.node.alias;
+                # mkMerge isnt working for some reason
+                # https://github.com/NixOS/nixpkgs/blob/c6245e83d836d0433170a16eb185cefe0572f8b8/nixos/modules/services/misc/radicle.nix#L388
+                enableACME = true;
+                forceSSL = true;
               };
             };
-            preferredSeeds = [
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@iris.radicle.network:8776"
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@[2a01:4f9:c010:dfaa::1]:8776"
-              "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@95.217.156.6:8776"
-              # "z6MkrLMMsiPWUcNPHcRajuMi9mDfYckSoJyPwwnknocNYPm7@irisradizskwweumpydlj4oammoshkxxjur3ztcmo7cou5emc6s5lfid.onion:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosa.radicle.network:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@[2a01:4ff:f0:abd3::1]:8776"
-              "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@5.161.85.124:8776"
-              # "z6Mkmqogy2qEM2ummccUthFEaaHvyYmYBYh3dbe9W4ebScxo@rosarad5bxgdlgjnzzjygnsxrwxmoaj4vn7xinlstwglxvyt64jlnhyd.onion:8776"
-            ];
           };
-          httpd = {
-            enable = true;
-            nginx = {
-              serverName = lib.mkDefault config.services.radicle.settings.node.alias;
-              # mkMerge isnt working for some reason
-              # https://github.com/NixOS/nixpkgs/blob/c6245e83d836d0433170a16eb185cefe0572f8b8/nixos/modules/services/misc/radicle.nix#L388
-              enableACME = true;
-              forceSSL = true;
-            };
-          };
-        };
-        networking.firewall.allowedTCPPorts = [
-          80
-          443
-        ];
-      };
+
+        }
+      ];
 
     homeManager.radicle =
       let
@@ -76,7 +84,7 @@
       {
         imports = [ extraOptions ];
         programs.radicle = {
-          enable = true;
+          enable = lib.mkDefault true;
           settings = {
             cli.hints = true;
             node.alias = lib.mkDefault "gigamonster256";

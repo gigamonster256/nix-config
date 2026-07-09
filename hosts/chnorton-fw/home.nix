@@ -54,6 +54,7 @@
         };
 
         programs.radicle = {
+          enable = false;
           publicKey = ./radicle.pub;
           privateKeyFile = osConfig.sops.secrets.radicle_key.path;
         };

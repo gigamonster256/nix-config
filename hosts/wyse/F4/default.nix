@@ -16,6 +16,7 @@
 
       sops.secrets.radicle_ssh_key = { };
       services.radicle = {
+        enable = false;
         settings.node.alias = "rad1.nortonweb.org";
         publicKey = ./radicle_ssh_key.pub;
         privateKey = config.sops.secrets.radicle_ssh_key.path;
