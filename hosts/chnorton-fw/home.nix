@@ -117,6 +117,34 @@
           enable = true;
           package = pkgs.ollama-vulkan;
         };
+
+        programs.opencode.context = ''
+          ## NixOS Environment
+
+          This is a NixOS system. Tools like `python3`, `node`, `pip`, `npm`, `go`, `rustc`, etc. are NOT globally installed and will NOT be found on PATH.
+
+          **Before running or writing code that depends on any tool, check if it exists first.** If a tool is missing:
+
+          1. **Preferred**: Use `nix-shell -p <pkg>` for one-off commands:
+             - `nix-shell -p python3 --run "python script.py"`
+             - `nix-shell -p nodejs --run "npm test"`
+             - `nix-shell -p go --run "go build ./..."`
+
+          2. **For repeated use**: Check if the project already has a `shell.nix` or `flake.nix` devShell, then use `nix develop` or `nix-shell`.
+
+          3. **If no shell exists**: Create a `shell.nix` with the needed packages:
+             ```nix
+             { pkgs ? import <nixpkgs> {} }:
+             pkgs.mkShell {
+               buildInputs = with pkgs; [ python3 nodejs ];
+             }
+             ```
+             Then run `nix-shell` to enter the environment, or `nix-shell --run "<command>"`.
+
+          4. **direnv**: Many projects use direnv with nix-direnv to automatically load dev shells. The opencode-direnv plugin automatically loads project-specific dev environments into the agent's shell tool calls — tools from the project's nix shell should already be available on PATH when running commands.
+
+          **Important**: Never assume tools like `python` or `python3` exist. Always use `nix-shell -p <pkg>` or the project's nix shell when running anything that requires external tools.
+        '';
       };
   };
 
