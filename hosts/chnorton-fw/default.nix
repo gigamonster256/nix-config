@@ -39,7 +39,6 @@
         wireless
         vpn
         laptop
-        crypto
         flux-keyboard
         opencode
         fpga
@@ -55,7 +54,6 @@
               dev
               desktop
               radicle
-              crypto
               flux-keyboard
               opencode
               gaming
