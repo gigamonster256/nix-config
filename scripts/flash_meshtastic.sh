@@ -79,6 +79,9 @@ else
     cp "$FIRMWARE_FILE" "$MOUNT_POINT/" 2>/dev/null || sudo cp "$FIRMWARE_FILE" "$MOUNT_POINT/"
     echo "Firmware copied successfully!"
 fi
+
+sync
+
 echo "Unmounting $MOUNT_POINT..."
 umount "$MOUNT_POINT" 2>/dev/null || sudo umount "$MOUNT_POINT"
 
