@@ -38,6 +38,7 @@
         programs.vesktop.enable = true;
         programs.onlyoffice.enable = true;
         programs.heroic.enable = false;
+        programs.element-desktop.enable = false;
 
         # battery is set to charge to 80% max
         # sudo framework_tool --charge-limit
