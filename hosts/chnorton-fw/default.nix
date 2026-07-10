@@ -77,9 +77,8 @@
           # virtualisation.docker.enable = true;
 
           programs.zsh.enable = true;
-          # programs.zoom-us.enable = true;
           programs.librepods.enable = false;
-          # programs.wireshark.enable = true;
+          programs.xilinx.enable = false;
 
           sops.secrets.caleb-password = {
             neededForUsers = true;
@@ -213,12 +212,7 @@
 
           services.hardware.openrgb.enable = true;
 
-          # somewhere in fpga nixos module - but easy override installLocation
-          environment.shellAliases = {
-            vivado = "${
-              lib.getExe (pkgs.xilinx-env.override { installLocation = "/persist/home/caleb/.xilinx"; })
-            } -c vivado";
-          };
+          programs.xilinx.installLocation = "/persist/home/caleb/.xilinx";
         }
       ];
     };
