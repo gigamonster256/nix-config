@@ -22,14 +22,15 @@
       ayatana-ido,
       libayatana-appindicator,
       xprop,
+      libsecret,
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "polymath";
-      version = "1.4.2.0";
+      version = "1.4.3.1";
 
       src = fetchurl {
         url = "https://fluxkeyboard.com/updates/polymath/linux/deb/polymath_${finalAttrs.version}_amd64.deb";
-        hash = "sha256-rXsY2IWiRnaP4OaCLWOMzess2dha1Lh2WD0ivwoTdME=";
+        hash = "sha256-cCgG2qwVmkFsIhLdxiMtTCul4Dh2za+zptoKhYKJ3fM=";
       };
 
       nativeBuildInputs = [
@@ -49,6 +50,7 @@
         libusb1
         ayatana-ido
         libayatana-appindicator
+        libsecret
       ];
 
       # FIXME: polymath puts files in $HOME/flux which is quite annoying - ask for it to honor XDG_CONFIG_HOME or similar
