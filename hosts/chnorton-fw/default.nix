@@ -210,20 +210,8 @@
           # TODO: btrbk?
           services.btrfs.autoScrub.enable = true;
 
-          services.hardware.openrgb.enable = true;
-
           programs.xilinx.installLocation = "/persist/home/caleb/.xilinx";
         }
       ];
     };
-
-  persistence.programs.nixos-home = {
-    openrgb = {
-      namespace = [
-        "services"
-        "hardware"
-      ];
-      directories = [ ".config/OpenRGB" ];
-    };
-  };
 }
