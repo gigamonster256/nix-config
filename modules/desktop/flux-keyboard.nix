@@ -1,15 +1,20 @@
 {
-  flake.modules.nixos.flux-keyboard =
-    { pkgs, ... }:
+  flake.modules.nixos.default =
     {
-      services.udev.packages = [ pkgs.polymath ];
+      lib,
+      config,
+      ...
+    }:
+    let
+      cfg = config.programs.polymath;
+    in
+    lib.mkIf cfg.enable {
+      services.udev.packages = [ cfg.package ];
     };
 
-  flake.modules.homeManager.flux-keyboard = _: {
-    programs.polymath.enable = true;
-  };
-
-  persistence.wrappers.homeManager = [
+  persistence.wrappers.nixos = [
     "polymath"
   ];
+
+  # TODO: add persistence dirs once my flux keyboard comes in
 }

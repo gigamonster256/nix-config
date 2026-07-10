@@ -39,7 +39,6 @@
         wireless
         vpn
         laptop
-        flux-keyboard
         opencode
         fpga
       ]);
@@ -54,7 +53,6 @@
               dev
               desktop
               radicle
-              flux-keyboard
               opencode
               gaming
             ];
