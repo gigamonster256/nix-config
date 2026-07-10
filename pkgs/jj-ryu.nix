@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.jj-ryu = { };
+
   packages.jj-ryu =
     {
       lib,

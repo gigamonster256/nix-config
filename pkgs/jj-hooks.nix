@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.jj-hooks = { };
+
   packages.jj-hooks =
     {
       lib,

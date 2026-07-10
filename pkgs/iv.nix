@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.iv = { };
+
   packages.iv =
     {
       lib,

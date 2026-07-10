@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.polymath = { };
+
   nixpkgs.allowedUnfreePackages = [
     "polymath"
   ];

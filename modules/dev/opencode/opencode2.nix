@@ -1,4 +1,8 @@
 {
+  autoUpdatePackages.opencode2 = {
+    extraArgs = [ "--use-update-script" ];
+  };
+
   packages.opencode2 =
     {
       stdenv,

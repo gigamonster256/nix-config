@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.n7m-t8r = { };
+
   packages.n7m-t8r =
     {
       lib,
