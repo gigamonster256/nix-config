@@ -15,6 +15,8 @@ let
         ssh-to-age
         gnupg
         age
+
+        nix-update
       ];
 
       shellHook = ''

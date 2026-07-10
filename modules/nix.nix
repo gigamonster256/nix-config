@@ -30,8 +30,12 @@ in
   # overlay replace nix rather than just using determinate modules
   # https://github.com/nixos/nixpkgs/issues/496466
   nixpkgs.overlays = [
-    (final: _prev: {
+    (final: prev: {
       nix = inputs.determinate.inputs.nix.packages.${final.stdenv.system}.default;
+
+      # detsys nix has weird issues with the resolved filename being different from
+      # nix eval path? so nix-update fails bc of it's sanitizePositions behavior
+      nix-update = prev.nix-update.override { nix = final.nixVersions.stable; };
     })
   ];
 
