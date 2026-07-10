@@ -1,9 +1,5 @@
 { inputs, ... }:
 {
-  # nixpkgs.allowedUnfreePackages = [
-  #   "zoom"
-  # ];
-
   # build this host in CI
   flake.ci.x86_64-linux.nixos = [ "chnorton-fw" ];
 
@@ -18,13 +14,6 @@
     {
       imports = [
         inputs.nixos-hardware.nixosModules.framework-amd-ai-300-series
-        # inputs.nix-index-database.nixosModules.nix-index
-        # is this even needed?
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-          };
-        }
       ]
       ++ (with inputs.self.modules.nixos; [
         facter
