@@ -5,6 +5,7 @@
         lib,
         pkgs,
         osConfig,
+        config,
         ...
       }:
       {
@@ -12,9 +13,6 @@
           inherit (pkgs)
             wpa_supplicant_gui
             manga-dl
-            ;
-          inherit (pkgs.kdePackages)
-            okular
             ;
           # inherit (pkgs.python3Packages)
           #   meshtastic
@@ -24,7 +22,7 @@
         xdg.mimeApps = {
           enable = true;
           defaultApplications = {
-            "application/pdf" = "org.kde.okular.desktop";
+            "application/pdf" = lib.mkIf config.programs.firefox.enable "firefox.desktop";
           };
         };
 
