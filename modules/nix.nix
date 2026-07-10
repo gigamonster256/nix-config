@@ -37,6 +37,19 @@ in
       # nix eval path? so nix-update fails bc of it's sanitizePositions behavior
       nix-update = prev.nix-update.override { nix = final.nixVersions.stable; };
     })
+    (final: prev: {
+      nix-update = prev.nix-update.overrideAttrs (
+        _finalAttrs: oldAttrs: {
+          patches = (oldAttrs.patches or [ ]) ++ [
+            # custom --version=branch=dist-tag for npm packages
+            (final.fetchpatch2 {
+              url = "https://github.com/Mic92/nix-update/pull/637.patch?full_index=1";
+              hash = "sha256-MH7pZhS38j2OFdhJ2W39ZbtSjl4vUDhCuG0dL6vNOso=";
+            })
+          ];
+        }
+      );
+    })
   ];
 
   flake.modules.nixos.default = {

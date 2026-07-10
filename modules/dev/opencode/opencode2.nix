@@ -4,10 +4,11 @@
       stdenv,
       fetchurl,
       autoPatchelfHook,
+      nix-update-script,
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "opencode";
-      version = "0.0.0-next-15303";
+      version = "0.0.0-next-15315";
 
       src =
         let
@@ -19,7 +20,7 @@
         in
         fetchurl {
           url = "https://registry.npmjs.org/@opencode-ai/${name}/-/${name}-${finalAttrs.version}.tgz";
-          hash = "sha256-91/V+FHyeyljYpZ9OQJsgHaqtXpmuaxeuinVmZ5od3E=";
+          hash = "sha256-4PSKVdABloAZk5SDPNhnXPgE5phbe26gwrkWpcstd0g=";
         };
 
       nativeBuildInputs = [ autoPatchelfHook ];
@@ -39,7 +40,15 @@
       # strip truncates the bun-compile payload appended after the ELF
       dontStrip = true;
 
+      passthru.updateScript = nix-update-script {
+        extraArgs = [
+          "--flake"
+          "--version=branch=next"
+        ];
+      };
+
       meta.platforms = [ "x86_64-linux" ];
       meta.mainProgram = "opencode2";
+
     });
 }
