@@ -1,4 +1,7 @@
 {
+  # TODO: add auto-update support for polymath (scrape download page for latest)
+  # autoUpdatePackages.polymath = { };
+
   nixpkgs.allowedUnfreePackages = [
     "polymath"
   ];

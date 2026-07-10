@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.logitune = { };
+
   packages.logitune =
     {
       lib,

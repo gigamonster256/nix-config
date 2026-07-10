@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.agari = { };
+
   packages.agari =
     {
       lib,

@@ -1,0 +1,84 @@
+name: Auto-update packages
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  nix-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      has_jobs: ${{ steps.set-matrix.outputs.has_jobs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - id: set-matrix
+        name: Generate auto-update matrix
+        run: |
+          set -Eeu
+          matrix="$(nix eval .#autoUpdateMatrix --json)"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          has_jobs="$(echo "$matrix" | jq -r '.include | length > 0')"
+          echo "has_jobs=$has_jobs" >> "$GITHUB_OUTPUT"
+  auto-update:
+    name: ${{ matrix.name }} (${{ matrix.system }})
+    needs: nix-matrix
+    if: ${{ fromJSON(needs.nix-matrix.outputs.has_jobs) }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{ fromJSON(needs.nix-matrix.outputs.matrix) }}
+      fail-fast: false
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # TODO: use better PAT
+          token: ${{ secrets.AUTO_MERGE_PAT }}
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Update ${{ matrix.name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -Eeu
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if nix run --inputs-from . nixpkgs#nix-update -- \
+            --flake \
+            --build \
+            --commit \
+            "${{ matrix.name }}" \
+            ${{ matrix.extraArgs }}; then
+            echo "::notice::${{ matrix.name }} updated successfully, pushing to master"
+            retry=0 max_retries=5
+            while ! git push origin HEAD:master 2>/dev/null; do
+              retry=$((retry + 1))
+              if [ $retry -ge $max_retries ]; then
+                echo "::error::${{ matrix.name }} push failed after $max_retries attempts"
+                exit 1
+              fi
+              delay=$((2 ** (retry - 1)))
+              echo "::notice::Push conflict for ${{ matrix.name }}, retrying in ${delay}s (attempt $retry/$max_retries)"
+              sleep "$delay"
+              git fetch origin master
+              git rebase origin/master
+            done
+          elif [ -n "$(git status --porcelain)" ]; then
+            branch="auto-update/${{ matrix.name }}-$(date +%Y%m%d%H%M%S)"
+            echo "::warning::${{ matrix.name }} update failed but changed files, creating PR at $branch"
+            git add -A
+            git commit -m "auto-update: ${{ matrix.name }} (failed verification)"
+            git checkout -b "$branch"
+            git push origin "$branch"
+            gh pr create \
+              --base master \
+              --head "$branch" \
+              --title "auto-update: ${{ matrix.name }}" \
+              --body "Auto-update for \`${{ matrix.name }}\` failed verification but generated file changes. Review carefully before merging."
+          else
+            echo "::notice::${{ matrix.name }} update failed with no changes, skipping"
+          fi

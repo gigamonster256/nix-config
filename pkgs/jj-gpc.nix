@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.jj-gpc = { };
+
   packages.jj-gpc =
     {
       lib,

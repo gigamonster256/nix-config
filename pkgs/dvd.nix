@@ -1,4 +1,6 @@
 {
+  autoUpdatePackages.dvd = { };
+
   packages.dvd =
     {
       lib,
