@@ -12,15 +12,15 @@
     }:
     buildGoModule (finalAttrs: {
       pname = "iv";
-      version = "0.11.1";
+      version = "0.13.3";
 
       src = fetchFromGitHub {
         owner = "kenshaw";
         repo = "iv";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-QbSni6sdQ6KpX5XgpxaNWRLigiswHK2UV2kRdIR5boU=";
+        hash = "sha256-msJLb1Qkx8GeWA7o1ZlJW0PEaCZ+TbU1KXpEvUkbBbE=";
       };
-      vendorHash = "sha256-o4Pk2cll1k/LsW9c7PHyby7ogMvCfCNxpsT72visM5M=";
+      vendorHash = "sha256-BrECPxGqFDEkzX4YYSXKv0h7fDwTBPqT7Yy0+U6gp/A=";
 
       nativeBuildInputs = [
         pkg-config
