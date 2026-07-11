@@ -27,13 +27,13 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "gem5";
-      version = "25.1.0.0";
+      version = "25.1.0.1";
 
       src = fetchFromGitHub {
         owner = "gem5";
         repo = "gem5";
         tag = "v${finalAttrs.version}";
-        sha256 = "sha256-0goJSUGR0PJe9DEbxhKUHSlkfc8Gqqnd8Pwn8cZigFw=";
+        sha256 = "sha256-miL4VC3M/w2bi46AG8YXgsz8duzPuJRzjN44BDaebF0=";
       };
 
       nativeBuildInputs = [
