@@ -9,16 +9,16 @@
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "jj-ryu";
-      version = "0.0.1-alpha.11";
+      version = "0.0.1-alpha.10";
 
       src = fetchFromGitHub {
         owner = "dmmulroy";
         repo = "jj-ryu";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-gE4lvqyC2LRAWNDUGePklORWjyEofs/dHLHVBAub424=";
+        hash = "sha256-q7uSlVVVs2Y3aFsO2gTIIB1FiAaGuq/VewC72M43QNc=";
       };
 
-      cargoHash = "sha256-OD1DpV4s6tgOnDEAfJWScdSKqtYArbqIJVClOtUCYa4=";
+      cargoHash = "sha256-tY3b4vt4aUUWV1dUZEaYaAg9RNiF/bbshQMYGo8gnrA=";
 
       nativeCheckInputs = [
         git
