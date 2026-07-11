@@ -13,13 +13,13 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "logitune";
-      version = "0.3.4";
+      version = "0.3.6";
 
       src = fetchFromGitHub {
         owner = "mmaher88";
         repo = "logitune";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-eCRuSBC+f9IWGfraqkPQgwG0xxBbQIC2RadLlbEJIpQ=";
+        hash = "sha256-1WOslJb9u2LndgueIFemWBNsxrrrmyKqd+5nQZwhqYE=";
       };
 
       # hardcoded absolute location for autostart
