@@ -73,7 +73,6 @@
     stylix.inputs.base16-vim.follows = "";
     stylix.inputs.firefox-gnome-theme.follows = "";
     stylix.inputs.tinted-kitty.follows = "";
-    stylix.inputs.tinted-schemes.follows = "";
     stylix.inputs.tinted-tmux.follows = "";
     stylix.inputs.tinted-zed.follows = "";
 
@@ -152,6 +151,8 @@
     );
 
   nixConfig = {
+    abort-on-warn = true;
+    allow-import-from-derivation = false;
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://gigamonster256.cachix.org"

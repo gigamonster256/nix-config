@@ -9,7 +9,7 @@
 
       stylix = {
         enable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
         polarity = "dark";
         opacity = {
           desktop = 0.0;
@@ -32,7 +32,7 @@
 
       stylix = {
         enable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
         polarity = "dark";
         opacity = {
           desktop = 0.0;
@@ -56,7 +56,7 @@
       stylix = {
         # FIXME: auto set this for home-manager standalone and nix-darwin
         enable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
         polarity = "dark";
         icons =
           let

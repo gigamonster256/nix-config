@@ -857,7 +857,7 @@
         "nur": [],
         "systems": "systems_5",
         "tinted-kitty": [],
-        "tinted-schemes": [],
+        "tinted-schemes": "tinted-schemes",
         "tinted-tmux": [],
         "tinted-zed": []
       },
@@ -948,6 +948,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tinted-schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781968807,
+        "narHash": "sha256-yYO3Vw2M0y3TAUqt+9+Mj0zwP3XDTF5/PXcPhhFQ1ZM=",
+        "owner": "tinted-theming",
+        "repo": "schemes",
+        "rev": "2ccef2f4b22e3cab5a9292811f7133a07eeba4a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "schemes",
         "type": "github"
       }
     },
