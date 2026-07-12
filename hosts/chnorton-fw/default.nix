@@ -59,6 +59,8 @@
 
           services.proxy-dev.enable = true;
 
+          programs.opencode.tamu.enable = true;
+
           services.getty.greetingLine = ''<<< chnorton-fw - \l >>>'';
 
           # virtualisation.docker.enable = true;
@@ -167,24 +169,6 @@
                   ' \
                   > $out
               '';
-
-          sops.secrets.tamu_ai_key = {
-            sopsFile = ../../modules/secrets/secrets.yaml;
-          };
-          sops.secrets.tamu_pro_ai_key = {
-            sopsFile = ../../modules/secrets/secrets.yaml;
-          };
-          # FIXME: bring opencode-tamu/sops options into its own module?
-          # right now they're pretty intertwined
-          sops.templates."opencode.json" =
-            let
-              cfg = config.home-manager.users.caleb.programs.opencode;
-            in
-            {
-              owner = config.users.users.caleb.name;
-              # NOTE: discards MCP server settings and schema - see upstream impl for better handling of this
-              file = (pkgs.formats.json { }).generate "opencode.json" cfg.settings;
-            };
 
           # zramSwap = {
           #   enable = true;

@@ -2,6 +2,9 @@
 {
   nixpkgs.overlays = [
     inputs.opencode.overlays.default
+    # (final: _prev: {
+    #   opencode = final.opencode2;
+    # })
   ];
 
   flake.modules.homeManager.opencode =
@@ -14,16 +17,26 @@
     }:
     let
       cfg = config.programs.opencode;
+      opencodeVersion = lib.getVersion cfg.package;
+      isOpencode2 = lib.hasInfix "next" opencodeVersion;
     in
     {
+      # custom options for server
       options = {
-        programs.opencode.web.port = lib.mkOption {
-          type = lib.types.port;
-          default =
-            if osConfig != null && osConfig ? programs.opencode.port then
-              osConfig.programs.opencode.port
-            else
-              40123;
+        programs.opencode.web = {
+          port = lib.mkOption {
+            type = lib.types.port;
+            default =
+              if osConfig != null && osConfig ? programs.opencode.port then
+                osConfig.programs.opencode.port
+              else
+                4096;
+            readOnly = osConfig != null && osConfig ? programs.opencode.port;
+          };
+          hostname = lib.mkOption {
+            type = lib.types.nullOr lib.types.singleLineStr;
+            default = null;
+          };
         };
       };
 
@@ -43,7 +56,9 @@
             programs.opencode.web.extraArgs = [
               "--port=${toString cfg.web.port}"
             ]
-            ++ lib.optionals proxyDevEnabled [ "--cors=http://opencode.localhost" ];
+            ++ lib.optional (cfg.web.hostname != null) (
+              if isOpencode2 then "--hostname=${cfg.web.hostname}" else "--cors=http://${cfg.web.hostname}"
+            );
           }
           # project specific tool loading using direnv plugin
           (lib.mkIf config.programs.direnv.enable {
@@ -66,10 +81,18 @@
               web.enable = lib.mkDefault cfg.enable;
             };
 
-            home.shellAliases = lib.mkIf cfg.enable {
-              oc = "opencode";
-              opencode = lib.mkIf cfg.web.enable "opencode attach ${url} --dir .";
-            };
+            home.shellAliases = lib.mkIf cfg.enable (
+              let
+                # opencode vs opencode2
+                opencode = cfg.package.meta.mainProgram;
+              in
+              {
+                oc = opencode;
+                opencode = lib.mkIf cfg.web.enable (
+                  if !isOpencode2 then "${opencode} attach ${url} --dir ." else "${opencode} --server ${url}"
+                );
+              }
+            );
 
             programs.waybar.settings.mainBar = {
               "custom/opencode" =
@@ -88,73 +111,29 @@
               modules-right = lib.mkBefore [ "custom/opencode" ];
             };
           }
-          # tamu providers if this is a nixos config with sops available
-          (lib.mkIf (osConfig != null && osConfig ? sops) {
-            # patch with tamu finish fix, and settings for both regular and pro tamu ai
-            programs.opencode = {
-              package = pkgs.opencode.overrideAttrs (
-                _finalAttrs: prevAttrs: {
-                  patches = (prevAttrs.patches or [ ]) ++ [
-                    (pkgs.fetchpatch2 {
-                      url = "https://github.com/gigamonster256/opencode/pull/1.patch?full_index=1";
-                      hash = "sha256-4ir3DBYLuEyH33I7tVvwzoMSQiLOns+6r9gexa3kZR4=";
-                    })
-                  ];
-                }
-              );
-              settings = {
-                provider =
-                  let
-                    # see scripts/update-tamu-models.sh
-                    models = lib.importJSON ./tamu-models.json;
-                  in
-                  {
-                    tamu-ai-pro = {
-                      npm = "@ai-sdk/openai-compatible";
-                      name = "TAMU Pro Chat";
-                      options = {
-                        baseURL = "https://pro-chat-api.tamu.ai/api/v1";
-                        apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
-                      };
-                      inherit models;
-                    };
-                    tamu-ai = {
-                      npm = "@ai-sdk/openai-compatible";
-                      name = "TAMU Chat";
-                      options = {
-                        baseURL = "https://chat-api.tamu.ai/api/v1";
-                        apiKey = osConfig.sops.placeholder.tamu_ai_key;
-                      };
-                      inherit models;
-                    };
-                  };
-              };
-            };
-
-            xdg.configFile = {
-              # override regular generated config file with sops-encrypted template
-              "opencode/opencode.json" = lib.mkForce {
-                source = config.lib.file.mkOutOfStoreSymlink osConfig.sops.templates."opencode.json".path;
-              };
-              # install tamu finish hook plugin
-              "opencode/plugins/opencode-chat-finish-hook.ts" = {
-                source = inputs.opencode-tamu-finish-fix + /src/index.ts;
-              };
-            };
-          })
         ];
     };
 
   flake.modules.nixos.opencode =
     { lib, config, ... }:
     {
+      # TODO: don't like this option for proxy-dev but need to access the port as set by hm config
+      # how to get the value to flow from hm to nixos
       options.programs.opencode.port = lib.mkOption {
         type = lib.types.port;
-        default = 40123;
+        default = 4096;
         description = "Port for the opencode web server.";
       };
 
-      config.services.proxy-dev.hosts.opencode = config.programs.opencode.port;
+      config = {
+        services.proxy-dev.hosts.opencode = config.programs.opencode.port;
+        home-manager.sharedModules = lib.singleton (
+          { lib, ... }: {
+            # TODO: should this be some sort of services.proxy-dev.hosts.opencode.hostname RO option?
+            programs.opencode.web.hostname = lib.mkDefault "opencode.localhost";
+          }
+        );
+      };
     };
 
   persistence.programs.homeManager = {
