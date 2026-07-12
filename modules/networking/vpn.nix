@@ -76,6 +76,13 @@
 
       users.groups.vpn = { };
 
+      systemd.services = lib.mkIf (config.services.automatic-timezoned.enable or false) (
+        lib.genAttrs allServiceNames (_name: {
+          serviceConfig.ExecStartPre = "-${lib.getExe' config.systemd.package "systemctl"} stop automatic-timezoned-geoclue-agent.service";
+          serviceConfig.ExecStopPost = "-${lib.getExe' config.systemd.package "systemctl"} start automatic-timezoned.service";
+        })
+      );
+
       environment.defaultPackages = [
         (pkgs.vpn-scripts.override {
           services = allServiceNames;
