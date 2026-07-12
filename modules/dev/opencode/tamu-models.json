@@ -14,6 +14,9 @@
   "protected.Claude Opus 4.7": {
     "name": "Claude Opus 4.7"
   },
+  "protected.Claude Opus 4.8": {
+    "name": "Claude Opus 4.8"
+  },
   "protected.Claude Sonnet 4": {
     "name": "Claude Sonnet 4"
   },
@@ -34,6 +37,12 @@
   },
   "protected.gemini-2.5-pro": {
     "name": "gemini-2.5-pro"
+  },
+  "protected.gemini-3.1-flash-lite": {
+    "name": "gemini-3.1-flash-lite"
+  },
+  "protected.gemini-3.5-flash": {
+    "name": "gemini-3.5-flash"
   },
   "protected.gpt-4.1": {
     "name": "gpt-4.1"
