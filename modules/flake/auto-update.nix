@@ -5,12 +5,6 @@
   ...
 }:
 let
-  systemToOs = {
-    "x86_64-linux" = [ "ubuntu-latest" ];
-    "aarch64-linux" = [ "ubuntu-24.04-arm" ];
-    "aarch64-darwin" = [ "macos-latest" ];
-    "x86_64-darwin" = [ "macos-13" ];
-  };
 
   packageSubmodule = lib.types.submodule {
     options = {
@@ -44,24 +38,26 @@ in
     let
       packages = config.autoUpdatePackages;
       # { system = { name = derivation; }; }
-      checks =
-        lib.pipe packages [
-          (lib.mapAttrsToList (name: cfg: {
+      checks = lib.pipe packages [
+        (lib.mapAttrsToList (
+          name: cfg: {
             inherit name;
             inherit (cfg) extraArgs;
             system = cfg.platform;
             drv = inputs.self.packages.${cfg.platform}.${name} or null;
-          }))
-          (builtins.filter (p: p.drv != null))
-          (lib.foldl' (acc: pkg:
-            acc
-            // {
-              ${pkg.system} = (acc.${pkg.system} or { }) // {
-                ${pkg.name} = pkg.drv;
-              };
-            }
-          ) { })
-        ];
+          }
+        ))
+        (builtins.filter (p: p.drv != null))
+        (lib.foldl' (
+          acc: pkg:
+          acc
+          // {
+            ${pkg.system} = (acc.${pkg.system} or { }) // {
+              ${pkg.name} = pkg.drv;
+            };
+          }
+        ) { })
+      ];
 
       result = inputs.nix-github-actions.lib.mkGithubMatrix {
         inherit checks;
@@ -75,9 +71,15 @@ in
         }) packages
       );
 
-      include = map (entry: entry // {
-        extraArgs = extraArgs.${entry.name} or "";
-      }) result.matrix.include;
+      include = map (
+        entry:
+        entry
+        // {
+          extraArgs = extraArgs.${entry.name} or "";
+        }
+      ) result.matrix.include;
     in
-    { inherit include; };
+    {
+      inherit include;
+    };
 }
