@@ -18,6 +18,7 @@
         home.shellAliases = {
           nvom = "nvim";
           nivm = "nvim";
+          nbim = "nvim";
         };
         persistence.directories = [ ".config/github-copilot" ];
       };
