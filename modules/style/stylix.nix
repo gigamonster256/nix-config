@@ -23,28 +23,26 @@
       };
     };
 
-  flake.modules.darwin.style =
-    { pkgs, ... }:
-    {
-      imports = [
-        inputs.stylix.darwinModules.stylix
-      ];
+  flake.modules.darwin.style = {
+    imports = [
+      inputs.stylix.darwinModules.stylix
+    ];
 
-      stylix = {
-        enable = true;
-        base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
-        polarity = "dark";
-        opacity = {
-          desktop = 0.0;
-          terminal = 0.85;
-        };
-        # cursor = {
-        #   name = "Bibata-Modern-Classic";
-        #   package = pkgs.bibata-cursors;
-        #   size = 24;
-        # };
+    stylix = {
+      enable = true;
+      base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
+      polarity = "dark";
+      opacity = {
+        desktop = 0.0;
+        terminal = 0.85;
       };
+      # cursor = {
+      #   name = "Bibata-Modern-Classic";
+      #   package = pkgs.bibata-cursors;
+      #   size = 24;
+      # };
     };
+  };
 
   flake.modules.homeManager.style =
     {
