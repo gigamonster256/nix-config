@@ -23,6 +23,7 @@
       home-manager.users.caleb = {
         imports = with self.modules.homeManager; [
           style
+          desktop
         ];
       };
 
