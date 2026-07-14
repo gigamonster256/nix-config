@@ -12,7 +12,7 @@
       # TODO: moduleify
       # not using selfhosted CA/ACME since root certs on kobo are embedded and
       # adding my own root seems hard so just let traefik handle it
-      services.calibre-web.enable = true;
+      services.calibre-web.enable = false; # broken until py dep is fixed
       services.calibre-web.package = pkgs.calibre-web.overridePythonAttrs (prev: {
         # see nixpkgs drv for more optional deps
         dependencies = prev.dependencies ++ prev.optional-dependencies.kobo;
