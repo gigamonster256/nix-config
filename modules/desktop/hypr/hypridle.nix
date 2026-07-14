@@ -20,7 +20,7 @@
           general = {
             lock_cmd = "pidof hyprlock || hyprlock --no-fade-in"; # avoid starting multiple hyprlock instances.
             before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
-            after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
+            after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms({ action = \"enable\" })'"; # to avoid having to press a key twice to turn on the display.
           };
 
           listener = [
@@ -40,12 +40,12 @@
             }
             {
               timeout = 330; # 5.5min
-              on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
-              on-resume = "hyprctl dispatch dpms on && ${brightnessctl} -r"; # screen on when activity is detected after timeout has fired.
+              on-timeout = "hyprctl dispatch 'hl.dsp.dpms({ action = \"disable\" })'"; # screen off when timeout has passed
+              on-resume = "hyprctl dispatch 'hl.dsp.dpms({ action = \"enable\" })' && ${brightnessctl} -r"; # screen on when activity is detected after timeout has fired.
             }
             {
               timeout = 1800; # 30min
-              on-timeout = "systemctl sleep"; # suspend pc
+              on-timeout = "systemctl suspend"; # suspend pc
             }
           ];
         };
