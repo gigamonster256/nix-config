@@ -12,7 +12,7 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "opencode";
-      version = "0.0.0-next-15579";
+      version = "0.0.0-next-15634";
 
       src =
         let
@@ -24,7 +24,7 @@
         in
         fetchurl {
           url = "https://registry.npmjs.org/@opencode-ai/${name}/-/${name}-${finalAttrs.version}.tgz";
-          hash = "sha256-xNuucjNHF+mnnm+F3kcx3Qdq9cBYE6/nXmwlRdc1jy8=";
+          hash = "sha256-Hlpe7ktKCkGx+0bVtQcsfRg5BWImbn3tmlA7RZo4/hM=";
         };
 
       nativeBuildInputs = [ autoPatchelfHook ];
