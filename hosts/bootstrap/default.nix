@@ -2,6 +2,7 @@ flake: {
   configurations.nixos.bootstrap =
     { lib, ... }:
     {
+      system.tools.nixos-generate-config.enable = true;
       system.autoUpgrade.enable = lib.mkForce false;
       # allow this device to be discovered as bootstrap.local
       services.avahi = {

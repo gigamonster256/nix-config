@@ -27,6 +27,9 @@ flake: {
           type = "ed25519";
         }
       ];
+
+      # don't need this for installed systems
+      system.tools.nixos-generate-config.enable = lib.mkDefault false;
     };
 
   persistence.programs.nixos = {
