@@ -49,6 +49,15 @@
               fi
             '';
           };
+
+          programs.nh.autoUpgrade = {
+            enable = true;
+            flags = [
+              "--refresh"
+              "--no-nom"
+              "--no-build-output"
+            ];
+          };
         };
     };
   };
