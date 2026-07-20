@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, config, ... }@flake:
 {
   # build this home-manager configuration in CI
   flake.ci.x86_64-linux.home = [ "chnorton@ecewkgsw05201.engr.tamu.edu" ];
@@ -48,6 +48,15 @@
                 source ~/.zshrc.extra
               fi
             '';
+          };
+
+          # auto update home-manager
+          services.home-manager.autoUpgrade = {
+            enable = true;
+            useFlake = true;
+            flakeDir = flake.config.meta.flake;
+            preSwitchCommands = [ ];
+            frequency = "daily";
           };
         };
     };
