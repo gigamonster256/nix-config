@@ -27,35 +27,7 @@ let
   nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs';
 in
 {
-  # overlay replace nix rather than just using determinate modules
-  # https://github.com/nixos/nixpkgs/issues/496466
-  nixpkgs.overlays = [
-    (final: prev: {
-      nix = inputs.determinate.inputs.nix.packages.${final.stdenv.system}.default;
-
-      # detsys nix has weird issues with the resolved filename being different from
-      # nix eval path? so nix-update fails bc of it's sanitizePositions behavior
-      nix-update = prev.nix-update.override { nix = final.nixVersions.stable; };
-    })
-    (final: prev: {
-      nix-update = prev.nix-update.overrideAttrs (
-        _finalAttrs: oldAttrs: {
-          patches = (oldAttrs.patches or [ ]) ++ [
-            # custom --version=branch=dist-tag for npm packages
-            (final.fetchpatch2 {
-              url = "https://github.com/Mic92/nix-update/pull/637.patch?full_index=1";
-              hash = "sha256-MH7pZhS38j2OFdhJ2W39ZbtSjl4vUDhCuG0dL6vNOso=";
-            })
-          ];
-        }
-      );
-    })
-  ];
-
   flake.modules.nixos.default = {
-    imports = [
-      inputs.determinate.nixosModules.default
-    ];
     nix = {
       settings = {
         inherit
