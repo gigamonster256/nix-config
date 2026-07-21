@@ -397,7 +397,7 @@
                 [
                   (mkMouse "${mainMod} + mouse:272" (mkLua "hl.dsp.window.drag()"))
                   (mkMouse "${mainMod} + mouse:273" (mkLua "hl.dsp.window.resize()"))
-                  (mkMouse "mouse:274" (mkLua "hl.dsp.window.drag()"))
+                  # (mkMouse "mouse:274" (mkLua "hl.dsp.window.drag()"))
                 ]
               )
               # Locked binds (active when screen is locked)
