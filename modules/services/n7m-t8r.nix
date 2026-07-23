@@ -1,6 +1,17 @@
 {
   flake.modules.nixos.n7m-t8r =
     { pkgs, ... }:
+    let
+      fqdn = "n7m-t8r.nortonweb.org";
+      # skip the redirect if forceSSL
+      forceSSL = true;
+      VITE_APP_URL = "http${if forceSSL then "s" else ""}://${fqdn}";
+      pkg = pkgs.n7m-t8r.overrideAttrs (prevAttrs: {
+        env = (prevAttrs.env or { }) // {
+          inherit VITE_APP_URL;
+        };
+      });
+    in
     {
       networking.firewall.allowedTCPPorts = [
         80
@@ -8,12 +19,12 @@
       ];
       services.nginx = {
         enable = true;
-        virtualHosts."n7m-t8r.nortonweb.org" = {
+        virtualHosts.${fqdn} = {
           serverAliases = [ "numeronym.nortonweb.org" ];
           enableACME = true;
-          forceSSL = true;
+          inherit forceSSL;
           locations."/" = {
-            root = "${pkgs.n7m-t8r}/share/n7m-t8r";
+            root = "${pkg}/share/n7m-t8r";
           };
         };
       };

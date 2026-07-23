@@ -10,16 +10,16 @@
     }:
     buildNpmPackage (finalAttrs: {
       pname = "n7m-t8r";
-      version = "0.0.5";
+      version = "0.0.7";
 
       src = fetchFromGitHub {
         owner = "gigamonster256";
         repo = "n7m-t8r";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-vrHgO8mAl5SSQcAuSMPIJRcLAeNAX9GptLAk1RLDF7E=";
+        hash = "sha256-b1aLgWx6ZKZM4HMCvGO03w6Iw/YJ6z+5vU8BS7/Vml4=";
       };
 
-      npmDepsHash = "sha256-K4yQZdv3zN2p3by0EaIA7ej8sbsfN9IurDHNeWUIBJc=";
+      npmDepsHash = "sha256-uaxYcW1Sgcfcm5MzdHd1t5nVMtEpto1c+UhUAnrD7To=";
 
       nativeBuildInputs = [ imagemagick ];
 
