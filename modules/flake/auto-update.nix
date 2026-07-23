@@ -5,7 +5,6 @@
   ...
 }:
 let
-
   packageSubmodule = lib.types.submodule {
     options = {
       platform = lib.mkOption {

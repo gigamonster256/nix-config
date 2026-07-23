@@ -53,6 +53,5 @@
 
       meta.platforms = [ "x86_64-linux" ];
       meta.mainProgram = "opencode2";
-
     });
 }
