@@ -102,6 +102,7 @@
                   "wpa_supplicant"
                   "librepods"
                   "input"
+                  "plugdev"
                 ];
                 shell = pkgs.zsh;
               };
