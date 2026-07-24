@@ -34,26 +34,27 @@
               provider =
                 let
                   # see scripts/update-tamu-models.sh
-                  models = lib.importJSON ./tamu-models.json;
+                  proModels = lib.importJSON ./tamu-models-pro.json;
+                  baseModels = lib.importJSON ./tamu-models-base.json;
                 in
                 {
                   tamu-ai-pro = {
                     npm = "@ai-sdk/openai-compatible";
                     name = "TAMU Pro Chat";
                     options = {
-                      baseURL = "https://pro-chat-api.tamu.ai/api/v1";
+                      baseURL = "https://pro-chat-api.tamu.ai/api";
                       apiKey = osConfig.sops.placeholder.tamu_pro_ai_key;
                     };
-                    inherit models;
+                    models = proModels;
                   };
                   tamu-ai = {
                     npm = "@ai-sdk/openai-compatible";
                     name = "TAMU Chat";
                     options = {
-                      baseURL = "https://chat-api.tamu.ai/api/v1";
+                      baseURL = "https://chat-api.tamu.ai/api";
                       apiKey = osConfig.sops.placeholder.tamu_ai_key;
                     };
-                    inherit models;
+                    models = baseModels;
                   };
                 };
             };

@@ -29,6 +29,12 @@
   "protected.Claude-Haiku-4.5": {
     "name": "Claude-Haiku-4.5"
   },
+  "protected.Devstral-2-123B-Instruct-2512": {
+    "name": "Devstral-2-123B-Instruct-2512"
+  },
+  "protected.Laguna-S-2.1": {
+    "name": "Laguna-S-2.1"
+  },
   "protected.gemini-2.5-flash": {
     "name": "gemini-2.5-flash"
   },
@@ -43,6 +49,9 @@
   },
   "protected.gemini-3.5-flash": {
     "name": "gemini-3.5-flash"
+  },
+  "protected.gemma-4-31B-it": {
+    "name": "gemma-4-31B-it"
   },
   "protected.gpt-4.1": {
     "name": "gpt-4.1"
@@ -82,6 +91,9 @@
   },
   "protected.gpt-5.5": {
     "name": "gpt-5.5"
+  },
+  "protected.gpt-oss-120b": {
+    "name": "gpt-oss-120b"
   },
   "protected.llama3.2": {
     "name": "llama3.2"
