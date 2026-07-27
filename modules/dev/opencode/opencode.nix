@@ -79,6 +79,8 @@
             programs.opencode = {
               enable = lib.mkDefault true;
               web.enable = lib.mkDefault cfg.enable;
+              # allow tools to touch the nix store without prompting
+              settings.permission.external_directory."/nix/store/**" = "allow";
             };
 
             home.shellAliases = lib.mkIf cfg.enable (
