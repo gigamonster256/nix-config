@@ -105,6 +105,7 @@
                   "librepods"
                   "input"
                   "plugdev"
+                  "video"
                 ];
                 shell = pkgs.zsh;
               };
@@ -180,6 +181,18 @@
           # };
 
           boot.zswap.enable = true;
+
+          # give the video group direct write access to backlight/leds so brightness
+          # control (brightnessctl, hypridle, wluma) does not depend on the
+          # systemd-logind SetBrightness D-Bus fallback, which fails when the
+          # session is inactive (locked, suspending)
+          # adapted from wluma's 90-wluma-backlight.rules
+          services.udev.extraRules = ''
+            ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/backlight/%k/brightness"
+            ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/backlight/%k/brightness"
+            ACTION=="add", SUBSYSTEM=="leds", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/leds/%k/brightness"
+            ACTION=="add", SUBSYSTEM=="leds", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/leds/%k/brightness"
+          '';
 
           # TODO: btrbk?
           services.btrfs.autoScrub.enable = true;
