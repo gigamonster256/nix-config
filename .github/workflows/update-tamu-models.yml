@@ -1,13 +1,10 @@
 name: Update TAMU Models
-
 on:
   schedule:
     - cron: "0 6 * * *"
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   update-models:
     runs-on: ubuntu-latest
@@ -15,17 +12,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.AUTO_MERGE_PAT }}
-
       - uses: DeterminateSystems/nix-installer-action@main
-
       - uses: DeterminateSystems/magic-nix-cache-action@main
-
       - name: Run update script
         env:
           TAMU_PRO_AI_KEY: ${{ secrets.TAMU_PRO_AI_KEY }}
           TAMU_AI_KEY: ${{ secrets.TAMU_AI_KEY }}
         run: scripts/update-tamu-models.sh
-
       - name: Commit and push changes
         run: |
           set -Eeu
