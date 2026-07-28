@@ -32,8 +32,8 @@
   "protected.Devstral-2-123B-Instruct-2512": {
     "name": "Devstral-2-123B-Instruct-2512"
   },
-  "protected.Laguna-S-2.1": {
-    "name": "Laguna-S-2.1"
+  "protected.embeddinggemma-300m": {
+    "name": "embeddinggemma-300m"
   },
   "protected.gemini-2.5-flash": {
     "name": "gemini-2.5-flash"
