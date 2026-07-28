@@ -17,7 +17,6 @@
       gnused,
       ghostscript,
     }:
-
     let
       version = "3.2.1-1";
       lprdeb = fetchurl {
@@ -29,7 +28,6 @@
         url = "https://download.brother.com/welcome/dlf103314/hll2315dwcupswrapper-${version}.i386.deb";
         hash = "sha256-1Cb45LisVVj7mZEY8Al4vWyHy/UF0j22mbFX4i6vAus=";
       };
-
     in
     pkgsi686Linux.stdenv.mkDerivation {
       pname = "cups-brother-hll2315dw";
@@ -92,7 +90,7 @@
       '';
 
       meta = {
-        homepage = "https://www.brother.com/";
+        homepage = "https://www.brother.com";
         description = "Brother hl-l2315dw printer driver";
         sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
         license = lib.licenses.unfree;
