@@ -9,6 +9,8 @@
             pkgs.cups-brother-hll2315dw
           ];
         };
+        # CUPS D-Bus calls to fprintd cause 30 second hangs in the web UI
+        security.pam.services.cups.fprintAuth = lib.mkDefault false;
         hardware.printers = {
           ensureDefaultPrinter = "home_printer";
           ensurePrinters = [
