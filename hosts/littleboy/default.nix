@@ -1,8 +1,5 @@
 { self, ... }:
 {
-  # build this host in CI
-  flake.ci.x86_64-linux.nixos = [ "littleboy" ];
-
   configurations.nixos.littleboy =
     {
       pkgs,
