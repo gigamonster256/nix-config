@@ -13,7 +13,6 @@ jobs:
         with:
           token: ${{ secrets.AUTO_MERGE_PAT }}
       - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Run update script
         env:
           TAMU_PRO_AI_KEY: ${{ secrets.TAMU_PRO_AI_KEY }}
