@@ -20,6 +20,10 @@
           package = pkgs.bibata-cursors;
           size = 24;
         };
+        targets = {
+          # nixos module rename throws warning
+          regreet.enable = false;
+        };
       };
     };
 
