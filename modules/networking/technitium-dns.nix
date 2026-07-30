@@ -53,27 +53,28 @@
           80
           443
         ];
-        services.nginx = {
-          enable = true;
-          virtualHosts = {
-            ${config.services.technitium-dns-server.hostName} = {
-              enableACME = true;
-              forceSSL = true;
-              # TODO: TLS termination is a bit weird - re-think if I enable DoH
-              # 53 UDP/TCP regular DNS - no TLS
-              # 853 UDP/TCP DoT/DoQ - terminated by technitium
-              # 80/443 web interface - TLS terminated by nginx
-              # 53443 web interface - TLS terminated by technitium
-              locations."/" = {
-                proxyPass = "http://127.0.0.1:5380";
-              };
-              # TODO: consider enabling DoH in the future
-              # locations."/dns-query" = {
-              #   proxyPass = "http://127.0.0.1:80";
-              # };
-            };
-          };
-        };
+         services.nginx = {
+           enable = true;
+           virtualHosts = {
+             ${config.services.technitium-dns-server.hostName} = {
+               enableACME = true;
+               forceSSL = true;
+               # TODO: TLS termination is a bit weird - re-think if I enable DoH
+               # 53 UDP/TCP regular DNS - no TLS
+               # 853 UDP/TCP DoT/DoQ - terminated by technitium
+               # 80/443 web interface - TLS terminated by nginx
+               # 53443 web interface - TLS terminated by technitium
+               locations."/" = {
+                 proxyPass = "http://127.0.0.1:5380";
+                 recommendedProxySettings = true;
+               };
+               # TODO: consider enabling DoH in the future
+               # locations."/dns-query" = {
+               #   proxyPass = "http://127.0.0.1:80";
+               # };
+             };
+           };
+         };
 
         # disable systemd-resolved to avoid conflicts with technitium dns server
         services.resolved.enable = false;
