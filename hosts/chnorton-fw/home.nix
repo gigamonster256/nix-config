@@ -46,7 +46,7 @@
 
         # auto brightness via ambient light sensor (framework als, iio:device0)
         services.wluma = {
-          enable = true;
+          enable = false; # didnt seem to work very well - would randomly dim the screen - maybe bad training?
           settings = {
             als.iio = {
               path = "/sys/bus/iio/devices";
