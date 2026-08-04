@@ -124,12 +124,12 @@
             "wyse-*.penguin" = {
               User = "root";
             };
-            "olympus" = {
+            "olympus olympus.ece.tamu.edu" = {
               HostName = "olympus.ece.tamu.edu";
               User = "chnorton";
               ForwardAgent = true;
             };
-            "ieee-tamu" = {
+            "ieee-tamu ieee-tamu.engr.tamu.edu" = {
               HostName = "ieee-tamu.engr.tamu.edu";
               User = "root";
               SetEnv = {
