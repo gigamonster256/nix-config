@@ -12,13 +12,13 @@
     }:
     buildGoModule (finalAttrs: {
       pname = "iv";
-      version = "0.13.6";
+      version = "0.13.9";
 
       src = fetchFromGitHub {
         owner = "kenshaw";
         repo = "iv";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-j5mhaeZEmJUSeviw2bPksyKvztInxbzDKX1WK/Zp/u4=";
+        hash = "sha256-DDUTUKSATI0YfvG7Mx87Q80rdGQx51Ex0lf/ymfmiaQ=";
       };
       vendorHash = "sha256-ApQ1ipmP8KNZj6W7EKw6t0jekVR1dB+izg9KbbCRrQE=";
 
