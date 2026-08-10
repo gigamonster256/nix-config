@@ -68,17 +68,21 @@ jobs:
               git rebase origin/master
             done
           elif [ -n "$(git status --porcelain)" ]; then
-            branch="auto-update/${{ matrix.name }}-$(date +%Y%m%d%H%M%S)"
-            echo "::warning::${{ matrix.name }} update failed but changed files, creating PR at $branch"
+            branch="auto-update/${{ matrix.name }}"
+            echo "::warning::${{ matrix.name }} update failed but changed files, pushing to $branch"
             git add -A
             git commit -m "auto-update: ${{ matrix.name }} (failed verification)"
-            git checkout -b "$branch"
-            git push origin "$branch"
-            gh pr create \
-              --base master \
-              --head "$branch" \
-              --title "auto-update: ${{ matrix.name }}" \
-              --body "Auto-update for \`${{ matrix.name }}\` failed verification but generated file changes. Review carefully before merging."
+            git checkout -B "$branch"
+            git push --force origin "$branch"
+            if ! gh pr view "$branch" &>/dev/null; then
+              gh pr create \
+                --base master \
+                --head "$branch" \
+                --title "auto-update: ${{ matrix.name }}" \
+                --body "Auto-update for \`${{ matrix.name }}\` failed verification but generated file changes. Review carefully before merging."
+            else
+              echo "::notice::PR already exists for $branch, updated via force push"
+            fi
           else
             echo "::notice::${{ matrix.name }} update failed with no changes, skipping"
           fi
