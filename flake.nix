@@ -25,6 +25,11 @@
     lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
     lanzaboote.inputs.pre-commit.follows = "";
+    # TODO: remove rust-overlay input + follows once lanzaboote bumps its
+    # rust-overlay past the stdenv.isLinux deprecation fix
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    lanzaboote.inputs.rust-overlay.follows = "rust-overlay";
 
     # declarative disk partitioning
     disko.url = "github:nix-community/disko";

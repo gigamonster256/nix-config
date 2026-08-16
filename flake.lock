@@ -310,7 +310,9 @@
           "nixpkgs"
         ],
         "pre-commit": [],
-        "rust-overlay": "rust-overlay"
+        "rust-overlay": [
+          "rust-overlay"
+        ]
       },
       "locked": {
         "lastModified": 1786473774,
@@ -642,6 +644,7 @@
         "opencode-direnv": "opencode-direnv",
         "opencode-tamu-finish-fix": "opencode-tamu-finish-fix",
         "persistence": "persistence",
+        "rust-overlay": "rust-overlay",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
@@ -651,16 +654,15 @@
     "rust-overlay": {
       "inputs": {
         "nixpkgs": [
-          "lanzaboote",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1786420161,
-        "narHash": "sha256-PU4CY4GUCDFOoS67dGrc/fS6Y+d1cYZSh6nbgYqAAwE=",
+        "lastModified": 1786849542,
+        "narHash": "sha256-MS8cOa/ii1+QA8R3JWVzqEIoXimu9n50GwQDiBVTFOM=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "3a646bd5daa3af78a78a1cb32329cb72d18fcae0",
+        "rev": "b211eadeba8b180da9453ec3413a8a3535c85b3f",
         "type": "github"
       },
       "original": {
