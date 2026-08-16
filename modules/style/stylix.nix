@@ -65,7 +65,7 @@
             name = "Papirus";
           in
           {
-            enable = pkgs.stdenv.isLinux;
+            enable = pkgs.stdenv.hostPlatform.isLinux;
             light = name;
             dark = name;
             package = pkgs.papirus-icon-theme;

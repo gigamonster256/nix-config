@@ -25,6 +25,6 @@
       ...
     }:
     lib.mkIf config.programs.spotify.enable {
-      home.packages = lib.optional pkgs.stdenv.isLinux pkgs.playerctl;
+      home.packages = lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.playerctl;
     };
 }

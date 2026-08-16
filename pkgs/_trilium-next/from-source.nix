@@ -73,7 +73,7 @@ buildNpmPackage {
   npmDepsHash = "sha256-a5V610Kj5iW4nusq+EdKvuAEYYvva1xw3HFQuMD9OKY=";
   makeCacheWritable = true;
 
-  nativeBuildInputs = [ git ] ++ lib.optional stdenv.isDarwin xcodebuild;
+  nativeBuildInputs = [ git ] ++ lib.optional stdenv.hostPlatform.isDarwin xcodebuild;
 
   env = {
     ELECTRON_SKIP_BINARY_DOWNLOAD = "1";

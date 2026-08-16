@@ -36,7 +36,7 @@
               # hyperbeam # pipes via hyperswarm - alternative to magic-wormhole
               ;
           }
-          // (lib.optionalAttrs pkgs.stdenv.isLinux {
+          // (lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
             inherit (pkgs)
               file
               usbutils
