@@ -52,7 +52,6 @@
             # upstream to nixos-hardware?
             kernelParams = [ "amdgpu.freesync_video=1" ];
             initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
-            binfmt.emulatedSystems = [ "aarch64-linux" ];
           }
           # TODO: cleaner detection of secure boot - make lanzaboote always imported and add an enable option?
           // lib.optionalAttrs (options.boot ? lanzaboote) {
