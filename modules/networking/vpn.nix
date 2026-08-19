@@ -24,64 +24,13 @@
       });
 
       networking.openconnect.interfaces = {
-        TAMU =
-          let
-            ip = "${pkgs.iproute2}/bin/ip";
-            # Texas A&M University public IPv4 blocks from AS1970, AS3794, AS22782
-            tamuNetworks = [
-              "128.194.0.0/16"
-              "165.91.0.0/16"
-              "165.95.0.0/16"
-              "204.56.128.0/17"
-              "192.58.110.0/24"
-              "192.58.112.0/22"
-              "64.71.80.0/20"
-              "66.171.223.0/24"
-              "68.232.0.0/19"
-              "98.159.48.0/20"
-              "184.174.192.0/18"
-              # typical tamu private subnets
-              "10.0.0.0/8"
-            ];
-
-            tamuVpnScript = pkgs.writeShellScript "openconnect-tamu-script" ''
-              set -e
-
-              TUNDEV="''${TUNDEV:-}"
-              case "$reason" in
-                pre-init)
-                  ;;
-                connect)
-                  if [ -n "$INTERNAL_IP4_ADDRESS" ] && [ -n "$TUNDEV" ]; then
-                    ${ip} addr add "$INTERNAL_IP4_ADDRESS/$INTERNAL_IP4_NETMASKLEN" dev "$TUNDEV" 2>/dev/null || true
-                    ${ip} link set dev "$TUNDEV" up
-                    [ -n "$INTERNAL_IP4_MTU" ] && ${ip} link set dev "$TUNDEV" mtu "$INTERNAL_IP4_MTU"
-              ${lib.concatMapStringsSep "\n" (
-                net: "      ${ip} route replace ${net} dev \"$TUNDEV\" 2>/dev/null || true"
-              ) tamuNetworks}
-                  fi
-                  ;;
-                disconnect)
-                  if [ -n "$TUNDEV" ]; then
-              ${lib.concatMapStringsSep "\n" (
-                net: "      ${ip} route del ${net} dev \"$TUNDEV\" 2>/dev/null || true"
-              ) tamuNetworks}
-                    ${ip} link set dev "$TUNDEV" down 2>/dev/null || true
-                  fi
-                  ;;
-              esac
-            '';
-          in
-          {
-            protocol = "anyconnect";
-            gateway = "connect.tamu.edu";
-            user = "chnorton";
-            passwordFile = config.sops.secrets."vpn/tamu".path;
-            autoStart = false;
-            extraOptions = {
-              script = "${tamuVpnScript}";
-            };
-          };
+        TAMU = {
+          protocol = "anyconnect";
+          gateway = "connect.tamu.edu";
+          user = "chnorton";
+          passwordFile = config.sops.secrets."vpn/tamu".path;
+          autoStart = false;
+        };
       };
 
       networking.wg-quick.interfaces = {
