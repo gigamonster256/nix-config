@@ -139,6 +139,9 @@
             "ieee-tamu-*" = {
               User = "root";
               ProxyJump = "ieee-tamu";
+              SetEnv = {
+                TERM = "xterm-256color";
+              };
             };
           };
         };
