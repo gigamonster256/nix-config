@@ -41,10 +41,25 @@ fi
 
 echo "Mapped to board name: $BOARD_NAME"
 
-ALPHA_TAG=$(curl -sL "https://api.github.com/repos/$REPO/releases" | jq -r '.[] | select(.prerelease == true) | .tag_name' | head -1)
-echo "Latest alpha tag: $ALPHA_TAG"
+RELEASES=$(curl -sL "https://api.github.com/repos/$REPO/releases")
 
-MANIFEST_URL="https://github.com/$REPO/releases/download/$ALPHA_TAG/firmware-${ALPHA_TAG#v}.json"
+# Pick the latest semver release that is an alpha or beta by published date, skipping revoked builds
+RELEASE_TAG=$(echo "$RELEASES" | jq -r '
+  [ .[] | select(.name | test("Alpha|Beta"; "i"))
+         | select(.name | test("Revoked"; "i") | not)
+  ] | sort_by(.published_at) | last | .tag_name
+')
+
+if [ -z "$RELEASE_TAG" ] || [ "$RELEASE_TAG" = "null" ]; then
+    echo "Could not find a recent alpha or beta release"
+    umount "$MOUNT_POINT" 2>/dev/null || sudo umount "$MOUNT_POINT"
+    exit 1
+fi
+
+RELEASE_NAME=$(echo "$RELEASES" | jq -r --arg tag "$RELEASE_TAG" '.[] | select(.tag_name == $tag) | .name')
+echo "Latest alpha/beta tag: $RELEASE_TAG ($RELEASE_NAME)"
+
+MANIFEST_URL="https://github.com/$REPO/releases/download/$RELEASE_TAG/firmware-${RELEASE_TAG#v}.json"
 
 
 PLATFORM=$(curl -sL "$MANIFEST_URL" | jq -r ".targets[] | select(.board == \"$BOARD_NAME\") | .platform")
@@ -55,8 +70,8 @@ if [ -z "$PLATFORM" ]; then
 fi
 echo "Detected platform: $PLATFORM"
 
-FIRMWARE_ZIP="firmware-${PLATFORM}-${ALPHA_TAG#v}.zip"
-DOWNLOAD_URL="https://github.com/$REPO/releases/download/$ALPHA_TAG/$FIRMWARE_ZIP"
+FIRMWARE_ZIP="firmware-${PLATFORM}-${RELEASE_TAG#v}.zip"
+DOWNLOAD_URL="https://github.com/$REPO/releases/download/$RELEASE_TAG/$FIRMWARE_ZIP"
 
 cd $(mktemp -d)
 
@@ -80,9 +95,8 @@ else
     echo "Firmware copied successfully!"
 fi
 
-sync
-
 echo "Unmounting $MOUNT_POINT..."
+sync
 umount "$MOUNT_POINT" 2>/dev/null || sudo umount "$MOUNT_POINT"
 
 echo "Done!"
