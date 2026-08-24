@@ -199,6 +199,16 @@
           programs.xilinx.installLocation = "/persist/home/caleb/.xilinx";
 
           programs.wireshark.enable = true;
+
+          # for systemd nspawn container nixos tests
+          nix.settings = {
+            experimental-features = [
+              "auto-allocate-uids"
+              "cgroups"
+            ];
+            auto-allocate-uids = true;
+            extra-system-features = [ "uid-range" ];
+          };
         }
       ];
     };
