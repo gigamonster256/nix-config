@@ -197,6 +197,8 @@
           services.btrfs.autoScrub.enable = true;
 
           programs.xilinx.installLocation = "/persist/home/caleb/.xilinx";
+
+          programs.wireshark.enable = true;
         }
       ];
     };
