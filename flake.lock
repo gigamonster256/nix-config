@@ -40,6 +40,26 @@
         "type": "github"
       }
     },
+    "computer-networking": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787767934,
+        "narHash": "sha256-15ryyThGOPHibvS9Grb+LsRp9SPMd6RlF/mt+1enlCI=",
+        "owner": "gigamonster256",
+        "repo": "ComputerNetworking_TAMU",
+        "rev": "e4486c30c1d9cd104048e79cf254d4b6fa4a802a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gigamonster256",
+        "repo": "ComputerNetworking_TAMU",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1787326676,
@@ -624,6 +644,7 @@
     "root": {
       "inputs": {
         "bussy": "bussy",
+        "computer-networking": "computer-networking",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "ghostty": "ghostty",

@@ -1,4 +1,4 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
   # build this home-manager configuration in CI
   flake.ci.x86_64-linux.home = [ "chnorton@ecewkgsw05201.engr.tamu.edu" ];
@@ -12,7 +12,18 @@
           imports = [
             self.modules.homeManager.dev
             self.modules.homeManager.opencode
+
+            inputs.computer-networking.homeManagerModules.default
           ];
+
+          # ECEN 602 machine problem servers (all except http_server)
+          services.ecen602 = {
+            echos.enable = true;
+            sbcp.enable = true;
+            tftp.enable = true;
+            http-proxy.enable = true;
+          };
+
           # overrride the opencode-web from home-manager settings
           programs.opencode.web = {
             # TODO: secure further - this is basic-auth over http... bad

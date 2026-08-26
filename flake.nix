@@ -114,6 +114,10 @@
 
     manga-dl.url = "github:gigamonster256/manga-dl";
     manga-dl.flake = false;
+
+    # ECEN 602: computer networking machine problems
+    computer-networking.url = "github:gigamonster256/ComputerNetworking_TAMU";
+    computer-networking.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
