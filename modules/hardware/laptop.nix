@@ -59,19 +59,13 @@
         {
           services.automatic-timezoned.enable = lib.mkDefault true;
         }
-        (lib.mkIf
-          (
-            config ? facter
-            && config.facter.report.hardware.system.form_factor == "laptop"
-          )
-          {
-            # power-profiles-daemon drives the waybar profile widget; its
-            # battery-aware EPP tuning reacts to UPower's OnBattery signal,
-            # so UPower must be running for it to do anything.
-            services.power-profiles-daemon.enable = true;
-            services.upower.enable = true;
-          }
-        )
+        (lib.mkIf (config ? facter && config.facter.report.hardware.system.form_factor == "laptop") {
+          # power-profiles-daemon drives the waybar profile widget; its
+          # battery-aware EPP tuning reacts to UPower's OnBattery signal,
+          # so UPower must be running for it to do anything.
+          services.power-profiles-daemon.enable = true;
+          services.upower.enable = true;
+        })
       ];
     };
 }
