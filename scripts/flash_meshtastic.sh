@@ -44,9 +44,11 @@ echo "Mapped to board name: $BOARD_NAME"
 RELEASES=$(curl -sL "https://api.github.com/repos/$REPO/releases")
 
 # Pick the latest semver release that is an alpha or beta by published date, skipping revoked builds
+# and releases that have no assets uploaded yet (e.g. freshly published, empty releases)
 RELEASE_TAG=$(echo "$RELEASES" | jq -r '
   [ .[] | select(.name | test("Alpha|Beta"; "i"))
          | select(.name | test("Revoked"; "i") | not)
+         | select(.assets | length > 0)
   ] | sort_by(.published_at) | last | .tag_name
 ')
 
@@ -61,8 +63,13 @@ echo "Latest alpha/beta tag: $RELEASE_TAG ($RELEASE_NAME)"
 
 MANIFEST_URL="https://github.com/$REPO/releases/download/$RELEASE_TAG/firmware-${RELEASE_TAG#v}.json"
 
+MANIFEST=$(curl -fsSL "$MANIFEST_URL") || {
+    echo "Could not download manifest: $MANIFEST_URL"
+    umount "$MOUNT_POINT" 2>/dev/null || sudo umount "$MOUNT_POINT"
+    exit 1
+}
 
-PLATFORM=$(curl -sL "$MANIFEST_URL" | jq -r ".targets[] | select(.board == \"$BOARD_NAME\") | .platform")
+PLATFORM=$(echo "$MANIFEST" | jq -r ".targets[] | select(.board == \"$BOARD_NAME\") | .platform")
 if [ -z "$PLATFORM" ]; then
     echo "Could not find platform for board: $BOARD_NAME"
     umount "$MOUNT_POINT" 2>/dev/null || sudo umount "$MOUNT_POINT"
