@@ -500,6 +500,7 @@
                   workspace = "w[tv1]";
                 };
                 border_size = 0;
+                rounding = 0;
               }
               {
                 name = "no-gaps-f1";
@@ -508,6 +509,7 @@
                   workspace = "f[1]";
                 };
                 border_size = 0;
+                rounding = 0;
               }
             ];
 
