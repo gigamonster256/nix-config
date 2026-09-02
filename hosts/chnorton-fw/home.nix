@@ -191,10 +191,6 @@
       packageName = "bitwarden-desktop";
     }
     "newsflash"
-    {
-      name = "libreoffice";
-      packageName = "libreoffice-fresh";
-    }
   ];
 
   persistence.programs.homeManager = {
@@ -216,12 +212,6 @@
     prismlauncher = {
       directories = [
         ".local/share/PrismLauncher"
-      ];
-    };
-    libreoffice = {
-      directories = [
-        ".config/libreoffice"
-        # ".local/share/libreoffice"
       ];
     };
     google-chrome = {
