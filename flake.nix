@@ -115,6 +115,10 @@
     manga-dl.url = "github:gigamonster256/manga-dl";
     manga-dl.flake = false;
 
+    # Nix DSL for DNS zone files (used by network-topology -> nsd on oppie)
+    dns.url = "github:nix-community/dns.nix";
+    dns.inputs.nixpkgs.follows = "nixpkgs";
+
     # ECEN 602: computer networking machine problems
     computer-networking.url = "github:gigamonster256/ComputerNetworking_TAMU";
     computer-networking.inputs.nixpkgs.follows = "nixpkgs";

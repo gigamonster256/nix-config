@@ -1,5 +1,12 @@
 { self, ... }:
 {
+  # IP/DNS identity (single source: feeds static IP assignment plus forward
+  # and reverse zones).
+  network-topology.hosts."wyse-F4" = {
+    vlan = "servers";
+    suffix = 54;
+  };
+
   configurations.nixos.wyse-F4 =
     {
       config,

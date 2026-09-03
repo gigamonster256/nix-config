@@ -4,7 +4,7 @@
   flake.ci.x86_64-linux.nixos = [ "oppie" ];
 
   configurations.nixos.oppie =
-    { ... }:
+    { lib, ... }:
     {
       imports = with self.modules.nixos; [
         facter
@@ -12,35 +12,27 @@
         minimal
         node_exporter
         router
+        oppie-dns
+        oppie-proxy
       ];
 
       # stable names for the 6x intel i226-v ports (see README for the port map)
-      systemd.network.links = {
-        "10-enmg0" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:0d";
-          linkConfig.Name = "enmg0";
-        };
-        "10-enmg1" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:0e";
-          linkConfig.Name = "enmg1";
-        };
-        "10-enmg2" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:0f";
-          linkConfig.Name = "enmg2";
-        };
-        "10-enmg3" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:10";
-          linkConfig.Name = "enmg3";
-        };
-        "10-enmg4" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:11";
-          linkConfig.Name = "enmg4";
-        };
-        "10-enmg5" = {
-          matchConfig.MACAddress = "34:1a:4c:04:10:12";
-          linkConfig.Name = "enmg5";
-        };
-      };
+      systemd.network.links =
+        let
+          link = name: hex: {
+            matchConfig.MACAddress = "34:1a:4c:04:10:${hex}";
+            linkConfig.Name = name;
+          };
+          interfaces = {
+            enmg0 = "0d";
+            enmg1 = "0e";
+            enmg2 = "0f";
+            enmg3 = "10";
+            enmg4 = "11";
+            enmg5 = "12";
+          };
+        in
+        lib.mapAttrs' (name: hex: lib.nameValuePair "10-${name}" (link name hex)) interfaces;
 
       # apalrd-style systemd-networkd router
       # https://www.apalrd.net/posts/2026/asn_networkd/
@@ -55,36 +47,45 @@
           "172.16.15.51"
         ];
         ulaPrefix = "fd45:84c0:0f60";
-        # NOTE: vlan ids assumed to match the 3rd octet of each subnet
-        lanVlans = [
-          {
-            vlanId = 12;
-            address = "172.16.12.1/24";
-            description = "main lan";
-            # native vlan - untagged on the trunk port
-            untagged = true;
-          }
-          {
-            vlanId = 15;
-            address = "172.16.15.1/24";
-            description = "servers";
-          }
-          {
-            vlanId = 17;
-            address = "172.16.17.1/24";
-            description = "iot";
-          }
-          {
-            vlanId = 13;
-            address = "172.16.13.1/24";
-            description = "vpn egress lan";
-            # TODO: wireguard interface for vpn egress (needs keys/secrets)
-            egressInterface = "wg-vpn";
-          }
-        ];
+        # VLANs/addresses come from network-topology (single source with DNS);
+        # NOTE: vlan ids must match the 3rd octet of each subnet.
+        lanVlans = flake.config.network-topology.routerVlans;
         # node_exporter scrapeable from LANs
         lanOpenTcpPorts = [ 9000 ];
+
+        # ISP has no IPv6 - Hurricane Electric 6in4 (tunnel 925714)
+        heTunnel = {
+          enable = true;
+          serverIPv4 = "184.105.253.10";
+          clientIPv6 = "2001:470:1f0e:16c::2/64";
+          serverIPv6 = "2001:470:1f0e:16c::1";
+          routedPrefix = "2001:470:b8c5";
+          tunnelId = "925714";
+          # TODO(bootstrap): point at sops template once hosts/oppie/secrets.yaml
+          # exists (see README) - until then the endpoint updater is disabled
+          # and the tunnel follows HE's cached endpoint.
+          # credentialsFile = config.sops.templates."he-tunnel-env".path;
+          credentialsFile = null;
+        };
+
+        # NAT64 for the DNS64 resolvers (ns1/ns2 synthesize 64:ff9b::/96)
+        nat64 = {
+          enable = true;
+          prefix = "64:ff9b::/96";
+          # ULA outside the per-VLAN /64s (vlan hex ids live in :<hex>::)
+          ipv6Address = "fd45:84c0:0f60:64::1";
+        };
       };
+
+      # TODO(bootstrap): HE tunnelbroker endpoint-update credentials.
+      # Uncomment after creating hosts/oppie/secrets.yaml (see README).
+      # sops.secrets."he/username" = { };
+      # sops.secrets."he/password" = { };
+      # sops.templates."he-tunnel-env".content = ''
+      #   HE_USERNAME=${config.sops.placeholder."he/username"}
+      #   HE_PASSWORD=${config.sops.placeholder."he/password"}
+      #   HE_TUNNEL_ID=925714
+      # '';
 
       # discoverable as oppie.local (also via the backup port)
       services.avahi = {

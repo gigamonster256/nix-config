@@ -1,5 +1,17 @@
 { self, ... }:
 {
+  # IP/DNS identity (single source: feeds static IP assignment, forward +
+  # reverse zones) plus the LAN reverse-proxy entry: grafana.lan resolves to
+  # oppie, which DNATs 443 here (see network-topology.proxyForwards).
+  network-topology.hosts."wyse-F8" = {
+    vlan = "servers";
+    suffix = 53;
+    proxy = {
+      subdomain = "grafana";
+      port = 443;
+    };
+  };
+
   configurations.nixos.wyse-F8 =
     {
       lib,
@@ -19,10 +31,7 @@
       services.nginx =
         let
           gcfg = config.services.grafana.settings.server;
-        in
-        {
-          enable = true;
-          virtualHosts.${gcfg.domain} = {
+          proxyToGrafana = {
             enableACME = true;
             forceSSL = true;
             locations."/" = {
@@ -30,6 +39,15 @@
               proxyWebsockets = true;
               recommendedProxySettings = true;
             };
+          };
+        in
+        {
+          enable = true;
+          virtualHosts = {
+            ${gcfg.domain} = proxyToGrafana;
+            # LAN name via oppie DNAT (see network-topology proxy above);
+            # TLS terminated here with the step-ca ACME default.
+            "grafana.lan.nortonweb.org" = proxyToGrafana;
           };
         };
 
