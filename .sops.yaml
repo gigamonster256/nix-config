@@ -73,6 +73,11 @@ creation_rules:
           - *wyse-F4
         pgp:
           - *caleb
+  # TODO: add oppie's age key (ssh-keyscan after first deploy) alongside pgp
+  - path_regex: hosts/oppie/secrets.yaml$
+    key_groups:
+      - pgp:
+          - *caleb
 stores:
   yaml:
     indent: 2

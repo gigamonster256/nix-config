@@ -1,5 +1,13 @@
 { self, ... }:
 {
+  # IP/DNS identity (single source: feeds static IP assignment, forward +
+  # reverse zones, and the ns1 alias).
+  network-topology.hosts."wyse-DX" = {
+    vlan = "servers";
+    suffix = 50;
+    aliases = [ "ns1" ];
+  };
+
   configurations.nixos.wyse-DX =
     { pkgs, ... }:
     {

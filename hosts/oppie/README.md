@@ -34,10 +34,77 @@ VLAN ids assumed to match the 3rd octet of each subnet.
 | 17   | 172.16.17.0/24 | iot         |
 
 - DHCP pool on every LAN: .100 - .199, DNS emitted: ns1/ns2 (172.16.15.50/.51)
-- IPv6: ULA `fd45:84c0:0f60::<vlan-hex>::/64` per VLAN + DHCPv6-PD from WAN
-  (SubnetId = vlan id) when the ISP provides it
+- IPv6: ULA `fd45:84c0:0f60::<vlan-hex>::/64` per VLAN + HE `2001:470:b8c5:<vlan-hex>::/64`
+  per VLAN (routed /48 below), + DHCPv6-PD SubnetId units (inert without ISP PD)
 - VLAN 13 egresses through the `wg-vpn` wireguard interface (nftables + NAT
   rules are already in place), not the WAN
+- NAT64 (tayga, `nat64` TUN): prefix `64:ff9b::/96`, v4 pool `192.168.255.0/24`
+  (tayga itself `.1`, v6 `fd45:84c0:0f60:64::1`). Pool is masqueraded out the WAN.
+  Must match the DNS64 prefix on ns1/ns2.
+
+## Hurricane Electric tunnel (tunnel 925714)
+
+ISP has no IPv6, so `he-6in4` SIT (`modules/networking/router.nix` `router.heTunnel`):
+
+- Server `184.105.253.10`, client `2001:470:1f0e:16c::2/64`, gw `...::1`, MTU 1480
+- `Local` intentionally unset: with a dynamic WAN IP the kernel binds the
+  outgoing address automatically; HE's side follows via the updater, so no
+  tunnel reconfig is needed on IP change
+- firewall: proto-41 restricted to the HE server on WAN; LANs forward to `he-6in4`
+- updater: `he-tunnel-update.service` + timer (every 5min) polls
+  `https://ipv4.tunnelbroker.net/nic/update` (auto-detects IP). Credentials come
+  from the `he-tunnel-env` sops template (`HE_USERNAME` = tunnelbroker user,
+  `HE_PASSWORD` = tunnel update key if set else account password, `HE_TUNNEL_ID`).
+  Currently **disabled** (`credentialsFile = null`) until the sops bootstrap below
+  is done.
+
+## Sops bootstrap (needed for the HE updater)
+
+Blocked on two things as of 2026-09-03:
+
+1. PGP subkeys expired 2026-07-17 - extend them first (`gpg --quick-set-expire`,
+   needs the YubiKey), otherwise `sops` cannot encrypt.
+2. oppie has no age key yet - deploy first, then register it.
+
+Steps:
+
+```bash
+# 1. deploy oppie (tunnel works with HE's cached endpoint; updater disabled)
+nix run nixpkgs#nixos-anywhere -- --flake .#oppie root@bootstrap.local
+
+# 2. register oppie's host key in .sops.yaml (anchor &oppy + rule already has a
+#    pgp-only stub for hosts/oppie/secrets.yaml - add the age recipient there)
+ssh-keyscan -t ed25519 <oppie-ip> | ssh-to-age
+# or: nix run .#add-sops-host -- <oppie-ip> oppy hosts/oppie/secrets.yaml
+#     (then merge the duplicate creation rule it appends into the existing one)
+
+# 3. create secrets and fill in real values
+sops hosts/oppie/secrets.yaml
+# he:
+#   username: <tunnelbroker.net user>
+#   password: <tunnel update key (Advanced tab) or account password>
+
+# 4. uncomment the sops block in hosts/oppie/default.nix and set
+#    router.heTunnel.credentialsFile = config.sops.templates."he-tunnel-env".path
+nixos-rebuild switch --target-host root@oppie.local --flake .#oppie
+
+# 5. verify
+systemctl status tayga he-tunnel-update.*
+journalctl -u he-tunnel-update
+ping -6 2001:470:1f0e:16c::1
+```
+
+## DNS (`lan.nortonweb.org`, authoritative on oppie)
+
+Topology lives in `modules/flake/network-topology.nix`: VLAN name + id
+(id = 3rd octet, hex IPv6 subnet suffix), hosts declare
+`network-topology.hosts."<hostname>" = { vlan, suffix, ... }` in their own
+files. Forward + reverse zones are compiled with `dns.nix` and served by
+`nsd` (`modules/networking/topology-bindings.nix`, `oppie-dns`).
+
+Technitium ns1/ns2 stay as the DHCP-advertised resolvers; add a conditional
+forwarder there for `lan.nortonweb.org` (and the `16.172.in-addr.arpa` /
+GUA `ip6.arpa` reverses if wanted) pointing at oppie's LAN IP.
 
 ## Deviations from apalrd's post
 
@@ -51,9 +118,12 @@ VLAN ids assumed to match the 3rd octet of each subnet.
 
 ## TODO
 
+- [ ] sops bootstrap above (unblocks HE endpoint updater)
 - [ ] wireguard `wg-vpn` interface (keys via sops) for VLAN 13 egress
-- [ ] consider hurricane electric tunnel for v6 if the ISP has no PD
-- [ ] port forwards: edit the prerouting chain in `modules/networking/router.nix`
+- [ ] TCP MSS clamping for the 1480-MTU HE path (and NAT64) if PMTUD proves lossy
+- [ ] port forwards: set `network-topology.hosts."<host>".proxy = { subdomain, port }`
+  in the host/service file (DNS CNAME + `router.portForwards` DNAT generated;
+  see `modules/flake/network-topology.nix`)
 - [ ] flowtable offload for 2.5G throughput, if needed
 
 ## Deploying
