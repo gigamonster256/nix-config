@@ -124,6 +124,14 @@
             "wyse-*.penguin" = {
               User = "root";
             };
+            "switch.penguin" = {
+              # old switch only offers ssh-rsa (SHA-1) host keys
+              HostKeyAlgorithms = "+ssh-rsa";
+              PubkeyAcceptedAlgorithms = "+ssh-rsa";
+              SetEnv = {
+                TERM = "xterm-256color";
+              };
+            };
             "olympus olympus.ece.tamu.edu" = {
               HostName = "olympus.ece.tamu.edu";
               User = "chnorton";
