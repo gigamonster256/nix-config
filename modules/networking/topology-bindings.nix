@@ -3,7 +3,7 @@
 # - nixos.oppie-dns:   serve the dns.nix-compiled zones (forward + reverse)
 #   authoritatively with nsd on oppie. Technitium ns1/ns2 stay as the
 #   DHCP-advertised LAN resolvers; add a conditional forwarder there for
-#   lan.nortonweb.org -> oppie's LAN IP (manual step in the Technitium UI).
+#   rr.nortonweb.org -> oppie's LAN IP (manual step in the Technitium UI).
 # - nixos.oppie-proxy: translate network-topology proxy stanzas into
 #   router.portForwards (DNAT on oppie). Each proxied name resolves to
 #   oppie via CNAME; the backend keeps its own L7 nginx + ACME.

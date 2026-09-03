@@ -16,6 +16,10 @@
         oppie-proxy
       ];
 
+      # Reveille Ranch canonical name: oppie.rr.nortonweb.org
+      # (keep in sync with network-topology.domain).
+      networking.domain = "rr.nortonweb.org";
+
       # stable names for the 6x intel i226-v ports (see README for the port map)
       systemd.network.links =
         let

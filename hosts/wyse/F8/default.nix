@@ -1,7 +1,7 @@
 { self, ... }:
 {
   # IP/DNS identity (single source: feeds static IP assignment, forward +
-  # reverse zones) plus the LAN reverse-proxy entry: grafana.lan resolves to
+  # reverse zones) plus the LAN reverse-proxy entry: grafana.rr resolves to
   # oppie, which DNATs 443 here (see network-topology.proxyForwards).
   network-topology.hosts."wyse-F8" = {
     vlan = "servers";
@@ -47,7 +47,7 @@
             ${gcfg.domain} = proxyToGrafana;
             # LAN name via oppie DNAT (see network-topology proxy above);
             # TLS terminated here with the step-ca ACME default.
-            "grafana.lan.nortonweb.org" = proxyToGrafana;
+            "grafana.rr.nortonweb.org" = proxyToGrafana;
           };
         };
 

@@ -18,6 +18,10 @@
       services.openssh.enable = true;
       nixpkgs.hostPlatform = "aarch64-linux";
 
+      # Reveille Ranch canonical name: tinyca.rr.nortonweb.org
+      # (keep in sync with network-topology.domain).
+      networking.domain = "rr.nortonweb.org";
+
       users = {
         mutableUsers = false;
         users.root.openssh.authorizedKeys.keys =
