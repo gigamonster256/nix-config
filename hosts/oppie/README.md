@@ -94,7 +94,7 @@ journalctl -u he-tunnel-update
 ping -6 2001:470:1f0e:16c::1
 ```
 
-## DNS (`lan.nortonweb.org`, authoritative on oppie)
+## DNS (`rr.nortonweb.org`, authoritative on oppie)
 
 Topology lives in `modules/flake/network-topology.nix`: VLAN name + id
 (id = 3rd octet, hex IPv6 subnet suffix), hosts declare
@@ -103,7 +103,7 @@ files. Forward + reverse zones are compiled with `dns.nix` and served by
 `nsd` (`modules/networking/topology-bindings.nix`, `oppie-dns`).
 
 Technitium ns1/ns2 stay as the DHCP-advertised resolvers; add a conditional
-forwarder there for `lan.nortonweb.org` (and the `16.172.in-addr.arpa` /
+forwarder there for `rr.nortonweb.org` (and the `16.172.in-addr.arpa` /
 GUA `ip6.arpa` reverses if wanted) pointing at oppie's LAN IP.
 
 ## Deviations from apalrd's post

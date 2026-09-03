@@ -284,8 +284,8 @@ in
   options.network-topology = {
     domain = lib.mkOption {
       type = lib.types.str;
-      default = "lan.nortonweb.org";
-      description = "Internal forward zone served authoritatively by oppie (nsd).";
+      default = "rr.nortonweb.org";
+      description = "Internal forward zone served authoritatively by oppie (nsd). Reveille Ranch canonical names (<host>.rr.nortonweb.org).";
     };
     adminEmail = lib.mkOption {
       type = lib.types.str;
@@ -366,7 +366,7 @@ in
                   options = {
                     subdomain = lib.mkOption {
                       type = lib.types.str;
-                      description = "<subdomain>.lan resolves to oppie, which DNATs <port> to this host.";
+                      description = "<subdomain>.rr resolves to oppie, which DNATs <port> to this host.";
                     };
                     port = lib.mkOption {
                       type = lib.types.port;
