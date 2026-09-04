@@ -207,6 +207,14 @@
                 scale = "auto";
               }
               {
+                # WEB 049 room for mirroring
+                output = "desc:Crestron Electronics Inc. Crestron";
+                mode = "1920x1080@60";
+                position = "auto";
+                scale = 1;
+                mirror = "eDP-1";
+              }
+              {
                 output = "";
                 mode = "preferred";
                 position = "auto";
