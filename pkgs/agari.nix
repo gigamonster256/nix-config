@@ -15,7 +15,7 @@
         owner = "agari-industries";
         repo = "agari";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-okJ1AJ0hVAkK9E9DXm6s+LO5moPiRdswhpDt2tDxego=";
+        hash = "sha256-Ua6sEVxCr2Ld5bTLRS2TCZBG7CxpeGjaTUYuaSqwrOQ=";
       };
 
       cargoHash = "sha256-52zuMizvGVMleFHXu3rKaq+7B6PbsrJtQoPPvDUBcv8=";
