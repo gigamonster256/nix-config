@@ -69,6 +69,7 @@
           programs.zsh.enable = true;
           programs.librepods.enable = false;
           programs.xilinx.enable = false;
+          programs.makemkv.enable = true;
 
           sops.secrets.caleb-password = {
             neededForUsers = true;
@@ -105,6 +106,7 @@
                   "input"
                   "plugdev"
                   "video"
+                  "cdrom"
                 ];
                 shell = pkgs.zsh;
               };
