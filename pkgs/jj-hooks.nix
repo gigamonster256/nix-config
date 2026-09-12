@@ -18,17 +18,17 @@
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "jj-hooks";
-      version = "0.3.10";
+      version = "0.3.11";
       __structuredAttrs = true;
 
       src = fetchFromGitHub {
         owner = "mattwilkinsonn";
         repo = "zireael";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-4n4BshXG0wcNjHLUDSPZIiP777Ws7l/cSFg/NdOsr0M=";
+        hash = "sha256-w3ag4Uo862DwJtPOur/yjKQW8HpKcrGJ76dmaXteFPc=";
       };
 
-      cargoHash = "sha256-ADLY4QfhkA0hV7sWdyHnb1/4R5rIyf2mCECWrXXFAYQ=";
+      cargoHash = "sha256-fqIfvt18TpchwnsgX5W/60jtiTiDCF5f43PwWlbl4GQ=";
       buildAndTestSubdir = "tools/jj-hooks";
 
       nativeBuildInputs = [
