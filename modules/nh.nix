@@ -76,6 +76,10 @@ flake: {
               {
                 Unit = {
                   Description = "NH Home Manager upgrade";
+                  # Prevent sd-switch from stopping this unit while it is
+                  # running `nh home switch`; otherwise the activation kills
+                  # itself mid-switch and leaves every managed service down.
+                  X-SwitchMethod = "keep-old";
                 };
 
                 Service = {
