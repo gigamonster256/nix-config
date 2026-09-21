@@ -60,6 +60,11 @@
         enable = true;
         base16Scheme = "${inputs.stylix.inputs.tinted-schemes}/base16/catppuccin-mocha.yaml";
         polarity = "dark";
+        targets = {
+          # stylix's rofi module still sets the renamed `programs.rofi.font`
+          # option; re-enable once https://github.com/nix-community/stylix/pull/2501 lands
+          rofi.enable = false;
+        };
         icons =
           let
             name = "Papirus";
