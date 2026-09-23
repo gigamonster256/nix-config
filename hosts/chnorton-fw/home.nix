@@ -151,6 +151,12 @@
                 TERM = "xterm-256color";
               };
             };
+            "opnsense.penguin" = {
+              User = "root";
+              SetEnv = {
+                TERM = "xterm-256color";
+              };
+            };
           };
         };
 
