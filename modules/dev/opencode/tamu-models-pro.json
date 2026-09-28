@@ -35,11 +35,14 @@
   "protected.Claude-Sonnet-5": {
     "name": "Claude-Sonnet-5"
   },
-  "protected.Devstral-2-123B-Instruct-2512": {
-    "name": "Devstral-2-123B-Instruct-2512"
-  },
   "protected.Laguna-S-2.1": {
     "name": "Laguna-S-2.1"
+  },
+  "protected.Mistral-Medium-3.5-128B": {
+    "name": "Mistral-Medium-3.5-128B"
+  },
+  "protected.Muse-Glimmer-30B": {
+    "name": "Muse-Glimmer-30B"
   },
   "protected.embeddinggemma-300m": {
     "name": "embeddinggemma-300m"
@@ -124,9 +127,6 @@
   },
   "protected.gpt-image-2": {
     "name": "gpt-image-2"
-  },
-  "protected.gpt-oss-120b": {
-    "name": "gpt-oss-120b"
   },
   "protected.llama3.2": {
     "name": "llama3.2"
