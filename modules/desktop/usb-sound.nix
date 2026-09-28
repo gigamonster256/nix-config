@@ -1,6 +1,7 @@
 {
   flake.modules.nixos.desktop =
     {
+      config,
       lib,
       pkgs,
       ...
@@ -51,14 +52,18 @@
         '';
     in
     {
-      services.udev.packages = [
-        (pkgs.writeTextDir "etc/udev/rules.d/99-usb-sounds.rules" ''
-          ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="${lib.getExe connectSound}"
-          ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="${lib.getExe disconnectSound}"
+      options.services.usb-sounds.enable = lib.mkEnableOption "funny sound effects on USB connect/disconnect and power supply events";
 
-          ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="ACAD", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="${debounceScript chargingConnectSound}"
-          ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="ACAD", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="${lib.getExe chargingDisconnectSound}"
-        '')
-      ];
+      config = lib.mkIf config.services.usb-sounds.enable {
+        services.udev.packages = [
+          (pkgs.writeTextDir "etc/udev/rules.d/99-usb-sounds.rules" ''
+            ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="${lib.getExe connectSound}"
+            ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="${lib.getExe disconnectSound}"
+
+            ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="ACAD", ENV{POWER_SUPPLY_ONLINE}=="1", RUN+="${debounceScript chargingConnectSound}"
+            ACTION=="change", SUBSYSTEM=="power_supply", ENV{POWER_SUPPLY_NAME}=="ACAD", ENV{POWER_SUPPLY_ONLINE}=="0", RUN+="${lib.getExe chargingDisconnectSound}"
+          '')
+        ];
+      };
     };
 }
