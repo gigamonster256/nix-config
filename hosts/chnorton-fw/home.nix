@@ -157,6 +157,11 @@
                 TERM = "xterm-256color";
               };
             };
+            "storagebox u349919.your-storagebox.de" = {
+              HostName = "u349919.your-storagebox.de";
+              User = "u349919";
+              Port = 23;
+            };
           };
         };
 
