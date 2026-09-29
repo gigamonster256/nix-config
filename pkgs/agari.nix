@@ -9,16 +9,16 @@
     }:
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "agari";
-      version = "0.24.0";
+      version = "0.25.0";
 
       src = fetchFromGitHub {
         owner = "agari-industries";
         repo = "agari";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-Ua6sEVxCr2Ld5bTLRS2TCZBG7CxpeGjaTUYuaSqwrOQ=";
+        hash = "sha256-gSQGKZuVmywGoM0YVt6QtkEK5XpJWobYkh7Dpq0t5Pw=";
       };
 
-      cargoHash = "sha256-52zuMizvGVMleFHXu3rKaq+7B6PbsrJtQoPPvDUBcv8=";
+      cargoHash = "sha256-0TGlrXrU1yLwctrs5bwHeJ7GTLN2vSLKfwBrSMSV/yM=";
 
       buildAndTestSubdir = "crates/agari-core";
 
