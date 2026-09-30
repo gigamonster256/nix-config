@@ -44,6 +44,12 @@
   "protected.Muse-Glimmer-30B": {
     "name": "Muse-Glimmer-30B"
   },
+  "protected.NVIDIA-Nemotron-3-Super-120B-A12B": {
+    "name": "NVIDIA-Nemotron-3-Super-120B-A12B"
+  },
+  "protected.Ornith-1.0-397B": {
+    "name": "Ornith-1.0-397B"
+  },
   "protected.embeddinggemma-300m": {
     "name": "embeddinggemma-300m"
   },
