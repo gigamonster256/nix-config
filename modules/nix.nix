@@ -24,7 +24,7 @@ let
   # triggering new toplevel derivation - useful for images and development
   flakeInputs' = lib.filterAttrs (n: _: n != "self") flakeInputs;
   registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs';
-  nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs';
+  nix-path = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs';
 in
 {
   flake.modules.nixos.default = {
@@ -36,12 +36,13 @@ in
           extra-trusted-public-keys
           warn-dirty
           flake-registry
+          nix-path
           ;
         trusted-users = [
           "@wheel"
         ];
       };
-      inherit registry nixPath;
+      inherit registry;
     };
   };
 
@@ -57,9 +58,10 @@ in
             extra-trusted-public-keys
             warn-dirty
             flake-registry
+            nix-path
             ;
         };
-        inherit registry nixPath;
+        inherit registry;
       };
     };
 

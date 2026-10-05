@@ -26,7 +26,7 @@ flake: {
       environment.defaultPackages = [ ];
       nix = {
         registry = lib.mkForce { };
-        nixPath = lib.mkForce [ ];
+        settings.nix-path = lib.mkForce [ ];
       };
 
       # dummy value to satisfy base nixos configuration assertions
