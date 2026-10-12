@@ -9,7 +9,7 @@
     }:
     let
       # run ghostty for tuis that close when done
-      ghostty = "${config.programs.ghostty.openCommand} --keybind=clear --confirm-close-surface=false";
+      ghostty = "${lib.getExe config.programs.ghostty.package} --keybind=clear --confirm-close-surface=false";
     in
     {
       programs.waybar.settings.mainBar =
