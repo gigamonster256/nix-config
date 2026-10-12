@@ -193,7 +193,7 @@
              ```
              Then run `nix-shell` to enter the environment, or `nix-shell --run "<command>"`.
 
-          4. **direnv**: Many projects use direnv with nix-direnv to automatically load dev shells. The opencode-direnv plugin automatically loads project-specific dev environments into the agent's shell tool calls — tools from the project's nix shell should already be available on PATH when running commands.
+          4. **direnv**: Many projects use direnv with nix-direnv to provide a dev shell. The direnv integration plugin is currently disabled, so do NOT assume the project's dev environment is active — run commands through `nix develop` or `nix-shell` explicitly.
 
           **Important**: Never assume tools like `python` or `python3` exist. Always use `nix-shell -p <pkg>` or the project's nix shell when running anything that requires external tools.
         '';

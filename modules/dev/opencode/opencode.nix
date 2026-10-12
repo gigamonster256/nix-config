@@ -2,9 +2,6 @@
 {
   nixpkgs.overlays = [
     inputs.opencode.overlays.default
-    # (final: _prev: {
-    #   opencode = final.opencode2;
-    # })
   ];
 
   flake.modules.homeManager.opencode =
@@ -17,8 +14,6 @@
     }:
     let
       cfg = config.programs.opencode;
-      opencodeVersion = lib.getVersion cfg.package;
-      isOpencode2 = lib.hasInfix "next" opencodeVersion;
     in
     {
       # custom options for server
@@ -56,25 +51,38 @@
             programs.opencode.web.extraArgs = [
               "--port=${toString cfg.web.port}"
             ]
-            ++ lib.optional (cfg.web.hostname != null) (
-              if isOpencode2 then "--hostname=${cfg.web.hostname}" else "--cors=http://${cfg.web.hostname}"
-            );
+            # opencode serves the web ui from the shared background service,
+            # which generates and persists its own password and is the only
+            # thing `opencode pair` can connect to (pairing is unavailable for a
+            # plain standalone `serve`). Run it in service mode so browsers sign
+            # in with pairing links. Standalone home-manager hosts (osConfig ==
+            # null) have no shared service, so keep the plain serve server.
+            ++ lib.optional (osConfig != null) "--service"
+            # Don't pass `--hostname`: `serve --hostname` binds the listener to
+            # that host, so the proxy domain would bind `[::1]` and nginx (which
+            # proxies to 127.0.0.1) would 502. The service stays on the default
+            # loopback bind. Without proxy-dev the alias connects to localhost
+            # directly, so allow the domain via CORS.
+            ++ lib.optional (cfg.web.hostname != null && !proxyDevEnabled) "--cors=http://${cfg.web.hostname}";
           }
           # project specific tool loading using direnv plugin
-          (lib.mkIf config.programs.direnv.enable {
-            xdg.configFile."opencode/plugins/opencode-direnv.ts" = {
-              source = inputs.opencode-direnv + /src/index.ts;
-            };
-            # path hack sets PATH to OPENCODE_DIRENV_PATH so we need to add that to the shell PATH if it exists
-            programs.zsh.envExtra = ''
-              # opencode direnv plugin path hack
-              if [ -n "$OPENCODE_DIRENV_PATH" ]; then
-                export PATH="$OPENCODE_DIRENV_PATH:$PATH"
-              fi
-            '';
-            # make sure direnv is on opencode's PATH
-            programs.opencode.extraPackages = [ config.programs.direnv.package ];
-          })
+          # TODO: re-enable once opencode-direnv is ported to the opencode
+          # plugin API. The Bash tool no longer triggers the `shell.env` hook
+          # this plugin relies on (see anomalyco/opencode#41117).
+          # (lib.mkIf config.programs.direnv.enable {
+          #   xdg.configFile."opencode/plugins/opencode-direnv.ts" = {
+          #     source = inputs.opencode-direnv + /src/index.ts;
+          #   };
+          #   # path hack sets PATH to OPENCODE_DIRENV_PATH so we need to add that to the shell PATH if it exists
+          #   programs.zsh.envExtra = ''
+          #     # opencode direnv plugin path hack
+          #     if [ -n "$OPENCODE_DIRENV_PATH" ]; then
+          #       export PATH="$OPENCODE_DIRENV_PATH:$PATH"
+          #     fi
+          #   '';
+          #   # make sure direnv is on opencode's PATH
+          #   programs.opencode.extraPackages = [ config.programs.direnv.package ];
+          # })
           {
             programs.opencode = {
               enable = lib.mkDefault true;
@@ -85,14 +93,16 @@
 
             home.shellAliases = lib.mkIf cfg.enable (
               let
-                # opencode vs opencode2
+                # the opencode binary
                 opencode = cfg.package.meta.mainProgram;
               in
               {
                 oc = opencode;
-                opencode = lib.mkIf cfg.web.enable (
-                  if !isOpencode2 then "${opencode} attach ${url} --dir ." else "${opencode} --server ${url}"
-                );
+                opencode = lib.mkIf cfg.web.enable opencode;
+                # print a one-time link that signs a browser in to the shared
+                # service behind opencode.localhost (only exists when the server
+                # runs in service mode, i.e. on nixos hosts)
+                oc-pair = lib.mkIf (osConfig != null) "${opencode} pair --url ${url}";
               }
             );
 
@@ -117,14 +127,20 @@
     };
 
   flake.modules.nixos.opencode =
-    { lib, config, ... }:
     {
-      # TODO: don't like this option for proxy-dev but need to access the port as set by hm config
-      # how to get the value to flow from hm to nixos
-      options.programs.opencode.port = lib.mkOption {
-        type = lib.types.port;
-        default = 4096;
-        description = "Port for the opencode web server.";
+      lib,
+      config,
+      ...
+    }:
+    {
+      options.programs.opencode = {
+        # TODO: don't like this option for proxy-dev but need to access the port as set by hm config
+        # how to get the value to flow from hm to nixos
+        port = lib.mkOption {
+          type = lib.types.port;
+          default = 4096;
+          description = "Port for the opencode web server.";
+        };
       };
 
       config = {

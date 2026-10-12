@@ -60,7 +60,7 @@
 
           services.proxy-dev.enable = true;
 
-          programs.opencode.tamu.enable = true;
+          programs.opencode.tamu.enable = false; # TODO: enable when tamu module is ready for use with v2
 
           services.getty.greetingLine = ''<<< chnorton-fw - \l >>>'';
 
