@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788552845,
-        "narHash": "sha256-FoWnJ66iwo/bYBpxdcKkLZKaIJVnmBibH8Fgwpl8ru0=",
+        "lastModified": 1791864401,
+        "narHash": "sha256-wMpHeB9xdAuBVKwI+dwcJV3WbRPSD2jvUPRSQk74Uwg=",
         "owner": "gigamonster256",
         "repo": "ComputerNetworking_TAMU",
-        "rev": "34575aa33541d2e5f944bc2fa6b76e15e810143e",
+        "rev": "fcf80cfd953311901d6d046b5a49938c7e402261",
         "type": "github"
       },
       "original": {
