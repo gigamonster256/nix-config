@@ -41,6 +41,8 @@
         programs.heroic.enable = false;
         programs.element-desktop.enable = false;
 
+        programs.thunderbird.enable = true;
+
         # battery is set to charge to 80% max
         # sudo framework_tool --charge-limit
         programs.waybar.settings.mainBar.battery.full-at = 80;
@@ -257,6 +259,9 @@
     wluma = {
       namespace = "services";
       directories = [ ".local/share/wluma" ];
+    };
+    thunderbird = {
+      directories = [ ".config/thunderbird" ];
     };
   };
 }
