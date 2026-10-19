@@ -6,7 +6,7 @@
   packages.gem5 =
     {
       lib,
-      stdenv,
+      gcc13Stdenv,
       fetchFromGitHub,
       scons,
       pkg-config,
@@ -23,9 +23,9 @@
       valgrind,
       ISA ? "ALL",
       variant ? "opt", # debug, opt, or fast
-      withValgrind ? stdenv.hostPlatform.isLinux,
+      withValgrind ? gcc13Stdenv.hostPlatform.isLinux,
     }:
-    stdenv.mkDerivation (finalAttrs: {
+    gcc13Stdenv.mkDerivation (finalAttrs: {
       pname = "gem5";
       version = "25.1.0.1";
 
