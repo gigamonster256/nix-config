@@ -17,7 +17,7 @@
                 patches = (prevAttrs.patches or [ ]) ++ [
                   (final.fetchpatch2 {
                     url = "https://github.com/gigamonster256/ghostty/pull/1.patch?full_index=1";
-                    hash = "sha256-1gGLg9FSHdvViweoaQh/+aqlOKBwXcc1xavqCFH7POs=";
+                    hash = "sha256-vndkv6GjUrkbZyUklC4E5Cwaw1sWCo+rSE1/JcQSMwI=";
                   })
                 ];
               }
