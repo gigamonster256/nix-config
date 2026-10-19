@@ -29,6 +29,7 @@ in
 {
   flake.modules.nixos.default = {
     nix = {
+      channel.enable = false;
       settings = {
         inherit
           experimental-features
@@ -43,6 +44,7 @@ in
         ];
       };
       inherit registry;
+      nixPath = nix-path;
     };
   };
 
