@@ -48,7 +48,34 @@
           };
 
           boot = {
-            kernelPackages = pkgs.linuxPackages_latest;
+            # nixpkgs now signs external kernel modules at `modules_install`, but
+            # framework-laptop-kmod copied the .ko into place by hand and so never
+            # produced framework_laptop.ko.cer, which the module aggregator requires.
+            # Fixed upstream in NixOS/nixpkgs#575818, but not yet in nixpkgs-unstable.
+            # The guard makes this a no-op once the update brings in the fix.
+            kernelPackages = pkgs.linuxPackages_latest.extend (
+              _final: prev: {
+                framework-laptop-kmod = prev.framework-laptop-kmod.overrideAttrs (
+                  old:
+                  lib.optionalAttrs (old ? installPhase) {
+                    makeFlags = old.makeFlags ++ [
+                      "INSTALL_MOD_PATH=${builtins.placeholder "out"}"
+                      "INSTALL_MOD_DIR=extra"
+                      "DEPMOD=true"
+                    ];
+                    installPhase = ''
+                      runHook preInstall
+
+                      local -a flagsArray=( SHELL="$SHELL" )
+                      concatTo flagsArray makeFlags makeFlagsArray installFlags installFlagsArray
+                      make "''${flagsArray[@]}" modules_install
+
+                      runHook postInstall
+                    '';
+                  }
+                );
+              }
+            );
             # upstream to nixos-hardware?
             kernelParams = [ "amdgpu.freesync_video=1" ];
             initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
