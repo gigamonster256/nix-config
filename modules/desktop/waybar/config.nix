@@ -125,6 +125,8 @@
           clock = {
             format = "{:%I:%M}"; # 12 hour time
             tooltip-format = "{:%A %Y-%m-%d}";
+            # show current and upcoming year, then wait so the temp window stays open
+            on-click = "${ghostty} -e ${lib.getExe pkgs.bash} -c '${lib.getExe' pkgs.util-linux "cal"} --twelve; read -n 1 -s -r -p \"Press any key to close\"'";
           };
           idle_inhibitor = {
             format = icon "{icon}";
