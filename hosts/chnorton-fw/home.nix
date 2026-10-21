@@ -35,7 +35,7 @@
         programs.trilium.enable = true;
         programs.vesktop.enable = true;
         programs.onlyoffice.enable = true;
-        programs.obs-studio.enable = true;
+        programs.obs-studio.enable = false;
         programs.kicad.enable = true;
         programs.heroic.enable = false;
         programs.element-desktop.enable = false;
