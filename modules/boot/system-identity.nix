@@ -123,13 +123,17 @@
                   "${utils.escapeSystemdPath attrs.value.device}.device"
                 ]
                 ++ lib.optional cfg.tpm2.enable "systemd-tpm2-setup-early.service"
-                ++ lib.optional (acc != [ ]) "${(lib.head acc).name}.service";
+                ++ lib.optional (acc != [ ]) "${(lib.head acc).name}.service"
+                ++ lib.optional (lib.versionAtLeast cfg.package.version "262") "systemd-pcrextend.socket";
                 before = [
                   "blockdev@dev-mapper-${attrs.name}.target"
                   "cryptsetup.target"
                   "umount.target"
                 ];
-                wants = [ "blockdev@dev-mapper-${attrs.name}.target" ];
+                wants = [
+                  "blockdev@dev-mapper-${attrs.name}.target"
+                ]
+                ++ lib.optional (lib.versionAtLeast cfg.package.version "262") "systemd-pcrextend.socket";
                 requiredBy = [ "sysroot.mount" ];
               })
             ]
