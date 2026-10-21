@@ -37,15 +37,13 @@
             blur_passes = 3;
           };
 
-          # uncomment to enable fingerprint authentication
-          # auth {
-          #     fingerprint {
-          #         enabled = true
-          #         ready_message = Scan fingerprint to unlock
-          #         present_message = Scanning...
-          #         retry_delay = 250 # in milliseconds
-          #     }
-          # }
+          # fingerprint `enabled` is set via the NixOS shared module
+          # (based on services.fprintd.enable); only messaging is configured here
+          auth.fingerprint = {
+            ready_message = "Scan fingerprint to unlock";
+            present_message = "Scanning...";
+            retry_delay = 250; # in milliseconds
+          };
 
           input-field = {
             monitor = "";
@@ -83,6 +81,19 @@
               position = "-30, -150";
               halign = "right";
               valign = "top";
+            }
+
+            # FINGERPRINT FEEDBACK
+            {
+              monitor = "";
+              text = "$FPRINTPROMPT";
+              # base05 is the foreground color (same as stylix's input-field font_color)
+              color = "rgba(${config.lib.stylix.colors.base05}cc)";
+              font_size = 16;
+
+              position = "0, -95";
+              halign = "center";
+              valign = "center";
             }
           ];
         };
