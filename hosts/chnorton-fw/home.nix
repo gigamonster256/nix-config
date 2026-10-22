@@ -203,7 +203,7 @@
   persistence.wrappers.homeManager = [
     {
       name = "trilium";
-      packageName = "trilium-next-desktop";
+      packageName = "trilium-desktop";
     }
     {
       name = "bitwarden";

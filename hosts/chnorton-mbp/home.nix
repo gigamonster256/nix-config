@@ -11,7 +11,7 @@
               net-news-wire
               wireshark
               bitwarden-desktop
-              trilium-next-desktop
+              trilium-desktop
               # bitwarden-cli # broken by https://github.com/NixOS/nixpkgs/pull/390933
               ;
           };

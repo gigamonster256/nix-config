@@ -30,8 +30,6 @@ rec {
   waybar-plugins = withAllFarm "waybar-plugins" (import ./waybar-plugins { inherit pkgs; });
   # themes available in $out/<package-name>/<theme-name>.css using all
   waybar-themes = withAllFarm "waybar-themes" (import ./waybar-themes { inherit pkgs; });
-  # trilium-next-desktop = pkgs.callPackage ./trilium-next/from-source.nix {};
-  # trilium-next-desktop = (import ./trilium-next/prebuilt.nix { inherit pkgs; }).trilium-next;
   fv = pkgs.callPackage ./fv.nix { };
   flash = pkgs.callPackage ./flash.nix { };
   extract = pkgs.callPackage ./extract.nix { };

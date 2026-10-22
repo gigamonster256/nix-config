@@ -6,10 +6,7 @@
     # This one contains whatever you want to overlay
     # You can change versions, add patches, set compilation flags, anything really.
     # https://nixos.wiki/wiki/Overlays
-    modifications = _final: _prev: {
-      # custom trilium-next-desktop package
-      # trilium-desktop = (customPkgs final).trilium-next-desktop;
-    };
+    modifications = _final: _prev: { };
 
     # # induced by https://github.com/NixOS/nixpkgs/pull/385341 and backports to 24.11
     # # using the --unpack hash
