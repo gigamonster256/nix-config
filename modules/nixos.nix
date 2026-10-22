@@ -11,8 +11,8 @@ flake: {
 
       home-manager.backupFileExtension = lib.mkDefault "backup";
       # services.blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
-      # TODO: fix this up
-      networking.useNetworkd = true; # https://github.com/nix-community/nixos-facter-modules/issues/83
+      # network interfaces are managed declaratively with systemd-networkd
+      networking.useNetworkd = true;
 
       # dont install documentation
       documentation = {
