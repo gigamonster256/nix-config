@@ -7,10 +7,7 @@ flake: {
       # allow this device to be discovered as bootstrap.local
       services.avahi = {
         enable = true;
-        publish = {
-          enable = true;
-          addresses = true;
-        };
+        settings.publish.publish-addresses = true;
       };
       services.openssh.enable = true;
       users.users.root.openssh.authorizedKeys.keys = flake.config.meta.owner.sshKeys;
