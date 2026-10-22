@@ -8,8 +8,8 @@
     let
       cfg = config.networking.wireless;
 
-      reportIfaces = config.facter.report.hardware.network_interface or [ ];
-      dhcpIfaces = config.facter.detected.dhcp.interfaces or [ ];
+      reportIfaces = config.hardware.facter.report.hardware.network_interface or [ ];
+      dhcpIfaces = config.hardware.facter.detected.dhcp.interfaces or [ ];
 
       # add more as needed - only needed if if name is not prefixed with wl or subclass is not WLAN
       wirelessDrivers = [

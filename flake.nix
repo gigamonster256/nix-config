@@ -35,9 +35,6 @@
     impermanence.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.inputs.home-manager.follows = "home-manager";
 
-    # automatic hardware configuration
-    nixos-facter-modules.url = "github:nix-community/nixos-facter-modules";
-
     # hardware quirks/optimizations
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";

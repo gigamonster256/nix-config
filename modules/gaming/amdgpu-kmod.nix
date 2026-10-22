@@ -76,10 +76,10 @@ in
     { config, ... }:
     {
       imports = [ self.modules.nixos.amdgpu-kmod ];
-      config = lib.mkIf (config ? facter) {
-        gaming.amdgpuKmod.enable = lib.any (
-          gpu: gpu.driver == "amdgpu"
-        ) config.facter.report.hardware.graphics_card;
+      config = lib.mkIf config.hardware.facter.enable {
+        gaming.amdgpuKmod.enable = lib.any (gpu: gpu.driver == "amdgpu") (
+          config.hardware.facter.report.hardware.graphics_card or [ ]
+        );
       };
     };
 }
