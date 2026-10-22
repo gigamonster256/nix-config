@@ -51,8 +51,9 @@
             # nixpkgs now signs external kernel modules at `modules_install`, but
             # framework-laptop-kmod copied the .ko into place by hand and so never
             # produced framework_laptop.ko.cer, which the module aggregator requires.
-            # Fixed upstream in NixOS/nixpkgs#575818, but not yet in nixpkgs-unstable.
-            # The guard makes this a no-op once the update brings in the fix.
+            # Fixed upstream in NixOS/nixpkgs#575818 (merged 2026-10-20). The
+            # guard makes this a no-op once the next nixpkgs bump brings in the
+            # fix.
             kernelPackages = pkgs.linuxPackages_latest.extend (
               _final: prev: {
                 framework-laptop-kmod = prev.framework-laptop-kmod.overrideAttrs (
