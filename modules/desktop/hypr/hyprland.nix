@@ -99,7 +99,8 @@
     in
     lib.mkMerge [
       {
-        # TODO: re-enable when stylix updates
+        # stylix's hyprland target still emits hyprlang-style dotted keys
+        # (e.g. "col.active_border"), which are no-ops in lua configType
         stylix.targets.hyprland.enable = false;
         wayland.windowManager.hyprland = {
           configType = "lua";
