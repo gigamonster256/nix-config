@@ -9,7 +9,6 @@
     {
       programs.rofi = {
         enable = lib.mkDefault config.wayland.windowManager.hyprland.enable;
-        # package = mkDefault pkgs.rofi-wayland; # wayland support has been upstreamed
         plugins = lib.mkDefault [ pkgs.rofi-emoji ];
         settings.terminal = lib.mkDefault "${config.programs.ghostty.openCommand} --keybind=clear --confirm-close-surface=false";
       };
