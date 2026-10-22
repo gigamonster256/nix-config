@@ -13,8 +13,6 @@ in
       inputs.persistence.nixosModules.default
       config.persistence.modules.nixos.wrappedPrograms
     ];
-    # FIXME: nix flake check has issues when impermanence is diabled
-    #   persistence.homeManagerIntegration.enable = false;
   };
   flake.modules.homeManager.default = {
     imports = [
