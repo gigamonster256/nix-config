@@ -1,4 +1,3 @@
-{ self, ... }:
 {
   # flake.ci.x86_64-linux.packages = { inherit (self.packages.x86_64-linux) gem5; };
   # autoUpdatePackages.gem5 = { };
