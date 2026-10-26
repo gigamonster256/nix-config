@@ -60,6 +60,10 @@
           # stylix's rofi module still sets the renamed `programs.rofi.font`
           # option; re-enable once https://github.com/nix-community/stylix/pull/2501 lands
           rofi.enable = false;
+          # stylix's opencode module still sets `programs.opencode.tui`, which
+          # OpenCode 2 ignores (it reads cli.json instead). Re-enable once the
+          # target targets OpenCode 2.
+          opencode.enable = false;
         };
         icons =
           let
