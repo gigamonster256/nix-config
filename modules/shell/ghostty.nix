@@ -98,20 +98,6 @@
           home.packages = [
             pkgs.monaspace
           ];
-
-          # The upstream systemd unit has a bare `ExecStart=ghostty`, which
-          # systemd can't resolve outside its built-in search path. Replace it
-          # with the absolute store path so `ghostty +new-window` (the Hyprland
-          # terminal bind and rofi) can start the first window. See
-          # ghostty-systemd.md for the full write-up and upstream options.
-          xdg.configFile = lib.mkIf cfg.systemd.enable {
-            "systemd/user/app-com.mitchellh.ghostty.service".source = lib.mkForce (
-              pkgs.runCommandLocal "ghostty-systemd-user-unit" { } ''
-                substitute ${cfg.package}/share/systemd/user/app-com.mitchellh.ghostty.service $out \
-                  --replace-fail "ExecStart=ghostty" "ExecStart=${lib.getExe cfg.package}"
-              ''
-            );
-          };
         })
       ];
     };
