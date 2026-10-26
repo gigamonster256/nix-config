@@ -3,7 +3,6 @@
     { lib, ... }:
     {
       boot = {
-        initrd.systemd.enable = lib.mkDefault true;
         loader = {
           systemd-boot = {
             enable = lib.mkDefault true;

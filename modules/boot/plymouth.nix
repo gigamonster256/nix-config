@@ -3,8 +3,6 @@
     boot = {
       plymouth.enable = true;
       consoleLogLevel = 3;
-      initrd.verbose = false;
-      initrd.systemd.enable = true;
       kernelParams = [
         "quiet"
         "intremap=on"
