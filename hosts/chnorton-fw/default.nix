@@ -77,6 +77,17 @@
                 );
               }
             );
+            # Fix the MT7925 NULL-deref during hibernate resume. Upstream
+            # commit c182bfe944eb; not included in 7.3.1. Drop once on >= 7.4.
+            kernelPatches = [
+              {
+                name = "mt7925-wm2-irq-mask";
+                patch = pkgs.fetchpatch2 {
+                  url = "https://github.com/torvalds/linux/commit/c182bfe944eb.patch?full_index=1";
+                  hash = "sha256-Ly2P6e7Z5yNeSrtXL25OWf72I73XjfxbA0RLsAr9RBE=";
+                };
+              }
+            ];
             # upstream to nixos-hardware?
             kernelParams = [ "amdgpu.freesync_video=1" ];
             initrd.systemd.emergencyAccess = "$6$5fV/nNXqEFrDtYz7$5.lFDJ3nHnP1Bx9dlEZvZTG2XSO1GFaBb0CV4wT5grM9GrGxGEFVa114shWqlcVu/00WLQWWZiNpAReUb2O4s1";
