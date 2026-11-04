@@ -12,7 +12,7 @@
         home.packages = builtins.attrValues {
           inherit (pkgs)
             wpa_supplicant_gui
-            manga-dl
+            # manga-dl
             ;
           # inherit (pkgs.python3Packages)
           #   meshtastic
