@@ -19,9 +19,18 @@
     in
 
     {
-      sops.secrets = lib.genAttrs [ "vpn/tamu" "vpn/windscribe/private" "vpn/windscribe/preshared" ] (_: {
-        sopsFile = ../secrets/secrets.yaml;
-      });
+      sops.secrets =
+        lib.genAttrs
+          [
+            "vpn/tamu"
+            "vpn/windscribe/private"
+            "vpn/windscribe/preshared"
+            "vpn/ieee-tamu/private"
+            "vpn/ieee-tamu/preshared"
+          ]
+          (_: {
+            sopsFile = ../secrets/secrets.yaml;
+          });
 
       networking.openconnect.interfaces = {
         TAMU = {
@@ -47,6 +56,25 @@
                 "::/0"
               ];
               presharedKeyFile = config.sops.secrets."vpn/windscribe/preshared".path;
+            }
+          ];
+          autostart = false;
+        };
+
+        ieee-tamu = {
+          privateKeyFile = config.sops.secrets."vpn/ieee-tamu/private".path;
+          address = [ "10.99.0.2/32" ];
+          peers = [
+            {
+              publicKey = "dX+uW2ZxKttaesrnkV575SXUTMNfvLPIwhrzwdr8dgg=";
+              # Use the IP so this works before TAMU VPN DNS/routes are ready.
+              endpoint = "10.125.185.49:51820";
+              allowedIPs = [
+                "192.168.1.0/24"
+                "10.99.0.0/24"
+              ];
+              presharedKeyFile = config.sops.secrets."vpn/ieee-tamu/preshared".path;
+              persistentKeepalive = 25;
             }
           ];
           autostart = false;
@@ -87,6 +115,7 @@
         (pkgs.vpn-scripts.override {
           services = allServiceNames;
         })
+        pkgs.vpn-ieee-tamu
       ];
     };
 }

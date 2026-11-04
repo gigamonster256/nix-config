@@ -154,5 +154,72 @@
     # inherit vpn-on vpn-off;
     # vpn-scripts = lib.makeOverridable mkBundle { inherit services; };
     lib.makeOverridable mkBundle { inherit services; };
+
+  # Bring up the IEEE-TAMU WireGuard tunnel, starting the TAMU VPN first when
+  # the endpoint is only reachable from the campus network.
+  packages.vpn-ieee-tamu =
+    {
+      writeShellApplication,
+      coreutils,
+      netcat-openbsd,
+      systemd,
+    }:
+    writeShellApplication {
+      name = "vpn-ieee-tamu";
+      runtimeInputs = [
+        coreutils
+        netcat-openbsd
+        systemd
+      ];
+      text = ''
+        tamu_unit="openconnect-TAMU.service"
+        ieee_unit="wg-quick-ieee-tamu.service"
+        endpoint="10.125.185.49"
+
+        # The EdgeOS router does not reliably answer ICMP from the campus
+        # network, so probe a forwarded TCP port instead.
+        endpoint_reachable() {
+          nc -z -w 2 "$endpoint" 22 >/dev/null 2>&1 ||
+            nc -z -w 2 "$endpoint" 80 >/dev/null 2>&1
+        }
+
+        if systemctl is-active --quiet "$ieee_unit"; then
+          echo "$ieee_unit is already active."
+          exit 0
+        fi
+
+        if endpoint_reachable; then
+          echo "IEEE VPN endpoint is reachable; starting $ieee_unit..."
+          systemctl start "$ieee_unit"
+          exit 0
+        fi
+
+        if systemctl is-active --quiet "$tamu_unit"; then
+          echo "TAMU VPN is already active; waiting for $endpoint..."
+        else
+          echo "IEEE VPN endpoint is not reachable; starting TAMU VPN..."
+          systemctl start "$tamu_unit"
+        fi
+
+        ready=false
+        printf 'Waiting for %s' "$endpoint"
+        for _ in $(seq 1 60); do
+          if endpoint_reachable; then
+            ready=true
+            break
+          fi
+          printf '.'
+          sleep 1
+        done
+        printf '\n'
+
+        if [ "$ready" = false ]; then
+          echo "warning: $endpoint is not reachable yet; starting $ieee_unit anyway" >&2
+        fi
+
+        echo "Starting $ieee_unit..."
+        systemctl start "$ieee_unit"
+      '';
+    };
   # };
 }
