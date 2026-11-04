@@ -37,6 +37,7 @@
         programs.onlyoffice.enable = true;
         programs.obs-studio.enable = false;
         programs.kicad.enable = true;
+        programs.bambu-studio.enable = true;
         programs.heroic.enable = false;
         programs.element-desktop.enable = false;
 
@@ -200,7 +201,10 @@
       };
   };
 
+  nixpkgs.allowedUnfreePackages = [ "bambu-studio" ];
+
   persistence.wrappers.homeManager = [
+    "bambu-studio"
     {
       name = "trilium";
       packageName = "trilium-desktop";
@@ -213,6 +217,12 @@
   ];
 
   persistence.programs.homeManager = {
+    bambu-studio = {
+      directories = [
+        ".config/BambuStudio"
+        ".local/share/bambu-studio"
+      ];
+    };
     vesktop = {
       directories = [ ".config/vesktop" ];
     };
