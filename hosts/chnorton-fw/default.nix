@@ -28,6 +28,7 @@
         wireless
         vpn
         laptop
+        framework-fingerprint-led-blink
         opencode
         fpga
       ]);
