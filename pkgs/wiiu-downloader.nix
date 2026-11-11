@@ -29,7 +29,7 @@
 
       # remove header which includes date and is thus non-reproducible
       installPhase = ''
-        curl --user-agent "NUSspliBuilder/2.1" "https://napi.v10lator.de/db?t=go" | tail -n +6 > $out
+        curl --compressed --user-agent "NUSspliBuilder/2.2" "https://napi.v10lator.de/db?t=go" | tail -n +6 > $out
       '';
 
       outputHash = "sha256-8euB/LbRL1X9rE7q0zcxO4nhZ/hg6i58H+mg7Rw9/oE=";
@@ -44,21 +44,25 @@
       buildGoModule,
       fetchFromGitHub,
       pkg-config,
+      gdk-pixbuf,
       glib,
-      cairo,
-      gtk3,
+      gobject-introspection,
+      gtk4,
+      libadwaita,
+      libgcrypt,
+      librsvg,
 
       wiiu-title-keys,
     }:
     buildGoModule (finalAttrs: {
       pname = "wiiu-downloader";
-      version = "2.94";
+      version = "3.2";
 
       src = fetchFromGitHub {
         owner = "Xpl0itU";
         repo = "WiiUDownloader";
         tag = "v${finalAttrs.version}";
-        hash = "sha256-piHia3yqSk270vSujSmspZKP/3h9q3v5GSaSxV34+UY=";
+        hash = "sha256-mCiYRoEwWtDQwQy9gFOAlcnsMyB4I1jW5h6NIIRLjGg=";
       };
 
       sourceRoot = "${finalAttrs.src.name}/cmd/WiiUDownloader";
@@ -76,16 +80,20 @@
 
       # uses: replace github.com/Xpl0itU/WiiUDownloader => ../..
       proxyVendor = true;
-      vendorHash = "sha256-6EYJ5haSs5NEWPKBEbvKCImairX9uoU9MH29qFidR/s=";
+      vendorHash = "sha256-0RmHPv2NjbkgeQrVmmJdvN7uD87PDtbsmNPeSflNBHc=";
 
       nativeBuildInputs = [
         pkg-config
       ];
 
       buildInputs = [
+        gdk-pixbuf
         glib
-        cairo
-        gtk3
+        gobject-introspection
+        gtk4
+        libadwaita
+        libgcrypt
+        librsvg
       ];
 
       meta = {
