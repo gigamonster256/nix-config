@@ -10,7 +10,7 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "hunk";
-      version = "0.24.1";
+      version = "0.25.0";
 
       src = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-linux-x64.tar.gz";
