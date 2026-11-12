@@ -10,11 +10,11 @@
     }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "hunk";
-      version = "0.24.1";
+      version = "0.25.0";
 
       src = fetchurl {
         url = "https://github.com/modem-dev/hunk/releases/download/v${finalAttrs.version}/hunkdiff-linux-x64.tar.gz";
-        hash = "sha256-S4yY+Nl3RUmZFsweHS8n/9JYxtY1jdRTL2HkHF6xlpI=";
+        hash = "sha256-/DMBFRqbNUALAiPXMEHOqF+xiXLW3FyXorvcQn+tKv4=";
       };
 
       nativeBuildInputs = [
