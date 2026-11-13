@@ -1,11 +1,15 @@
 {
-  autoUpdatePackages.lichii = { };
+  autoUpdatePackages.lichii = {
+    extraArgs = [
+      "--subpackage"
+      "nxformat"
+    ];
+  };
 
   packages.lichii =
     {
       lib,
       llvmPackages_23,
-      rustPlatform,
       fetchFromGitHub,
       fetchpatch2,
       cmake,
@@ -29,6 +33,7 @@
       libusb1,
       lz4,
       nlohmann_json,
+      nxformat,
       oaknut,
       openssl,
       pipewire,
@@ -50,55 +55,6 @@
       withPgo ? true,
     }:
     let
-      nxformatVersion = "1.0.1";
-      nxPlatform = if llvmPackages_23.stdenv.hostPlatform.isAarch64 then "linux-arm64" else "linux-x64";
-
-      # Lichii normally downloads a prebuilt nxformat release at configure time.
-      # Build the C API from source instead so the package stays offline and
-      # native to the target platform.
-      nxformatSrc = fetchFromGitHub {
-        owner = "fab918";
-        repo = "nxformat";
-        tag = "V${nxformatVersion}";
-        hash = "sha256-QL0QDyoTUFn8BHgrkdyWq4D9h0yymzg7aKUZQHVvqgM=";
-      };
-
-      nxformat = rustPlatform.buildRustPackage {
-        pname = "nxformat";
-        version = nxformatVersion;
-        src = nxformatSrc;
-
-        cargoHash = "sha256-O5Xk352NNup99sM+HKOdbQ2fYSCh22ug4kwnSKytOi8=";
-        cargoRoot = "ffi";
-        buildAndTestSubdir = "ffi";
-        dontCargoInstall = true;
-
-        nativeBuildInputs = [ python3 ];
-
-        installPhase = ''
-          runHook preInstall
-
-          libdir="$(dirname "$(find target -name libnxformat.so -print -quit)")"
-          python3 tools/package_release.py \
-            --platform ${nxPlatform} \
-            --version "${nxformatVersion}" \
-            --lib-dir "$libdir" \
-            --out dist-release
-
-          mkdir -p $out
-          tar -xzf "dist-release/nxformat-${nxformatVersion}-${nxPlatform}.tar.gz" -C $out
-
-          runHook postInstall
-        '';
-
-        meta = {
-          description = "Library for reading and writing .nx game archives";
-          homepage = "https://github.com/fab918/nxformat";
-          license = lib.licenses.mit;
-          platforms = lib.platforms.linux;
-        };
-      };
-
       zbicSrc = fetchFromGitHub {
         owner = "kinnay";
         repo = "zbic";
@@ -115,13 +71,13 @@
     in
     llvmPackages_23.stdenv.mkDerivation (finalAttrs: {
       pname = "lichii";
-      version = "130";
+      version = "160";
 
       src = fetchFromGitHub {
         owner = "zortos293";
         repo = "Lichii";
         tag = "build-${finalAttrs.version}";
-        hash = "sha256-L9EzKtqzAgRy5Ci8iqbOjmHVZiheNgC/YKag+5srI2E=";
+        hash = "sha256-vAQMhWGBWMwLsxbUY1hbXsDfyvd65JsCDZ/d52tZGUc=";
       };
 
       strictDeps = true;
@@ -131,27 +87,12 @@
       __structuredAttrs = true;
 
       patches = [
-        # u64 ticks shadowed ThreadTicks ticks in OnPresent, breaking -Werror=shadow.
-        (fetchpatch2 {
-          name = "nx2-stutter-trace-shadowing.patch";
-          url = "https://github.com/zortos293/Lichii/commit/8e1523515ac28b2cbefe00511c8246e63dfcde71.patch?full_index=1";
-          hash = "sha256-FDOAfyTCzzg0xmZMEQBzmGP6Dzwbs5FPIR/WWIE5VM8=";
-          includes = [ "src/video_core/nx2_stutter_trace.cpp" ];
-        })
         # Clang-only structured-binding shadow (not covered by an upstream PR).
         (fetchpatch2 {
           name = "lichii-shadow-pipeline-cache.patch";
           url = "https://github.com/gigamonster256/Lichii/commit/421d9347c1745e342c45c5bf6bc6e40b0a694f99.patch?full_index=1";
           hash = "sha256-t2E52ZCnOMbOyW5yZjGFEpvZCj13JpemA5E3/PV9LkM=";
           includes = [ "src/video_core/renderer_vulkan/vk_pipeline_cache.cpp" ];
-        })
-        # Keep the randomized test order from leaking a debug rejection into the
-        # shader cache v2 test.
-        (fetchpatch2 {
-          name = "lichii-test-rejection-isolation.patch";
-          url = "https://github.com/gigamonster256/Lichii/commit/b8bf4c863e9fb1f93bc1c30fc5cf94d52d6351b6.patch?full_index=1";
-          hash = "sha256-tgeRXanDXONS+PlVr25KrG/NIE2KC3QM/DlFu5Pc0sM=";
-          includes = [ "src/tests/video_core/shader_invalidation.cpp" ];
         })
       ];
 
@@ -243,6 +184,10 @@
           vulkan-loader
         ])
       ];
+
+      passthru = {
+        inherit nxformat;
+      };
 
       meta = {
         description = "Experimental Nintendo Switch 2 emulator derived from Eden and yuzu";
