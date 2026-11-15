@@ -6,12 +6,14 @@
       packageName = "ryubing";
     }
     "wiiu-downloader"
+    "lichii"
   ];
 
   flake.modules.homeManager.emulators = {
     programs.cemu.enable = true;
     programs.ryujinx.enable = true;
     programs.wiiu-downloader.enable = true;
+    programs.lichii.enable = true;
   };
 
   persistence.programs.homeManager = {
@@ -27,6 +29,13 @@
     };
     wiiu-downloader = {
       directories = [ ".config/WiiUDownloader" ];
+    };
+    lichii = {
+      directories = [
+        ".config/lichii"
+        ".local/share/lichii"
+        ".cache/lichii"
+      ];
     };
   };
 }

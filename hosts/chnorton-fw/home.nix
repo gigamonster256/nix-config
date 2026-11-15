@@ -39,6 +39,7 @@
         programs.kicad.enable = true;
         programs.bambu-studio.enable = true;
         programs.freecad.enable = true;
+        programs.lichii.enable = true;
         programs.heroic.enable = false;
         programs.element-desktop.enable = false;
 
