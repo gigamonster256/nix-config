@@ -15,16 +15,16 @@
     in
     rustPlatform.buildRustPackage (finalAttrs: {
       pname = "nxformat";
-      version = "1.0.3";
+      version = "1.0.4";
 
       src = fetchFromGitHub {
         owner = "fab918";
         repo = "nxformat";
         tag = "V${finalAttrs.version}";
-        hash = "sha256-LkJsXe8HXrg4ONGVDS8otEqelDpPz8/x6qeSrO6LYlI=";
+        hash = "sha256-XTNBk58cl8TK+ESQen9wDOld1YqXCm4xOJTDpydr8MU=";
       };
 
-      cargoHash = "sha256-voBj5pabKGwVeH5gk6t0EjvOLAAqUF1yPJmTZ2I7pYo=";
+      cargoHash = "sha256-ITHbQK/pF2LoF7U6+p45SBKt0OxbZg4SOSP3wyyLzgg=";
       cargoRoot = "ffi";
       buildAndTestSubdir = "ffi";
       dontCargoInstall = true;
@@ -33,6 +33,12 @@
         llvmPackages.libllvm
         python3
       ];
+
+      # nixpkgs' cargo setup hook sets ZSTD_SYS_USE_PKG_CONFIG=1, which makes
+      # zstd-sys look for a system libzstd instead of building the copy bundled
+      # with the crate. Upstream's release packaging expects and strips those
+      # vendored zstd objects, so keep the bundled build.
+      dontCargoUseSystemLibs = true;
 
       # llvmPackages.libllvm provides llvm-ar. Upstream's release script only
       # looks for it in the rustc sysroot, where rustup's llvm-tools installs
