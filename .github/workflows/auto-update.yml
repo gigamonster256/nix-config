@@ -47,7 +47,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if nix run --inputs-from . nixpkgs#nix-update -- \
+          if nix run .#nix-update -- \
             --flake \
             --build \
             --commit \

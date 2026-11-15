@@ -81,4 +81,23 @@ in
     {
       inherit include;
     };
+
+  config.nixpkgs.overlays = [
+    (final: prev: {
+      nix-update = prev.nix-update.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          (final.fetchpatch2 {
+            url = "https://github.com/Mic92/nix-update/commit/d545c1fad667e573128cad0db55fdc77134a4d3c.patch?full_index=1";
+            hash = "sha256-VZ6ldIHR1KPnofbKiWkcE7zWr/bNyj1NC/xCg8YrUW8=";
+          })
+        ];
+      });
+    })
+  ];
+
+  config.perSystem =
+    { pkgs, ... }:
+    {
+      packages.nix-update = pkgs.nix-update;
+    };
 }
