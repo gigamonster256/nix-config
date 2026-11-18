@@ -95,10 +95,6 @@
     bussy.inputs.nixpkgs.follows = "nixpkgs";
     bussy.inputs.devenv.follows = ""; # don't need devenv for deployment
 
-    # latest opencode dev desktop and cli
-    opencode.url = "github:anomalyco/opencode";
-    opencode.inputs.nixpkgs.follows = "nixpkgs";
-
     opencode-tamu-finish-fix.url = "github:gigamonster256/opencode-tamu-finish-fix";
     opencode-tamu-finish-fix.flake = false;
     opencode-direnv.url = "github:gigamonster256/opencode-direnv";

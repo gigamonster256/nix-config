@@ -546,26 +546,6 @@
         "type": "github"
       }
     },
-    "opencode": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792934169,
-        "narHash": "sha256-F3v+Y6pwgaGTCLihSuCcoktc0pitX5nujr0Sco4Hu5U=",
-        "owner": "anomalyco",
-        "repo": "opencode",
-        "rev": "2d91ed57aef9b9aae8c3799c50ad34968d3d6f81",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anomalyco",
-        "repo": "opencode",
-        "type": "github"
-      }
-    },
     "opencode-direnv": {
       "flake": false,
       "locked": {
@@ -643,7 +623,6 @@
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "opencode": "opencode",
         "opencode-direnv": "opencode-direnv",
         "opencode-tamu-finish-fix": "opencode-tamu-finish-fix",
         "persistence": "persistence",

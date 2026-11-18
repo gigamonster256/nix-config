@@ -1,9 +1,4 @@
-{ inputs, ... }:
 {
-  nixpkgs.overlays = [
-    inputs.opencode.overlays.default
-  ];
-
   flake.modules.homeManager.opencode =
     {
       lib,
