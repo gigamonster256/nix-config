@@ -1,0 +1,59 @@
+diff --git a/src/auth/Fingerprint.cpp b/src/auth/Fingerprint.cpp
+index 9e26dad..606b5b4 100644
+--- a/src/auth/Fingerprint.cpp
++++ b/src/auth/Fingerprint.cpp
+@@ -16,6 +16,11 @@ static const auto MANAGER       = sdbus::ServiceName{"net.reactivated.Fprint.Man
+ static const auto LOGIN_SERVICE = sdbus::ServiceName{"org.freedesktop.login1"};
+ static const auto LOGIN_MANAGER = sdbus::ServiceName{"org.freedesktop.login1.Manager"};
+ 
++// The reader can disappear while the system sleeps and take a moment to come
++// back (e.g. it is re-enumerated as a new USB device on resume from hibernate).
++static constexpr int DEVICE_RETRY_DELAY_MS = 250;
++static constexpr int DEVICE_RETRY_MAX      = 40;
++
+ static bool       isSignalFromService(const sdbus::ServiceName& service) {
+     // Unicast signals bypass bus-side match rules; the proxy's well-known sender match is not authentication.
+     try {
+@@ -250,9 +255,29 @@ void CFingerprint::claimDevice() {
+ void CFingerprint::startVerify(bool isRetry) {
+     m_sDBUSState.verifying = true;
+     if (!m_sDBUSState.device) {
+-        if (!createDeviceProxy())
++        if (!createDeviceProxy()) {
++            // fprintd may not know the reader yet, e.g. because it is still
++            // being re-enumerated right after a resume from sleep. Retry for a
++            // while instead of disabling fingerprint auth for the whole lock
++            // screen.
++            if (m_sDBUSState.deviceRetries < DEVICE_RETRY_MAX) {
++                m_sDBUSState.deviceRetries++;
++                g_pHyprlock->addTimer(
++                    std::chrono::milliseconds(DEVICE_RETRY_DELAY_MS),
++                    [](ASP<CTimer> self, void* data) {
++                        // a fresh attempt at connecting, not a failed-match retry
++                        ((CFingerprint*)data)->startVerify();
++                    },
++                    this);
++            } else {
++                m_sDBUSState.verifying = false;
++                m_sFailureReason       = "Fingerprint auth disabled (device unavailable)";
++                g_pAuth->enqueueFail(m_sFailureReason, AUTH_IMPL_FINGERPRINT);
++            }
+             return;
++        }
+ 
++        m_sDBUSState.deviceRetries = 0;
+         claimDevice();
+         return;
+     }
+diff --git a/src/auth/Fingerprint.hpp b/src/auth/Fingerprint.hpp
+index e6fd94c..f1f9808 100644
+--- a/src/auth/Fingerprint.hpp
++++ b/src/auth/Fingerprint.hpp
+@@ -31,6 +31,7 @@ class CFingerprint : public IAuthImplementation {
+         int                            retries   = 0;
+         bool                           sleeping  = false;
+         bool                           verifying = false;
++        int                            deviceRetries = 0;
+     } m_sDBUSState;
+ 
+     std::string m_sFingerprintReady;

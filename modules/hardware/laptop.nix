@@ -51,6 +51,35 @@
               };
             }
           );
+
+          # Hibernation tears down every USB device, so on resume the reader is
+          # re-enumerated under a new bus/device number. fprintd still holds the
+          # old libusb handle and drops the device with
+          # `USB error on device ... : No such device` (getcap errno=19), leaving
+          # it with no fingerprint device until the daemon restarts.
+          #
+          # This unit runs after systemd-hibernate.service has returned (the
+          # target is ordered after the sleep service) and stays inactive
+          # afterwards, so it fires on every resume.
+          systemd.services.fprintd-resume = {
+            description = "Restart fprintd after resuming from hibernation";
+
+            after = [
+              "hibernate.target"
+              "hybrid-sleep.target"
+            ];
+            wantedBy = [
+              "hibernate.target"
+              "hybrid-sleep.target"
+            ];
+
+            serviceConfig = {
+              Type = "oneshot";
+              # let the kernel finish re-enumerating and resetting the reader
+              ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
+              ExecStart = "${config.systemd.package}/bin/systemctl try-restart fprintd.service";
+            };
+          };
         })
         {
           services.automatic-timezoned.enable = lib.mkDefault true;

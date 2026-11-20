@@ -6,7 +6,15 @@
     # This one contains whatever you want to overlay
     # You can change versions, add patches, set compilation flags, anything really.
     # https://nixos.wiki/wiki/Overlays
-    modifications = _final: _prev: { };
+    modifications = _final: prev: {
+      # hyprlock gives up on fingerprint auth for the rest of the lock screen
+      # when fprintd has no device yet, which happens when resuming from
+      # hibernate before the reader is re-enumerated. The patch makes it retry
+      # for a few seconds instead. Drop it once the fix is upstream.
+      hyprlock = prev.hyprlock.overrideAttrs (prevAttrs: {
+        patches = (prevAttrs.patches or [ ]) ++ [ ../../pkgs/hyprlock-fprint-resume.patch ];
+      });
+    };
 
     # # induced by https://github.com/NixOS/nixpkgs/pull/385341 and backports to 24.11
     # # using the --unpack hash
