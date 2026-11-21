@@ -71,13 +71,13 @@
     in
     llvmPackages_23.stdenv.mkDerivation (finalAttrs: {
       pname = "lichii";
-      version = "316";
+      version = "366";
 
       src = fetchFromGitHub {
         owner = "zortos293";
         repo = "Lichii";
         tag = "build-${finalAttrs.version}";
-        hash = "sha256-ua8/FhWn4zqlXsKN9nL5iF9RYEDDTC7HncdLmsDgD/s=";
+        hash = "sha256-eMj4l4gYp984U7hz8HVj0NvW3JFJ3qCl+bBnlJmMixk=";
       };
 
       strictDeps = true;
